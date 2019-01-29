@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/01/28 23:27:44 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/01/29 02:12:35 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -18,10 +18,10 @@ SRC_DIR = srcs
 OBJ_DIR = objs
 HEAD_DIR = incl
 LIB_DIR = libs
-CFILES = main.c sh.c sh_state.c term_state.c
+CFILES = main.c sh.c sh_state.c term_state.c input.c
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 
-HEADER_FILE = $(addprefix $(PATH)$(HEAD_DIR)/, common.h sh.h sh_state.h term_state.h)
+HEADER_FILE = $(addprefix $(PATH)$(HEAD_DIR)/, common.h sh.h sh_state.h term_state.h input.h input_utils.h)
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 
 LIB_NAME = ft

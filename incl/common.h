@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/28 23:25:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/29 05:43:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,29 +22,18 @@
 
 # include "../libs/Libft/libft.h"
 
-typedef struct	s_buffer
+typedef struct	s_cur_pos
 {
-	char	*content;
-	size_t	size;
-	size_t	len;
-}				t_buffer;
-
-typedef struct	s_sh_input
-{
-	unsigned int	wrapped;
-	unsigned int	insert_mode;
-	t_buffer		i_buffer;
-	t_buffer		o_buffer;
-	size_t			prompt_len;
-	size_t			cursor_pos;
-}				t_sh_input;
+	int		row;
+	int		col;
+}				t_cur_pos;
 
 typedef struct	s_sh_state
 {
 	struct termios	term_state;
 	struct termios	term_state_backup;
-	t_sh_input		input;
 	size_t			status;
+	size_t			exit_sig;
 }				t_sh_state;
 
 #endif
