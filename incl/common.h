@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/29 05:43:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/29 22:35:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,11 +22,18 @@
 
 # include "../libs/Libft/libft.h"
 
-typedef struct	s_cur_pos
+typedef struct	s_cur_abs_pos
 {
 	int		row;
 	int		col;
-}				t_cur_pos;
+}				t_cur_abs_pos;
+
+typedef struct	s_input_buf
+{
+	size_t	len;
+	size_t	size;
+	char	*buf;
+}				t_input_buf;
 
 typedef struct	s_sh_state
 {

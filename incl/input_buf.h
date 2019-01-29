@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh_state.c                                       .::    .:/ .      .::   */
+/*   input_buf.h                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/29 22:12:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/29 22:40:19 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/01/29 22:52:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "common.h"
+#ifndef INPUT_BUF_H
+# define INPUT_BUF_H
+# define DEFAULT_INPUT_BUF_SIZE 128
 
-t_sh_state	*init_sh_state(void)
-{
-	t_sh_state	*sh_state;
+int			append_input_buf(char *str, t_input_buf *input_buf);
+t_input_buf	*init_input_buf(void);
 
-	if ((sh_state = malloc(sizeof(t_sh_state))) == NULL)
-		return (NULL);
-	sh_state->exit_sig = 0;
-	return (sh_state);
-}
-
-void		free_sh_state(t_sh_state **state)
-{
-	if (state == NULL || *state == NULL)
-		return ;
-	free(*state);
-}
+#endif
