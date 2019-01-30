@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input.h                                          .::    .:/ .      .::   */
+/*   input_data.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 05:13:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/01/30 05:34:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef INPUT_H
-# define INPUT_H
+#include "input_data.h"
+#include "dyn_buf.h"
 
-# include "common.h"
-# include "dyn_buf.h"
+t_input_data	*init_input_data(void)
+{
+	t_input_data	*input_data;
 
-int				handle_input(t_sh_state *sh_state, t_input_data *input_data);
-t_dyn_buf		*init_dyn_buf(void);
-
-#endif
+	if ((input_data = (t_input_data*)malloc(sizeof(t_input_data))) == NULL)
+		return (NULL);
+	if ((input_data->build_buf = init_dyn_buf()) == NULL |
+(input_data->input_buf = init_dyn_buf()) == NULL)
+		return (NULL);
+	return (input_data);
+}

@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input_buf.h                                      .::    .:/ .      .::   */
+/*   input_data.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/29 22:40:19 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/29 22:52:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/30 05:09:58 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/01/30 05:20:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef INPUT_BUF_H
-# define INPUT_BUF_H
-# define DEFAULT_INPUT_BUF_SIZE 128
+#ifndef INPUT_DATA_H
+# define INPUT_DATA_H
+# include "common.h"
 
-int			append_input_buf(char *str, t_input_buf *input_buf);
-t_input_buf	*init_input_buf(void);
+t_input_data	*init_input_data(void);
 
 #endif

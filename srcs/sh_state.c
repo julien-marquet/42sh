@@ -6,12 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 03:29:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/30 05:11:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "common.h"
+#include "sh_state.h"
 
 t_sh_state	*init_sh_state(void)
 {

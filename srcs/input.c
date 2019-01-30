@@ -6,12 +6,11 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 03:30:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/30 06:05:38 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "common.h"
 #include "input.h"
 #include "input_utils.h"
 
@@ -69,35 +68,50 @@ int		print_prompt(void)
 	return (0);
 }
 
-int		handle_capabilities(char *buf, t_input_buf *input_buf,
+int		handle_capabilities(t_input_data *input_data,
 t_sh_state *sh_state, int *send_input)
 {
 	int		res;
-	input_buf->len += 0;
+	input_data->input_buf->len += 0;
 	sh_state->status += 0;
 	res = 0;
-	if (buf[0] == '\n' && (res = 1))
+	if (input_data->build_buf->buf[0] == '\n' && (res = 1))
 		*send_input = 1;
-	if (ft_strcmp(buf, KEY_ARROW_LEFT) == 0 && (res = 1))
+	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_LEFT) == 0 && (res = 1))
 		write(1, "[Le]", 4);
-	else if (ft_strcmp(buf, KEY_ARROW_RIGHT) == 0 && (res = 1))
+	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_RIGHT) == 0 && (res = 1))
 		write(1, "[Ri]", 4);
-	if (ft_strcmp(buf, KEY_ARROW_UP) == 0 && (res = 1))
+	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_UP) == 0 && (res = 1))
 		write(1, "[Up]", 4);
-	else if (ft_strcmp(buf, KEY_ARROW_DOWN) == 0 && (res = 1))
+	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_DOWN) == 0 && (res = 1))
 		write(1, "[Down]", 6);
-	else if (ft_strcmp(buf, KEY_SIGINT) == 0 && (res = 1))
+	else if (ft_strcmp(input_data->build_buf->buf, KEY_SIGINT) == 0 && (res = 1))
 	{
 		*send_input = 1;
 		sh_state->exit_sig = 1;
+		sh_state->status = 2;
 	}
 	return (res);
 }
 
-int		handle_input(t_sh_state *sh_state, t_input_buf *input_buf)
+int		get_buf(t_dyn_buf *build_buf)
 {
 	char	buf[READ_SIZE + 1];
 	ssize_t	ret;
+
+	ret = READ_SIZE;
+	while (ret >= READ_SIZE)
+	{
+		ft_bzero(buf, READ_SIZE + 1);
+		ret = read(0, &buf, READ_SIZE);
+		if (ret == -1 || append_dyn_buf(buf, build_buf) != 0)
+			return (1);
+	}
+	return (0);
+}
+
+int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
+{
 	int		send_input;
 	int		is_cap;
 
@@ -105,16 +119,17 @@ int		handle_input(t_sh_state *sh_state, t_input_buf *input_buf)
 	print_prompt();
 	while (send_input == 0)
 	{
-		ft_bzero(&buf, READ_SIZE);
-		ret = read(0, &buf, READ_SIZE);
-		is_cap = handle_capabilities(buf, input_buf, sh_state, &send_input);
+		if (get_buf(input_data->build_buf) != 0)
+			return (1);
+		is_cap = handle_capabilities(input_data, sh_state, &send_input);
 		if (is_cap == -1)
 			return (1);
 		else if (is_cap == 0)
 		{
-			append_input_buf(buf, input_buf);
-			ft_putendl(input_buf->buf);
+			append_dyn_buf(input_data->build_buf->buf, input_data->input_buf);
+			ft_putstr(input_data->build_buf->buf);
 		}
+		reset_dyn_buf(input_data->build_buf);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 03:28:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/30 05:06:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,12 +28,19 @@ typedef struct	s_cur_abs_pos
 	int		col;
 }				t_cur_abs_pos;
 
-typedef struct	s_input_buf
+typedef struct	s_dyn_buf
 {
 	size_t	len;
 	size_t	size;
 	char	*buf;
-}				t_input_buf;
+}				t_dyn_buf;
+
+typedef struct	s_input_data
+{
+	t_dyn_buf	*input_buf;
+	t_dyn_buf	*build_buf;
+}				t_input_data;
+
 
 typedef struct	s_sh_state
 {
