@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/29 22:12:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/30 03:29:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,7 @@ t_sh_state	*init_sh_state(void)
 
 	if ((sh_state = malloc(sizeof(t_sh_state))) == NULL)
 		return (NULL);
+	sh_state->status = 0;
 	sh_state->exit_sig = 0;
 	return (sh_state);
 }

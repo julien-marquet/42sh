@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 01:35:44 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/29 22:47:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/30 03:13:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,10 @@
 # define PROMPT_PLACEHOLDER "Prompt - "
 # define PROMPT_PLACEHOLDER_SIZE 9
 
-char	*get_input(t_sh_state *sh_state, t_input_buf *input_buf);
+# define KEY_ARROW_UP "\033[A"
+# define KEY_ARROW_DOWN "\033[B"
+# define KEY_ARROW_RIGHT "\033[C"
+# define KEY_ARROW_LEFT "\033[D"
+# define KEY_SIGINT "\03"
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/29 23:13:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/30 03:30:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -69,24 +69,52 @@ int		print_prompt(void)
 	return (0);
 }
 
-int		handle_input(t_sh_state *sh_state, t_input_buf *input_buf)
+int		handle_capabilities(char *buf, t_input_buf *input_buf,
+t_sh_state *sh_state, int *send_input)
 {
-	print_prompt();
-	get_input(sh_state, input_buf);
-	return (0);
+	int		res;
+	input_buf->len += 0;
+	sh_state->status += 0;
+	res = 0;
+	if (buf[0] == '\n' && (res = 1))
+		*send_input = 1;
+	if (ft_strcmp(buf, KEY_ARROW_LEFT) == 0 && (res = 1))
+		write(1, "[Le]", 4);
+	else if (ft_strcmp(buf, KEY_ARROW_RIGHT) == 0 && (res = 1))
+		write(1, "[Ri]", 4);
+	if (ft_strcmp(buf, KEY_ARROW_UP) == 0 && (res = 1))
+		write(1, "[Up]", 4);
+	else if (ft_strcmp(buf, KEY_ARROW_DOWN) == 0 && (res = 1))
+		write(1, "[Down]", 6);
+	else if (ft_strcmp(buf, KEY_SIGINT) == 0 && (res = 1))
+	{
+		*send_input = 1;
+		sh_state->exit_sig = 1;
+	}
+	return (res);
 }
 
-char	*get_input(t_sh_state *sh_state, t_input_buf *input_buf)
+int		handle_input(t_sh_state *sh_state, t_input_buf *input_buf)
 {
-	char	*input;
 	char	buf[READ_SIZE + 1];
 	ssize_t	ret;
+	int		send_input;
+	int		is_cap;
 
-	input = NULL;
-	sh_state->exit_sig = 0;
-	ft_bzero(&buf, READ_SIZE);
-	ret = read(0, &buf, READ_SIZE);
-	append_input_buf(buf, input_buf);
-	ft_putendl(input_buf->buf);
-	return (input);
+	send_input = 0;
+	print_prompt();
+	while (send_input == 0)
+	{
+		ft_bzero(&buf, READ_SIZE);
+		ret = read(0, &buf, READ_SIZE);
+		is_cap = handle_capabilities(buf, input_buf, sh_state, &send_input);
+		if (is_cap == -1)
+			return (1);
+		else if (is_cap == 0)
+		{
+			append_input_buf(buf, input_buf);
+			ft_putendl(input_buf->buf);
+		}
+	}
+	return (0);
 }
