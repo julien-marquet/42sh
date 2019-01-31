@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input_utils.h                                    .::    .:/ .      .::   */
+/*   input_control.c                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/29 01:35:44 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 04:15:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/01/31 23:47:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef INPUT_UTILS_H
-# define INPUT_UTILS_H
-# define READ_SIZE 10
-# define PROMPT_PLACEHOLDER "Prompt - "
-# define PROMPT_PLACEHOLDER_SIZE 9
+#include "input/input_control.h"
+#include "input/cursor.h"
 
-# define KEY_ARROW_UP "\033[A"
-# define KEY_ARROW_DOWN "\033[B"
-# define KEY_ARROW_RIGHT "\033[C"
-# define KEY_ARROW_LEFT "\033[D"
-# define KEY_SIGINT "\03"
+int		clear_line(void)
+{
+	t_cur_abs_pos	pos;
 
-#endif
+	if (get_cursor_position(&pos) != 0)
+		return (1);
+	tputs(tgoto(tgetstr("cm", NULL), 0, pos.row), 1, ft_putchar);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	return (0);
+}

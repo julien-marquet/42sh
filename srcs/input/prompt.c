@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input.h                                          .::    .:/ .      .::   */
+/*   prompt.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/31 23:49:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/31 23:48:54 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/01/31 23:51:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef INPUT_H
-# define INPUT_H
+#include "input/prompt.h"
 
-# define READ_SIZE 10
-# define KEY_ARROW_UP "\033[A"
-# define KEY_ARROW_DOWN "\033[B"
-# define KEY_ARROW_RIGHT "\033[C"
-# define KEY_ARROW_LEFT "\033[D"
-# define KEY_SIGINT "\03"
-
-# include "common.h"
-# include "utils/dyn_buf.h"
-
-int				handle_input(t_sh_state *sh_state, t_input_data *input_data);
-t_dyn_buf		*init_dyn_buf(void);
-
-#endif
+int		print_prompt(void)
+{
+	ft_putstr(PROMPT_PLACEHOLDER);
+	return (0);
+}
