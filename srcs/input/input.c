@@ -6,13 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 06:05:38 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/31 23:30:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "input.h"
-#include "input_utils.h"
+#include "input/input.h"
+#include "input/input_utils.h"
 
 /*
 **	Get Cursor position by parsing the string returned

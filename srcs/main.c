@@ -6,15 +6,15 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 05:21:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/31 23:30:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "common.h"
 #include "sh.h"
-#include "input.h"
-#include "input_data.h"
+#include "input/input.h"
+#include "input/input_data.h"
 
 int		main(void)
 {

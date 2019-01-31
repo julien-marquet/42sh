@@ -6,12 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 06:06:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/01/31 23:30:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "dyn_buf.h"
+#include "utils/dyn_buf.h"
 
 t_dyn_buf	*init_dyn_buf(void)
 {

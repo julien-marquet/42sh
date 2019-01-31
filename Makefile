@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/01/30 05:26:15 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/01/31 23:35:32 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -18,11 +18,30 @@ SRC_DIR = srcs
 OBJ_DIR = objs
 HEAD_DIR = incl
 LIB_DIR = libs
-CFILES = main.c sh.c sh_state.c term_state.c input.c dyn_buf.c input_data.c
-SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 
-HEADER_FILE = $(addprefix $(PATH)$(HEAD_DIR)/, common.h sh.h sh_state.h term_state.h input.h input_utils.h dyn_buf.h input_data.h)
+# C FOLDERS LIST
+
+CFOLDERS = $(addprefix $(OBJ_DIR)/, input utils)
+
+# C FILES
+
+CFILES = main.c sh.c sh_state.c term_state.c
+CFILES += $(addprefix input/, input.c input_data.c)
+CFILES += $(addprefix utils/, dyn_buf.c)
+
+
+SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
+
+# HEADER FILES
+
+TMPFILES = common.h sh.h sh_state.h term_state.h
+TMPFILES += $(addprefix input/, input_utils.h input.h input_data.h)
+TMPFILES += $(addprefix utils/, dyn_buf.h)
+
+HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
+
+$(info VAR="$(HFILES)")
 
 LIB_NAME = ft
 PATH_LIBFT = $(PATH)$(LIB_DIR)/Libft/
@@ -43,12 +62,13 @@ export FLAGS
 
 all: lib $(NAME)
 
-$(NAME): $(LIB) $(OBJ) $(HEADER_FILE)
+$(NAME): $(LIB) $(OBJ) $(HFILES)
 	$(CC) $(FLAGS) $(P_FLAGS) -o $(NAME) -L$(PATH_LIBFT) -l$(LIB_NAME) $(OBJ) -I $(PATH)$(HEAD_DIR)
 lib:
-	@mkdir -p $(OBJ_DIR)
-	@$(MAKE) -eC $(PATH_LIBFT)
-$(PATH)$(OBJ_DIR)/%.o:$(PATH)$(SRC_DIR)/%.c $(HEADER_FILE)
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(CFOLDERS)
+	$(MAKE) -eC $(PATH_LIBFT)
+$(PATH)$(OBJ_DIR)/%.o:$(PATH)$(SRC_DIR)/%.c $(HFILES)
 	$(CC) $(FLAGS) -c $< -o $@ -I $(PATH)$(HEAD_DIR)
 clean:
 	$(MAKE) -eC $(PATH_LIBFT) clean
