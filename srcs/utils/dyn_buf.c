@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:43:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 04:35:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,11 +27,12 @@ t_dyn_buf	*init_dyn_buf(void)
 	return (dyn_buf);
 }
 
-int			append_dyn_buf(char *str, t_dyn_buf *dyn_buf)
+int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index)
 {
 	size_t	len;
 	size_t	new_size;
 
+	index = 0;
 	len = ft_strlen(str);
 	if (len + dyn_buf->len >= dyn_buf->size)
 	{
@@ -43,7 +44,9 @@ int			append_dyn_buf(char *str, t_dyn_buf *dyn_buf)
 			return (1);
 		dyn_buf->size = new_size;
 	}
-	ft_strcat(dyn_buf->buf, str);
+	ft_memmove(&(dyn_buf->buf[index + len]), &(dyn_buf->buf[index]),
+dyn_buf->len - index);
+	ft_memcpy(&(dyn_buf->buf[index]), str, len);
 	dyn_buf->len += len;
 	return (0);
 }

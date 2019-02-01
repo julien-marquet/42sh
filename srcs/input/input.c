@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:24:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 03:51:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,7 @@ int		get_buf(t_dyn_buf *build_buf)
 	{
 		ft_bzero(buf, READ_SIZE + 1);
 		ret = read(0, &buf, READ_SIZE);
-		if (ret == -1 || append_dyn_buf(buf, build_buf) != 0)
+		if (ret == -1 || insert_dyn_buf(buf, build_buf, build_buf->len) != 0)
 			return (1);
 	}
 	return (0);
@@ -76,9 +76,10 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 			return (1);
 		else if (is_cap == 0)
 		{
-			append_dyn_buf(input_data->build_buf->buf, input_data->input_buf);
+			insert_dyn_buf(input_data->build_buf->buf, input_data->input_buf,
+		input_data->rel_cur_pos);
 			input_data->rel_cur_pos += input_data->build_buf->len;
-			ft_putstr(input_data->build_buf->buf);
+			//ft_putstr(input_data->build_buf->buf);
 		}
 		ft_putendl_fd(input_data->input_buf->buf, 2);
 		reset_dyn_buf(input_data->build_buf);
