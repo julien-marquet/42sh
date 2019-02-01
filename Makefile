@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/01/31 23:50:07 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/02/01 04:37:02 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -41,8 +41,6 @@ TMPFILES += $(addprefix utils/, dyn_buf.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 
-$(info VAR="$(HFILES)")
-
 LIB_NAME = ft
 PATH_LIBFT = $(PATH)$(LIB_DIR)/Libft/
 LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
@@ -65,9 +63,9 @@ all: lib $(NAME)
 $(NAME): $(LIB) $(OBJ) $(HFILES)
 	$(CC) $(FLAGS) $(P_FLAGS) -o $(NAME) -L$(PATH_LIBFT) -l$(LIB_NAME) $(OBJ) -I $(PATH)$(HEAD_DIR)
 lib:
-	mkdir -p $(OBJ_DIR)
-	mkdir -p $(CFOLDERS)
-	$(MAKE) -eC $(PATH_LIBFT)
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(CFOLDERS)
+	@$(MAKE) -eC $(PATH_LIBFT)
 $(PATH)$(OBJ_DIR)/%.o:$(PATH)$(SRC_DIR)/%.c $(HFILES)
 	$(CC) $(FLAGS) -c $< -o $@ -I $(PATH)$(HEAD_DIR)
 clean:
