@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:43:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 06:17:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,8 +26,13 @@ int		clear_line(void)
 	return (0);
 }
 
-void	delete_char(t_input_data *input_data)
+void	delete_prev_char(t_input_data *input_data)
 {
-	if (del_at_dyn_buf(input_data->input_buf, input_data->rel_cur_pos) == 1)
+	if (del_at_dyn_buf(input_data->input_buf, input_data->rel_cur_pos - 1) == 1)
 		input_data->rel_cur_pos -= 1;
+}
+
+void	delete_cur_char(t_input_data *input_data)
+{
+	del_at_dyn_buf(input_data->input_buf, input_data->rel_cur_pos);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 03:51:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 06:12:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,9 +32,11 @@ t_sh_state *sh_state, int *send_input)
 		write(1, "[Up]", 4);
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_DOWN) == 0 && (res = 1))
 		write(1, "[Down]", 6);
-	else if ((ft_strcmp(input_data->build_buf->buf, KEY_DEL) == 0 ||
-ft_strcmp(input_data->build_buf->buf, KEY_BS) == 0) && (res = 1))
-		delete_char(input_data); // add cursor position
+	else if ((ft_strcmp(input_data->build_buf->buf, KEY_BS) == 0 ||
+ft_strcmp(input_data->build_buf->buf, KEY_BS2) == 0) && (res = 1))
+		delete_prev_char(input_data); // add cursor position
+	else if ((ft_strcmp(input_data->build_buf->buf, KEY_DEL) == 0 && (res = 1)))
+		delete_cur_char(input_data); // add cursor position
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_SIGINT) == 0 && (res = 1))
 	{
 		*send_input = 1;
@@ -79,7 +81,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 			insert_dyn_buf(input_data->build_buf->buf, input_data->input_buf,
 		input_data->rel_cur_pos);
 			input_data->rel_cur_pos += input_data->build_buf->len;
-			//ft_putstr(input_data->build_buf->buf);
+			ft_putstr(input_data->build_buf->buf);
 		}
 		ft_putendl_fd(input_data->input_buf->buf, 2);
 		reset_dyn_buf(input_data->build_buf);
