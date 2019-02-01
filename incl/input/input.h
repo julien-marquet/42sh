@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/31 23:49:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 00:16:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,8 @@
 # define KEY_ARROW_RIGHT "\033[C"
 # define KEY_ARROW_LEFT "\033[D"
 # define KEY_SIGINT "\03"
+# define KEY_BS "\010"
+# define KEY_DEL "\177"
 
 # include "common.h"
 # include "utils/dyn_buf.h"

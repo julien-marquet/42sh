@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/31 23:50:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 01:24:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "input/input.h"
+#include "input/input_control.h"
 #include "input/prompt.h"
 
 int		handle_capabilities(t_input_data *input_data,
@@ -21,7 +22,7 @@ t_sh_state *sh_state, int *send_input)
 	input_data->input_buf->len += 0;
 	sh_state->status += 0;
 	res = 0;
-	if (input_data->build_buf->buf[0] == '\n' && (res = 1))
+	if (input_data->build_buf->len > 0 && input_data->build_buf->buf[input_data->build_buf->len - 1] == '\n' && (res = 1))
 		*send_input = 1;
 	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_LEFT) == 0 && (res = 1))
 		write(1, "[Le]", 4);
@@ -31,6 +32,9 @@ t_sh_state *sh_state, int *send_input)
 		write(1, "[Up]", 4);
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_DOWN) == 0 && (res = 1))
 		write(1, "[Down]", 6);
+	else if ((ft_strcmp(input_data->build_buf->buf, KEY_DEL) == 0 ||
+ft_strcmp(input_data->build_buf->buf, KEY_BS) == 0) && (res = 1))
+		delete_char(input_data); // add cursor position
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_SIGINT) == 0 && (res = 1))
 	{
 		*send_input = 1;
@@ -73,8 +77,10 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 		else if (is_cap == 0)
 		{
 			append_dyn_buf(input_data->build_buf->buf, input_data->input_buf);
+			input_data->rel_cur_pos += input_data->build_buf->len;
 			ft_putstr(input_data->build_buf->buf);
 		}
+		ft_putendl_fd(input_data->input_buf->buf, 2);
 		reset_dyn_buf(input_data->build_buf);
 	}
 	return (0);
