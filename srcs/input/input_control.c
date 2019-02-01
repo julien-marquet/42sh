@@ -6,13 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:22:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 01:43:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "input/input_control.h"
 #include "input/cursor.h"
+#include "utils/dyn_buf.h"
 
 int		clear_line(void)
 {
@@ -25,15 +26,8 @@ int		clear_line(void)
 	return (0);
 }
 
-int		delete_char(t_input_data *input_data)
+void	delete_char(t_input_data *input_data)
 {
-	if (input_data->rel_cur_pos > 0)
-	{
-		ft_strcpy(&(input_data->input_buf->buf[input_data->rel_cur_pos - 1]),
-	&(input_data->input_buf->buf[input_data->rel_cur_pos]));
-		input_data->input_buf->buf[input_data->input_buf->len - 1] = '\0';
-		input_data->input_buf->len -= 1;
+	if (del_at_dyn_buf(input_data->input_buf, input_data->rel_cur_pos) == 1)
 		input_data->rel_cur_pos -= 1;
-	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/31 23:30:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/01 01:43:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,8 +48,21 @@ int			append_dyn_buf(char *str, t_dyn_buf *dyn_buf)
 	return (0);
 }
 
+int		del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index)
+{
+	if (index > 0 && dyn_buf->len > 0)
+	{
+		ft_strcpy(&(dyn_buf->buf[index - 1]), &(dyn_buf->buf[index]));
+		dyn_buf->buf[dyn_buf->len - 1] = '\0';
+		dyn_buf->len -= 1;
+		return (1);
+	}
+	return (0);
+}
+
 void		reset_dyn_buf(t_dyn_buf *dyn_buf)
 {
 	dyn_buf->len = 0;
 	ft_bzero(dyn_buf->buf, dyn_buf->size);
 }
+
