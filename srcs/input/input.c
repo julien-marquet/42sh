@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 06:12:47 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/05 15:49:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,6 +14,7 @@
 #include "input/input.h"
 #include "input/input_control.h"
 #include "input/prompt.h"
+#include "input/cursor.h" 
 
 int		handle_capabilities(t_input_data *input_data,
 t_sh_state *sh_state, int *send_input)
@@ -25,9 +26,9 @@ t_sh_state *sh_state, int *send_input)
 	if (input_data->build_buf->len > 0 && input_data->build_buf->buf[input_data->build_buf->len - 1] == '\n' && (res = 1))
 		*send_input = 1;
 	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_LEFT) == 0 && (res = 1))
-		write(1, "[Le]", 4);
+		move_cursor_left(input_data);
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_RIGHT) == 0 && (res = 1))
-		write(1, "[Ri]", 4);
+		move_cursor_right(input_data);
 	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_UP) == 0 && (res = 1))
 		write(1, "[Up]", 4);
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_DOWN) == 0 && (res = 1))
