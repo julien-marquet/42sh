@@ -6,19 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 18:23:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/05 22:36:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "input/cursor.h"
-
-int		get_window_size(struct winsize *ws)
-{
-	if (ioctl(0, TIOCGWINSZ, ws) != 0)
-		return (1);
-	return (0);
-}
 
 /*
 **	Get Cursor position by parsing the string returned
@@ -56,14 +49,39 @@ int		get_cursor_position(t_cur_abs_pos *pos)
 	return (0);
 }
 
+int		get_line_length(size_t pos, char *buf)
+{
+	size_t			len;
+	size_t			nl;
+
+	len = 0;
+	nl = 0;
+	if (get_win_col() == 1)
+		return (-1);
+	while (pos > 0 && nl < 2)
+	{
+		if (buf[pos] == '\n')
+			nl++;
+		len++;
+		pos--;
+	}
+	return (len);
+}
+
 /*
 **	Move cursor
 */
 
 int		move_cursor_left(t_input_data *input_data)
 {
+	t_cur_abs_pos	pos;
+
 	if (input_data->rel_cur_pos > 0)
 	{
+		if (get_cursor_position(&pos) == 1)
+			return (1);
+		if (pos.col == 1)
+			dprintf(2, "line length = %d\n", get_line_length(input_data->rel_cur_pos - 2, input_data->input_buf->buf));
 		tputs(tgoto(tgetstr("le", NULL), 1, 1), 1, ft_putchar);
 		input_data->rel_cur_pos -= 1;
 	}
@@ -73,14 +91,13 @@ int		move_cursor_left(t_input_data *input_data)
 int		move_cursor_right(t_input_data *input_data)
 {
 	t_cur_abs_pos	pos;
-	struct winsize	ws;
 
 	if (input_data->rel_cur_pos < input_data->input_buf->len)
 	{
-		if (get_cursor_position(&pos) == 1 || get_window_size(&ws) == 1)
+		if (get_cursor_position(&pos) == 1 || get_win_col() == -1)
 			return (1);
 		if (input_data->input_buf->buf[input_data->rel_cur_pos + 1] == '\n' ||
-	pos.col + 1 > (int)ws.ws_col)
+	pos.col + 1 > get_win_col())
 			tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
 		else
 			tputs(tgoto(tgetstr("nd", NULL), 1, 1), 1, ft_putchar);

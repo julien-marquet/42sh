@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   main.c                                           .::    .:/ .      .::   */
+/*   win_data.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 22:14:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/02/05 22:05:05 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/02/05 22:34:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "common.h"
-#include "sh.h"
-#include "input/input.h"
-#include "input/input_data.h"
 #include "win_data.h"
 
-int		main(void)
+int		init_win_data(void)
 {
-	t_sh_state		*sh_state;
-	t_input_data	*input_data;
+	if (ioctl(0, TIOCGWINSZ, (&g_win_data.ws)) != 0)
+		return (g_win_data.err = 1);
+	return (g_win_data.err = 0);
+}
 
-	sh_state = init_sh();
-	input_data = init_input_data();
-	signal(SIGWINCH, update_win_data);
-	while (sh_state->exit_sig == 0)
-	{
-		if (handle_input(sh_state, input_data) == 1)
-		{
-			sh_state->status = 1;
-			break ;
-		}
-	}
-	exit_sh(sh_state);
-	return (0);
+void	update_win_data(int signo)
+{
+	signo += 0;
+	g_win_data.err = ioctl(0, TIOCGWINSZ, (&g_win_data.ws));
+}
+
+int		get_win_col(void)
+{
+	if (g_win_data.err != 0)
+		return (-1);
+	return ((int)g_win_data.ws.ws_col);
 }

@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   main.c                                           .::    .:/ .      .::   */
+/*   win_data.h                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 22:14:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/02/05 22:05:27 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/02/05 22:26:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "common.h"
-#include "sh.h"
-#include "input/input.h"
-#include "input/input_data.h"
-#include "win_data.h"
+#ifndef WIN_DATA_H
+# define WIN_DATA_H
 
-int		main(void)
+# include "common.h"
+
+typedef struct	s_win_data
 {
-	t_sh_state		*sh_state;
-	t_input_data	*input_data;
+	int				err;
+	struct winsize	ws;
+}				t_win_data;
 
-	sh_state = init_sh();
-	input_data = init_input_data();
-	signal(SIGWINCH, update_win_data);
-	while (sh_state->exit_sig == 0)
-	{
-		if (handle_input(sh_state, input_data) == 1)
-		{
-			sh_state->status = 1;
-			break ;
-		}
-	}
-	exit_sh(sh_state);
-	return (0);
-}
+int				init_win_data(void);
+void			update_win_data(int signo);
+int				get_win_col(void);
+
+t_win_data		g_win_data;
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:39:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/05 22:25:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,7 @@
 # include <termios.h>
 
 # include "../libs/Libft/libft.h"
+# include "win_data.h"
 
 typedef struct	s_cur_abs_pos
 {
