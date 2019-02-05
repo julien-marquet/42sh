@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 15:49:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/05 18:13:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,10 @@ t_sh_state *sh_state, int *send_input)
 		write(1, "[Down]", 6);
 	else if ((ft_strcmp(input_data->build_buf->buf, KEY_BS) == 0 ||
 ft_strcmp(input_data->build_buf->buf, KEY_BS2) == 0) && (res = 1))
-		delete_prev_char(input_data); // add cursor position
+	{
+		if (delete_prev_char(input_data) != 0)
+			return (1);
+	}
 	else if ((ft_strcmp(input_data->build_buf->buf, KEY_DEL) == 0 && (res = 1)))
 		delete_cur_char(input_data); // add cursor position
 	else if (ft_strcmp(input_data->build_buf->buf, KEY_SIGINT) == 0 && (res = 1))
