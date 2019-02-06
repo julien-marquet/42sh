@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 22:34:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/06 23:49:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,40 +15,88 @@
 #include "input/input_control.h"
 #include "input/prompt.h"
 #include "input/cursor.h"
- 
 
-int		handle_capabilities(t_input_data *input_data,
-t_sh_state *sh_state, int *send_input)
+
+int		is_capability(char	c)
 {
-	int		res;
-	input_data->input_buf->len += 0;
-	sh_state->status += 0;
-	res = 0;
-	if (input_data->build_buf->len > 0 && input_data->build_buf->buf[input_data->build_buf->len - 1] == '\n' && (res = 1))
-		*send_input = 1;
-	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_LEFT) == 0 && (res = 1))
-		move_cursor_left(input_data);
-	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_RIGHT) == 0 && (res = 1))
-		move_cursor_right(input_data);
-	if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_UP) == 0 && (res = 1))
-		write(1, "[Up]", 4);
-	else if (ft_strcmp(input_data->build_buf->buf, KEY_ARROW_DOWN) == 0 && (res = 1))
-		write(1, "[Down]", 6);
-	else if ((ft_strcmp(input_data->build_buf->buf, KEY_BS) == 0 ||
-ft_strcmp(input_data->build_buf->buf, KEY_BS2) == 0) && (res = 1))
+	int		is_cap;
+
+	is_cap = 0;
+	is_cap |= (c == '\033');
+	is_cap |= (c == '\03');
+	is_cap |= (c == '\010');
+	is_cap |= (c == '\177');
+	return (is_cap);
+}
+
+int		insert_chars(t_input_data *input_data)
+{
+	t_cur_abs_pos	pos;
+
+	ft_putstr(input_data->build_buf->buf);
+	if (get_cursor_position(&pos) == 1 || get_win_col() == -1)
+		return (1);
+	input_data->rel_cur_pos += input_data->build_buf->len;
+	if (pos.col == get_win_col() - 1 && input_data->rel_cur_pos < input_data->input_buf->len)
+	{
+		tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
+	}
+	if (input_data->rel_cur_pos < input_data->input_buf->len)
+	 	return (update_vbuf(input_data->input_buf->buf, input_data->rel_cur_pos));
+	return (0);
+}
+
+int		handle_insertion(t_input_data *input_data)
+{
+	size_t		i;
+
+	i = 0;
+	
+	while (i < input_data->build_buf->len && !is_capability(input_data->build_buf->buf[i]))
+	{
+		i++;
+		if (input_data->build_buf->buf[i - 1] == '\n')
+			break ;
+	}
+	dprintf(2, "INSERTION OF %zu chars", i);
+	input_data->processed_chars = i;
+	insertn_dyn_buf(input_data->build_buf->buf, input_data->input_buf, input_data->rel_cur_pos, i);
+	insert_chars(input_data);
+	return (0);
+}
+
+int		handle_capabilities(t_input_data *input_data, t_sh_state *sh_state)
+{
+	if (ft_strncmp(input_data->build_buf->buf, KEY_SIGINT, 1) == 0 && (input_data->processed_chars = 1))
+	{
+		sh_state->exit_sig = 1;
+	}
+	else if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
 	{
 		if (delete_prev_char(input_data) != 0)
 			return (1);
 	}
-	else if ((ft_strcmp(input_data->build_buf->buf, KEY_DEL) == 0 && (res = 1)))
-		delete_cur_char(input_data); // add cursor position
-	else if (ft_strcmp(input_data->build_buf->buf, KEY_SIGINT) == 0 && (res = 1))
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_LEFT, 3) == 0 && (input_data->processed_chars = 3))
 	{
-		*send_input = 1;
-		sh_state->exit_sig = 1;
-		sh_state->status = 2;
+		move_cursor_left(input_data);
 	}
-	return (res);
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_RIGHT, 3) == 0 && (input_data->processed_chars = 3))
+	{
+		move_cursor_right(input_data);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_UP, 3) == 0 && (input_data->processed_chars = 3))
+	{
+		write(1, "[Up]", 4);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_DOWN, 3) == 0 && (input_data->processed_chars = 3))
+	{
+		write(1, "[Down]", 6);
+	}
+	else if ((ft_strncmp(input_data->build_buf->buf, KEY_DEL, 4) == 0) && (input_data->processed_chars = 4))
+	{
+		delete_cur_char(input_data);
+	}
+	return (0);
 }
 
 int		get_buf(t_dyn_buf *build_buf)
@@ -67,53 +115,35 @@ int		get_buf(t_dyn_buf *build_buf)
 	return (0);
 }
 
-int		insert_chars(t_input_data *input_data)
-{
-	t_cur_abs_pos	pos;
 
-	if (get_cursor_position(&pos) == 1 || get_win_col() == -1)
-		return (1);
-	if (input_data->rel_cur_pos < input_data->input_buf->len - 1 &&
-pos.col >= get_win_col())
-		tputs(tgoto(tgetstr("cm", NULL), 0, pos.row), 1, ft_putchar);
-	input_data->rel_cur_pos += input_data->build_buf->len;
-	ft_putstr(input_data->build_buf->buf);
-	if (input_data->rel_cur_pos < input_data->input_buf->len)
-		return (update_vbuf(input_data));
-	return (0);
-}
 
-/*
-	build buf as to be kept if there 's  a \n  and it's not finished
-	- get new buf or stored buf 
-	- parse buf till \n 
-	- remove the part that has been copied
-	- exec 
-*/
 
 int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 {
-	int		send_input;
-	int		is_cap;
-
-
-	send_input = 0;
 	print_prompt();
-	while (send_input == 0)
+	while (sh_state->exit_sig == 0 && (input_data->input_buf->len == 0 ||
+input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
 	{
-		if (get_buf(input_data->build_buf) != 0)
-			return (1);
-		is_cap = handle_capabilities(input_data, sh_state, &send_input);
-		if (is_cap == -1)
-			return (1);
-		else if (is_cap == 0)
+		if (input_data->build_buf->len == 0)
 		{
-			insert_dyn_buf(input_data->build_buf->buf, input_data->input_buf,
-		input_data->rel_cur_pos);
-			insert_chars(input_data);
+			if (get_buf(input_data->build_buf) != 0)
+				return (1);
 		}
+		if (is_capability(input_data->build_buf->buf[0]) == 1)
+		{
+			if (handle_capabilities(input_data, sh_state) == 1)
+				return (1);
+		}
+		else
+		{
+			if (handle_insertion(input_data) == -1)
+				return (1);
+		}
+		shift_dyn_buf(input_data->build_buf, input_data->processed_chars);
+		input_data->processed_chars = 0;
 		ft_putendl_fd(input_data->input_buf->buf, 2);
-		reset_dyn_buf(input_data->build_buf);
 	}
+	input_data->rel_cur_pos = 0;
+	reset_dyn_buf(input_data->input_buf);
 	return (0);
 }

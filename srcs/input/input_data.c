@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:03:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/06 18:12:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,5 +24,6 @@ t_input_data	*init_input_data(void)
 (input_data->input_buf = init_dyn_buf()) == NULL)
 		return (NULL);
 	input_data->rel_cur_pos = 0;
+	input_data->processed_chars = 0;
 	return (input_data);
 }

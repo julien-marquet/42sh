@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:58 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 01:38:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/06 18:12:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,7 @@ typedef struct	s_input_data
 	t_dyn_buf	*input_buf;
 	t_dyn_buf	*build_buf;
 	size_t		rel_cur_pos;
+	size_t		processed_chars;
 }				t_input_data;
 
 t_input_data	*init_input_data(void);

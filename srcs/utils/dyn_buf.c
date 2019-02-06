@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 18:41:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/07 00:02:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,6 +47,38 @@ int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index)
 dyn_buf->len - index);
 	ft_memcpy(&(dyn_buf->buf[index]), str, len);
 	dyn_buf->len += len;
+	return (0);
+}
+
+int			insertn_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index, size_t len)
+{
+	size_t	new_size;
+
+	if (len + dyn_buf->len >= dyn_buf->size)
+	{
+		new_size = len + dyn_buf->len > dyn_buf->size * 2 ?
+	len + dyn_buf->len + DEFAULT_DYN_BUF_SIZE : dyn_buf->size * 2;
+		dyn_buf->buf = ft_realloc(dyn_buf->buf,
+	dyn_buf->size, new_size);
+		if (dyn_buf == NULL)
+			return (1);
+		dyn_buf->size = new_size;
+	}
+	ft_memmove(&(dyn_buf->buf[index + len]), &(dyn_buf->buf[index]),
+dyn_buf->len - index);
+	ft_memcpy(&(dyn_buf->buf[index]), str, len);
+	dyn_buf->len += len;
+	return (0);
+}
+
+int		shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift)
+{
+	ft_memmove(dyn_buf->buf, &(dyn_buf->buf[shift]), dyn_buf->len - shift);
+	dprintf(2, "SHIFT OF %zu for a total of %zu initial chars\n", shift, dyn_buf->len);
+	dyn_buf->len -= shift;
+	dprintf(2, "remaining buf len = %zu\n", dyn_buf->len);
+	ft_bzero(&(dyn_buf->buf[dyn_buf->len]), dyn_buf->size - dyn_buf->len);
+
 	return (0);
 }
 
