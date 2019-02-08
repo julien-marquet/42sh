@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/08 18:12:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/08 21:14:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,40 +17,33 @@
 #include "input/cursor.h"
 
 
-int		is_capability(char	c)
+int		is_capability(char	*s)
 {
 	int		is_cap;
 
 	is_cap = 0;
-	is_cap |= (c == '\033');
-	is_cap |= (c == '\03');
-	is_cap |= (c == '\010');
-	is_cap |= (c == '\177');
+	if (*s == '\033')
+	{
+		is_cap |= (ft_strncmp(s, KEY_ARROW_LEFT, 3) != 0);
+		is_cap |= (ft_strncmp(s, KEY_ARROW_RIGHT, 3) != 0);
+		is_cap |= (ft_strncmp(s, KEY_ARROW_UP, 3) != 0);
+		is_cap |= (ft_strncmp(s, KEY_ARROW_DOWN, 3) != 0);
+		is_cap |= (ft_strncmp(s, KEY_DEL, 4) != 0);
+	}
+	is_cap |= (*s == '\03');
+	is_cap |= (*s == '\010');
+	is_cap |= (*s == '\177');
 	return (is_cap);
 }
 
-int		insertn_chars(t_input_data *input_data, size_t n)
-{
-	t_cur_abs_pos	pos;
-	write(1, input_data->build_buf->buf, n);
-	if (get_cursor_position(&pos) == 1 || get_win_col() == -1)
-		return (1);
-	input_data->rel_cur_pos += n;
-	if (pos.col == get_win_col() - 1 && input_data->rel_cur_pos < input_data->input_buf->len)
-	{
-		tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
-	}
-	if (input_data->rel_cur_pos < input_data->input_buf->len)
-	 	return (update_vbuf(input_data->input_buf->buf, input_data->rel_cur_pos));
-	return (0);
-}
+
 
 int		handle_insertion(t_input_data *input_data)
 {
 	size_t		i;
 
 	i = 0;
-	while (i < input_data->build_buf->len && !is_capability(input_data->build_buf->buf[i]))
+	while (i < input_data->build_buf->len && !is_capability(&(input_data->build_buf->buf[i])))
 	{
 		i++;
 		if (input_data->build_buf->buf[i - 1] == '\n')
@@ -103,13 +96,10 @@ int		get_buf(t_dyn_buf *build_buf)
 	ssize_t	ret;
 
 	ret = READ_SIZE;
-	while (ret >= READ_SIZE)
-	{
-		ft_bzero(buf, READ_SIZE + 1);
-		ret = read(0, &buf, READ_SIZE);
-		if (ret == -1 || insert_dyn_buf(buf, build_buf, build_buf->len) != 0)
-			return (1);
-	}
+	ft_bzero(buf, READ_SIZE + 1);
+	ret = read(0, &buf, READ_SIZE);
+	if (ret == -1 || insert_dyn_buf(buf, build_buf, build_buf->len) != 0)
+		return (1);
 	return (0);
 }
 
@@ -128,13 +118,15 @@ input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
 			if (get_buf(input_data->build_buf) != 0)
 				return (1);
 		}
-		if (is_capability(input_data->build_buf->buf[0]) == 1)
+		if (is_capability(input_data->build_buf->buf) == 1)
 		{
+			dprintf(2, "IS CAP |%c|%hhd,%s|\n", input_data->build_buf->buf[0], input_data->build_buf->buf[0], &(input_data->build_buf->buf[1]));
 			if (handle_capabilities(input_data, sh_state) == 1)
 				return (1);
 		}
 		else
 		{
+			dprintf(2, "IS INS\n");
 			if (handle_insertion(input_data) == -1)
 				return (1);
 		}
@@ -144,3 +136,19 @@ input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
 	}
 	return (0);
 }
+
+
+/*
+**	INIT CURSOR POS AT THE BEGINNING STORE POS
+**
+**	ON INPUT =
+**	|	IF CURSOR != END
+**	|	GO START
+**	|	DELETE AND PRINT
+**	ON DEL =
+**	|	GO START
+**	|	DEL PRINT
+**	ON MOVE_CURSOR =
+**	|	GET POS BY MODULO
+**	|	EXCEPT IF AT THE END
+*/

@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/02/05 22:22:32 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/02/08 23:16:02 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -60,7 +60,7 @@ export FLAGS
 
 all: lib $(NAME)
 
-$(NAME): $(LIB) $(OBJ) $(HFILES)
+$(NAME): $(LIB) $(OBJ)
 	$(CC) $(FLAGS) $(P_FLAGS) -o $(NAME) -L$(PATH_LIBFT) -l$(LIB_NAME) $(OBJ) -I $(PATH)$(HEAD_DIR)
 lib:
 	@mkdir -p $(OBJ_DIR)

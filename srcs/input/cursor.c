@@ -6,20 +6,52 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/06 23:59:40 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/09 00:26:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "input/cursor.h"
+#include "input/prompt.h"
+
+int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *input_buf, size_t rel_cur_pos, t_cur_abs_pos *start_pos)
+{
+	int				win_col;
+	size_t			i;
+
+	if ((win_col = get_win_col()) == -1)
+		return (1);
+	pos->row = PROMPT_PLACEHOLDER_SIZE / win_col; 
+	pos->col = PROMPT_PLACEHOLDER_SIZE % win_col;
+	i = 0;
+	while (i < rel_cur_pos)
+	{
+		if (pos->col >= win_col)
+		{
+			pos->row += 1;
+			pos->col = 1;
+		}
+		else if (input_buf->buf[i] == '\n')
+		{
+			pos->row += 1;
+			pos->col = 0;
+		}
+		else
+			pos->col++;
+		i++;
+	}
+	pos->row += start_pos->row;
+	dprintf(2, "\n, COL = %d, ROW = %d\n", pos->col, pos->row);
+	return (0);
+}
 
 /*
 **	Get Cursor position by parsing the string returned
-**	after a certain termcaps is sent 
+**	after a certain termcaps is sent
 **	artificially converted to origin 0
 */
 
-int		get_cursor_position(t_cur_abs_pos *pos)
+int		get_start_position(t_cur_abs_pos *pos)
 {
 	size_t			len;
 	unsigned char	str[16];
@@ -79,12 +111,9 @@ int		move_cursor_left(t_input_data *input_data)
 
 	if (input_data->rel_cur_pos > 0)
 	{
-		if (get_cursor_position(&pos) == 1)
-			return (1);
-		if (pos.col == 0)
-			dprintf(2, "line length = %d\n", get_line_length(input_data->rel_cur_pos - 2, input_data->input_buf->buf));
-		tputs(tgoto(tgetstr("le", NULL), 1, 1), 1, ft_putchar);
 		input_data->rel_cur_pos -= 1;
+		get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos, input_data->start_pos);
+		tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 	}
 	return (0);
 }
@@ -95,14 +124,9 @@ int		move_cursor_right(t_input_data *input_data)
 
 	if (input_data->rel_cur_pos < input_data->input_buf->len)
 	{
-		if (get_cursor_position(&pos) == 1 || get_win_col() == -1)
-			return (1);
-		if (input_data->input_buf->buf[input_data->rel_cur_pos + 1] == '\n' ||
-	pos.col + 1 >= get_win_col())
-			tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
-		else
-			tputs(tgoto(tgetstr("nd", NULL), 1, 1), 1, ft_putchar);
 		input_data->rel_cur_pos += 1;
+		get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos, input_data->start_pos);
+		tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 	}
 	return (0);
 }

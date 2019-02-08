@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/06 23:39:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/09 00:21:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,15 +16,18 @@
 #include "utils/dyn_buf.h"
 #include "input/prompt.h"
 
-int		clear_line(void)
+int		print_anew(t_input_data *input_data)
 {
-	t_cur_abs_pos	pos;
+		t_cur_abs_pos	pos;
 
-	if (get_cursor_position(&pos) != 0)
-		return (1);
-	if (tputs(tgoto(tgetstr("cm", NULL), 0, pos.row), 1, ft_putchar) != 0)
+	if (tputs(tgoto(tgetstr("cm", NULL), input_data->start_pos->col, input_data->start_pos->row), 1, ft_putchar) != 0)
 		return (1);
 	if (tputs(tgetstr("cd", NULL), 1, ft_putchar) != 0)
+		return (1);
+	print_prompt();
+	write(1, input_data->input_buf->buf, input_data->input_buf->len);
+	get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos, input_data->start_pos);
+	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
 		return (1);
 	return (0);
 }
@@ -35,7 +38,7 @@ int		delete_prev_char(t_input_data *input_data)
 	{
 		if (move_cursor_left(input_data) != 0)
 			return (1);
-		update_vbuf(input_data->input_buf->buf, input_data->rel_cur_pos);
+		print_anew(input_data);
 	}
 	return (0);
 }
@@ -43,21 +46,35 @@ int		delete_prev_char(t_input_data *input_data)
 void	delete_cur_char(t_input_data *input_data)
 {
 	if (del_at_dyn_buf(input_data->input_buf, input_data->rel_cur_pos) == 1)
-		update_vbuf(input_data->input_buf->buf, input_data->rel_cur_pos);
+		print_anew(input_data);
 }
 
-/*
-**	input will be
-*/
-
-int		update_vbuf(char *buf, size_t rel_cur_pos)
+int		insertn_chars(t_input_data *input_data,  size_t n)
 {
-	t_cur_abs_pos	pos;
-
-	if (get_cursor_position(&pos) != 0)
-		return (1);
-	tputs(tgetstr("cd", NULL), 1, ft_putchar);
-	ft_putstr(&(buf[rel_cur_pos]));
-	tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar); // remove remaining lines
+	input_data->rel_cur_pos += n;
+	if (input_data->rel_cur_pos == input_data->input_buf->len)
+	{
+		write(1, input_data->build_buf->buf, n);
+	}
+	else
+	{
+		print_anew(input_data);
+	}
 	return (0);
 }
+
+/*int		insertn_chars(t_input_data *input_data, size_t n)
+{
+	t_cur_abs_pos	pos;
+	write(1, input_data->build_buf->buf, n);
+	if (get_win_col() == -1)
+		return (1);
+	input_data->rel_cur_pos += n;
+	if (pos.col == get_win_col() - 1 && input_data->rel_cur_pos < input_data->input_buf->len)
+	{
+		tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
+	}
+	if (input_data->rel_cur_pos < input_data->input_buf->len)
+	 	return (update_vbuf(input_data->input_buf->buf, input_data->rel_cur_pos));
+	return (0);
+}*/
