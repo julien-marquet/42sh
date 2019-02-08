@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/06 23:49:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/08 18:12:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,14 +29,13 @@ int		is_capability(char	c)
 	return (is_cap);
 }
 
-int		insert_chars(t_input_data *input_data)
+int		insertn_chars(t_input_data *input_data, size_t n)
 {
 	t_cur_abs_pos	pos;
-
-	ft_putstr(input_data->build_buf->buf);
+	write(1, input_data->build_buf->buf, n);
 	if (get_cursor_position(&pos) == 1 || get_win_col() == -1)
 		return (1);
-	input_data->rel_cur_pos += input_data->build_buf->len;
+	input_data->rel_cur_pos += n;
 	if (pos.col == get_win_col() - 1 && input_data->rel_cur_pos < input_data->input_buf->len)
 	{
 		tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
@@ -51,7 +50,6 @@ int		handle_insertion(t_input_data *input_data)
 	size_t		i;
 
 	i = 0;
-	
 	while (i < input_data->build_buf->len && !is_capability(input_data->build_buf->buf[i]))
 	{
 		i++;
@@ -61,7 +59,7 @@ int		handle_insertion(t_input_data *input_data)
 	dprintf(2, "INSERTION OF %zu chars", i);
 	input_data->processed_chars = i;
 	insertn_dyn_buf(input_data->build_buf->buf, input_data->input_buf, input_data->rel_cur_pos, i);
-	insert_chars(input_data);
+	insertn_chars(input_data, i);
 	return (0);
 }
 
@@ -121,6 +119,7 @@ int		get_buf(t_dyn_buf *build_buf)
 int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 {
 	print_prompt();
+	input_data->rel_cur_pos = 0;
 	while (sh_state->exit_sig == 0 && (input_data->input_buf->len == 0 ||
 input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
 	{
@@ -143,7 +142,5 @@ input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
 		input_data->processed_chars = 0;
 		ft_putendl_fd(input_data->input_buf->buf, 2);
 	}
-	input_data->rel_cur_pos = 0;
-	reset_dyn_buf(input_data->input_buf);
 	return (0);
 }
