@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 10:12:52 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 13:43:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -102,4 +102,3 @@ void		reset_dyn_buf(t_dyn_buf *dyn_buf)
 	dyn_buf->len = 0;
 	ft_bzero(dyn_buf->buf, dyn_buf->size);
 }
-

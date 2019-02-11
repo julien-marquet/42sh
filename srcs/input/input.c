@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 11:38:40 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 14:15:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -107,19 +107,64 @@ int		get_buf(t_dyn_buf *build_buf)
 	return (0);
 }
 
+#define NONE 0
+#define SIMPLE 1
+#define DOUBLE 2
 
+int		are_quotes_closed(t_dyn_buf *dyn_buf)
+{
+	int		opened;
+	size_t	i;
+	int		quote_type;
 
+	i = 0;
+	opened = false;
+	quote_type = NONE;
+	while (i < dyn_buf->len)
+	{
+		if (dyn_buf->buf[i] == '\'' &&
+	((quote_type == SIMPLE && opened == true) ||
+	((quote_type == SIMPLE || quote_type == NONE) &&
+	opened == false && (i == 0 || dyn_buf->buf[i - 1] != '\\'))))
+		{
+			if ((opened = !opened) == 0)
+				quote_type = NONE;
+			else
+				quote_type = SIMPLE;
+		}
+		else if (dyn_buf->buf[i] == '\"' &&
+	(i == 0 || dyn_buf->buf[i - 1] != '\\'))
+		{
+			if (quote_type == NONE || quote_type == DOUBLE)
+			{
+				if ((opened = !opened) == 0)
+					quote_type = NONE;
+				else
+					quote_type = DOUBLE;
+			}
+		}
+		i++;
+	}
+	return (opened == 0);
+}
 
-int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
+int		output_is_ready(t_dyn_buf *dyn_buf)
 {
 	int		ready_state;
 
-	ready_state = false;
-	while (ready_state == false)
+	ready_state = true;
+	ready_state &= (dyn_buf->len > 0 && dyn_buf->buf[dyn_buf->len - 1] == '\n');
+	ready_state &= are_quotes_closed(dyn_buf);
+	return (ready_state);
+}
+
+int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
+{
+	while (input_data->input_buf->len == 0 || input_data->stored_buf->len > 0)
 	{
 		if (get_start_position(input_data->start_pos) == 1)
 			return (1);
-		print_prompt();
+		print_prompt(input_data->stored_buf->len > 0);
 		input_data->rel_cur_pos = 0;
 		while (sh_state->exit_sig == 0 && (input_data->input_buf->len == 0 ||
 	input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
@@ -141,7 +186,17 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 			}
 			shift_dyn_buf(input_data->build_buf, input_data->processed_chars);
 			input_data->processed_chars = 0;
-			ft_putendl_fd(input_data->build_buf->buf, 2);
+		}
+		if (input_data->stored_buf->len > 0)
+		{
+			insert_dyn_buf(input_data->stored_buf->buf, input_data->input_buf, 0);
+			reset_dyn_buf(input_data->stored_buf);
+		}
+		if (output_is_ready(input_data->input_buf) == false)
+		{
+			dprintf(2, "store buf\n");
+			ft_swap((void **)(&(input_data->input_buf)), (void **)(&(input_data->stored_buf)));
+			dprintf(2, "Stored buf len = %zu\n, Input buf len = %zu", input_data->stored_buf->len, input_data->input_buf->len);
 		}
 	}
 	return (0);

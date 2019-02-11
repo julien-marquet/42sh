@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:47:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/31 23:49:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 14:14:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,6 @@
 
 # include "common.h"
 
-int		print_prompt(void);
+int		print_prompt(int	multiline);
 
 #endif

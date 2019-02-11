@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/09 00:37:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 13:40:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,8 +21,9 @@ t_input_data	*init_input_data(void)
 
 	if ((input_data = (t_input_data*)malloc(sizeof(t_input_data))) == NULL)
 		return (NULL);
-	if ((input_data->build_buf = init_dyn_buf()) == NULL |
-(input_data->input_buf = init_dyn_buf()) == NULL)
+	if ((input_data->build_buf = init_dyn_buf()) == NULL ||
+(input_data->input_buf = init_dyn_buf()) == NULL ||
+(input_data->stored_buf = init_dyn_buf()) == NULL)
 		return (NULL);
 	if ((input_data->start_pos =
 (t_cur_abs_pos*)malloc(sizeof(t_cur_abs_pos))) == NULL)

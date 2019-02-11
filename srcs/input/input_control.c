@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 11:31:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 14:16:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,7 @@ input_data->start_pos->row), 1, ft_putchar) != 0)
 		return (1);
 	if (tputs(tgetstr("cd", NULL), 1, ft_putchar) != 0)
 		return (1);
-	print_prompt();
+	print_prompt(input_data->stored_buf->len > 0);
 	write(1, input_data->input_buf->buf, input_data->input_buf->len);
 	get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos,
 input_data->start_pos);
