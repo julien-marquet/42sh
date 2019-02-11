@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 14:16:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 15:06:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -51,10 +51,11 @@ void	delete_cur_char(t_input_data *input_data)
 		print_anew(input_data);
 }
 
-int		insertn_chars(t_input_data *input_data, size_t n)
+int		insertn_chars(t_input_data *input_data, size_t n, int force)
 {
-	input_data->rel_cur_pos += n;
-	if (input_data->rel_cur_pos == input_data->input_buf->len)
+	if (force == 0)
+		input_data->rel_cur_pos += n;
+	if (force == 0 && input_data->rel_cur_pos == input_data->input_buf->len)
 	{
 		write(1, input_data->build_buf->buf, n);
 	}
