@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 15:06:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 17:20:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,21 +38,19 @@ int		is_capability(char *s)
 int		handle_insertion(t_input_data *input_data)
 {
 	size_t		i;
-	int			send_line;
+	int			send_line;	
 
 	i = 0;
 	send_line = 0;
 	while (i < input_data->build_buf->len &&
 !is_capability(&(input_data->build_buf->buf[i])))
 	{
-		i++;
-		if (input_data->build_buf->buf[i - 1] == '\n')
+		if (input_data->build_buf->buf[++i - 1] == '\n')
 		{
 			send_line = 1;
 			break ;
 		}
 	}
-	dprintf(2, "INSERTION OF %zu chars, send = %d\n", i, send_line);
 	input_data->processed_chars = i;
 	insertn_dyn_buf(input_data->build_buf->buf, input_data->input_buf,
 input_data->rel_cur_pos, i - send_line);
@@ -61,7 +59,6 @@ input_data->rel_cur_pos, i - send_line);
 		insert_dyn_buf("\n", input_data->input_buf, input_data->input_buf->len);
 		input_data->rel_cur_pos = input_data->input_buf->len;
 	}
-	dprintf(2, "STR = |%s|\n", input_data->input_buf->buf);
 	insertn_chars(input_data, i, send_line);
 	return (0);
 }
