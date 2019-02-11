@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/09 00:26:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 10:12:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,15 +14,16 @@
 #include "input/cursor.h"
 #include "input/prompt.h"
 
-int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *input_buf, size_t rel_cur_pos, t_cur_abs_pos *start_pos)
+int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *input_buf,
+size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 {
 	int				win_col;
 	size_t			i;
 
 	if ((win_col = get_win_col()) == -1)
 		return (1);
-	pos->row = PROMPT_PLACEHOLDER_SIZE / win_col; 
-	pos->col = PROMPT_PLACEHOLDER_SIZE % win_col;
+	pos->row = PROMPT_PLACEHOLDER_SIZE / win_col + start_pos->row; 
+	pos->col = PROMPT_PLACEHOLDER_SIZE % win_col + start_pos->col;
 	i = 0;
 	while (i < rel_cur_pos)
 	{
@@ -40,8 +41,6 @@ int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *input_buf, size_t rel_cu
 			pos->col++;
 		i++;
 	}
-	pos->row += start_pos->row;
-	dprintf(2, "\n, COL = %d, ROW = %d\n", pos->col, pos->row);
 	return (0);
 }
 
@@ -81,29 +80,6 @@ int		get_start_position(t_cur_abs_pos *pos)
 	}
 	return (0);
 }
-
-int		get_line_length(size_t pos, char *buf)
-{
-	size_t			len;
-	size_t			nl;
-
-	len = 0;
-	nl = 0;
-	if (get_win_col() == 1)
-		return (-1);
-	while (pos > 0 && nl < 2)
-	{
-		if (buf[pos] == '\n')
-			nl++;
-		len++;
-		pos--;
-	}
-	return (len);
-}
-
-/*
-**	Move cursor
-*/
 
 int		move_cursor_left(t_input_data *input_data)
 {

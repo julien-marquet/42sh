@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/09 00:21:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 11:31:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,15 +18,17 @@
 
 int		print_anew(t_input_data *input_data)
 {
-		t_cur_abs_pos	pos;
+	t_cur_abs_pos	pos;
 
-	if (tputs(tgoto(tgetstr("cm", NULL), input_data->start_pos->col, input_data->start_pos->row), 1, ft_putchar) != 0)
+	if (tputs(tgoto(tgetstr("cm", NULL), input_data->start_pos->col,
+input_data->start_pos->row), 1, ft_putchar) != 0)
 		return (1);
 	if (tputs(tgetstr("cd", NULL), 1, ft_putchar) != 0)
 		return (1);
 	print_prompt();
 	write(1, input_data->input_buf->buf, input_data->input_buf->len);
-	get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos, input_data->start_pos);
+	get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos,
+input_data->start_pos);
 	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
 		return (1);
 	return (0);
@@ -49,7 +51,7 @@ void	delete_cur_char(t_input_data *input_data)
 		print_anew(input_data);
 }
 
-int		insertn_chars(t_input_data *input_data,  size_t n)
+int		insertn_chars(t_input_data *input_data, size_t n)
 {
 	input_data->rel_cur_pos += n;
 	if (input_data->rel_cur_pos == input_data->input_buf->len)
@@ -62,19 +64,3 @@ int		insertn_chars(t_input_data *input_data,  size_t n)
 	}
 	return (0);
 }
-
-/*int		insertn_chars(t_input_data *input_data, size_t n)
-{
-	t_cur_abs_pos	pos;
-	write(1, input_data->build_buf->buf, n);
-	if (get_win_col() == -1)
-		return (1);
-	input_data->rel_cur_pos += n;
-	if (pos.col == get_win_col() - 1 && input_data->rel_cur_pos < input_data->input_buf->len)
-	{
-		tputs(tgoto(tgetstr("cm", NULL), 0, pos.row + 1), 1, ft_putchar);
-	}
-	if (input_data->rel_cur_pos < input_data->input_buf->len)
-	 	return (update_vbuf(input_data->input_buf->buf, input_data->rel_cur_pos));
-	return (0);
-}*/

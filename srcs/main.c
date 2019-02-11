@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/08 18:07:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/11 11:36:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,6 +16,11 @@
 #include "input/input.h"
 #include "input/input_data.h"
 #include "win_data.h"
+#include "signal_handler.h"
+
+#include <unistd.h>
+#include <fcntl.h>
+#include "errno.h"
 
 int		main(void)
 {
@@ -24,9 +29,11 @@ int		main(void)
 
 	sh_state = init_sh();
 	input_data = init_input_data();
-	signal(SIGWINCH, update_win_data);
+	signal(SIGWINCH, handle_sigwinch);
+	signal(SIGINT, handle_sigint);
 	while (sh_state->exit_sig == 0)
 	{
+
 		if (handle_input(sh_state, input_data) == 1)
 		{
 			sh_state->status = 1;
@@ -38,3 +45,4 @@ int		main(void)
 	exit_sh(sh_state);
 	return (0);
 }
+

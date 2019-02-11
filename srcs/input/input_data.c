@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/08 21:04:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/09 00:37:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ t_input_data	*init_input_data(void)
 		return (NULL);
 	input_data->rel_cur_pos = 0;
 	input_data->processed_chars = 0;
-	if (get_start_position(input_data->start_pos) == 1)
-		return (NULL);
+	input_data->start_pos->col = 0;
+	input_data->start_pos->row = 0;
 	return (input_data);
 }

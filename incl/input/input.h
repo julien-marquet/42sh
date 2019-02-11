@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/01 06:08:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/09 02:09:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #ifndef INPUT_H
 # define INPUT_H
 
-# define READ_SIZE 10
+# define READ_SIZE 1024
 # define KEY_ARROW_UP "\033[A"
 # define KEY_ARROW_DOWN "\033[B"
 # define KEY_ARROW_RIGHT "\033[C"
