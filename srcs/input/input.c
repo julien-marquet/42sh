@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 17:20:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/12 10:10:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -169,7 +169,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 	{
 		if (get_start_position(input_data->start_pos) == 1)
 			return (1);
-		print_prompt(input_data->stored_buf->len > 0);
+		print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
 		input_data->rel_cur_pos = 0;
 		while (sh_state->exit_sig == 0 && (input_data->input_buf->len == 0 ||
 	input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))

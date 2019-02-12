@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 10:12:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/12 10:12:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,8 +22,8 @@ size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 
 	if ((win_col = get_win_col()) == -1)
 		return (1);
-	pos->row = PROMPT_PLACEHOLDER_SIZE / win_col + start_pos->row; 
-	pos->col = PROMPT_PLACEHOLDER_SIZE % win_col + start_pos->col;
+	pos->row = get_prompt_len() / win_col + start_pos->row; 
+	pos->col = get_prompt_len()  % win_col + start_pos->col;
 	i = 0;
 	while (i < rel_cur_pos)
 	{
