@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 10:12:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/12 11:32:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #include "input/cursor.h"
 #include "input/prompt.h"
 
-int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *input_buf,
+int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
 size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 {
 	int				win_col;
@@ -22,8 +22,8 @@ size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 
 	if ((win_col = get_win_col()) == -1)
 		return (1);
-	pos->row = get_prompt_len() / win_col + start_pos->row; 
-	pos->col = get_prompt_len()  % win_col + start_pos->col;
+	pos->row = get_prompt_len() / win_col + start_pos->row;
+	pos->col = get_prompt_len() % win_col + start_pos->col;
 	i = 0;
 	while (i < rel_cur_pos)
 	{
@@ -32,7 +32,7 @@ size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 			pos->row += 1;
 			pos->col = 1;
 		}
-		else if (input_buf->buf[i] == '\n')
+		else if (active_buf->buf[i] == '\n')
 		{
 			pos->row += 1;
 			pos->col = 0;
@@ -88,7 +88,8 @@ int		move_cursor_left(t_input_data *input_data)
 	if (input_data->rel_cur_pos > 0)
 	{
 		input_data->rel_cur_pos -= 1;
-		get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos, input_data->start_pos);
+		get_cursor_position(&pos, input_data->active_buf,
+	input_data->rel_cur_pos, input_data->start_pos);
 		tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 	}
 	return (0);
@@ -98,10 +99,11 @@ int		move_cursor_right(t_input_data *input_data)
 {
 	t_cur_abs_pos	pos;
 
-	if (input_data->rel_cur_pos < input_data->input_buf->len)
+	if (input_data->rel_cur_pos < input_data->active_buf->len)
 	{
 		input_data->rel_cur_pos += 1;
-		get_cursor_position(&pos, input_data->input_buf, input_data->rel_cur_pos, input_data->start_pos);
+		get_cursor_position(&pos, input_data->active_buf,
+	input_data->rel_cur_pos, input_data->start_pos);
 		tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 	}
 	return (0);

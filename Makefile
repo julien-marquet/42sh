@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/02/11 11:22:24 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/02/12 11:25:24 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -26,7 +26,7 @@ CFOLDERS = $(addprefix $(OBJ_DIR)/, input utils)
 # C FILES
 
 CFILES = main.c sh.c sh_state.c term_state.c win_data.c signal_handler.c
-CFILES += $(addprefix input/, input.c input_data.c cursor.c input_control.c prompt.c)
+CFILES += $(addprefix input/, input.c input_data.c cursor.c input_control.c prompt.c history.c)
 CFILES += $(addprefix utils/, dyn_buf.c)
 
 
@@ -36,7 +36,7 @@ OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 # HEADER FILES
 
 TMPFILES = common.h sh.h sh_state.h term_state.h win_data.h signal_handler.h
-TMPFILES += $(addprefix input/, input.h input_data.h cursor.h input_control.h prompt.h)
+TMPFILES += $(addprefix input/, input.h input_data.h cursor.h input_control.h prompt.h history.h)
 TMPFILES += $(addprefix utils/, dyn_buf.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))

@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   prompt.h                                         .::    .:/ .      .::   */
+/*   history.h                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/31 23:47:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 10:19:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/02/12 10:51:17 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/02/12 13:42:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef PROMPT_H
-# define PROMPT_H
+#ifndef HISTORY_H
+# define HISTORY_H
 
-# define PROMPT_SIMPLE_TXT "Prompt - "
-# define PROMPT_SIMPLE_LEN 9
-# define PROMPT_MULTI_TXT "> "
-# define PROMPT_MULTI_LEN 2
-
-# define PROMPT_NO_SET 0
-# define PROMPT_SIMPLE 1
-# define PROMPT_MULTI 2
-# define PROMPT_NO_PRINT 3
+# define HIST_NEXT 0
+# define HIST_PREV 1
+# define HIST_RESET 2
 
 # include "common.h"
+# include "input/input_data.h"
 
-size_t	print_prompt(int mode_modifier);
-size_t	get_prompt_len(void);
+t_list		*init_history_list(void);
+t_list		*get_history_index(t_list *history, size_t index);
+t_list		*add_to_history_list(t_list **history, const char *buf, size_t len);
+int			history_navigate(t_input_data *input_data, int action);
 
 #endif

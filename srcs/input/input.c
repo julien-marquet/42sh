@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 10:10:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/12 14:21:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,7 @@
 #include "input/input_control.h"
 #include "input/prompt.h"
 #include "input/cursor.h"
+#include "input/history.h"
 
 int		is_capability(char *s)
 {
@@ -38,7 +39,7 @@ int		is_capability(char *s)
 int		handle_insertion(t_input_data *input_data)
 {
 	size_t		i;
-	int			send_line;	
+	int			send_line;
 
 	i = 0;
 	send_line = 0;
@@ -52,12 +53,12 @@ int		handle_insertion(t_input_data *input_data)
 		}
 	}
 	input_data->processed_chars = i;
-	insertn_dyn_buf(input_data->build_buf->buf, input_data->input_buf,
+	insertn_dyn_buf(input_data->build_buf->buf, input_data->active_buf,
 input_data->rel_cur_pos, i - send_line);
 	if (send_line == 1)
 	{
-		insert_dyn_buf("\n", input_data->input_buf, input_data->input_buf->len);
-		input_data->rel_cur_pos = input_data->input_buf->len;
+		insert_dyn_buf("\n", input_data->active_buf, input_data->active_buf->len);
+		input_data->rel_cur_pos = input_data->active_buf->len;
 	}
 	insertn_chars(input_data, i, send_line);
 	return (0);
@@ -84,11 +85,15 @@ int		handle_capabilities(t_input_data *input_data, t_sh_state *sh_state)
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_UP, 3) == 0 && (input_data->processed_chars = 3))
 	{
-		write(1, "[Up]", 4);
+		// write(1, "[Up]", 4);
+		dprintf(2, "HIST INDEX = %d\n", history_navigate(input_data, HIST_NEXT));
+		print_anew(input_data);
+
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_DOWN, 3) == 0 && (input_data->processed_chars = 3))
 	{
-		write(1, "[Down]", 6);
+		dprintf(2, "HIST INDEX = %d\n", history_navigate(input_data, HIST_PREV));
+		print_anew(input_data);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, KEY_DEL, 4) == 0) && (input_data->processed_chars = 4))
 	{
@@ -165,14 +170,14 @@ int		output_is_ready(t_dyn_buf *dyn_buf)
 
 int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 {
-	while (input_data->input_buf->len == 0 || input_data->stored_buf->len > 0)
+	while (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0)
 	{
 		if (get_start_position(input_data->start_pos) == 1)
 			return (1);
 		print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
 		input_data->rel_cur_pos = 0;
-		while (sh_state->exit_sig == 0 && (input_data->input_buf->len == 0 ||
-	input_data->input_buf->buf[input_data->input_buf->len - 1] != '\n'))
+		while (sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 ||
+	input_data->active_buf->buf[input_data->active_buf->len - 1] != '\n'))
 		{
 			if (input_data->build_buf->len == 0)
 			{
@@ -194,15 +199,13 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 		}
 		if (input_data->stored_buf->len > 0)
 		{
-			insert_dyn_buf(input_data->stored_buf->buf, input_data->input_buf, 0);
+			insert_dyn_buf(input_data->stored_buf->buf, input_data->active_buf, 0);
 			reset_dyn_buf(input_data->stored_buf);
 		}
-		if (output_is_ready(input_data->input_buf) == false)
-		{
-			dprintf(2, "store buf\n");
-			ft_swap((void **)(&(input_data->input_buf)), (void **)(&(input_data->stored_buf)));
-			dprintf(2, "Stored buf len = %zu\n, Input buf len = %zu", input_data->stored_buf->len, input_data->input_buf->len);
-		}
+		if (output_is_ready(input_data->active_buf) == false)
+			ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
 	}
+	add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len);
+	history_navigate(input_data, HIST_RESET);
 	return (0);
 }

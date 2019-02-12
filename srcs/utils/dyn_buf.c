@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 13:43:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/12 14:12:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,6 +47,7 @@ int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index)
 dyn_buf->len - index);
 	ft_memcpy(&(dyn_buf->buf[index]), str, len);
 	dyn_buf->len += len;
+	dyn_buf->buf[dyn_buf->len] = '\0';
 	return (0);
 }
 
@@ -68,6 +69,7 @@ int			insertn_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index, size_t len)
 dyn_buf->len - index);
 	ft_memcpy(&(dyn_buf->buf[index]), str, len);
 	dyn_buf->len += len;
+	dyn_buf->buf[dyn_buf->len] = '\0';
 	return (0);
 }
 
@@ -101,4 +103,36 @@ void		reset_dyn_buf(t_dyn_buf *dyn_buf)
 {
 	dyn_buf->len = 0;
 	ft_bzero(dyn_buf->buf, dyn_buf->size);
+}
+
+int			set_dyn_buf(t_dyn_buf *dyn_buf, char *buf)
+{
+	dprintf(2, "BUF = %s\n", buf);
+	dyn_buf->len = ft_strlen(buf);
+	if (dyn_buf->len < dyn_buf->size)
+	{
+		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
+		ft_strdel(&(dyn_buf->buf));
+		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
+			return (1);
+		ft_strcpy(dyn_buf->buf, buf);
+	}
+	return (0);
+}
+
+int			set_n_dyn_buf(t_dyn_buf *dyn_buf, char *buf, size_t n)
+{
+	dyn_buf->len = ft_strlen(buf);
+	if (n < dyn_buf->len)
+		dyn_buf->len = n;
+	if (dyn_buf->len < dyn_buf->size)
+	{
+		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
+		ft_strdel(&(dyn_buf->buf));
+		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
+			return (1);
+		ft_strcpy(dyn_buf->buf, buf);
+		dyn_buf->buf[dyn_buf->len] = '\0';
+	}
+	return (0);
 }

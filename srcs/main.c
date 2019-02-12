@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 11:36:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/12 11:32:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,8 +39,8 @@ int		main(void)
 			sh_state->status = 1;
 			break ;
 		}
-		dprintf(2, "\n--------------------\nOUTPUT = %s\n--------------------\n", input_data->input_buf->buf);
-		reset_dyn_buf(input_data->input_buf);
+		dprintf(2, "\n--------------------\nOUTPUT = %s\n--------------------\n", input_data->active_buf->buf);
+		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state);
 	return (0);
