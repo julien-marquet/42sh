@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 18:30:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 13:13:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,14 +37,11 @@ t_list		*get_history_index(t_list *history, size_t index)
 
 	tmp_hist = history;
 	i = 0;
-	dprintf(2, "INDEX = %zu\n", index);
 	while (i < index && tmp_hist != NULL)
 	{
 		tmp_hist = tmp_hist->next;
 		i++;
 	}
-	if (tmp_hist != NULL)
-		dprintf(2, "HIST[%zu] TEST = %s\n", index,  tmp_hist->content);
 	return (tmp_hist);
 }
 
@@ -55,7 +52,6 @@ t_list		*edit_history_index(t_list *history, size_t index, const char *buf)
 
 	tmp_hist = history;
 	i = 0;
-	dprintf(2, "FLOP = %zu\n", index);
 	while (i < index && tmp_hist != NULL)
 	{
 		tmp_hist = tmp_hist->next;
@@ -65,15 +61,15 @@ t_list		*edit_history_index(t_list *history, size_t index, const char *buf)
 	{
 		ft_memdel(&(tmp_hist->content));
 		tmp_hist->content_size = ft_strlen(buf);
-		if ((history->content = malloc(tmp_hist->content_size + 1)) == NULL)
+		if ((tmp_hist->content = malloc(tmp_hist->content_size + 1)) == NULL)
 			return (NULL);
-		ft_strcpy(tmp_hist->content, buf);
-			dprintf(2, "BUF HIST = %s, %s\n", buf, tmp_hist->content);
+		ft_memcpy(tmp_hist->content, buf, tmp_hist->content_size);
+		((char *)(tmp_hist->content))[tmp_hist->content_size] = '\0';
 	}
 	return (history);
 }
 
-int		history_navigate(t_input_data *input_data, int action)
+int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action)
 {
 	static int	index = 0;
 	int	old_i;
@@ -90,11 +86,10 @@ int		history_navigate(t_input_data *input_data, int action)
 			index--;
 		if (index < 0)
 			return ((index = 0));
-		dprintf(2, "old i = %d vs %d\n", old_i, 1 + (input_data->stored_buf->len > 0));
 		if (index == 0)
 		{
 			if (old_i >= 1 + (input_data->stored_buf->len > 0))
-				edit_history_index(input_data->history_list, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
+				edit_history_index(hist_copy, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
 			set_dyn_buf(input_data->active_buf, input_data->initial_buf->buf);
 		}
 		else
@@ -104,22 +99,21 @@ int		history_navigate(t_input_data *input_data, int action)
 			if (index == 1 && input_data->stored_buf->len > 0)
 			{
 				if (old_i >= 1 + (input_data->stored_buf->len > 0))
-					edit_history_index(input_data->history_list, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
+					edit_history_index(hist_copy, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
 				set_n_dyn_buf(input_data->active_buf, input_data->stored_buf->buf, input_data->stored_buf->len - 1);
 			}
 			else
 			{
-				if ((hist_entry = get_history_index(input_data->history_list,
+				if ((hist_entry = get_history_index(hist_copy,
 			index - (1 + (input_data->stored_buf->len > 0)))) == NULL)
 				{
-					dprintf(2, "OKOKOKOK\n");
 					index = old_i;
 					return (index);
 				}
 				else
 				{
 					if (old_i >= 1 + (input_data->stored_buf->len > 0))
-						edit_history_index(input_data->history_list, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
+						edit_history_index(hist_copy, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
 					set_dyn_buf(input_data->active_buf, (char *)(hist_entry->content));
 				}
 			}

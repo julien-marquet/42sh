@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 13:42:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 12:35:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,6 +24,6 @@
 t_list		*init_history_list(void);
 t_list		*get_history_index(t_list *history, size_t index);
 t_list		*add_to_history_list(t_list **history, const char *buf, size_t len);
-int			history_navigate(t_input_data *input_data, int action);
+int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action);
 
 #endif

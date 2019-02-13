@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 14:12:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 13:40:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -76,9 +76,7 @@ dyn_buf->len - index);
 int		shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift)
 {
 	ft_memmove(dyn_buf->buf, &(dyn_buf->buf[shift]), dyn_buf->len - shift);
-	dprintf(2, "SHIFT OF %zu for a total of %zu initial chars\n", shift, dyn_buf->len);
 	dyn_buf->len -= shift;
-	dprintf(2, "remaining buf len = %zu\n", dyn_buf->len);
 	ft_bzero(&(dyn_buf->buf[dyn_buf->len]), dyn_buf->size - dyn_buf->len);
 
 	return (0);
@@ -107,7 +105,6 @@ void		reset_dyn_buf(t_dyn_buf *dyn_buf)
 
 int			set_dyn_buf(t_dyn_buf *dyn_buf, char *buf)
 {
-	dprintf(2, "BUF = %s\n", buf);
 	dyn_buf->len = ft_strlen(buf);
 	if (dyn_buf->len < dyn_buf->size)
 	{

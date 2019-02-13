@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 11:32:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 13:31:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -51,12 +51,12 @@ void	delete_cur_char(t_input_data *input_data)
 		print_anew(input_data);
 }
 
-int		insertn_chars(t_input_data *input_data, size_t n, int force)
+int		insertn_chars(t_input_data *input_data, const char *str, size_t n, int force)
 {
 	if (force == 0)
 		input_data->rel_cur_pos += n;
 	if (force == 0 && input_data->rel_cur_pos == input_data->active_buf->len)
-		write(1, input_data->build_buf->buf, n);
+		write(1, str, n);
 	else
 		print_anew(input_data);
 	return (0);

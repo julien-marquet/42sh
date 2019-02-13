@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 11:32:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 13:41:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "errno.h"
+
+/*
+**	TODO HANDLE UNKNOWN TERMCAPS
+**	TODO HANDLE HEREDOC
+**	FIX SCROLL ON MULTILINE WHEN AT THE BOTTOM
+*/
 
 int		main(void)
 {
@@ -39,7 +45,7 @@ int		main(void)
 			sh_state->status = 1;
 			break ;
 		}
-		dprintf(2, "\n--------------------\nOUTPUT = %s\n--------------------\n", input_data->active_buf->buf);
+		dprintf(2, "\n--------------------\nOUTPUT = %s--------------------", input_data->active_buf->buf);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state);

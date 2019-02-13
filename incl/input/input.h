@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/09 02:09:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 13:13:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,7 @@
 # define KEY_SIGINT "\03"
 # define KEY_BS "\010"
 # define KEY_BS2 "\177"
+# define KEY_TAB "\t"
 # define KEY_DEL "\033[3~"
 
 # include "common.h"
