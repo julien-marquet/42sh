@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 13:40:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/14 14:47:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -106,14 +106,14 @@ void		reset_dyn_buf(t_dyn_buf *dyn_buf)
 int			set_dyn_buf(t_dyn_buf *dyn_buf, char *buf)
 {
 	dyn_buf->len = ft_strlen(buf);
-	if (dyn_buf->len < dyn_buf->size)
+	if (dyn_buf->len >= dyn_buf->size)
 	{
 		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
 		ft_strdel(&(dyn_buf->buf));
 		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
 			return (1);
-		ft_strcpy(dyn_buf->buf, buf);
 	}
+	ft_strcpy(dyn_buf->buf, buf);
 	return (0);
 }
 
@@ -122,14 +122,13 @@ int			set_n_dyn_buf(t_dyn_buf *dyn_buf, char *buf, size_t n)
 	dyn_buf->len = ft_strlen(buf);
 	if (n < dyn_buf->len)
 		dyn_buf->len = n;
-	if (dyn_buf->len < dyn_buf->size)
+	if (dyn_buf->len >= dyn_buf->size)
 	{
 		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
 		ft_strdel(&(dyn_buf->buf));
 		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
 			return (1);
-		ft_strcpy(dyn_buf->buf, buf);
-		dyn_buf->buf[dyn_buf->len] = '\0';
 	}
+	ft_strcpy(dyn_buf->buf, buf);
 	return (0);
 }
