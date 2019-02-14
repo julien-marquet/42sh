@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 22:05:05 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/05 22:34:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/14 09:40:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,4 +31,11 @@ int		get_win_col(void)
 	if (g_win_data.err != 0)
 		return (-1);
 	return ((int)g_win_data.ws.ws_col);
+}
+
+int		get_win_row(void)
+{
+	if (g_win_data.err != 0)
+		return (-1);
+	return ((int)g_win_data.ws.ws_row);
 }

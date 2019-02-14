@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 13:39:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/14 13:04:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -174,7 +174,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 	hist_copy = ft_lstdup(input_data->history_list);
 	while (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0)
 	{
-		if (get_start_position(input_data->start_pos) == 1)
+		if (ask_start_position(input_data->start_pos) == 1)
 			return (1);
 		print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
 		input_data->rel_cur_pos = 0;
@@ -210,5 +210,6 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 	if (input_data->active_buf->buf[0] != '\n')
 		add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len);
 	history_navigate(input_data, hist_copy, HIST_RESET);
+	update_scroll(SCROLL_RESET);
 	return (0);
 }

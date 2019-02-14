@@ -6,18 +6,20 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 11:19:15 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 11:26:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/14 11:43:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "signal_handler.h"
 #include "win_data.h"
+#include "sh.h"
 
 void	handle_sigint(int signo)
 {
 	signo += 0;
 	dprintf(2, "SIGINT RECEIVED, %d\n", signo);
+	//exit_sh(signo);
 }
 
 void	handle_sigwinch(int signo)
