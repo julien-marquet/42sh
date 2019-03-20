@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/14 15:37:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/20 21:48:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,13 +17,40 @@
 #include "input/cursor.h"
 #include "input/history.h"
 
+
+
+int		count_escape_chars(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] == '\033' || str[i] == '\010' || str[i]== '\014')
+		i++;
+	return (i);
+}
+
 int		is_capability(char *s)
+{
+	int		is_cap;
+
+	is_cap = 0;
+	is_cap |= (*s == '\033');
+	is_cap |= (*s == '\010');
+	is_cap |= (*s == '\177');
+	is_cap |= (*s == '\t');
+	is_cap |= (*s == '\014');
+	return (is_cap);
+}
+
+int		else_capability(char *s)
 {
 	int		is_cap;
 
 	is_cap = 0;
 	if (*s == '\033')
 	{
+		is_cap |= (ft_strncmp(s, ALT_ARROW_LEFT, 4) != 0);
+		is_cap |= (ft_strncmp(s, ALT_ARROW_RIGHT, 4) != 0);
 		is_cap |= (ft_strncmp(s, KEY_ARROW_LEFT, 3) != 0);
 		is_cap |= (ft_strncmp(s, KEY_ARROW_RIGHT, 3) != 0);
 		is_cap |= (ft_strncmp(s, KEY_ARROW_UP, 3) != 0);
@@ -44,16 +71,17 @@ int		handle_insertion(t_input_data *input_data)
 
 	i = 0;
 	send_line = 0;
-	while (i < input_data->build_buf->len &&
-!is_capability(&(input_data->build_buf->buf[i])))
+	while (i < input_data->build_buf->len && !is_capability(&(input_data->build_buf->buf[i])))
 	{
 		i++;
-		if (input_data->build_buf->buf[i - 1] == '\n')
+		if (input_data->build_buf->buf[i - 1] == '\n' && input_data->build_buf->buf[i] == '\0')
 		{
+			input_data->enter = 1;
 			send_line = 1;
 			break ;
 		}
 	}
+	dprintf(2, "BUF = %s\n", input_data->build_buf->buf);
 	input_data->processed_chars = i;
 	insertn_dyn_buf(input_data->build_buf->buf, input_data->active_buf,
 input_data->rel_cur_pos, i - send_line);
@@ -111,8 +139,13 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 	{
 		delete_cur_char(input_data);
 	}
+	else
+	{
+		input_data->processed_chars = count_escape_chars(input_data->build_buf->buf);
+	}
 	return (0);
 }
+
 
 int		get_buf(t_dyn_buf *build_buf)
 {
@@ -122,6 +155,7 @@ int		get_buf(t_dyn_buf *build_buf)
 	ret = READ_SIZE;
 	ft_bzero(buf, READ_SIZE + 1);
 	ret = read(0, &buf, READ_SIZE);
+	dprintf(2, "str len = %zu\n", strlen(buf));
 	if (ret == -1 || insert_dyn_buf(buf, build_buf, build_buf->len) != 0)
 		return (1);
 	else if (ret == 0)
@@ -192,7 +226,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 		print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
 		input_data->rel_cur_pos = 0;
 		while (sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 ||
-	input_data->active_buf->buf[input_data->active_buf->len - 1] != '\n'))
+	input_data->enter == 0))
 		{
 			if (input_data->build_buf->len == 0)
 			{
@@ -209,10 +243,15 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 				if (handle_insertion(input_data) == -1)
 					return (1);
 			}
-			shift_dyn_buf(input_data->build_buf, input_data->processed_chars);
-			input_data->processed_chars = 0;
+			if (input_data->processed_chars > 0)
+			{
+				shift_dyn_buf(input_data->build_buf, input_data->processed_chars);
+				input_data->processed_chars = 0;
+			}
+			//dprintf(2, "State exit = %d, len = %d\n");
 		}
-
+		input_data->enter = 0;
+		dprintf(2, "OUT\n");
 		if (input_data->stored_buf->len > 0)
 		{
 			insert_dyn_buf(input_data->stored_buf->buf, input_data->active_buf, 0);
@@ -221,8 +260,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 		if (output_is_ready(input_data->active_buf) == false)
 			ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
 	}
-	dprintf(2, "out\n");
-	if (ft_strcmp("12\n", input_data->active_buf->buf) == 0)
+	if (ft_strcmp("exit\n", input_data->active_buf->buf) == 0)
 		return(1);
 	if (input_data->active_buf->buf[0] != '\n')
 		add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len);

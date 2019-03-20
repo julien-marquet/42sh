@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/14 13:20:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/20 18:56:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -102,6 +102,8 @@ t_cur_abs_pos *start_pos)
 	last_pos.row = update_scroll(last_pos.row);
 	if (last_pos.row + start_pos->row >= get_win_row())
 		pos->row -= last_pos.row;
+	if (pos->row < 0)
+		pos->row = 0;
 	return (0);
 }
 
@@ -120,6 +122,7 @@ int		ask_start_position(t_cur_abs_pos *pos)
 
 	len = 0;
 	i = 0;
+
 	write(0, "\033[6n", 4);
 	while (len < sizeof(str) - 1 && (ret = read(0, str + len, 1)) == 1)
 	{
