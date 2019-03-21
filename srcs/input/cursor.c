@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 21:41:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 21:43:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,6 +31,11 @@ static void	sim_break(t_cur_abs_pos *pos)
 	pos->row += 1;
 	pos->col = 0;
 }
+
+/*
+**	Simulate cursor movement updating pos to rel_cur_pos
+**	And last pos to position of last char
+*/
 
 static void	sim_cursor_movements(t_cur_abs_pos *pos, t_cur_abs_pos *last_pos,
 t_dyn_buf *active_buf, size_t rel_cur_pos)
@@ -62,20 +67,8 @@ t_dyn_buf *active_buf, size_t rel_cur_pos)
 	}
 }
 
-int		update_scroll(int new_scroll)
-{
-	static int	scroll = 0;
-
-	if (new_scroll == SCROLL_RESET)
-		scroll = 0;
-	else if (new_scroll > scroll)
-		scroll = new_scroll;
-	return (scroll);
-}
-
 /*
-**	Return absolute cursor position 
-**
+**	Return absolute cursor position
 */
 
 int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
@@ -162,7 +155,6 @@ int		ask_start_position(t_cur_abs_pos *pos)
 				pos->col = ft_atoi((char *)&(str[++i])) - 1;
 		}
 	}
-	dprintf(2, "ask = COL = %d, ROW = %d\n", pos->col, pos->row);
 	return (0);
 }
 

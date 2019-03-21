@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 21:41:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 21:50:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,10 +52,15 @@ int		reset_input(t_input_data *input_data)
 
 int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 {
+	t_cur_abs_pos pos;
+
 	sh_state->exit_sig = sh_state->exit_sig;
 	if ((ft_strncmp(input_data->build_buf->buf, CTRL_C, 1) == 0) && (input_data->processed_chars = 1))
 	{
 		input_data->sig_call = 1;
+		get_cursor_position(&pos, input_data->active_buf, input_data->active_buf->len ,input_data->start_pos);
+		if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
+			return (1);
 		write(1, "\n", 1);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) && (input_data->processed_chars = 1))
@@ -278,6 +283,5 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 		input_data->sig_call = 0;
 	}
 	history_navigate(input_data, hist_copy, HIST_RESET);
-	update_scroll(SCROLL_RESET);
 	return (0);
 }
