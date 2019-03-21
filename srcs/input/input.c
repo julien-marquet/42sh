@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 17:41:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 21:41:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,8 +17,6 @@
 #include "input/cursor.h"
 #include "input/history.h"
 #include "sh.h"
-
-
 
 int		count_escape_chars(char *str)
 {
@@ -109,6 +107,8 @@ input_data->rel_cur_pos, i - send_line);
 
 int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 {
+	t_cur_abs_pos copy_pos;
+
 	if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
 	{
 		if (delete_prev_char(input_data) != 0)
@@ -129,19 +129,15 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_UP, 3) == 0 && (input_data->processed_chars = 3))
 	{
-		t_cur_abs_pos	pos;
-
-		get_start_position(&pos, input_data->active_buf, input_data->start_pos);
 		history_navigate(input_data, hist_copy, HIST_NEXT);
-		print_anew(input_data, &pos);
+		print_anew(input_data, &copy_pos);
+		update_start_position(input_data->active_buf, input_data->start_pos);
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_DOWN, 3) == 0 && (input_data->processed_chars = 3))
 	{
-		t_cur_abs_pos	pos;
-
-		get_start_position(&pos, input_data->active_buf, input_data->start_pos);
 		history_navigate(input_data, hist_copy, HIST_PREV);
-		print_anew(input_data, &pos);
+		print_anew(input_data, &copy_pos);
+		update_start_position(input_data->active_buf, input_data->start_pos);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, KEY_DEL, 4) == 0) && (input_data->processed_chars = 4))
 		delete_cur_char(input_data);
@@ -171,12 +167,14 @@ int		get_buf(t_dyn_buf *build_buf)
 #define SIMPLE 1
 #define DOUBLE 2
 
-int		are_quotes_closed(t_dyn_buf *dyn_buf)
+int		are_quotes_closed(t_dyn_buf *dyn_buf, char *here_doc)
 {
 	int		opened;
 	size_t	i;
 	int		quote_type;
 
+	if (here_doc != NULL)
+		return (ft_strstr(dyn_buf->buf, here_doc) != NULL);
 	i = 0;
 	opened = false;
 	quote_type = NONE;
@@ -208,17 +206,17 @@ int		are_quotes_closed(t_dyn_buf *dyn_buf)
 	return (opened == 0);
 }
 
-int		output_is_ready(t_dyn_buf *dyn_buf)
+int		output_is_ready(t_dyn_buf *dyn_buf, char *here_doc)
 {
 	int		ready_state;
 
 	ready_state = true;
 	ready_state &= (dyn_buf->len > 0 && dyn_buf->buf[dyn_buf->len - 1] == '\n');
-	ready_state &= are_quotes_closed(dyn_buf);
+	ready_state &= are_quotes_closed(dyn_buf, here_doc);
 	return (ready_state);
 }
 
-int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
+int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc)
 {
 	t_list	*hist_copy;
 
@@ -265,11 +263,9 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 			insert_dyn_buf(input_data->stored_buf->buf, input_data->active_buf, 0);
 			reset_dyn_buf(input_data->stored_buf);
 		}
-		if (output_is_ready(input_data->active_buf) == false)
+		if (output_is_ready(input_data->active_buf, here_doc) == false)
 			ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
 	}
-	if (ft_strcmp("exit\n", input_data->active_buf->buf) == 0)
-		return(1);
 	if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
 		add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len);
 	if (input_data->sig_call == 1)

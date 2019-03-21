@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/14 16:11:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 20:54:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -116,7 +116,7 @@ int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action)
 				{
 					if (old_i >= 1 + (input_data->stored_buf->len > 0))
 						edit_history_index(hist_copy, old_i - (1 + (input_data->stored_buf->len > 0)), input_data->active_buf->buf); 
-					set_dyn_buf(input_data->active_buf, (char *)(hist_entry->content)); //aie
+					set_dyn_buf(input_data->active_buf, (char *)(hist_entry->content));
 				}
 			}
 		}

@@ -6,10 +6,16 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/20 18:56:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 21:41:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
+
+/*
+	TODO = Calc start
+	Store old if neccessary
+	Calc cursor without touching  start
+*/
 
 #include "input/cursor.h"
 #include "input/prompt.h"
@@ -67,26 +73,43 @@ int		update_scroll(int new_scroll)
 	return (scroll);
 }
 
+/*
+**	Return absolute cursor position 
+**
+*/
+
 int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
 size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 {
 	int				win_col;
-	t_cur_abs_pos	last_pos;
+	size_t			i;
 
-	if ((win_col = get_win_col()) == -1)
-		return (1);
-	pos->row = get_prompt_len() / win_col + start_pos->row;
+	win_col = get_win_col();
 	pos->col = get_prompt_len() % win_col + start_pos->col;
-	last_pos.row = get_prompt_len() / win_col;
-	last_pos.col = pos->col;
-	sim_cursor_movements(pos, &last_pos, active_buf, rel_cur_pos);
-	last_pos.row = update_scroll(last_pos.row);
-	if (last_pos.row + start_pos->row >= get_win_row())
-		pos->row -= last_pos.row;
+	pos->row = get_prompt_len() / win_col + start_pos->row;
+	i = 0;
+	while (i < active_buf->len && i < rel_cur_pos)
+	{
+		if (pos->col >= get_win_col())
+			sim_wrap(pos);
+		else if (active_buf->buf[i] == '\n')
+			sim_break(pos);
+		else
+		{
+			if (i < rel_cur_pos)
+				pos->col++;
+		}
+		i++;
+	}
 	return (0);
 }
 
-int		get_start_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
+/*
+**	return start position (without prompt len)
+**	update start position if scroll detected
+*/
+
+int		update_start_position(t_dyn_buf *active_buf,
 t_cur_abs_pos *start_pos)
 {
 	int				win_col;
@@ -94,16 +117,13 @@ t_cur_abs_pos *start_pos)
 
 	if ((win_col = get_win_col()) == -1)
 		return (1);
-	pos->row = start_pos->row;
-	pos->col = start_pos->col;
 	last_pos.row = get_prompt_len() / win_col;
 	last_pos.col = get_prompt_len() % win_col + start_pos->col;
-	sim_cursor_movements(pos, &last_pos, active_buf, 0);
-	last_pos.row = update_scroll(last_pos.row);
+	sim_cursor_movements(start_pos, &last_pos, active_buf, 0);
 	if (last_pos.row + start_pos->row >= get_win_row())
-		pos->row -= last_pos.row;
-	if (pos->row < 0)
-		pos->row = 0;
+		start_pos->row -= (last_pos.row + 1 + start_pos->row) % (get_win_row());
+	if (start_pos->row < 0)
+		start_pos->row = 0;
 	return (0);
 }
 
@@ -142,6 +162,7 @@ int		ask_start_position(t_cur_abs_pos *pos)
 				pos->col = ft_atoi((char *)&(str[++i])) - 1;
 		}
 	}
+	dprintf(2, "ask = COL = %d, ROW = %d\n", pos->col, pos->row);
 	return (0);
 }
 

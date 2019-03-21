@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/20 15:31:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 21:19:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,17 +15,15 @@
 #include "input/cursor.h"
 #include "utils/dyn_buf.h"
 #include "input/prompt.h"
+#include "sh.h"
 
 int		print_anew(t_input_data *input_data, t_cur_abs_pos *custom_start_pos)
 {
 	t_cur_abs_pos	pos;
 
-	if (custom_start_pos != NULL)
-		pos = *custom_start_pos;
-	else
-		get_start_position(&pos, input_data->active_buf, input_data->start_pos);
-	if (tputs(tgoto(tgetstr("cm", NULL), pos.col,
-pos.row), 1, ft_putchar) != 0)
+	custom_start_pos = NULL;
+	if (tputs(tgoto(tgetstr("cm", NULL), input_data->start_pos->col,
+input_data->start_pos->row), 1, ft_putchar) != 0)
 		return (1);
 	if (tputs(tgetstr("cd", NULL), 1, ft_putchar) != 0)
 		return (1);
