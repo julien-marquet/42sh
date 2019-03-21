@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/20 19:03:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 16:09:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,10 +36,8 @@ int		main(void)
 	sh_state = init_sh();
 	input_data = init_input_data();
 	signal(SIGWINCH, handle_sigwinch);
-	signal(SIGINT, handle_sigint);
 	while (sh_state->exit_sig == 0)
 	{
-
 		if (handle_input(sh_state, input_data) == 1)
 		{
 			sh_state->status = 1;

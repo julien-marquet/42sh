@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/20 21:48:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 17:41:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,6 +16,7 @@
 #include "input/prompt.h"
 #include "input/cursor.h"
 #include "input/history.h"
+#include "sh.h"
 
 
 
@@ -24,7 +25,7 @@ int		count_escape_chars(char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] == '\033' || str[i] == '\010' || str[i]== '\014')
+	while (str[i] != '\0' && !(str[i] >= '\010' && str[i] <= '\011') && str[i] <= '\037')
 		i++;
 	return (i);
 }
@@ -33,34 +34,41 @@ int		is_capability(char *s)
 {
 	int		is_cap;
 
-	is_cap = 0;
-	is_cap |= (*s == '\033');
-	is_cap |= (*s == '\010');
-	is_cap |= (*s == '\177');
-	is_cap |= (*s == '\t');
-	is_cap |= (*s == '\014');
+	is_cap = *s > '\0' && *s != '\012' && *s <= '\037';
+	is_cap |= *s == '\177';
 	return (is_cap);
 }
 
-int		else_capability(char *s)
+int		is_sig(char *s)
 {
-	int		is_cap;
+	return (*s == '\04' || *s == '\03' || *s == '\032');
+}
 
-	is_cap = 0;
-	if (*s == '\033')
+int		reset_input(t_input_data *input_data)
+{
+	reset_dyn_buf(input_data->stored_buf);
+	reset_dyn_buf(input_data->active_buf);
+	input_data->rel_cur_pos = 0;
+	return (0);
+}
+
+int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
+{
+	sh_state->exit_sig = sh_state->exit_sig;
+	if ((ft_strncmp(input_data->build_buf->buf, CTRL_C, 1) == 0) && (input_data->processed_chars = 1))
 	{
-		is_cap |= (ft_strncmp(s, ALT_ARROW_LEFT, 4) != 0);
-		is_cap |= (ft_strncmp(s, ALT_ARROW_RIGHT, 4) != 0);
-		is_cap |= (ft_strncmp(s, KEY_ARROW_LEFT, 3) != 0);
-		is_cap |= (ft_strncmp(s, KEY_ARROW_RIGHT, 3) != 0);
-		is_cap |= (ft_strncmp(s, KEY_ARROW_UP, 3) != 0);
-		is_cap |= (ft_strncmp(s, KEY_ARROW_DOWN, 3) != 0);
-		is_cap |= (ft_strncmp(s, KEY_DEL, 4) != 0);
+		input_data->sig_call = 1;
+		write(1, "\n", 1);
 	}
-	is_cap |= (*s == '\010');
-	is_cap |= (*s == '\177');
-	is_cap |= (*s == '\t');
-	return (is_cap);
+	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) && (input_data->processed_chars = 1))
+	{
+		exit_sh(sh_state);
+	}
+	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_Z, 1) == 0) && (input_data->processed_chars = 1))
+	{
+		dprintf(2, "SUSPEND SIG\n");
+	}
+	return (0);
 }
 
 int		handle_insertion(t_input_data *input_data)
@@ -136,13 +144,9 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 		print_anew(input_data, &pos);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, KEY_DEL, 4) == 0) && (input_data->processed_chars = 4))
-	{
 		delete_cur_char(input_data);
-	}
 	else
-	{
 		input_data->processed_chars = count_escape_chars(input_data->build_buf->buf);
-	}
 	return (0);
 }
 
@@ -155,7 +159,7 @@ int		get_buf(t_dyn_buf *build_buf)
 	ret = READ_SIZE;
 	ft_bzero(buf, READ_SIZE + 1);
 	ret = read(0, &buf, READ_SIZE);
-	dprintf(2, "str len = %zu\n", strlen(buf));
+	dprintf(2, "LEN = %zu, char = %hho\n", ft_strlen(buf), buf[0]);
 	if (ret == -1 || insert_dyn_buf(buf, build_buf, build_buf->len) != 0)
 		return (1);
 	else if (ret == 0)
@@ -219,21 +223,26 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 	t_list	*hist_copy;
 
 	hist_copy = ft_lstdup(input_data->history_list);
-	while (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0)
+	while (input_data->sig_call == 0 && (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
 	{
 		if (ask_start_position(input_data->start_pos) == 1)
 			return (1);
 		print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
 		input_data->rel_cur_pos = 0;
-		while (sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 ||
+		while (input_data->sig_call == 0 && sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 ||
 	input_data->enter == 0))
 		{
 			if (input_data->build_buf->len == 0)
 			{
-				if (get_buf(input_data->build_buf) != 0)
+				if (get_buf(input_data->build_buf) == 1)
 					return (1);
 			}
-			if (is_capability(input_data->build_buf->buf) == 1)
+			if (is_sig(input_data->build_buf->buf) == 1)
+			{
+				if (handle_sig(input_data, sh_state) == 1)
+					return (1);
+			}
+			else if (is_capability(input_data->build_buf->buf) == 1)
 			{
 				if (handle_capabilities(input_data, hist_copy) == 1)
 					return (1);
@@ -248,10 +257,9 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 				shift_dyn_buf(input_data->build_buf, input_data->processed_chars);
 				input_data->processed_chars = 0;
 			}
-			//dprintf(2, "State exit = %d, len = %d\n");
 		}
 		input_data->enter = 0;
-		dprintf(2, "OUT\n");
+		dprintf(2, "OUT sigcall = %zu\n", input_data->sig_call);
 		if (input_data->stored_buf->len > 0)
 		{
 			insert_dyn_buf(input_data->stored_buf->buf, input_data->active_buf, 0);
@@ -262,8 +270,17 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data)
 	}
 	if (ft_strcmp("exit\n", input_data->active_buf->buf) == 0)
 		return(1);
-	if (input_data->active_buf->buf[0] != '\n')
+	if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
 		add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len);
+	if (input_data->sig_call == 1)
+	{
+		if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
+			add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len + 1);
+		else if (input_data->stored_buf->len > 0 && input_data->stored_buf->buf[0] != '\n')
+			add_to_history_list(&(input_data->history_list), input_data->stored_buf->buf, input_data->stored_buf->len + 1);
+		reset_input(input_data);
+		input_data->sig_call = 0;
+	}
 	history_navigate(input_data, hist_copy, HIST_RESET);
 	update_scroll(SCROLL_RESET);
 	return (0);

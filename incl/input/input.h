@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/20 19:26:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 16:19:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,6 +26,10 @@
 # define KEY_BS2 "\177"
 # define KEY_TAB "\t"
 # define KEY_DEL "\033[3~"
+# define CTRL_C "\03"
+# define CTRL_D "\04"
+# define CTRL_Z "\032"
+
 
 # include "common.h"
 # include "utils/dyn_buf.h"

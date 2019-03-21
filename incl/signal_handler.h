@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 11:19:58 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 11:25:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 16:09:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,6 @@
 
 # include "common.h"
 
-void	handle_sigint(int signo);
 void	handle_sigwinch(int signo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/20 17:58:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/21 17:33:37 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,5 +36,6 @@ t_input_data	*init_input_data(void)
 	input_data->start_pos->col = 0;
 	input_data->start_pos->row = 0;
 	input_data->enter = 0;
+	input_data->sig_call = 0;
 	return (input_data);
 }
