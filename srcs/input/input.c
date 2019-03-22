@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/22 15:33:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/22 16:24:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -92,7 +92,7 @@ input_data->rel_cur_pos, i);
 int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 {
 	t_cur_abs_pos copy_pos;
-	if (ft_strncmp(input_data->build_buf->buf, KEY_E, 1) == 0 && (input_data->processed_chars = 1))
+	if (ft_strncmp(input_data->build_buf->buf, KEY_NL, 1) == 0 && (input_data->processed_chars = 1))
 	{
 		get_cursor_position(&copy_pos, input_data->active_buf, input_data->active_buf->len ,input_data->start_pos);
 		if (tputs(tgoto(tgetstr("cm", NULL), copy_pos.col, copy_pos.row), 1, ft_putchar) != 0)
@@ -134,6 +134,11 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, KEY_DEL, 4) == 0) && (input_data->processed_chars = 4))
 		delete_cur_char(input_data);
+	else if ((ft_strncmp(input_data->build_buf->buf, KEY_NP, 1) == 0) && (input_data->processed_chars = 1))
+	{
+		input_data->start_pos->row = 0;
+		print_anew(input_data, &copy_pos);
+	}
 	else
 		input_data->processed_chars = count_escape_chars(input_data->build_buf->buf);
 	return (0);

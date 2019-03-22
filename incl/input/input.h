@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/22 15:32:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/22 16:22:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,8 @@
 # define CTRL_C "\03"
 # define CTRL_D "\04"
 # define CTRL_Z "\032"
-# define KEY_E "\012"
+# define KEY_NL "\012"
+# define KEY_NP "\014"
 
 
 # include "common.h"
