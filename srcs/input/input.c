@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 21:50:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/22 15:33:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,7 @@ int		is_capability(char *s)
 {
 	int		is_cap;
 
-	is_cap = *s > '\0' && *s != '\012' && *s <= '\037';
+	is_cap = *s > '\0' && *s <= '\037';
 	is_cap |= *s == '\177';
 	return (is_cap);
 }
@@ -77,44 +77,32 @@ int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 int		handle_insertion(t_input_data *input_data)
 {
 	size_t		i;
-	int			send_line;
-	t_cur_abs_pos	pos;
 
 	i = 0;
-	send_line = 0;
 	while (i < input_data->build_buf->len && !is_capability(&(input_data->build_buf->buf[i])))
-	{
 		i++;
-		if (input_data->build_buf->buf[i - 1] == '\n' && input_data->build_buf->buf[i] == '\0')
-		{
-			input_data->enter = 1;
-			send_line = 1;
-			break ;
-		}
-	}
 	dprintf(2, "BUF = %s\n", input_data->build_buf->buf);
 	input_data->processed_chars = i;
 	insertn_dyn_buf(input_data->build_buf->buf, input_data->active_buf,
-input_data->rel_cur_pos, i - send_line);
-	if (send_line == 1)
-	{
-		get_cursor_position(&pos, input_data->active_buf, input_data->active_buf->len ,input_data->start_pos);
-		if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
-			return (1);
-		insert_dyn_buf("\n", input_data->active_buf, input_data->active_buf->len);
-		write(1, "\n", 1);
-		input_data->rel_cur_pos = input_data->active_buf->len;
-	}
-	else
-		insertn_chars(input_data, input_data->build_buf->buf, i, 0);
+input_data->rel_cur_pos, i);
+	insertn_chars(input_data, input_data->build_buf->buf, i, 0);
 	return (0);
 }
 
 int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 {
 	t_cur_abs_pos copy_pos;
-
-	if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
+	if (ft_strncmp(input_data->build_buf->buf, KEY_E, 1) == 0 && (input_data->processed_chars = 1))
+	{
+		get_cursor_position(&copy_pos, input_data->active_buf, input_data->active_buf->len ,input_data->start_pos);
+		if (tputs(tgoto(tgetstr("cm", NULL), copy_pos.col, copy_pos.row), 1, ft_putchar) != 0)
+			return (1);
+		insert_dyn_buf("\n", input_data->active_buf, input_data->active_buf->len);
+		write(1, "\n", 1);
+		input_data->rel_cur_pos = input_data->active_buf->len;
+		input_data->enter = 1;
+	}
+	else if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
 	{
 		if (delete_prev_char(input_data) != 0)
 			return (1);
