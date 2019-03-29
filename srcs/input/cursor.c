@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 18:39:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:06:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,6 +59,107 @@ int			get_next_move_num(t_input_data *input_data)
 		i++;
 	}
 	return (i);
+}
+
+int			move_up(t_input_data *input_data)
+{
+	size_t	i;
+	int		found;
+	t_cur_abs_pos pos_prev;
+	t_cur_abs_pos pos_curr;
+
+	i = 1;
+	found = 0;
+	if (input_data->rel_cur_pos == 0)
+		return (0);
+	while (input_data->rel_cur_pos - i != 0)
+	{
+		if (input_data->active_buf->buf[input_data->rel_cur_pos - i] == '\n')
+		{
+			found = 1;
+			break ;
+		}
+		i++;
+	}
+	if (found == 1)
+	{
+		get_cursor_position(&pos_prev, input_data->active_buf, input_data->rel_cur_pos - i, input_data->start_pos);
+		get_cursor_position(&pos_curr, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos);
+		if (pos_curr.col < pos_prev.col)
+		{
+			i += (size_t)pos_prev.col - (size_t)pos_curr.col;
+			if (i > input_data->rel_cur_pos)
+			{
+				input_data->rel_cur_pos = 0;
+				get_cursor_position(&pos_prev, input_data->active_buf, 0, input_data->start_pos);
+			}
+			else
+			{
+				input_data->rel_cur_pos -= i;
+				pos_prev.col = pos_curr.col;
+			}
+		}
+		else
+		{
+			input_data->rel_cur_pos -= i;
+		}
+		if (tputs(tgoto(tgetstr("cm", NULL), pos_prev.col, pos_prev.row), 1, ft_putchar) != 0)
+			return (1);
+	}
+	return (0);
+}
+
+int			get_line_length(t_dyn_buf *active_buf, size_t start)
+{
+	size_t	i;
+
+	i = 0;
+	while (start + i < active_buf->len && active_buf->buf[start + i] != '\n')
+		i++;
+	return (i);
+}
+
+int			move_down(t_input_data *input_data)
+{
+	size_t	i;
+	int		line_len;
+	int		found;
+	t_cur_abs_pos pos_next;
+	t_cur_abs_pos pos_curr;
+
+	i = 0;
+	found = 0;
+	while (input_data->rel_cur_pos + i < input_data->active_buf->len)
+	{
+		if (input_data->active_buf->buf[input_data->rel_cur_pos + i] == '\n'
+	&& input_data->rel_cur_pos + i + 1 <= input_data->active_buf->len)
+		{
+			i++;
+			found = 1;
+			break ;
+		}
+		i++;
+	}
+	if (found == 1)
+	{
+		get_cursor_position(&pos_next, input_data->active_buf, input_data->rel_cur_pos + i, input_data->start_pos);
+		get_cursor_position(&pos_curr, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos);
+		line_len = get_line_length(input_data->active_buf, input_data->rel_cur_pos + i);
+		if (pos_curr.col > line_len)
+		{
+			i += line_len;
+			pos_next.col = line_len;
+		}
+		else
+		{
+			i += pos_curr.col;
+			pos_next.col += pos_curr.col;
+		}
+		input_data->rel_cur_pos += i;
+		if (tputs(tgoto(tgetstr("cm", NULL), pos_next.col, pos_next.row), 1, ft_putchar) != 0)
+			return (1);
+	}
+	return (0);
 }
 
 int			move_to_next_word(t_input_data *input_data)

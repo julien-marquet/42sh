@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/22 17:07:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 19:06:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,13 +64,9 @@ int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 		write(1, "\n", 1);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) && (input_data->processed_chars = 1))
-	{
 		exit_sh(sh_state);
-	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_Z, 1) == 0) && (input_data->processed_chars = 1))
-	{
 		dprintf(2, "SUSPEND SIG\n");
-	}
 	return (0);
 }
 
@@ -109,6 +105,14 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 	else if (ft_strncmp(input_data->build_buf->buf, ALT_ARROW_LEFT, 4) == 0&& (input_data->processed_chars = 4))
 	{
 		move_to_prev_word(input_data);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, ALT_ARROW_UP, 4) == 0 && (input_data->processed_chars = 4))
+	{
+		move_up(input_data);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, ALT_ARROW_DOWN, 4) == 0&& (input_data->processed_chars = 4))
+	{
+		move_down(input_data);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
 	{
