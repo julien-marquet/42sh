@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 19:06:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:22:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,8 @@ int		count_escape_chars(char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] != '\0' && !(str[i] >= '\010' && str[i] <= '\011') && str[i] <= '\037')
+	while (str[i] != '\0' && !(str[i] >= '\010' &&
+str[i] <= '\011') && str[i] <= '\037')
 		i++;
 	return (i);
 }
@@ -97,6 +98,14 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 		write(1, "\n", 1);
 		input_data->rel_cur_pos = input_data->active_buf->len;
 		input_data->enter = 1;
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_GOHOME, 3) == 0 && (input_data->processed_chars = 3))
+	{
+		goto_home(input_data);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_GOEND, 3) == 0 && (input_data->processed_chars = 3))
+	{
+		goto_end(input_data);
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, ALT_ARROW_RIGHT, 4) == 0 && (input_data->processed_chars = 4))
 	{

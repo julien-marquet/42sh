@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 18:59:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:19:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,6 +23,8 @@
 # define ALT_ARROW_LEFT "\033\033[D"
 # define ALT_ARROW_UP "\033\033[A"
 # define ALT_ARROW_DOWN "\033\033[B"
+# define KEY_GOHOME "\033[H"
+# define KEY_GOEND "\033[F"
 # define KEY_SIGINT "\03"
 # define KEY_BS "\010"
 # define KEY_BS2 "\177"

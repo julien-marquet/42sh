@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:40:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 21:49:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:18:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,5 +31,7 @@ int		move_to_next_word(t_input_data *input_data);
 int		move_to_prev_word(t_input_data *input_data);
 int		move_up(t_input_data *input_data);
 int		move_down(t_input_data *input_data);
+int		goto_home(t_input_data *input_data);
+int		goto_end(t_input_data *input_data);
 
 #endif

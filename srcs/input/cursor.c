@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 22:06:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:40:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,28 @@
 #include "input/cursor.h"
 #include "input/prompt.h"
 #include "input/input_data.h"
+
+int			goto_end(t_input_data *input_data)
+{
+	t_cur_abs_pos pos;
+	input_data->rel_cur_pos = input_data->active_buf->len;
+	if ((get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos)) == 1)
+		return (1);
+	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
+		return (1);
+	return (0);
+}
+
+int			goto_home(t_input_data *input_data)
+{
+	t_cur_abs_pos pos;
+	input_data->rel_cur_pos = 0;
+	if ((get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos)) == 1)
+		return (1);
+	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
+		return (1);
+	return (0);
+}
 
 int			get_prev_move_num(t_input_data *input_data)
 {
@@ -83,15 +105,18 @@ int			move_up(t_input_data *input_data)
 	}
 	if (found == 1)
 	{
-		get_cursor_position(&pos_prev, input_data->active_buf, input_data->rel_cur_pos - i, input_data->start_pos);
-		get_cursor_position(&pos_curr, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos);
+		if ((get_cursor_position(&pos_prev, input_data->active_buf, input_data->rel_cur_pos - i, input_data->start_pos)) == 1)
+			return (1);
+		if ((get_cursor_position(&pos_curr, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos)) == 1)
+			return (1);
 		if (pos_curr.col < pos_prev.col)
 		{
 			i += (size_t)pos_prev.col - (size_t)pos_curr.col;
 			if (i > input_data->rel_cur_pos)
 			{
 				input_data->rel_cur_pos = 0;
-				get_cursor_position(&pos_prev, input_data->active_buf, 0, input_data->start_pos);
+				if ((get_cursor_position(&pos_prev, input_data->active_buf, 0, input_data->start_pos)) == 1)
+					return (1);
 			}
 			else
 			{
@@ -100,9 +125,7 @@ int			move_up(t_input_data *input_data)
 			}
 		}
 		else
-		{
 			input_data->rel_cur_pos -= i;
-		}
 		if (tputs(tgoto(tgetstr("cm", NULL), pos_prev.col, pos_prev.row), 1, ft_putchar) != 0)
 			return (1);
 	}
@@ -142,8 +165,10 @@ int			move_down(t_input_data *input_data)
 	}
 	if (found == 1)
 	{
-		get_cursor_position(&pos_next, input_data->active_buf, input_data->rel_cur_pos + i, input_data->start_pos);
-		get_cursor_position(&pos_curr, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos);
+		if ((get_cursor_position(&pos_next, input_data->active_buf, input_data->rel_cur_pos + i, input_data->start_pos)) == 1)
+			return (1);
+		if ((get_cursor_position(&pos_curr, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos)) == 1)
+			return (1);
 		line_len = get_line_length(input_data->active_buf, input_data->rel_cur_pos + i);
 		if (pos_curr.col > line_len)
 		{
@@ -166,7 +191,8 @@ int			move_to_next_word(t_input_data *input_data)
 {
 	t_cur_abs_pos	pos;
 	input_data->rel_cur_pos += get_next_move_num(input_data);
-	get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos ,input_data->start_pos);
+	if ((get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos ,input_data->start_pos)) == 1)
+		return (1);
 	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
 		return (1);
 	return (0);
@@ -174,9 +200,10 @@ int			move_to_next_word(t_input_data *input_data)
 
 int			move_to_prev_word(t_input_data *input_data)
 {
-		t_cur_abs_pos	pos;
+	t_cur_abs_pos	pos;
 	input_data->rel_cur_pos -= get_prev_move_num(input_data);
-	get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos ,input_data->start_pos);
+	if ((get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos ,input_data->start_pos)) == 1)
+		return (1);
 	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
 		return (1);
 	return (0);
@@ -199,15 +226,18 @@ static void	sim_break(t_cur_abs_pos *pos)
 **	And last pos to position of last char
 */
 
-static void	sim_cursor_movements(t_cur_abs_pos *pos, t_cur_abs_pos *last_pos,
+static int	sim_cursor_movements(t_cur_abs_pos *pos, t_cur_abs_pos *last_pos,
 t_dyn_buf *active_buf, size_t rel_cur_pos)
 {
+	int				win_col;
 	size_t			i;
 
 	i = 0;
+	if ((win_col = get_win_col()) == -1)
+		return (1);
 	while (i < active_buf->len)
 	{
-		if (last_pos->col >= get_win_col())
+		if (last_pos->col >= win_col)
 			sim_wrap(last_pos);
 		else if (active_buf->buf[i] == '\n')
 			sim_break(last_pos);
@@ -215,7 +245,7 @@ t_dyn_buf *active_buf, size_t rel_cur_pos)
 			last_pos->col++;
 		if (i < rel_cur_pos)
 		{
-			if (pos->col >= get_win_col())
+			if (pos->col >= win_col)
 				sim_wrap(pos);
 			else if (active_buf->buf[i] == '\n')
 				sim_break(pos);
@@ -227,6 +257,7 @@ t_dyn_buf *active_buf, size_t rel_cur_pos)
 		}
 		i++;
 	}
+	return (0);
 }
 
 /*
@@ -239,13 +270,14 @@ size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 	int				win_col;
 	size_t			i;
 
-	win_col = get_win_col();
+	if ((win_col = get_win_col()) == -1)
+		return (1);
 	pos->col = get_prompt_len() % win_col + start_pos->col;
 	pos->row = get_prompt_len() / win_col + start_pos->row;
 	i = 0;
 	while (i < active_buf->len && i < rel_cur_pos)
 	{
-		if (pos->col >= get_win_col())
+		if (pos->col >= win_col)
 			sim_wrap(pos);
 		else if (active_buf->buf[i] == '\n')
 			sim_break(pos);
@@ -268,15 +300,17 @@ int		update_start_position(t_dyn_buf *active_buf,
 t_cur_abs_pos *start_pos)
 {
 	int				win_col;
+	int				win_row;
 	t_cur_abs_pos	last_pos;
 
-	if ((win_col = get_win_col()) == -1)
+	if ((win_col = get_win_col()) == -1 || (win_row = get_win_row()) == -1)
 		return (1);
 	last_pos.row = get_prompt_len() / win_col;
 	last_pos.col = get_prompt_len() % win_col + start_pos->col;
-	sim_cursor_movements(start_pos, &last_pos, active_buf, 0);
-	if (last_pos.row + start_pos->row >= get_win_row())
-		start_pos->row -= (last_pos.row + 1 + start_pos->row) % (get_win_row());
+	if (sim_cursor_movements(start_pos, &last_pos, active_buf, 0) == 1)
+		return (1);
+	if (last_pos.row + start_pos->row >= win_row)
+		start_pos->row -= (last_pos.row + 1 + start_pos->row) % win_row;
 	if (start_pos->row < 0)
 		start_pos->row = 0;
 	return (0);
@@ -327,8 +361,8 @@ int		move_cursor_left(t_input_data *input_data)
 	if (input_data->rel_cur_pos > 0)
 	{
 		input_data->rel_cur_pos -= 1;
-		get_cursor_position(&pos, input_data->active_buf,
-	input_data->rel_cur_pos, input_data->start_pos);
+		if ((get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos)) == 1)
+			return (1);
 		tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 	}
 	return (0);
@@ -341,8 +375,8 @@ int		move_cursor_right(t_input_data *input_data)
 	if (input_data->rel_cur_pos < input_data->active_buf->len)
 	{
 		input_data->rel_cur_pos += 1;
-		get_cursor_position(&pos, input_data->active_buf,
-	input_data->rel_cur_pos, input_data->start_pos);
+		if ((get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos)) == 1)
+			return (1);
 		tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 	}
 	return (0);
