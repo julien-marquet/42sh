@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/22 16:24:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/22 17:07:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -101,6 +101,14 @@ int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 		write(1, "\n", 1);
 		input_data->rel_cur_pos = input_data->active_buf->len;
 		input_data->enter = 1;
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, ALT_ARROW_RIGHT, 4) == 0 && (input_data->processed_chars = 4))
+	{
+		move_to_next_word(input_data);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, ALT_ARROW_LEFT, 4) == 0&& (input_data->processed_chars = 4))
+	{
+		move_to_prev_word(input_data);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
 	{

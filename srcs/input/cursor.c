@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 21:43:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 18:39:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,67 @@
 
 #include "input/cursor.h"
 #include "input/prompt.h"
+#include "input/input_data.h"
+
+int			get_prev_move_num(t_input_data *input_data)
+{
+	size_t	i;
+	int		in_word;
+
+	if (input_data->rel_cur_pos == 0)
+		return (0);
+	else if (input_data->rel_cur_pos == 1)
+		return (1);
+	i = 1;
+	in_word = !ft_isspace(input_data->active_buf->buf[input_data->rel_cur_pos - 1]);
+	while (input_data->rel_cur_pos - (i + 1) != 0)
+	{
+		if (ft_isspace(input_data->active_buf->buf[input_data->rel_cur_pos - (i + 1)]) == in_word)
+			break ;
+		i++;
+	}
+	if (input_data->rel_cur_pos - (i + 1) == 0)
+		return (i + 1);
+	return (i);
+}
+
+int			get_next_move_num(t_input_data *input_data)
+{
+	size_t	i;
+	int		in_word;
+
+	if (input_data->rel_cur_pos == input_data->active_buf->len)
+		return (0);
+	i = 1;
+	in_word = !ft_isspace(input_data->active_buf->buf[input_data->rel_cur_pos]);
+	while (i  + input_data->rel_cur_pos < input_data->active_buf->len)
+	{
+		if (ft_isspace(input_data->active_buf->buf[input_data->rel_cur_pos + i]) == in_word)
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+int			move_to_next_word(t_input_data *input_data)
+{
+	t_cur_abs_pos	pos;
+	input_data->rel_cur_pos += get_next_move_num(input_data);
+	get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos ,input_data->start_pos);
+	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
+		return (1);
+	return (0);
+}
+
+int			move_to_prev_word(t_input_data *input_data)
+{
+		t_cur_abs_pos	pos;
+	input_data->rel_cur_pos -= get_prev_move_num(input_data);
+	get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos ,input_data->start_pos);
+	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
+		return (1);
+	return (0);
+}
 
 static void	sim_wrap(t_cur_abs_pos *pos)
 {

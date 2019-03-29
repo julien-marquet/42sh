@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:40:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 21:47:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/22 16:52:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,5 +27,7 @@ int		ask_start_position(t_cur_abs_pos *pos);
 int		move_cursor_left(t_input_data *input_data);
 int		move_cursor_right(t_input_data *input_data);
 int		get_line_length(size_t pos, char *buf);
+int		move_to_next_word(t_input_data *input_data);
+int		move_to_prev_word(t_input_data *input_data);
 
 #endif
