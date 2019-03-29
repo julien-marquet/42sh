@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 21:47:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:53:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,8 +29,8 @@ input_data->start_pos->row), 1, ft_putchar) != 0)
 		return (1);
 	print_prompt(PROMPT_NO_SET);
 	write(1, input_data->active_buf->buf, input_data->active_buf->len);
-	get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos,
-input_data->start_pos);
+	if (get_cursor_position(&pos, input_data->active_buf, input_data->rel_cur_pos, input_data->start_pos) == 1)
+		return (1);
 	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
 		return (1);
 	return (0);
@@ -42,25 +42,34 @@ int		delete_prev_char(t_input_data *input_data)
 	{
 		if (move_cursor_left(input_data) != 0)
 			return (1);
-		print_anew(input_data, NULL);
+		if (print_anew(input_data, NULL) == 1)
+			return (1);
 	}
 	return (0);
 }
 
-void	delete_cur_char(t_input_data *input_data)
+int		delete_cur_char(t_input_data *input_data)
 {
 	if (del_at_dyn_buf(input_data->active_buf, input_data->rel_cur_pos) == 1)
-		print_anew(input_data, NULL);
+	{
+		if (print_anew(input_data, NULL) == 1)
+			return (1);
+	}
+	return (0);
 }
 
 int		insertn_chars(t_input_data *input_data, const char *str, size_t n, int force)
 {
-	update_start_position(input_data->active_buf, input_data->start_pos);
+	if (update_start_position(input_data->active_buf, input_data->start_pos) == 1)
+		return (1);
 	if (force == 0)
 		input_data->rel_cur_pos += n;
 	if (force == 0 && input_data->rel_cur_pos == input_data->active_buf->len)
 		write(1, str, n);
 	else
-		print_anew(input_data, NULL);
+	{
+		if (print_anew(input_data, NULL) == 1)
+			return (1);
+	}
 	return (0);
 }
