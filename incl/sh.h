@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/01/30 04:10:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:57:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,5 +17,5 @@
 # include "common.h"
 
 t_sh_state	*init_sh(void);
-int			exit_sh(t_sh_state *sh_state);
+void		exit_sh(t_sh_state *sh_state);
 #endif

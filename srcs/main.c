@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 18:07:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 23:23:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,8 +35,10 @@ int		main(void)
 
 	char *HEREDOC_PLACEHOLDER = NULL;
 
-	sh_state = init_sh();
-	input_data = init_input_data();
+	if ((sh_state = init_sh()) == NULL)
+		return (1);
+	if ((input_data = init_input_data()) == NULL)
+		return (1);
 	signal(SIGWINCH, handle_sigwinch);
 	while (sh_state->exit_sig == 0)
 	{
@@ -45,7 +47,6 @@ int		main(void)
 			sh_state->status = 1;
 			break ;
 		}
-		//dprintf(2, "\n--------------------\nOUTPUT = %s--------------------", input_data->active_buf->buf);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state);

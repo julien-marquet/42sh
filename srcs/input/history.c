@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 22:48:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 23:15:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,10 +14,6 @@
 #include "input/history.h"
 #include "utils/dyn_buf.h"
 
-t_list		*init_history_list(void)
-{
-	return (NULL);
-}
 
 t_list		*add_to_history_list(t_list **history, const char *buf, size_t len)
 {

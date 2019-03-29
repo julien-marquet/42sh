@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 17:33:37 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 22:54:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,7 +30,7 @@ t_input_data	*init_input_data(void)
 	if ((input_data->start_pos =
 (t_cur_abs_pos*)malloc(sizeof(t_cur_abs_pos))) == NULL)
 		return (NULL);
-	input_data->history_list = init_history_list();
+	input_data->history_list = NULL;
 	input_data->rel_cur_pos = 0;
 	input_data->processed_chars = 0;
 	input_data->start_pos->col = 0;
