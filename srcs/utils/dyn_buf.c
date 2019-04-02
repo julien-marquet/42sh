@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/14 14:47:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/02 21:44:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -131,4 +131,21 @@ int			set_n_dyn_buf(t_dyn_buf *dyn_buf, char *buf, size_t n)
 	}
 	ft_strcpy(dyn_buf->buf, buf);
 	return (0);
+}
+
+void		free_lstnode(void *buf, size_t len)
+{
+	len++;
+	free(buf);
+	buf = NULL;
+}
+
+void		free_dyn_buf(t_dyn_buf **dyn_buf)
+{
+	if (dyn_buf != NULL && *dyn_buf != NULL)
+	{
+		if ((*dyn_buf)->buf != NULL)
+			free((*dyn_buf)->buf);
+		free(*dyn_buf);
+	}
 }

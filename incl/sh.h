@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 22:57:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/29 23:44:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,8 @@
 # define SH_H
 
 # include "common.h"
+# include "input/input_data.h"
 
 t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state);
+void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
 #endif

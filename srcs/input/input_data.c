@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 22:54:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/02 21:44:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,4 +38,17 @@ t_input_data	*init_input_data(void)
 	input_data->enter = 0;
 	input_data->sig_call = 0;
 	return (input_data);
+}
+
+void			free_input_data(t_input_data **input_data)
+{
+	void (*del)(void *, size_t);
+	del = free_lstnode;
+	ft_lstdel(&((*input_data)->history_list), del);
+	free_dyn_buf(&((*input_data)->active_buf));
+	free_dyn_buf(&((*input_data)->build_buf));
+	free_dyn_buf(&((*input_data)->stored_buf));
+	free_dyn_buf(&((*input_data)->initial_buf));
+	free((*input_data)->start_pos);
+	free(*input_data);
 }

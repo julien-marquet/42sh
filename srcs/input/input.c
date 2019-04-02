@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 23:17:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/02 21:58:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,7 +48,6 @@ void	reset_input(t_input_data *input_data)
 	reset_dyn_buf(input_data->stored_buf);
 	reset_dyn_buf(input_data->active_buf);
 	input_data->rel_cur_pos = 0;
-	return (0);
 }
 
 int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
@@ -66,7 +65,7 @@ int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 		write(1, "\n", 1);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) && (input_data->processed_chars = 1))
-		exit_sh(sh_state);
+		exit_sh(sh_state, input_data);
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_Z, 1) == 0) && (input_data->processed_chars = 1))
 		dprintf(2, "SUSPEND SIG\n");
 	return (0);
@@ -255,16 +254,33 @@ int		output_is_ready(t_dyn_buf *dyn_buf, char *here_doc)
 	return (ready_state);
 }
 
+int		free_hist_copy(t_list **hist_copy, int res)
+{
+	if (hist_copy && *hist_copy)
+	{
+		void (*del)(void *, size_t);
+		del = free_lstnode;
+		ft_lstdel(hist_copy, del);
+		*hist_copy = NULL;
+	}
+	return (res);
+}
+
 int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc)
 {
 	t_list	*hist_copy;
 
-	if ((hist_copy = ft_lstdup(input_data->history_list)) == NULL)
-		return (1);
+	if (input_data->history_list != NULL)
+	{
+		if ((hist_copy = ft_lstdup(input_data->history_list)) == NULL)
+			return (1);
+	}
+	else
+		hist_copy = NULL;
 	while (input_data->sig_call == 0 && (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
 	{
 		if (ask_start_position(input_data->start_pos) == 1)
-			return (1);
+			return (free_hist_copy(&hist_copy, 1));
 		print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
 		input_data->rel_cur_pos = 0;
 		while (input_data->sig_call == 0 && sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 ||
@@ -273,22 +289,22 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 			if (input_data->build_buf->len == 0)
 			{
 				if (get_buf(input_data->build_buf) == 1)
-					return (1);
+					return (free_hist_copy(&hist_copy, 1));
 			}
 			if (is_sig(input_data->build_buf->buf) == 1)
 			{
 				if (handle_sig(input_data, sh_state) == 1)
-					return (1);
+					return (free_hist_copy(&hist_copy, 1));
 			}
 			else if (is_capability(input_data->build_buf->buf) == 1)
 			{
 				if (handle_capabilities(input_data, hist_copy) == 1)
-					return (1);
+					return (free_hist_copy(&hist_copy, 1));
 			}
 			else
 			{
 				if (handle_insertion(input_data) == -1)
-					return (1);
+					return (free_hist_copy(&hist_copy, 1));
 			}
 			if (input_data->processed_chars > 0)
 			{
@@ -300,7 +316,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 		if (input_data->stored_buf->len > 0)
 		{
 			if (insert_dyn_buf(input_data->stored_buf->buf, input_data->active_buf, 0) == 1)
-				return (1);
+				return (free_hist_copy(&hist_copy, 1));
 			reset_dyn_buf(input_data->stored_buf);
 		}
 		if (output_is_ready(input_data->active_buf, here_doc) == false)
@@ -309,24 +325,24 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 	if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
 	{
 		if (add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len) == NULL)
-			return (1);
+			return (free_hist_copy(&hist_copy, 1));
 	}
 	if (input_data->sig_call == 1)
 	{
 		if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
 		{
 			if (add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len + 1) == NULL)
-				return (1);
+				return (free_hist_copy(&hist_copy, 1));
 		}
 		else if (input_data->stored_buf->len > 0 && input_data->stored_buf->buf[0] != '\n')
 		{
 			if (add_to_history_list(&(input_data->history_list), input_data->stored_buf->buf, input_data->stored_buf->len + 1) == NULL)
-				return (1);
+				return (free_hist_copy(&hist_copy, 1));
 		}
 		reset_input(input_data);
 		input_data->sig_call = 0;
 	}
 	if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)
-		return (1);
-	return (0);
+		return (free_hist_copy(&hist_copy, 1));
+	return (free_hist_copy(&hist_copy, 0));
 }
