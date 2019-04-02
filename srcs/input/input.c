@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/02 23:49:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 00:37:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -378,7 +378,7 @@ int		process_entry(t_input_data *input_data, t_sh_state *sh_state, t_list *hist_
 	return (0);
 }
 
-int		merge_bufs(t_input_data *input_data, char *here_doc)
+int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
 {
 	if (input_data->stored_buf->len > 0)
 	{
@@ -387,7 +387,11 @@ int		merge_bufs(t_input_data *input_data, char *here_doc)
 		reset_dyn_buf(input_data->stored_buf);
 	}
 	if (output_is_ready(input_data->active_buf, here_doc) == false)
-			ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
+	{
+		ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
+		if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)
+			return (free_hist_copy(&hist_copy, 1));
+	}
 	return (0);
 }
 
@@ -435,7 +439,7 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 			return (free_hist_copy(&hist_copy, 1));
 		if (process_entry(input_data, sh_state, hist_copy) == 1)
 			return (free_hist_copy(&hist_copy, 1));
-		if (merge_bufs(input_data, here_doc) == 1)
+		if (merge_bufs(input_data, hist_copy, here_doc) == 1)
 			return (free_hist_copy(&hist_copy, 1));
 	}
 	if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
