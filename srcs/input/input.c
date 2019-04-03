@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/03 16:38:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 16:52:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -338,6 +338,23 @@ int		quotes_are_closed(t_dyn_buf *dyn_buf)
 	return (opened == 0);
 }
 
+int		operator_is_lonely(t_dyn_buf *dyn_buf)
+{
+	int		i;
+
+	i = (int)dyn_buf->len - 1;
+	if (i < 2)
+		return (0);
+	if (ft_strncmp(&(dyn_buf->buf[i-2]), "||", 2) == 0 || ft_strncmp(&(dyn_buf->buf[i-2]), "&&", 2) == 0)
+	{
+		if (i == 2)
+			return (1);
+		else if (dyn_buf->buf[i-3] == ' ')
+			return (1);
+	}
+	return (0);
+}
+
 int		output_is_ready(t_dyn_buf *dyn_buf, char *here_doc)
 {
 	if (!(dyn_buf->len > 0 && dyn_buf->buf[dyn_buf->len - 1] == '\n'))
@@ -350,6 +367,8 @@ int		output_is_ready(t_dyn_buf *dyn_buf, char *here_doc)
 	else
 	{
 		if (!quotes_are_closed(dyn_buf))
+			return (0);
+		else if (operator_is_lonely(dyn_buf))
 			return (0);
 	}
 	return (1);
