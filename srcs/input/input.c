@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/03 16:52:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 17:49:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -176,7 +176,7 @@ int		hist_move_up(t_input_data *input_data, t_list *hist_copy)
 {
 	if (history_navigate(input_data, hist_copy, HIST_NEXT) == -1)
 		return (1);
-	if (print_anew(input_data) == 1)
+	if (print_anew(input_data->start_pos, input_data->active_buf, input_data->rel_cur_pos) == 1)
 		return (1);
 	if (update_start_position(input_data->active_buf, input_data->start_pos) == 1)
 		return (1);
@@ -187,7 +187,7 @@ int		hist_move_down(t_input_data *input_data, t_list *hist_copy)
 {
 	if (history_navigate(input_data, hist_copy, HIST_PREV) == -1)
 		return (1);
-	if (print_anew(input_data) == 1)
+	if (print_anew(input_data->start_pos, input_data->active_buf, input_data->rel_cur_pos) == 1)
 		return (1);
 	if (update_start_position(input_data->active_buf, input_data->start_pos) == 1)
 		return (1);
@@ -197,7 +197,7 @@ int		hist_move_down(t_input_data *input_data, t_list *hist_copy)
 int		clear_input(t_input_data *input_data)
 {
 	input_data->start_pos->row = 0;
-	if (print_anew(input_data) == 1)
+	if (print_anew(input_data->start_pos, input_data->active_buf, input_data->rel_cur_pos) == 1)
 		return (1);
 	return (0);
 }

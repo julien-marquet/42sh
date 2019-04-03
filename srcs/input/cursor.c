@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:39:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/03 01:29:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 18:46:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,7 @@
 #include "input/cursor.h"
 #include "input/prompt.h"
 #include "input/input_data.h"
+#include "input/input_control.h"
 
 int			goto_end(t_input_data *input_data)
 {
@@ -302,20 +303,10 @@ t_dyn_buf *active_buf, size_t rel_cur_pos)
 	return (0);
 }
 
-/*
-**	Return absolute cursor position
-*/
-
-int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
-size_t rel_cur_pos, t_cur_abs_pos *start_pos)
+int		sim_cursor_movement_light(t_dyn_buf *active_buf, size_t rel_cur_pos, t_cur_abs_pos *pos, int win_col)
 {
-	int				win_col;
-	size_t			i;
+	size_t	i;
 
-	if ((win_col = get_win_col()) == -1)
-		return (1);
-	pos->col = get_prompt_len() % win_col + start_pos->col;
-	pos->row = get_prompt_len() / win_col + start_pos->row;
 	i = 0;
 	while (i < active_buf->len && i < rel_cur_pos)
 	{
@@ -330,6 +321,32 @@ size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 		}
 		i++;
 	}
+	return (i);
+}
+
+/*
+**	Return absolute cursor position
+*/
+
+int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
+size_t rel_cur_pos, t_cur_abs_pos *start_pos)
+{
+	int				win_col;
+	size_t			i;
+	int	 			resize;
+
+	if ((resize = win_has_been_resized()))
+	{
+		if (update_start_position(active_buf, start_pos) == 1)
+			return (1);
+	}
+	if ((win_col = get_win_col()) == -1)
+		return (1);
+	pos->col = get_prompt_len() % win_col + start_pos->col;
+	pos->row = get_prompt_len() / win_col + start_pos->row;
+	i = sim_cursor_movement_light(active_buf, rel_cur_pos, pos, win_col);
+	if (resize)
+		print_anew(start_pos, active_buf, rel_cur_pos);
 	return (0);
 }
 
@@ -355,6 +372,7 @@ t_cur_abs_pos *start_pos)
 		start_pos->row -= (last_pos.row + 1 + start_pos->row) % win_row;
 	if (start_pos->row < 0)
 		start_pos->row = 0;
+	reset_win_resized_value();
 	return (0);
 }
 

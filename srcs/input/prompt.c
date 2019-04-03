@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:48:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/12 10:20:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 17:36:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,6 +43,7 @@ size_t		print_prompt(int mode_modifier)
 			write(1, PROMPT_SIMPLE_TXT, len);
 		else if (mode == PROMPT_MULTI)
 			write(1, PROMPT_MULTI_TXT, len);
+		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	}
 	return (len);
 }
