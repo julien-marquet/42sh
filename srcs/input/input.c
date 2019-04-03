@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/03 00:37:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 16:38:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -260,47 +260,79 @@ int		get_buf(t_dyn_buf *build_buf)
 	return (0);
 }
 
+int		is_escaped(char *str, size_t i)
+{
+	int		escape_cpt;
+
+	escape_cpt = 0;
+	while (i > 0)
+	{
+		if (str[i - 1] == '\\')
+			escape_cpt++;
+		else
+			break ;
+		i--;
+	}
+	return (escape_cpt % 2);
+}
+
+int		here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
+{
+	int index;
+	int	res;
+
+	index = 0;
+	while (index < (int)dyn_buf->len)
+	{
+		res = ft_strstr_i(&(dyn_buf->buf[index]), here_doc);
+		if (res == -1)
+			return (0);
+		index += res;
+		if (!is_escaped(dyn_buf->buf, index))
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
 #define NONE 0
 #define SIMPLE 1
 #define DOUBLE 2
 
+void	search_for_quote(size_t i, int *opened, int *quote_type, t_dyn_buf *dyn_buf)
+{
 
-// @TODO count backslash to escape
+	if (dyn_buf->buf[i] == '\'' && !is_escaped(dyn_buf->buf, i) && ((*quote_type == SIMPLE && *opened == 1) || ((*quote_type == SIMPLE || *quote_type == NONE) && *opened == 0)))
+	{
+		if ((*opened = !(*opened)) == 0)
+			*quote_type = NONE;
+		else
+			*quote_type = SIMPLE;
+	}
+	else if (dyn_buf->buf[i] == '\"' && !is_escaped(dyn_buf->buf, i))
+	{
+		if (*quote_type == NONE || *quote_type == DOUBLE)
+		{
+			if ((*opened = !(*opened)) == 0)
+				*quote_type = NONE;
+			else
+				*quote_type = DOUBLE;
+		}
+	}
+}
 
-int		are_quotes_closed(t_dyn_buf *dyn_buf, char *here_doc)
+int		quotes_are_closed(t_dyn_buf *dyn_buf)
 {
 	int		opened;
 	size_t	i;
 	int		quote_type;
 
-	if (here_doc != NULL)
-		return (ft_strstr(dyn_buf->buf, here_doc) != NULL);
 	i = 0;
-	opened = false;
+	opened = 0;
 	quote_type = NONE;
 	while (i < dyn_buf->len)
 	{
-		if (dyn_buf->buf[i] == '\'' &&
-	((quote_type == SIMPLE && opened == true) ||
-	((quote_type == SIMPLE || quote_type == NONE) &&
-	opened == false && (i == 0 || dyn_buf->buf[i - 1] != '\\'))))
-		{
-			if ((opened = !opened) == 0)
-				quote_type = NONE;
-			else
-				quote_type = SIMPLE;
-		}
-		else if (dyn_buf->buf[i] == '\"' &&
-	(i == 0 || dyn_buf->buf[i - 1] != '\\'))
-		{
-			if (quote_type == NONE || quote_type == DOUBLE)
-			{
-				if ((opened = !opened) == 0)
-					quote_type = NONE;
-				else
-					quote_type = DOUBLE;
-			}
-		}
+		search_for_quote(i, &opened, &quote_type, dyn_buf);
 		i++;
 	}
 	return (opened == 0);
@@ -308,12 +340,19 @@ int		are_quotes_closed(t_dyn_buf *dyn_buf, char *here_doc)
 
 int		output_is_ready(t_dyn_buf *dyn_buf, char *here_doc)
 {
-	int		ready_state;
-
-	ready_state = true;
-	ready_state &= (dyn_buf->len > 0 && dyn_buf->buf[dyn_buf->len - 1] == '\n');
-	ready_state &= are_quotes_closed(dyn_buf, here_doc);
-	return (ready_state);
+	if (!(dyn_buf->len > 0 && dyn_buf->buf[dyn_buf->len - 1] == '\n'))
+		return (0);
+	if (here_doc != NULL)
+	{
+		if (!here_doc_is_closed(dyn_buf, here_doc))
+			return (0);
+	}
+	else
+	{
+		if (!quotes_are_closed(dyn_buf))
+			return (0);
+	}
+	return (1);
 }
 
 int		free_hist_copy(t_list **hist_copy, int res)
