@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/03 17:49:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/03 18:59:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -302,7 +302,7 @@ int		here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
 void	search_for_quote(size_t i, int *opened, int *quote_type, t_dyn_buf *dyn_buf)
 {
 
-	if (dyn_buf->buf[i] == '\'' && !is_escaped(dyn_buf->buf, i) && ((*quote_type == SIMPLE && *opened == 1) || ((*quote_type == SIMPLE || *quote_type == NONE) && *opened == 0)))
+	if (dyn_buf->buf[i] == '\'' && ((*quote_type == SIMPLE && *opened == 1) || ((*quote_type == SIMPLE || *quote_type == NONE) && *opened == 0 && !is_escaped(dyn_buf->buf, i))))
 	{
 		if ((*opened = !(*opened)) == 0)
 			*quote_type = NONE;
