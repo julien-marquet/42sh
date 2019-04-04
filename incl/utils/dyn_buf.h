@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 22:40:19 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/02 19:35:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 20:20:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,13 +15,6 @@
 # define DYN_BUF_H
 # define DEFAULT_DYN_BUF_SIZE 128
 # include "common.h"
-
-typedef struct	s_dyn_buf
-{
-	size_t	len;
-	size_t	size;
-	char	*buf;
-}				t_dyn_buf;
 
 int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index);
 t_dyn_buf	*init_dyn_buf(void);

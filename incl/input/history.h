@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 22:54:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 17:37:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,11 +18,8 @@
 # define HIST_PREV 1
 # define HIST_RESET 2
 
-# include "common.h"
-# include "input/input_data.h"
-
-t_list		*get_history_index(t_list *history, size_t index);
-t_list		*add_to_history_list(t_list **history, const char *buf, size_t len);
-int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action);
+# include "input/history_edition.h"
+# include "input/history_navigation.h"
+# include "input/history_utils.h"
 
 #endif

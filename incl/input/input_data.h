@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:58 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/29 23:45:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 20:21:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,20 +16,6 @@
 
 # include "common.h"
 # include "utils/dyn_buf.h"
-
-typedef struct	s_input_data
-{
-	t_dyn_buf		*active_buf;
-	t_dyn_buf		*build_buf;
-	t_dyn_buf		*stored_buf;
-	t_dyn_buf		*initial_buf;
-	t_list			*history_list;
-	size_t			rel_cur_pos;
-	size_t			processed_chars;
-	t_cur_abs_pos	*start_pos;
-	int				enter;
-	size_t			sig_call;
-}				t_input_data;
 
 t_input_data	*init_input_data(void);
 void			free_input_data(t_input_data **input_data);

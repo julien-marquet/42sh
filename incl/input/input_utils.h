@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor.h                                         .::    .:/ .      .::   */
+/*   input_utils.h                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/31 23:40:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 17:15:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 18:13:57 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 20:17:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_H
-# define CURSOR_H
+#ifndef INPUT_UTILS_H
+# define INPUT_UTILS_H
 
-# include "input/cursor_position.h"
-# include "input/cursor_simulation.h"
-# include "input/cursor_basic_moves.h"
-# include "input/cursor_complex_moves.h"
-# include "input/cursor_vertical_moves.h"
-# include "input/cursor_utils.h"
+# include "common.h"
+# include "input/input.h"
+
+int		count_escape_chars(char *str);
+int		is_capability(char *s);
+int		is_sig(char *s);
+int		is_escaped(char *str, size_t i);
 
 #endif

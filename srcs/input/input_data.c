@@ -6,15 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/02 21:44:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 18:34:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "input/input_data.h"
-#include "utils/dyn_buf.h"
-#include "input/cursor.h"
-#include "input/history.h"
 
 t_input_data	*init_input_data(void)
 {

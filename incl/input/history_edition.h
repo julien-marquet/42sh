@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor.h                                         .::    .:/ .      .::   */
+/*   history_edition.h                                .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/31 23:40:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 17:15:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 17:27:30 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 17:42:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_H
-# define CURSOR_H
+#ifndef HISTORY_EDITION_H
+# define HISTORY_EDITION_H
 
-# include "input/cursor_position.h"
-# include "input/cursor_simulation.h"
-# include "input/cursor_basic_moves.h"
-# include "input/cursor_complex_moves.h"
-# include "input/cursor_vertical_moves.h"
-# include "input/cursor_utils.h"
+#include "common.h"
+#include "history.h"
+
+t_list		*add_to_history_list(t_list **history, const char *buf, size_t len);
+t_list		*edit_history_index(t_list *history, size_t index, const char *buf);
 
 #endif

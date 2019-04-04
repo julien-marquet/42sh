@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/02 22:23:09 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/04 18:31:50 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -26,7 +26,10 @@ CFOLDERS = $(addprefix $(OBJ_DIR)/, input utils)
 # C FILES
 
 CFILES = main.c sh.c sh_state.c term_state.c win_data.c signal_handler.c
-CFILES += $(addprefix input/, input.c input_data.c cursor.c input_control.c prompt.c history.c)
+CFILES += $(addprefix input/, input_data.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c\
+prompt.c \
+cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c \
+history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix utils/, dyn_buf.c)
 
 
@@ -36,7 +39,10 @@ OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 # HEADER FILES
 
 TMPFILES = common.h sh.h sh_state.h term_state.h win_data.h signal_handler.h
-TMPFILES += $(addprefix input/, input.h input_data.h cursor.h input_control.h prompt.h history.h)
+TMPFILES += $(addprefix input/, input.h input_data.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h\
+prompt.h  \
+cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h \
+history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix utils/, dyn_buf.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
