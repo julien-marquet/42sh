@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:21:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 20:59:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,5 +56,12 @@ typedef struct	s_input_data
 	int				enter;
 	size_t			sig_call;
 }				t_input_data;
+
+typedef struct	s_win_data
+{
+	int				err;
+	int				resized;
+	struct winsize	ws;
+}				t_win_data;
 
 #endif

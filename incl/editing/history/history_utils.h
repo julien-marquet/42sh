@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   history_utils.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 17:23:16 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:13:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef HISTORY_UTILS_H
+# define HISTORY_UTILS_H
 
-# include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+#include "common.h"
+#include "editing/history/history.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+int		navigate(t_input_data *input_data, t_list *hist_copy, int index, int old_i);
+
 #endif

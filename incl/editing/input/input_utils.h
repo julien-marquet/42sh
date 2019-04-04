@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   input_utils.h                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 18:13:57 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef INPUT_UTILS_H
+# define INPUT_UTILS_H
 
 # include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+# include "editing/input/input.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+int		count_escape_chars(char *str);
+int		is_capability(char *s);
+int		is_sig(char *s);
+int		is_escaped(char *str, size_t i);
+
 #endif

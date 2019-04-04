@@ -1,48 +1,55 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   main.c                                           .::    .:/ .      .::   */
+/*   input_utils.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
+/*   Created: 2019/04/04 18:12:45 by jmarquet     #+#   ##    ##    #+#       */
 /*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "common.h"
-#include "sh.h"
-#include "editing/input/input.h"
-#include "data/input_data.h"
-#include "signal_handler.h"
+#include "editing/input/input_utils.h"
 
-#include <unistd.h>
-#include <fcntl.h>
-#include "errno.h"
-
-int		main(void)
+int		count_escape_chars(char *str)
 {
-	t_sh_state		*sh_state;
-	t_input_data	*input_data;
+	int		i;
 
-	char *HEREDOC_PLACEHOLDER = NULL;
-
-	if ((sh_state = init_sh()) == NULL)
-		return (1);
-	if ((input_data = init_input_data()) == NULL)
-		return (1);
-	signal(SIGWINCH, handle_sigwinch);
-	while (sh_state->exit_sig == 0)
-	{
-		if (handle_input(sh_state, input_data, HEREDOC_PLACEHOLDER) == 1)
-		{
-			sh_state->status = 1;
-			break ;
-		}
-		reset_dyn_buf(input_data->active_buf);
-	}
-	exit_sh(sh_state, input_data);
-	return (0);
+	i = 0;
+	while (str[i] != '\0' && !(str[i] >= '\010' &&
+str[i] <= '\011') && str[i] <= '\037')
+		i++;
+	return (i);
 }
 
+int		is_capability(char *s)
+{
+	int		is_cap;
+
+	is_cap = *s > '\0' && *s <= '\037';
+	is_cap |= *s == '\177';
+	return (is_cap);
+}
+
+int		is_sig(char *s)
+{
+	return (*s == '\04' || *s == '\03' || *s == '\032');
+}
+
+int		is_escaped(char *str, size_t i)
+{
+	int		escape_cpt;
+
+	escape_cpt = 0;
+	while (i > 0)
+	{
+		if (str[i - 1] == '\\')
+			escape_cpt++;
+		else
+			break ;
+		i--;
+	}
+	return (escape_cpt % 2);
+}

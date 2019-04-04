@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   history_navigation.h                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 17:22:18 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:13:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef HISTORY_NAVIGATION_H
+# define HISTORY_NAVIGATION_H
 
-# include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+#include "common.h"
+#include "editing/history/history.h"
+#include "data/dyn_buf.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+# define HIST_NEXT 0
+# define HIST_PREV 1
+# define HIST_RESET 2
+
+t_list	*get_history_index(t_list *history, size_t index);
+int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action);
+
 #endif

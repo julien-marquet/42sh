@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   input_handlers.h                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 17:52:23 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef INPUT_HANDLERS_H
+# define INPUT_HANDLERS_H
 
 # include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+# include "editing/input/input.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+int		handle_capabilities(t_input_data *input_data, t_list *hist_copy);
+int		handle_sig(t_input_data *input_data, t_sh_state *sh_state);
+int		handle_insertion(t_input_data *input_data);
+
 #endif

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   cursor_complex_moves.h                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/04 17:00:14 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef CURSOR_COMPLEX_MOVES_H
+# define CURSOR_COMPLEX_MOVES_H
 
 # include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+# include "editing/cursor/cursor.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+int		move_to_next_word(t_input_data *input_data);
+int		move_to_prev_word(t_input_data *input_data);
+int		goto_home(t_input_data *input_data);
+int		goto_end(t_input_data *input_data);
+
 #endif

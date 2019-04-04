@@ -6,13 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 11:19:15 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 16:09:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 20:54:37 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "signal_handler.h"
-#include "win_data.h"
+#include "data/input_data.h"
 #include "sh.h"
 
 void	handle_sigwinch(int signo)

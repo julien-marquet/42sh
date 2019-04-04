@@ -6,16 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:59:25 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/02 21:45:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/04 21:09:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "sh.h"
-#include "sh_state.h"
-#include "term_state.h"
-#include "win_data.h"
-#include "input/input_data.h"
 
 t_sh_state	*init_sh(void)
 {

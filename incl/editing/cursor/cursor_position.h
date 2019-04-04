@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   cursor_position.h                                .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/03 19:10:07 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef CURSOR_POSITION_H
+# define CURSOR_POSITION_H
 
-# include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+#include "common.h"
+#include "editing/cursor/cursor.h"
+#include "editing/prompt.h"
+#include "editing/input/input_control.h"
+#include "data/input_data.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
+size_t rel_cur_pos, t_cur_abs_pos *start_pos);
+int		update_start_position(t_dyn_buf *active_buf,
+t_cur_abs_pos *start_pos);
+int		ask_start_position(t_cur_abs_pos *pos);
+
 #endif

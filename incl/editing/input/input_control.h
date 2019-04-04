@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   input_control.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:59:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/31 23:43:40 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef INPUT_CONTROL_H
+# define INPUT_CONTROL_H
 
 # include "common.h"
-# include "data/input_data.h"
-# include "data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
+# include "editing/input/input.h"
+# include "editing/cursor/cursor.h"
+# include "data/dyn_buf.h"
+# include "editing/prompt.h"
+# include "sh.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+int		delete_prev_char(t_input_data *input_data);
+int		delete_cur_char(t_input_data *input_data);
+int		print_anew(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf, size_t rel_cur_pos);
+int		insertn_chars(t_input_data *input_data, const char *str, size_t n, int force);
+
 #endif
