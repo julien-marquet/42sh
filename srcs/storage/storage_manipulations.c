@@ -6,23 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:58:52 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 18:06:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_manipulations.h"
-
-char	*get_stored(t_list *storage, const char *var_name)
-{
-	char	*res;
-	t_list	*node;
-
-	if ((node = find_node_by_name(storage, var_name)) == NULL)
-		return (NULL);
-	res = ft_strdup(&((char *)node->content)[ft_strlen(var_name) + 1]);
-	return (res);
-}
 
 int		add_entry_storage(t_list **storage, const char *name, const char *value)
 {
