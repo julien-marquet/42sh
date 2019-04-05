@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_manipulations.h                          .::    .:/ .      .::   */
+/*   builtins_set.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:33:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 22:59:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 18:47:16 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 22:57:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_MANIPULATIONS_H
-# define STORAGE_MANIPULATIONS_H
+#include "builtins/builtins_storage/builtins_set.h"
 
-# include "common.h"
-# include "storage/storage_utils.h"
+int		builtins_set(void *i_storage, int fd_out)
+{
+	t_list *casted_i_storage;
 
-int		add_entry_storage(t_list **storage, const char *name,
-		const char *value);
-void	print_storage_content(t_list *storage, int fd_out);
-int		remove_entry_storage(t_list **storage, char *name);
-
-#endif
+	casted_i_storage = (t_list *)i_storage;
+	print_storage_content(casted_i_storage, fd_out);
+	return (0);
+}
