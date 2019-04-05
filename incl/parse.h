@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 16:06:20 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 22:13:34 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,29 +15,21 @@
 # define SHELL_H
 
 # include "common.h"
-// # include <stdlib.h>
-// # include <stdio.h>
-// # include <term.h>
-// # include <unistd.h>
-// # include <termios.h>
-// # include <signal.h>
-// # include <limits.h>
-// # include <fcntl.h>
-// # include <sys/stat.h>
-// # include <sys/ioctl.h>
-// # include <sys/types.h>
 # include <pwd.h>
 
-# define SH_NAME "21sh"
+# define SH_NAME "42sh"
 
 # define CHEV_PERM 420
 
 # define READ_END 0
 # define WRITE_END 1
 
-# define C_IN 0
-# define C_LEN 1
-# define C_OUT 2
+typedef enum		e_ctype {
+	C_IN = 0,
+	C_LEN,
+	C_OUT,
+	C_TYPE
+}					t_ctype;
 
 /*
 ** TEMP ENV FUNCT
@@ -46,13 +38,13 @@
 # define sh_getenv(x, y) NULL
 # define sh_getenvn(x, y, z) NULL
 
-typedef struct	s_term {
-	char		*str;
-	size_t		cpos;
-	char		**env;
-	int			fd;
-	int			flag;
-}				t_term;
+typedef struct		s_term {
+	char			*str;
+	size_t			cpos;
+	char			**env;
+	int				fd;
+	int				flag;
+}					t_term;
 
 typedef struct		s_file {
 	char			*file;
