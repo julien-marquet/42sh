@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:48:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:07:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 18:38:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,19 +33,23 @@ mode_modifier != mode)
 size_t		print_prompt(int mode_modifier)
 {
 	int		mode;
-	size_t	len;
+	size_t	display_len;
+	size_t	buf_len;
 
 	mode = prompt_mode(mode_modifier);
-	len = mode == PROMPT_SIMPLE ? PROMPT_SIMPLE_LEN : PROMPT_MULTI_LEN;
+	display_len = mode == PROMPT_SIMPLE ?
+PROMPT_SIMPLE_DISPLAY_LEN : PROMPT_MULTI_DISPLAY_LEN;
+	buf_len = mode == PROMPT_SIMPLE ?
+PROMPT_SIMPLE_BUF_LEN : PROMPT_MULTI_BUF_LEN;
 	if (mode_modifier != PROMPT_NO_PRINT)
 	{
 		if (mode == PROMPT_SIMPLE)
-			write(1, PROMPT_SIMPLE_TXT, len);
+			write(1, PROMPT_SIMPLE_TXT, buf_len);
 		else if (mode == PROMPT_MULTI)
-			write(1, PROMPT_MULTI_TXT, len);
+			write(1, PROMPT_MULTI_TXT, buf_len);
 		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	}
-	return (len);
+	return (display_len);
 }
 
 size_t		get_prompt_len(void)
