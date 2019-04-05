@@ -6,13 +6,12 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/04 21:17:28 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/05 17:34:48 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
 
 NAME = 42sh
-
 PATH = ./
 SRC_DIR = srcs
 OBJ_DIR = objs
@@ -21,7 +20,7 @@ LIB_DIR = libs
 
 # C FOLDERS LIST
 
-CFOLDERS = $(addprefix $(OBJ_DIR)/, editing data editing/cursor editing/history editing/input)
+CFOLDERS = $(addprefix $(OBJ_DIR)/, storage editing data editing/cursor editing/history editing/input)
 
 # C FILES
 
@@ -31,18 +30,20 @@ CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c curso
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix data/, dyn_buf.c input_data.c win_data.c)
+CFILES += $(addprefix storage/, storage_manipulation.c storage_env.c storage_utils.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 
 # HEADER FILES
 
-TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h
+TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
 TMPFILES += $(addprefix data/, dyn_buf.h input_data.h win_data.h)
+TMPFILES += $(addprefix storage/, storage.h storage_env.h storage_utils.h storage_manipulation.h)
 
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))

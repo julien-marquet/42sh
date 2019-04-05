@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   common.h                                         .::    .:/ .      .::   */
+/*   storage_env.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 14:37:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:25:57 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 17:26:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_COMMON_H
-# define SH_COMMON_H
+#include "storage/storage_env.h"
 
-# include <sys/ioctl.h>
-# include <curses.h>
-# include <term.h>
-# include <unistd.h>
-# include <termios.h>
-# include "types.h"
-# include "../libs/Libft/libft.h"
+t_list	*init_env(const char **env)
+{
+	t_list	*alst;
+	t_list	*node;
+	size_t	i;
 
-#endif
+	i = 0;
+	alst = NULL;
+	while (env[i] != NULL)
+	{
+		if ((node = ft_lstnew(env[i], ft_strlen(env[i]) + 1)) == NULL)
+			return (NULL);
+		ft_lstadd(&alst, node);
+		i++;
+	}
+	return (alst);
+}
