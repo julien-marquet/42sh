@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   dyn_buf.c                                        .::    .:/ .      .::   */
+/*   dyn_buf_manipulations.c                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 20:53:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 17:57:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "data/dyn_buf.h"
+#include "data/dyn_buf/dyn_buf_manipulations.h"
 
 t_dyn_buf	*init_dyn_buf(void)
 {
@@ -95,57 +95,4 @@ int		del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index)
 		}
 	}
 	return (0);
-}
-
-void		reset_dyn_buf(t_dyn_buf *dyn_buf)
-{
-	dyn_buf->len = 0;
-	ft_bzero(dyn_buf->buf, dyn_buf->size);
-}
-
-int			set_dyn_buf(t_dyn_buf *dyn_buf, char *buf)
-{
-	dyn_buf->len = ft_strlen(buf);
-	if (dyn_buf->len >= dyn_buf->size)
-	{
-		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
-		ft_strdel(&(dyn_buf->buf));
-		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
-			return (1);
-	}
-	ft_strcpy(dyn_buf->buf, buf);
-	return (0);
-}
-
-int			set_n_dyn_buf(t_dyn_buf *dyn_buf, char *buf, size_t n)
-{
-	dyn_buf->len = ft_strlen(buf);
-	if (n < dyn_buf->len)
-		dyn_buf->len = n;
-	if (dyn_buf->len >= dyn_buf->size)
-	{
-		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
-		ft_strdel(&(dyn_buf->buf));
-		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
-			return (1);
-	}
-	ft_strcpy(dyn_buf->buf, buf);
-	return (0);
-}
-
-void		free_lstnode(void *buf, size_t len)
-{
-	len++;
-	free(buf);
-	buf = NULL;
-}
-
-void		free_dyn_buf(t_dyn_buf **dyn_buf)
-{
-	if (dyn_buf != NULL && *dyn_buf != NULL)
-	{
-		if ((*dyn_buf)->buf != NULL)
-			free((*dyn_buf)->buf);
-		free(*dyn_buf);
-	}
 }

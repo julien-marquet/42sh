@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   history_navigation.h                             .::    .:/ .      .::   */
+/*   dyn_buf_manipulations.h                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 17:22:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:55:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/01/29 22:40:19 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 17:52:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef HISTORY_NAVIGATION_H
-# define HISTORY_NAVIGATION_H
+#ifndef DYN_BUF_MANIPULATIONS_H
+# define DYN_BUF_MANIPULATIONS_H
 
-#include "common.h"
-#include "editing/history/history.h"
-#include "data/dyn_buf/dyn_buf.h"
+# include "common.h"
+# include "data/dyn_buf/dyn_buf_defines.h"
 
-# define HIST_NEXT 0
-# define HIST_PREV 1
-# define HIST_RESET 2
-
-t_list	*get_history_index(t_list *history, size_t index);
-int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action);
+int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index);
+t_dyn_buf	*init_dyn_buf(void);
+int			del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index);
+int			shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift);
+int			insertn_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index, size_t len);
 
 #endif

@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   history_navigation.h                             .::    .:/ .      .::   */
+/*   dyn_buf_setters.h                                .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 17:22:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:55:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:46:28 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 17:52:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef HISTORY_NAVIGATION_H
-# define HISTORY_NAVIGATION_H
+#ifndef DYN_BUF_SETTERS_H
+# define DYN_BUF_SETTERS_H
 
-#include "common.h"
-#include "editing/history/history.h"
-#include "data/dyn_buf/dyn_buf.h"
+# include "common.h"
+# include "data/dyn_buf/dyn_buf_defines.h"
 
-# define HIST_NEXT 0
-# define HIST_PREV 1
-# define HIST_RESET 2
-
-t_list	*get_history_index(t_list *history, size_t index);
-int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action);
+int			set_dyn_buf(t_dyn_buf *dyn_buf, char *buf);
+int			set_n_dyn_buf(t_dyn_buf *dyn_buf, char *buf, size_t n);
+void		reset_dyn_buf(t_dyn_buf *dyn_buf);
 
 #endif

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_manipulation.c                           .::    .:/ .      .::   */
+/*   storage_manipulations.c                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:33:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 17:58:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "storage/storage_manipulation.h"
+#include "storage/storage_manipulations.h"
 
 char	*get_stored(t_list *storage, const char *var_name)
 {

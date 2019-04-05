@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:43:40 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 17:55:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,7 +17,7 @@
 # include "common.h"
 # include "editing/input/input.h"
 # include "editing/cursor/cursor.h"
-# include "data/dyn_buf.h"
+# include "data/dyn_buf/dyn_buf.h"
 # include "editing/prompt.h"
 # include "sh.h"
 

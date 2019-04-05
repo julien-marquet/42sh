@@ -15,7 +15,8 @@
 # define INPUT_DATA_H
 
 # include "common.h"
-# include "data/dyn_buf.h"
+# include "data/dyn_buf/dyn_buf.h"
+# include "data/lst_utils.h"
 
 t_input_data	*init_input_data(void);
 void			free_input_data(t_input_data **input_data);

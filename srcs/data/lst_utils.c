@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   history_navigation.h                             .::    .:/ .      .::   */
+/*   lst_utils.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 17:22:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:55:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:40:33 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 17:47:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef HISTORY_NAVIGATION_H
-# define HISTORY_NAVIGATION_H
+#include "data/lst_utils.h"
 
-#include "common.h"
-#include "editing/history/history.h"
-#include "data/dyn_buf/dyn_buf.h"
+void		free_lstnode(void *buf, size_t len)
+{
+	len++;
+	free(buf);
+	buf = NULL;
+}
 
-# define HIST_NEXT 0
-# define HIST_PREV 1
-# define HIST_RESET 2
-
-t_list	*get_history_index(t_list *history, size_t index);
-int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action);
-
-#endif
+void		free_dyn_buf(t_dyn_buf **dyn_buf)
+{
+	if (dyn_buf != NULL && *dyn_buf != NULL)
+	{
+		if ((*dyn_buf)->buf != NULL)
+			free((*dyn_buf)->buf);
+		free(*dyn_buf);
+	}
+}
