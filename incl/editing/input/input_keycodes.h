@@ -6,13 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:18:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 18:21:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/05 18:14:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #ifndef INPUT_KEYCODES_H
 # define INPUT_KEYCODES_H
+
 # define KEY_ARROW_UP "\033[A"
 # define KEY_ARROW_DOWN "\033[B"
 # define KEY_ARROW_RIGHT "\033[C"

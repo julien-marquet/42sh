@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor_vertical_moves.h                          .::    .:/ .      .::   */
+/*   storage_env.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 16:44:40 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:13:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:25:57 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 17:26:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_VERTICAL_MOVES_H
-# define CURSOR_VERTICAL_MOVES_H
+#include "storage/storage_env.h"
 
-# include "common.h"
-# include "editing/cursor/cursor.h"
+t_list	*init_env(const char **env)
+{
+	t_list	*alst;
+	t_list	*node;
+	size_t	i;
 
-int		move_up(t_input_data *input_data);
-int		move_down(t_input_data *input_data);
-
-#endif
+	i = 0;
+	alst = NULL;
+	while (env[i] != NULL)
+	{
+		if ((node = ft_lstnew(env[i], ft_strlen(env[i]) + 1)) == NULL)
+			return (NULL);
+		ft_lstadd(&alst, node);
+		i++;
+	}
+	return (alst);
+}

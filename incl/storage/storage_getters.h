@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor_vertical_moves.h                          .::    .:/ .      .::   */
+/*   storage_getters.h                                .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 16:44:40 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:13:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 18:04:34 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 18:15:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_VERTICAL_MOVES_H
-# define CURSOR_VERTICAL_MOVES_H
+#ifndef STORAGE_GETTERS_H
+# define STORAGE_GETTERS_H
 
 # include "common.h"
-# include "editing/cursor/cursor.h"
+# include "storage/storage_utils.h"
 
-int		move_up(t_input_data *input_data);
-int		move_down(t_input_data *input_data);
+char	*get_stored_multiple(t_list *storage_1, t_list *storage_2,
+		const char *var_name);
+char	*get_stored(t_list *storage, const char *var_name);
 
 #endif

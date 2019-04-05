@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor_vertical_moves.h                          .::    .:/ .      .::   */
+/*   dyn_buf.h                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 16:44:40 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:13:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:49:02 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 18:11:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_VERTICAL_MOVES_H
-# define CURSOR_VERTICAL_MOVES_H
+#ifndef DYN_BUF_H
+# define DYN_BUF_H
 
 # include "common.h"
-# include "editing/cursor/cursor.h"
-
-int		move_up(t_input_data *input_data);
-int		move_down(t_input_data *input_data);
+# include "data/dyn_buf/dyn_buf_manipulations.h"
+# include "data/dyn_buf/dyn_buf_setters.h"
 
 #endif

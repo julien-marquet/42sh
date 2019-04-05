@@ -6,13 +6,12 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/05 15:03:24 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/05 20:24:52 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
 
 NAME = 42sh
-
 PATH = ./
 SRC_DIR = srcs
 OBJ_DIR = objs
@@ -21,7 +20,7 @@ LIB_DIR = libs
 
 # C FOLDERS LIST
 
-CFOLDERS = $(addprefix $(OBJ_DIR)/, editing data editing/cursor editing/history editing/input parse)
+CFOLDERS = $(addprefix $(OBJ_DIR)/, storage editing data data/win_data data/dyn_buf editing/cursor editing/history editing/input parse)
 
 # C FILES
 
@@ -30,20 +29,26 @@ CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
-CFILES += $(addprefix data/, dyn_buf.c input_data.c win_data.c)
+CFILES += $(addprefix data/, input_data.c lst_utils.c)
 CFILES += $(addprefix parse/, check.c chev.c expand_tilde.c expand.c free.c split.c token.c parse.c utils.c)
+CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
+CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
+CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 
 # HEADER FILES
 
-TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h parse.h
+TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h parse.h
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
-TMPFILES += $(addprefix data/, dyn_buf.h input_data.h win_data.h)
+TMPFILES += $(addprefix data/, input_data.h lst_utils.h)
+TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
+TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
+TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
 
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
