@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 15:37:21 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/06 16:40:47 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,12 +31,12 @@ static int		parse_tokenlen(t_cmd *cmd)
 	return (len);
 }
 
-static t_cmd	*parse_tokenparse(t_cmd *cmd, t_term *term)
+static t_cmd	*parse_tokenparse(t_cmd *cmd, t_term *term, t_sh_state *sh_state, t_input_data *input_data)
 {
 	int		len;
 
 	parse_expansion(cmd, term);
-	parse_chev(cmd);
+	parse_chev(cmd, sh_state, input_data);
 	len = parse_tokenlen(cmd);
 	if (!(cmd->arg = parse_strsplit(cmd->str, len)))
 		return (NULL);
@@ -59,14 +59,14 @@ void			parse_print(t_cmd *cmd)
 	while (file)
 	{
 		dprintf(2, "input in=%i len=%i ", file->type[C_IN], file->type[C_LEN]);
-		dprintf(2, "out=%i = %s\n", file->type[C_OUT], file->file);
+		dprintf(2, "out=%i = '%s' '%s'\n", file->type[C_OUT], file->file, file->here);
 		file = file->next;
 	}
 	file = cmd->out;
 	while (file)
 	{
 		dprintf(2, "output in=%i len=%i ", file->type[C_IN], file->type[C_LEN]);
-		dprintf(2, "out=%i = %s\n", file->type[C_OUT], file->file);
+		dprintf(2, "out=%i = '%s'\n", file->type[C_OUT], file->file);
 		file = file->next;
 	}
 	dprintf(2, "Redir %s\n", cmd->red);
@@ -107,7 +107,7 @@ void			parse_print(t_cmd *cmd)
 // 		wait(&ret);
 // }
 
-int				parse(char *str, t_term *term)
+int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_data)
 {
 	int		i;
 	t_cmd	*cmd;
@@ -120,7 +120,7 @@ int				parse(char *str, t_term *term)
 		i += parse_tokenize(str + i, &cmd);
 	while (cmd)
 	{
-		if (!(cmd = parse_tokenparse(cmd, term)))
+		if (!(cmd = parse_tokenparse(cmd, term, sh_state, input_data)))
 			return (1);
 		parse_print(cmd);
 		//parse_test(cmd, term);

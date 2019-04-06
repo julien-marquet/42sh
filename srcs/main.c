@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 20:19:58 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/06 15:56:50 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,7 +42,7 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
-		parse(input_data->active_buf->buf, NULL);
+		parse(input_data->active_buf->buf, NULL, sh_state, input_data);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);

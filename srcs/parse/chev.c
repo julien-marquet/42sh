@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 22:21:42 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/06 16:46:05 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,15 +31,19 @@ static void		parse_chevpush(t_file **file, t_file *new)
 ** Free new->file in heredoc function
 */
 
-static t_cmd	*parse_chevcreate(char *file, t_cmd *cmd, int *type)
+static t_cmd	*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data)
 {
 	t_file	*new;
 
+	(void)sh_state;
+	(void)input_data;
 	if (!(new = ft_memalloc(sizeof(t_file))))
 		return (NULL);
 	if (type[C_TYPE] == '<' && type[C_LEN] == 2)
 	{
-		new->here = ft_strdup("HEREDOC\nPLACE\nHOLDER");
+		reset_dyn_buf(input_data->active_buf);
+		handle_input(sh_state, input_data, file);
+		new->here = ft_strdup(input_data->active_buf->buf);//ft_strdup("HEREDOC\nPLACE\nHOLDER");
 		ft_strdel(&file);
 	}
 	else
@@ -88,7 +92,7 @@ static int		parse_chev_skip(char *str, int i, char c_type)
 	return (i);
 }
 
-static int		parse_chev_handle(char *str, int i, t_cmd *cmd)
+static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
 {
 	char	*file;
 	int		len;
@@ -108,12 +112,12 @@ static int		parse_chev_handle(char *str, int i, t_cmd *cmd)
 		i++;
 	if (!(file = strndup_qr(str + tmp, i - tmp)))
 		return (0);
-	parse_chevcreate(file, cmd, type);
+	parse_chevcreate(file, cmd, type, sh_state, input_data);
 	ft_memset(str + len, ' ', i - len);
 	return (i);
 }
 
-void			parse_chev(t_cmd *cmd)
+void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
 {
 	char	*str;
 	int		i;
@@ -125,7 +129,7 @@ void			parse_chev(t_cmd *cmd)
 		while (str[i] && is_quoted(str, i))
 			i++;
 		if (str[i] && stresc("<>", str, i))
-			i = parse_chev_handle(str, i, cmd);
+			i = parse_chev_handle(str, i, cmd, sh_state, input_data);
 		else
 			str[i] ? i++ : 0;
 	}
