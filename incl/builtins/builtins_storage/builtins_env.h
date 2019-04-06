@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_manipulations.h                          .::    .:/ .      .::   */
+/*   builtins_env.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:33:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 22:59:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 22:38:16 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/05 23:04:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_MANIPULATIONS_H
-# define STORAGE_MANIPULATIONS_H
+#ifndef BUILTINS_ENV_H
+# define BUILTINS_ENV_H
 
 # include "common.h"
-# include "storage/storage_utils.h"
+# include "storage/storage_manipulations.h"
 
-int		add_entry_storage(t_list **storage, const char *name,
-		const char *value);
-void	print_storage_content(t_list *storage, int fd_out);
-int		remove_entry_storage(t_list **storage, char *name);
+int		builtins_env(void *env, int fd_out);
 
 #endif
