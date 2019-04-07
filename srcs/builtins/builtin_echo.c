@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_dispatcher.h                            .::    .:/ .      .::   */
+/*   builtin_echo.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 23:04:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 22:59:24 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 23:05:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DISPATCHER_H
-# define BUILTINS_DISPATCHER_H
+#include "builtins/builtin_echo.h"
 
-# include "common.h"
-# include "builtins/builtins_defines.h"
-# include "builtins/builtins_execution.h"
-# include "builtins/builtins_storage/builtins_storage.h"
-# include "builtins/builtin_exit.h"
-# include "builtins/builtin_echo.h"
+int			builtin_echo(t_sh_state *sh_state, int ac,
+const char **av, int fd_out)
+{
+	int		i;
 
-int		builtins_dispatcher(t_sh_state *sh_state,
-		const char **av, int fd_out, int background);
-
-#endif
+	sh_state->status = sh_state->status;
+	i = 1;
+	while (i < ac)
+	{
+		ft_putstr_fd(av[i], fd_out);
+		write(fd_out, " ", 1);
+		i++;
+	}
+	write(fd_out, "\n", 1);
+	return (0);
+}
