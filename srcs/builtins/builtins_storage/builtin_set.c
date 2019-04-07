@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 18:47:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 20:20:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 23:22:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,6 +16,6 @@
 int		builtin_set(t_sh_state *sh_state, int ac, const char **av, int fd_out)
 {
 	ac = !!av;
-	print_storage_content(sh_state->env, fd_out);
+	print_storage_content(sh_state->internal_storage, fd_out);
 	return (0);
 }
