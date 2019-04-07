@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:28:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 20:34:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:08:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,15 +22,17 @@ t_list	*find_node_by_name(t_list *env, const char *var_name)
 	len = ft_strlen(var_name);
 	while (tmp != NULL)
 	{
-		if (ft_strncmp(var_name, (char *)tmp->content, len) == 0 &&
-		((char *)tmp->content)[len] == '=')
+		if (ft_strncmp(var_name,
+	((t_internal_storage *)tmp->content)->string, len) == 0 &&
+	(((t_internal_storage *)tmp->content)->string)[len] == '=')
 			return (tmp);
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-char	*create_entry(const char *name, const char *value, const size_t size)
+char	*merge_name_value(const char *name,
+const char *value, const size_t size)
 {
 	size_t	name_len;
 	char	*res;
@@ -43,6 +45,14 @@ char	*create_entry(const char *name, const char *value, const size_t size)
 	if (value != NULL)
 		ft_strcpy(&(res[name_len + 1]), value);
 	return res;
+}
+
+int		fill_entry(t_internal_storage *entry, const char *name,
+const char *value, const size_t size)
+{
+	entry->exported = 0;
+	entry->string = merge_name_value(name, value, size);
+	return (entry->string == NULL);
 }
 
 void	remove_node(t_list **alst, t_list **node, t_list *prev)

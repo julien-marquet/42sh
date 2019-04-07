@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:39:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 21:14:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:11:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,6 +38,6 @@ const char **av, int fd_out)
 		write(fd_out,
 	"setenv: Variable name must contain alphanumeric characters.\n", 61);
 	else
-		return (add_entry_storage(&sh_state->env, av[1], av[2]));
+		return (add_entry_storage(&sh_state->internal_storage, av[1], av[2], 1));
 	return (1);
 }

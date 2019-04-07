@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 23:31:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:37:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,11 +25,14 @@ static t_builtin_func	get_builtins_func(const char *name)
 	size_t		i;
 
 	i = 0;
-	while (assoc_name[i] != NULL)
+	if (name != NULL)
 	{
-		if (ft_strcmp(assoc_name[i], name) == 0)
-			return (assoc_func[i]);
-		i++;
+		while (assoc_name[i] != NULL)
+		{
+			if (ft_strcmp(assoc_name[i], name) == 0)
+				return (assoc_func[i]);
+			i++;
+		}
 	}
 	return (NULL);
 }

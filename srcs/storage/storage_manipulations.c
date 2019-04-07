@@ -6,18 +6,18 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 21:10:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:21:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_manipulations.h"
 
-int		add_entry_storage(t_list **storage, const char *name, const char *value)
+int		add_entry_storage(t_list **storage, const char *name, const char *value, int exported)
 {
 	t_list	*node;
-	char	*tmp;
 	size_t	len;
+	t_internal_storage entry;
 
 	len = 0;
 	if (value)
@@ -28,16 +28,18 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value)
 	if ((node = find_node_by_name(*storage, name)) != NULL)
 	{
 		free(node->content);
-		node->content_size = len + 1;
-		if ((node->content = create_entry(name, value,
+		node->content_size = sizeof(t_internal_storage);
+		if ((node->content = merge_name_value(name, value,
 	len)) == NULL)
 			return (1);
 	}
 	else
 	{
-		if ((tmp = create_entry(name, value, len)) == NULL)
+		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (1);
-		if ((node = ft_lstnew(tmp, len + 1)) == NULL)
+		entry.exported = exported;
+		if ((node = ft_lstnew((const void *)&entry,
+	sizeof(t_internal_storage))) == NULL)
 			return (1);
 		ft_lstprepend(storage, node);
 	}
@@ -57,8 +59,8 @@ int		remove_entry_storage(t_list **storage, const char *name)
 		return (0);
 	while (tmp != NULL)
 	{
-		if (ft_strncmp(name, (char *)tmp->content, len) == 0 &&
-		((char *)tmp->content)[len] == '=')
+		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len) == 0 &&
+		((t_internal_storage *)tmp->content)->string[len] == '=')
 		{
 			remove_node(storage, &tmp, prev);
 			return (1);
@@ -73,8 +75,8 @@ void	print_storage_content(t_list *storage, int fd_out)
 {
 	while (storage != NULL)
 	{
-		write(fd_out, storage->content, storage->content_size - 1);
-		write(fd_out, "\n", 1);
+		ft_putendl_fd(((t_internal_storage *)(storage->content))->string,
+	fd_out);
 		storage = storage->next;
 	}
 }
