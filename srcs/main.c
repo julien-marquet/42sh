@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:26:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 19:34:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,7 +45,7 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
-		builtins_dispatcher(sh_state, "env", (void *)sh_state->env, 1);
+		builtins_dispatcher(sh_state, "env", 1);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);

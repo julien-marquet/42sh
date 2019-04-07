@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:21:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 19:31:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #include "builtins/builtins_execution.h"
 
 int				exec_builtin(t_sh_state *sh_state,
-t_builtin_func builtin, void *data, int fd_out)
+t_builtin_func builtin, int fd_out)
 {
 	pid_t	pid;
 	int		stat_loc;
@@ -24,7 +24,7 @@ t_builtin_func builtin, void *data, int fd_out)
 	if (pid == 0)
 	{
 		set_term_state_backup(sh_state);
-		res = builtin(data, fd_out);
+		res = builtin(sh_state, fd_out);
 		set_term_state(sh_state);
 		exit(res);
 	}

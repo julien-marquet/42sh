@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:21:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 19:31:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,6 @@
 # include "builtins/builtins_defines.h"
 
 int				exec_builtin(t_sh_state *sh_state,
-t_builtin_func builtin, void *data, int fd_out);
+t_builtin_func builtin, int fd_out);
 
 #endif
