@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 20:56:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 21:10:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,7 +44,7 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value)
 	return (0);
 }
 
-int		remove_entry_storage(t_list **storage, char *name)
+int		remove_entry_storage(t_list **storage, const char *name)
 {
 	t_list	*tmp;
 	t_list	*prev;
