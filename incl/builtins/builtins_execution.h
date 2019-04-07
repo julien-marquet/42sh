@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_dispatcher.h                            .::    .:/ .      .::   */
+/*   builtins_execution.h                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:21:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 19:16:54 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 19:21:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DISPATCHER_H
-# define BUILTINS_DISPATCHER_H
+#ifndef BUILTINS_EXECUTION_H
+# define BUILTINS_EXECUTION_H
 
 # include "common.h"
+# include "term_state.h"
 # include "builtins/builtins_defines.h"
-# include "builtins/builtins_execution.h"
-# include "builtins/builtins_storage/builtins_storage.h"
 
-int			builtins_dispatcher(t_sh_state *sh_state, char *name, void *data, int	fd_out);
+int				exec_builtin(t_sh_state *sh_state,
+t_builtin_func builtin, void *data, int fd_out);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/21 16:05:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 19:07:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,9 +29,16 @@ tcgetattr(fd, &(state->term_state_backup)) != 0)
 	return (0);
 }
 
-int			reset_term_state(t_sh_state *sh_state)
+int			set_term_state_backup(t_sh_state *sh_state)
 {
 	if (tcsetattr(0, 0, &(sh_state->term_state_backup)) != 0)
+		return (1);
+	return (0);
+}
+
+int			set_term_state(t_sh_state *sh_state)
+{
+	if (tcsetattr(0, 0, &(sh_state->term_state)) != 0)
 		return (1);
 	return (0);
 }

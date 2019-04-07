@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 23:02:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 19:19:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,8 +15,12 @@
 
 static t_builtin_func	get_builtins_func(char *name)
 {
-	static char	*assoc_name[BUILTINS_NB + 1] = {"set", "env", NULL};
-	static int	(*assoc_func[BUILTINS_NB + 1])(void *, int) = {builtins_set, builtins_env, NULL};
+	static char	*assoc_name[BUILTINS_NB + 1] = {
+		"set", "env", NULL
+	};
+	static int	(*assoc_func[BUILTINS_NB + 1])(void *, int) = {
+		builtins_set, builtins_env, NULL
+	};
 	size_t		i;
 
 	i = 0;
@@ -29,12 +33,13 @@ static t_builtin_func	get_builtins_func(char *name)
 	return (NULL);
 }
 
-int						builtins_dispatcher(char *name, void *data, int fd_out)
+int						builtins_dispatcher(t_sh_state *sh_state,
+char *name, void *data, int fd_out)
 {
 	t_builtin_func	f;
 
 	if ((f = get_builtins_func(name)) != NULL)
-		return (f(data, fd_out));
+		return (exec_builtin(sh_state, f, data, fd_out));
 	else
 		return (0);
 }

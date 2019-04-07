@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:35:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 19:26:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,12 +20,15 @@
 #include "data/input_data.h"
 #include "signal_handler.h"
 #include "storage/storage.h"
+#include "builtins/builtins.h"
 
 int		main(int ac, char **av, char **env)
 {
 	t_sh_state		*sh_state;
 	t_input_data	*input_data;
+	int				i;
 
+	i = 0;
 	ac = av[0][0];
 	if ((sh_state = init_sh()) == NULL)
 		return (1);
@@ -33,7 +36,8 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((sh_state->env = init_env((const char **)env)) == NULL)
 		return (1);
-	signal(SIGWINCH, handle_sigwinch);
+	while (i < 32)
+		signal(i++, handle_all);
 	while (sh_state->exit_sig == 0)
 	{
 		if (handle_input(sh_state, input_data, NULL) == 1)
@@ -41,6 +45,7 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
+		builtins_dispatcher(sh_state, "env", (void *)sh_state->env, 1);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);
