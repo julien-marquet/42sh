@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_defines.h                               .::    .:/ .      .::   */
+/*   builtin_set.h                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:59:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 18:49:06 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 20:18:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DEFINES_H
-# define BUILTINS_DEFINES_H
+#ifndef BUILTIN_SET_H
+# define BUILTIN_SET_H
 
-# define BUILTINS_NB 3
-# define BUILTINS_MAX_LEN 20
+# include "common.h"
+# include "storage/storage_manipulations.h"
 
-typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av, int fd_out);
+int		builtin_set(t_sh_state *sh_state, int ac, const char **av, int fd_out);
 
 #endif

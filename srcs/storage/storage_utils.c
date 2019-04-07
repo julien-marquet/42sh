@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:28:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:30:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 20:34:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,11 +36,12 @@ char	*create_entry(const char *name, const char *value, const size_t size)
 	char	*res;
 
 	name_len = ft_strlen(name);
-	if ((res = ft_memalloc(size)) == NULL)
+	if ((res = ft_memalloc(size + 1)) == NULL)
 		return (NULL);
 	ft_strcpy(res, name);
 	res[name_len] = '=';
-	ft_strcpy(&(res[name_len + 1]), value);
+	if (value != NULL)
+		ft_strcpy(&(res[name_len + 1]), value);
 	return res;
 }
 

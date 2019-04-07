@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 22:58:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 20:56:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,7 +19,10 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value)
 	char	*tmp;
 	size_t	len;
 
-	len = ft_strlen(name) + ft_strlen(value) + 1;
+	len = 0;
+	if (value)
+		len = ft_strlen(value);
+	len += ft_strlen(name) + 1;
 	if (ft_strlen(name) == 0)
 		return (0);
 	if ((node = find_node_by_name(*storage, name)) != NULL)
@@ -27,16 +30,16 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value)
 		free(node->content);
 		node->content_size = len + 1;
 		if ((node->content = create_entry(name, value,
-	node->content_size)) == NULL)
+	len)) == NULL)
 			return (1);
 	}
 	else
 	{
-		if ((tmp = create_entry(name, value, len + 1)) == NULL)
+		if ((tmp = create_entry(name, value, len)) == NULL)
 			return (1);
 		if ((node = ft_lstnew(tmp, len + 1)) == NULL)
 			return (1);
-		ft_lstadd(storage, node);
+		ft_lstprepend(storage, node);
 	}
 	return (0);
 }

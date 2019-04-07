@@ -6,20 +6,20 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:35:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 20:54:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_dispatcher.h"
 
-static t_builtin_func	get_builtins_func(char *name)
+static t_builtin_func	get_builtins_func(const char *name)
 {
 	static char	*assoc_name[BUILTINS_NB + 1] = {
-		"set", "env", NULL
+		"set", "env", "setenv", NULL
 	};
-	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int) = {
-		builtins_set, builtins_env, NULL
+	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, int) = {
+		builtin_set, builtin_env, builtin_setenv, NULL
 	};
 	size_t		i;
 
@@ -33,13 +33,18 @@ static t_builtin_func	get_builtins_func(char *name)
 	return (NULL);
 }
 
-int						builtins_dispatcher(t_sh_state *sh_state,
-char *name, int fd_out)
+int			builtins_dispatcher(t_sh_state *sh_state,
+const char **av, int fd_out, int background)
 {
 	t_builtin_func	f;
 
-	if ((f = get_builtins_func(name)) != NULL)
-		return (exec_builtin(sh_state, f, fd_out));
+	if ((f = get_builtins_func(av[0])) != NULL)
+	{
+		if (background == 0)
+			return (exec_builtin(sh_state, av, f, fd_out));
+		else
+			return (background_exec_builtin(sh_state, av, f, fd_out));
+	}
 	else
 		return (0);
 }

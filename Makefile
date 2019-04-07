@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/07 19:20:38 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/07 20:17:04 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -37,7 +37,7 @@ CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
 CFILES += $(addprefix builtins/, builtins_dispatcher.c builtins_execution.c)
-CFILES += $(addprefix builtins/builtins_storage/, builtins_set.c builtins_env.c)
+CFILES += $(addprefix builtins/builtins_storage/, builtin_set.c builtin_env.c builtin_setenv.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -54,7 +54,7 @@ TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
 TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
 TMPFILES += $(addprefix builtins/, builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
-TMPFILES += $(addprefix builtins/builtins_storage/, builtins_set.h builtins_env.h builtins_storage.h)
+TMPFILES += $(addprefix builtins/builtins_storage/, builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 

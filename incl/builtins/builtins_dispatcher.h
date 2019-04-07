@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 19:33:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 20:52:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,7 @@
 # include "builtins/builtins_execution.h"
 # include "builtins/builtins_storage/builtins_storage.h"
 
-int			builtins_dispatcher(t_sh_state *sh_state, char *name, int	fd_out);
+int		builtins_dispatcher(t_sh_state *sh_state,
+		const char **av, int fd_out, int background);
 
 #endif
