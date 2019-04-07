@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/07 21:11:56 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/07 22:41:38 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -36,7 +36,7 @@ CFILES += $(addprefix data/, input_data.c lst_utils.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
-CFILES += $(addprefix builtins/, builtins_dispatcher.c builtins_execution.c)
+CFILES += $(addprefix builtins/, builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
@@ -53,7 +53,7 @@ TMPFILES += $(addprefix data/, input_data.h lst_utils.h)
 TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
 TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
-TMPFILES += $(addprefix builtins/, builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
+TMPFILES += $(addprefix builtins/, builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
