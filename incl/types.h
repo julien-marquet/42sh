@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:15:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 23:09:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,7 +28,7 @@ typedef struct	s_sh_state
 {
 	struct termios	term_state;
 	struct termios	term_state_backup;
-	size_t			status;
+	unsigned char	status;
 	size_t			exit_sig;
 	t_list			*env;
 }				t_sh_state;
