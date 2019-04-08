@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:15:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 17:43:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,5 +16,6 @@
 
 # include "storage/storage_env.h"
 # include "storage/storage_manipulations.h"
+# include "storage/storage_getters.h"
 
 #endif
