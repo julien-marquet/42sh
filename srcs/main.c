@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 17:00:59 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 17:14:38 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,6 +28,7 @@ int		main(int ac, char **av, char **env)
 	t_sh_state		*sh_state;
 	t_input_data	*input_data;
 	int				i;
+	char **test;
 
 	i = 0;
 	ac = av[0][0];
@@ -35,10 +36,11 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
 		return (1);
-	if ((sh_state->env = init_env((const char **)env)) == NULL)
+	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
 		return (1);
 	while (i < 32)
 		signal(i++, handle_all);
+	// add_entry_storage(&sh_state->internal_storage, "OUI", "NON", 0);
 	while (sh_state->exit_sig == 0)
 	{
 		if (handle_input(sh_state, input_data, NULL) == 1)
@@ -46,8 +48,15 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
+		/*if (input_data->active_buf->len > 0)
+		{
+			input_data->active_buf->len -= 1;
+			input_data->active_buf->buf[input_data->active_buf->len] = '\0';
+		}
+		test = NULL;
+		test = ft_strsplit(input_data->active_buf->buf, ' ');
+		builtins_dispatcher(sh_state, (const char **)test, 1, 0);*/
 		parse(input_data->active_buf->buf, NULL, sh_state, input_data);
-		builtins_dispatcher(sh_state, "env", 1);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);
