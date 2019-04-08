@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:59:25 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:09:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/07 23:10:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,10 +28,10 @@ t_sh_state	*init_sh(void)
 
 void		exit_sh(t_sh_state *sh_state, t_input_data *input_data)
 {
-	size_t	status;
+	unsigned char	status;
 
 	status = sh_state->status;
-	reset_term_state(sh_state);
+	set_term_state_backup(sh_state);
 	free_sh_state(&sh_state);
 	free_input_data(&input_data);
 	exit(status);

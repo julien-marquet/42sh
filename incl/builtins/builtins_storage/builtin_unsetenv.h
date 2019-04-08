@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_env.c                                   .::    .:/ .      .::   */
+/*   builtin_unsetenv.h                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 23:03:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 21:00:52 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 21:02:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtins_storage/builtins_env.h"
+#ifndef BUILTIN_UNSETENV_H
+# define BUILTIN_UNSETENV_H
 
-int		builtins_env(void *env, int fd_out)
-{
-	t_list *casted_env;
+# include "common.h"
+# include "storage/storage.h"
 
-	casted_env = (t_list *)env;
-	print_storage_content(casted_env, fd_out);
-	return (0);
-}
+
+int		builtin_unsetenv(t_sh_state *sh_state, int ac,
+		const char **av, int fd_out);
+
+#endif

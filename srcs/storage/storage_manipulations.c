@@ -6,42 +6,48 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 22:58:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 02:05:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_manipulations.h"
 
-int		add_entry_storage(t_list **storage, const char *name, const char *value)
+int		add_entry_storage(t_list **storage, const char *name, const char *value, int exported)
 {
 	t_list	*node;
-	char	*tmp;
 	size_t	len;
+	t_internal_storage entry;
 
-	len = ft_strlen(name) + ft_strlen(value) + 1;
+	len = 0;
+	if (value)
+		len = ft_strlen(value);
+	len += ft_strlen(name) + 1;
 	if (ft_strlen(name) == 0)
 		return (0);
 	if ((node = find_node_by_name(*storage, name)) != NULL)
 	{
-		free(node->content);
-		node->content_size = len + 1;
-		if ((node->content = create_entry(name, value,
-	node->content_size)) == NULL)
+		free(((t_internal_storage *)node->content)->string);
+		node->content_size = sizeof(t_internal_storage);
+		if ((((t_internal_storage *)node->content)->string =
+	merge_name_value(name, value,
+	len)) == NULL)
 			return (1);
 	}
 	else
 	{
-		if ((tmp = create_entry(name, value, len + 1)) == NULL)
+		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (1);
-		if ((node = ft_lstnew(tmp, len + 1)) == NULL)
+		if ((node = ft_lstnew((const void *)&entry,
+	sizeof(t_internal_storage))) == NULL)
 			return (1);
-		ft_lstadd(storage, node);
+		ft_lstprepend(storage, node);
 	}
+	entry.exported = exported;
 	return (0);
 }
 
-int		remove_entry_storage(t_list **storage, char *name)
+int		remove_entry_storage(t_list **storage, const char *name)
 {
 	t_list	*tmp;
 	t_list	*prev;
@@ -54,8 +60,8 @@ int		remove_entry_storage(t_list **storage, char *name)
 		return (0);
 	while (tmp != NULL)
 	{
-		if (ft_strncmp(name, (char *)tmp->content, len) == 0 &&
-		((char *)tmp->content)[len] == '=')
+		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len) == 0 &&
+		((t_internal_storage *)tmp->content)->string[len] == '=')
 		{
 			remove_node(storage, &tmp, prev);
 			return (1);
@@ -70,8 +76,20 @@ void	print_storage_content(t_list *storage, int fd_out)
 {
 	while (storage != NULL)
 	{
-		write(fd_out, storage->content, storage->content_size - 1);
-		write(fd_out, "\n", 1);
+		ft_putendl_fd(((t_internal_storage *)(storage->content))->string,
+	fd_out);
 		storage = storage->next;
 	}
+}
+
+int		update_exported_flag(t_list *storage, const char *name, int exported)
+{
+	t_list	*node;
+
+	if ((node = find_node_by_name(storage, name)) != NULL)
+	{
+		((t_internal_storage *)node->content)->exported = exported;
+		return (1);
+	}
+	return (0);
 }

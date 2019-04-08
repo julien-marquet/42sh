@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_env.h                                    .::    .:/ .      .::   */
+/*   builtins_execution.h                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:26:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:58:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 19:16:54 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 20:55:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_ENV_H
-# define STORAGE_ENV_H
+#ifndef BUILTINS_EXECUTION_H
+# define BUILTINS_EXECUTION_H
 
 # include "common.h"
-# include "storage/storage_utils.h"
+# include "term_state.h"
+# include "builtins/builtins_defines.h"
 
-t_list	*init_env(const char **env);
-void	print_env(t_list *internal_storage, int fd);
+int		exec_builtin(t_sh_state *sh_state, const char **av,
+		t_builtin_func builtin, int fd_out);
+int		background_exec_builtin(t_sh_state *sh_state, const char **av,
+t_builtin_func builtin, int fd_out);
 
 #endif

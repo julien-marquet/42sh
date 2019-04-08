@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_env.h                                    .::    .:/ .      .::   */
+/*   builtin_export.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:26:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:58:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 23:37:38 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 02:09:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_ENV_H
-# define STORAGE_ENV_H
+#include "builtins/builtins_storage/builtin_export.h"
 
-# include "common.h"
-# include "storage/storage_utils.h"
+int		builtin_export(t_sh_state *sh_state, int ac, const char **av, int fd_out)
+{
+	int		i;
 
-t_list	*init_env(const char **env);
-void	print_env(t_list *internal_storage, int fd);
-
-#endif
+	i = 1;
+	fd_out++;
+	while (i < ac)
+		update_exported_flag(sh_state->internal_storage, av[i++], 1);
+	return (0);
+}

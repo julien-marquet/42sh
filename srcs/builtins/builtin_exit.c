@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_env.h                                    .::    .:/ .      .::   */
+/*   builtin_exit.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:26:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:58:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 22:38:07 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 23:09:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_ENV_H
-# define STORAGE_ENV_H
+#include "builtins/builtin_exit.h"
 
-# include "common.h"
-# include "storage/storage_utils.h"
-
-t_list	*init_env(const char **env);
-void	print_env(t_list *internal_storage, int fd);
-
-#endif
+int		builtin_exit(t_sh_state *sh_state, int ac, const char **av, int fd_out)
+{
+	if (ac > 2)
+	{
+		write(fd_out, "exit:, Too many arguments.\n", 29);
+		return (1);
+	}
+	sh_state->exit_sig = 1;
+	if (ac > 1)
+		return (ft_atoi(av[1]));
+	else
+		return ((int)sh_state->status);
+}

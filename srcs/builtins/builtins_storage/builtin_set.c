@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_env.h                                    .::    .:/ .      .::   */
+/*   builtin_set.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:26:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:58:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 18:47:16 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/07 23:22:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_ENV_H
-# define STORAGE_ENV_H
+#include "builtins/builtins_storage/builtin_set.h"
 
-# include "common.h"
-# include "storage/storage_utils.h"
-
-t_list	*init_env(const char **env);
-void	print_env(t_list *internal_storage, int fd);
-
-#endif
+int		builtin_set(t_sh_state *sh_state, int ac, const char **av, int fd_out)
+{
+	ac = !!av;
+	print_storage_content(sh_state->internal_storage, fd_out);
+	return (0);
+}

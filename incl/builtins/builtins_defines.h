@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_env.h                                    .::    .:/ .      .::   */
+/*   builtins_defines.h                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:26:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:58:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 02:08:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_ENV_H
-# define STORAGE_ENV_H
+#ifndef BUILTINS_DEFINES_H
+# define BUILTINS_DEFINES_H
 
-# include "common.h"
-# include "storage/storage_utils.h"
+# define BUILTINS_NB 8
+# define BUILTINS_MAX_LEN 20
 
-t_list	*init_env(const char **env);
-void	print_env(t_list *internal_storage, int fd);
+typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av, int fd_out);
 
 #endif

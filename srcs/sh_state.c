@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:10:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 00:28:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@ t_sh_state	*init_sh_state(void)
 		return (NULL);
 	sh_state->status = 0;
 	sh_state->exit_sig = 0;
-	sh_state->env = NULL;
+	sh_state->internal_storage = NULL;
 	return (sh_state);
 }
 
@@ -33,6 +33,6 @@ void		free_sh_state(t_sh_state **state)
 		return ;
 
 	del = free_lstnode;
-	ft_lstdel(&((*state)->env), del);
+	ft_lstdel(&((*state)->internal_storage), del);
 	free(*state);
 }

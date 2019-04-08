@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:33:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 22:59:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:54:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,8 +18,9 @@
 # include "storage/storage_utils.h"
 
 int		add_entry_storage(t_list **storage, const char *name,
-		const char *value);
+		const char *value, int exported);
 void	print_storage_content(t_list *storage, int fd_out);
-int		remove_entry_storage(t_list **storage, char *name);
+int		remove_entry_storage(t_list **storage, const char *name);
+int		update_exported_flag(t_list *storage, const char *name, int exported);
 
 #endif

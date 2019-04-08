@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_env.h                                   .::    .:/ .      .::   */
+/*   builtin_unsetenv.c                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 22:38:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 23:04:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/07 21:00:21 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 02:10:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_ENV_H
-# define BUILTINS_ENV_H
+#include "builtins/builtins_storage/builtin_unsetenv.h"
 
-# include "common.h"
-# include "storage/storage_manipulations.h"
+int		builtin_unsetenv(t_sh_state *sh_state, int ac,
+const char **av, int fd_out)
+{
+	int		i;
 
-int		builtins_env(void *env, int fd_out);
-
-#endif
+	if (ac == 1)
+	{
+		write(fd_out, "unsetenv: Too few arguments.\n", 30);
+		return (1);
+	}
+	else
+	{
+		i = 1;
+		while (i < ac)
+			update_exported_flag(sh_state->internal_storage, av[i++], 0);
+		return (0);
+	}
+}
