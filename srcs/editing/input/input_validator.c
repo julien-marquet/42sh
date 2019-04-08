@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:07:32 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 18:37:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 23:38:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -72,11 +72,13 @@ static int		operator_is_lonely(t_dyn_buf *dyn_buf)
 	i = (int)dyn_buf->len - 1;
 	if (i < 2)
 		return (0);
-	if (ft_strncmp(&(dyn_buf->buf[i-2]), "||", 2) == 0 || ft_strncmp(&(dyn_buf->buf[i-2]), "&&", 2) == 0)
+	if (ft_strncmp(&(dyn_buf->buf[i - 2]), "||", 2) == 0 ||
+ft_strncmp(&(dyn_buf->buf[i - 2]), "&&", 2) == 0 ||
+ft_strncmp(&(dyn_buf->buf[i - 2]), "${", 2) == 0)
 	{
 		if (i == 2)
 			return (1);
-		else if (dyn_buf->buf[i-3] == ' ')
+		else if (dyn_buf->buf[i - 3] == ' ')
 			return (1);
 	}
 	return (0);
@@ -94,7 +96,8 @@ int		output_is_ready(t_dyn_buf *dyn_buf, int valid_here_doc)
 		return (0);
 	else if (operator_is_lonely(dyn_buf))
 		return (0);
-	else if (dyn_buf->buf[dyn_buf->len - 1] == '\n' && is_escaped(dyn_buf->buf, dyn_buf->len - 1))
+	else if (dyn_buf->buf[dyn_buf->len - 1] == '\n' &&
+is_escaped(dyn_buf->buf, dyn_buf->len - 1))
 		return (0);
 	return (1);
 }
