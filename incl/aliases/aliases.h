@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 19:57:50 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:45:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 23:47:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,5 +15,6 @@
 # define ALIAS_H
 
 # include "aliases/aliases_manipulations.h"
+# include "aliases/aliases_getters.h"
 
 #endif

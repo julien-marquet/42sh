@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/08 22:14:51 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/08 23:41:26 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -41,7 +41,7 @@ CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storag
 CFILES += $(addprefix builtins/, builtin_echo.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
 CFILES += $(addprefix utils/, utils_str.c)
-CFILES += $(addprefix aliases/, aliases_manipulations.c aliases_utils.c)
+CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -60,7 +60,7 @@ TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h stor
 TMPFILES += $(addprefix builtins/, builtin_echo.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_unset.h builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
 TMPFILES += $(addprefix utils/, utils.h utils_str.h)
-TMPFILES += $(addprefix aliases/, aliases.h aliases_manipulations.h aliases_utils.h)
+TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 
