@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:27:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 00:59:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 18:57:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,5 +22,7 @@ int		fill_entry(t_internal_storage *entry, const char *name,
 void	remove_node(t_list **alst, t_list **node, t_list *prev);
 char	*merge_name_value(const char *name,
 		const char *value, const size_t size);
+int		update_existing_node(t_list *node, const char *name,
+		const char *value, size_t len);
 
 #endif

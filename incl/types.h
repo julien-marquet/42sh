@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 00:17:40 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 18:48:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,6 +65,7 @@ typedef struct	s_internal_storage
 {
 	char	*string;
 	int		exported;
+	int		new_entry;
 }				t_internal_storage;
 
 #endif

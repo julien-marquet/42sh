@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 02:05:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 19:04:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,9 +15,9 @@
 
 int		add_entry_storage(t_list **storage, const char *name, const char *value, int exported)
 {
-	t_list	*node;
-	size_t	len;
-	t_internal_storage entry;
+	t_list				*node;
+	size_t				len;
+	t_internal_storage	entry;
 
 	len = 0;
 	if (value)
@@ -27,23 +27,19 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 		return (0);
 	if ((node = find_node_by_name(*storage, name)) != NULL)
 	{
-		free(((t_internal_storage *)node->content)->string);
-		node->content_size = sizeof(t_internal_storage);
-		if ((((t_internal_storage *)node->content)->string =
-	merge_name_value(name, value,
-	len)) == NULL)
+		if (update_existing_node(node, name, value, len) == 1)
 			return (1);
 	}
 	else
 	{
 		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (1);
-		if ((node = ft_lstnew((const void *)&entry,
-	sizeof(t_internal_storage))) == NULL)
+		if ((node = ft_lstnew((const void *)&entry, sizeof(t_internal_storage))) == NULL)
 			return (1);
 		ft_lstprepend(storage, node);
 	}
 	entry.exported = exported;
+	entry.new_entry = 1;
 	return (0);
 }
 
@@ -92,4 +88,16 @@ int		update_exported_flag(t_list *storage, const char *name, int exported)
 		return (1);
 	}
 	return (0);
+}
+
+void	flush_new_entry_flag(t_list *storage)
+{
+	t_list	*tmp;
+
+	tmp = storage;
+	while (tmp != NULL)
+	{
+		((t_internal_storage *)tmp->content)->new_entry = 0;
+		tmp = tmp->next;
+	}
 }
