@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 18:48:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 22:17:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,6 +31,7 @@ typedef struct	s_sh_state
 	unsigned char	status;
 	size_t			exit_sig;
 	t_list			*internal_storage;
+	t_list			*aliases;
 }				t_sh_state;
 
 typedef struct	s_dyn_buf

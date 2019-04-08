@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:28:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 18:57:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 22:21:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,6 +18,8 @@ t_list	*find_node_by_name(t_list *env, const char *var_name)
 	t_list	*tmp;
 	size_t	len;
 
+	if (var_name == NULL)
+		return (NULL);
 	tmp = env;
 	len = ft_strlen(var_name);
 	while (tmp != NULL)
@@ -29,22 +31,6 @@ t_list	*find_node_by_name(t_list *env, const char *var_name)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-
-char	*merge_name_value(const char *name,
-const char *value, const size_t size)
-{
-	size_t	name_len;
-	char	*res;
-
-	name_len = ft_strlen(name);
-	if ((res = ft_memalloc(size + 1)) == NULL)
-		return (NULL);
-	ft_strcpy(res, name);
-	res[name_len] = '=';
-	if (value != NULL)
-		ft_strcpy(&(res[name_len + 1]), value);
-	return res;
 }
 
 int		fill_entry(t_internal_storage *entry, const char *name,

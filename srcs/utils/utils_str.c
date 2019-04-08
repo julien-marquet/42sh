@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_utils.h                                  .::    .:/ .      .::   */
+/*   utils_str.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:27:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:03:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 22:02:10 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 22:02:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_UTILS_H
-# define STORAGE_UTILS_H
+#include "utils/utils_str.h"
 
-# include "common.h"
-# include "utils/utils.h"
+char	*merge_name_value(const char *name,
+const char *value, const size_t size)
+{
+	size_t	name_len;
+	char	*res;
 
-t_list	*find_node_by_name(t_list *env, const char *var_name);
-int		fill_entry(t_internal_storage *entry, const char *name,
-		const char *value, const size_t size);
-void	remove_node(t_list **alst, t_list **node, t_list *prev);
-int		update_existing_node(t_list *node, const char *name,
-		const char *value, size_t len);
-
-#endif
+	name_len = ft_strlen(name);
+	if ((res = ft_memalloc(size + 1)) == NULL)
+		return (NULL);
+	ft_strcpy(res, name);
+	res[name_len] = '=';
+	if (value != NULL)
+		ft_strcpy(&(res[name_len + 1]), value);
+	return res;
+}

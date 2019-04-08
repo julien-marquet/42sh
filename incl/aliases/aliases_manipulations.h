@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_utils.h                                  .::    .:/ .      .::   */
+/*   aliases_manipulations.h                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:27:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:03:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 20:03:20 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 22:35:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_UTILS_H
-# define STORAGE_UTILS_H
+#ifndef ALIASES_MANIPULATIONS_H
+# define ALIASES_MANIPULATIONS_H
 
 # include "common.h"
+# include "aliases/aliases_utils.h"
 # include "utils/utils.h"
 
-t_list	*find_node_by_name(t_list *env, const char *var_name);
-int		fill_entry(t_internal_storage *entry, const char *name,
-		const char *value, const size_t size);
-void	remove_node(t_list **alst, t_list **node, t_list *prev);
-int		update_existing_node(t_list *node, const char *name,
-		const char *value, size_t len);
+int		add_alias(t_list **aliases, const char *name, const char *value);
+void	print_aliases(t_list *aliases, int fd_out);
 
 #endif
