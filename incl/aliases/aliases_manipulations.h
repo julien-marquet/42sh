@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 20:03:20 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:35:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 22:47:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,10 +15,11 @@
 # define ALIASES_MANIPULATIONS_H
 
 # include "common.h"
-# include "aliases/aliases_utils.h"
 # include "utils/utils.h"
+# include "aliases/aliases_utils.h"
 
 int		add_alias(t_list **aliases, const char *name, const char *value);
 void	print_aliases(t_list *aliases, int fd_out);
+int		remove_alias(t_list **aliases, const char *name);
 
 #endif

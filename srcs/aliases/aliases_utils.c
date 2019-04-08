@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 21:53:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:21:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 22:46:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,4 +41,14 @@ const char *value, size_t len)
 	if ((node->content = merge_name_value(name, value, len)) == NULL)
 		return (1);
 	return (0);
+}
+
+void	remove_alias_node(t_list **alst, t_list **node, t_list *prev)
+{
+	if (prev != NULL)
+		prev->next = (*node)->next;
+	else
+		*alst = (*node)->next;
+	free((*node)->content);
+	free(*node);
 }

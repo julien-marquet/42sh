@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:37:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 22:42:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,6 +49,8 @@ int		remove_entry_storage(t_list **storage, const char *name)
 	t_list	*prev;
 	size_t	len;
 
+	if (name == NULL)
+		return (1);
 	tmp = *storage;
 	prev = NULL;
 	len = ft_strlen(name);
@@ -59,7 +61,7 @@ int		remove_entry_storage(t_list **storage, const char *name)
 		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len) == 0 &&
 		((t_internal_storage *)tmp->content)->string[len] == '=')
 		{
-			remove_node(storage, &tmp, prev);
+			remove_storage_node(storage, &tmp, prev);
 			return (1);
 		}
 		prev = tmp;
