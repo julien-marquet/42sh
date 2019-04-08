@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 23:31:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 01:01:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,6 +18,7 @@
 # include "builtins/builtins_defines.h"
 # include "builtins/builtins_execution.h"
 # include "builtins/builtins_storage/builtins_storage.h"
+# include "builtins/builtins_aliases/builtins_aliases.h"
 # include "builtins/builtin_exit.h"
 # include "builtins/builtin_echo.h"
 

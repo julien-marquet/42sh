@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_defines.h                               .::    .:/ .      .::   */
+/*   builtins_aliases.h                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 01:42:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/09 00:10:28 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 00:11:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DEFINES_H
-# define BUILTINS_DEFINES_H
+#ifndef BUILTINS_ALIASES_H
+# define BUILTINS_ALIASES_H
 
-# define BUILTINS_NB 10
-# define BUILTINS_MAX_LEN 20
-
-typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av, int fd_out);
+# include "builtins/builtins_aliases/builtin_alias.h"
+# include "builtins/builtins_aliases/builtin_unalias.h"
 
 #endif
