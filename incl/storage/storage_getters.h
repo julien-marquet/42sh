@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 18:04:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:15:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 17:38:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,8 +17,6 @@
 # include "common.h"
 # include "storage/storage_utils.h"
 
-char	*get_stored_multiple(t_list *storage_1, t_list *storage_2,
-		const char *var_name);
 char	*get_stored(t_list *storage, const char *var_name);
 
 #endif
