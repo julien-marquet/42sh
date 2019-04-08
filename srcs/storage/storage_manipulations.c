@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:21:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 02:05:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,9 +27,10 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 		return (0);
 	if ((node = find_node_by_name(*storage, name)) != NULL)
 	{
-		free(node->content);
+		free(((t_internal_storage *)node->content)->string);
 		node->content_size = sizeof(t_internal_storage);
-		if ((node->content = merge_name_value(name, value,
+		if ((((t_internal_storage *)node->content)->string =
+	merge_name_value(name, value,
 	len)) == NULL)
 			return (1);
 	}
@@ -37,12 +38,12 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 	{
 		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (1);
-		entry.exported = exported;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
 			return (1);
 		ft_lstprepend(storage, node);
 	}
+	entry.exported = exported;
 	return (0);
 }
 
@@ -79,4 +80,16 @@ void	print_storage_content(t_list *storage, int fd_out)
 	fd_out);
 		storage = storage->next;
 	}
+}
+
+int		update_exported_flag(t_list *storage, const char *name, int exported)
+{
+	t_list	*node;
+
+	if ((node = find_node_by_name(storage, name)) != NULL)
+	{
+		((t_internal_storage *)node->content)->exported = exported;
+		return (1);
+	}
+	return (0);
 }

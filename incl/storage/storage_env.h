@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:26:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:16:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:58:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,5 @@
 
 t_list	*init_env(const char **env);
 void	print_env(t_list *internal_storage, int fd);
-int		remove_env(t_list **internal_storage, const char *name);
 
 #endif

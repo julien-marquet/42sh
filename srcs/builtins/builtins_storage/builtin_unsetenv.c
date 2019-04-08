@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 21:00:21 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 01:17:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:57:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,7 +28,7 @@ const char **av, int fd_out)
 		i = 1;
 		while (i < ac)
 		{
-			remove_env(&sh_state->internal_storage, av[i]);
+			update_exported_flag(sh_state->internal_storage, av[i], 0);
 			i++;
 		}
 		return (0);

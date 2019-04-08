@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:03:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 23:31:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 01:56:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,5 +19,6 @@
 # include "builtins/builtins_storage/builtin_setenv.h"
 # include "builtins/builtins_storage/builtin_unsetenv.h"
 # include "builtins/builtins_storage/builtin_unset.h"
+# include "builtins/builtins_storage/builtin_export.h"
 
 #endif
