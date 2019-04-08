@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 23:32:46 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 16:47:53 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -76,6 +76,7 @@ typedef struct		s_cmd {
 int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_data);
 char			*stresc(char *find, char *str, int i);
 void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
+t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data);
 int				parse_tokenize(char *str, t_cmd **cmd);
 void			parse_expansion(t_cmd *cmd, t_term *term);
 void			parse_tilde(t_cmd *cmd, t_term *term);

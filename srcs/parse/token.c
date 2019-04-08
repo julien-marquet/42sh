@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 22:35:37 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/06 17:05:50 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/06 17:07:26 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,19 +52,6 @@ static int		parse_charhandle(char *str, int i, char chr)
 			i++;
 		return (i);
 	}
-	/*if (chr == '>')
-	{
-		while (str[i] && ft_isdigit(str[i]))
-			i++;
-		str[i] == '&' ? i++ : 0;
-		while (str[i] == chr)
-			i++;
-		str[i] == '&' ? i++ : 0;
-		k = i;
-		while (str[i] && ft_isdigit(str[i]))
-			i++;
-		return (ft_isspace(str[i]) ? i : k);
-	}*/
 	return (i + 1);
 }
 

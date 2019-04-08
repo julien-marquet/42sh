@@ -6,55 +6,12 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/06 16:46:05 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 16:49:45 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse.h"
-#include "editing/input/input_main_process.h"
-
-static void		parse_chevpush(t_file **file, t_file *new)
-{
-	t_file *tmp;
-
-	tmp = *file;
-	if (file != NULL && new != NULL)
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
-
-/*
-** Free new->file in heredoc function
-*/
-
-static t_cmd	*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data)
-{
-	t_file	*new;
-
-	(void)sh_state;
-	(void)input_data;
-	if (!(new = ft_memalloc(sizeof(t_file))))
-		return (NULL);
-	if (type[C_TYPE] == '<' && type[C_LEN] == 2)
-	{
-		reset_dyn_buf(input_data->active_buf);
-		handle_input(sh_state, input_data, file);
-		new->here = ft_strdup(input_data->active_buf->buf);//ft_strdup("HEREDOC\nPLACE\nHOLDER");
-		ft_strdel(&file);
-	}
-	else
-		new->file = file;
-	new->type = type;
-	if (type[C_TYPE] == '<')
-		!cmd->in ? cmd->in = new : parse_chevpush(&cmd->in, new);
-	else if (type[C_TYPE] == '>')
-		!cmd->out ? cmd->out = new : parse_chevpush(&cmd->out, new);
-	return (cmd);
-}
 
 static int		*parse_chev_type(char *str, int i)
 {
@@ -67,7 +24,7 @@ static int		*parse_chev_type(char *str, int i)
 	type[C_OUT] = -1;
 	while (i > 0 && ft_isdigit(str[i - 1]))
 		i--;
-	if ((i > 0 && stresc(";|<>& ", str, i - 1)) || i == 0)
+	if ((i > 0 && stresc(";|<>& \n", str, i - 1)) || i == 0)
 		ft_isdigit(str[i]) ? type[C_IN] = ft_atoi(str + i) : 0;
 	while (str[i] && ft_isdigit(str[i]))
 		i++;
@@ -104,11 +61,11 @@ static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state
 	len = i;
 	while (i > 0 && ft_isdigit(str[i - 1]))
 		i--;
-	if ((i > 0 && stresc(";|<>& ", str, i - 1)) || i == 0)
+	if ((i > 0 && stresc(";|<>& \n", str, i - 1)) || i == 0)
 		len = i;
 	i = parse_chev_skip(str, i, type[C_TYPE]);
 	tmp = i;
-	while (str[i] && (!stresc(";|<>& ", str, i) || is_quoted(str, i)))
+	while (str[i] && (!stresc(";|<>& \n", str, i) || is_quoted(str, i)))
 		i++;
 	if (!(file = strndup_qr(str + tmp, i - tmp)))
 		return (0);

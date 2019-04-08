@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/06 17:36:38 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/08 16:45:59 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -33,7 +33,7 @@ CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c curso
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix data/, input_data.c lst_utils.c)
-CFILES += $(addprefix parse/, check.c chev.c expand_tilde.c expand.c free.c split.c token.c parse.c utils.c)
+CFILES += $(addprefix parse/, check.c chev.c chev_create.c expand_tilde.c expand.c free.c split.c token.c parse.c utils.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
