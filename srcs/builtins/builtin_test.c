@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_defines.h                               .::    .:/ .      .::   */
+/*   builtin_test.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 02:08:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 22:03:27 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 22:03:28 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DEFINES_H
-# define BUILTINS_DEFINES_H
+#include "builtins/builtin_test.h"
 
-# define BUILTINS_NB 10
-# define BUILTINS_MAX_LEN 20
-
-typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av, int fd_out);
-
-#endif
+int     builtin_test(t_sh_state *sh_state, int ac, const char **av, int fd_out)
+{
+    (void)sh_state;
+    (void)ac;
+    (void)av;
+    (void)fd_out;
+    return (0); }

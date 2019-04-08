@@ -20,6 +20,7 @@
 # include "builtins/builtins_storage/builtins_storage.h"
 # include "builtins/builtin_exit.h"
 # include "builtins/builtin_echo.h"
+# include "builtins/builtin_test.h"
 
 int		builtins_dispatcher(t_sh_state *sh_state,
 		const char **av, int fd_out, int background);
