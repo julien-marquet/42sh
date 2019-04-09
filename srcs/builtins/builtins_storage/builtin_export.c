@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 23:37:38 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 22:12:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:15:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,9 +30,12 @@ static void	print_export(t_list *internal_storage, int fd)
 			value = ft_strchr(str, '=') + 1;
 			len = ft_strlen(value);
 			write(fd, str, ft_strlen(str) - len);
-			write(fd, "\'", 1);
+			if (value[0] != '\'')
+				write(fd, "\'", 1);
 			write(fd, value, len);
-			write(fd, "\'\n", 2);
+			if (value[len - 1] != '\'')
+				write(fd, "\'", 1);
+			write(fd, "\n", 1);
 		}
 		tmp = tmp->next;
 	}
