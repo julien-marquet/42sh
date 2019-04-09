@@ -6,30 +6,40 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 23:33:49 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/10 00:21:57 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/localvar.h"
 
-static	int	store_localvar(char *str, int len, t_sh_state *sh_state)
+static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
+{
+	char *name;
+	char *value;
+
+	name = ft_strndup(str, i++);
+	value = strndup_qr(str + i, len - i);
+	ft_memset(str, ' ', len);
+	if (name != NULL && value != NULL)
+		add_entry_storage(&sh_state->internal_storage, name, value, 0);
+	ft_strdel(&name);
+	ft_strdel(&value);
+	return (1);
+}
+
+static	int	handle_localvar(char *str, int len, t_sh_state *sh_state)
 {
 	int i;
-	int	valid;
 
 	i = 0;
-	valid = 0;
-	while (str[i] && i < len)
+	while ((ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=') && i < len)
 	{
-		ft_putchar_fd(str[i], 2);
 		if (stresc("=", str, i))
-			valid++;
+			return (store_localvar(str, i, len, sh_state));
 		i++;
 	}
-	dprintf(2, "\n");
-	add_entry_storage(&sh_state->internal_storage, "TEST", NULL, 0);
-	return (valid);
+	return (0);
 }
 
 int			parse_localvar(t_cmd *cmd, t_sh_state *sh_state)
@@ -49,18 +59,9 @@ int			parse_localvar(t_cmd *cmd, t_sh_state *sh_state)
 				i++;
 			cmd->str[i] ? i++ : 0;
 		}
-		if (store_localvar(cmd->str + start, i - start, sh_state) == 1)
-		{
-			while (cmd->str[i] && !ft_isspace(cmd->str[i]))
-			{
-				dprintf(2, "%c\n", cmd->str[i]);
-				i++;
-			}
+		if (handle_localvar(cmd->str + start, i - start, sh_state) == 1)
 			continue ;
-		}
 
-
-		//dprintf(2, "LOCAL '%.*s'\n", i - start,cmd->str + start);
 		while (cmd->str[i] && !stresc(";|&", cmd->str, i))
 			i++;
 		cmd->str[i] ? i++ : 0;
