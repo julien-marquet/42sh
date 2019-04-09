@@ -27,7 +27,6 @@ int		main(int ac, char **av, char **env)
 	t_sh_state		*sh_state;
 	t_input_data	*input_data;
 	int				i;
-	char **test;
 
 	i = 0;
 	ac = av[0][0];
@@ -47,14 +46,12 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
-		/*if (input_data->active_buf->len > 0)
+		if (input_data->active_buf->len > 0)
 		{
 			input_data->active_buf->len -= 1;
 			input_data->active_buf->buf[input_data->active_buf->len] = '\0';
 		}
-		test = NULL;
-		test = ft_strsplit(input_data->active_buf->buf, ' ');
-		builtins_dispatcher(sh_state, (const char **)test, 1, 0);*/
+		builtins_dispatcher(sh_state, (const char **)ft_strsplit(input_data->active_buf->buf, ' '), 1, 0);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);
