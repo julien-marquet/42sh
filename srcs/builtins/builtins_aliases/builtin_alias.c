@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 20:35:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:21:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,8 @@ static int	print_alias(t_list *aliases, const char *name,
 t_builtin_context *context)
 {
 	t_list	*node;
+	size_t	len;
+	char	*value;
 
 	if ((node = find_alias_by_name(aliases, name)) == NULL)
 	{
@@ -26,7 +28,16 @@ t_builtin_context *context)
 	}
 	else
 	{
-		write(context->fds.out, node->content, node->content_size);
+		ft_putstr_fd("alias ", context->fds.out);
+		value = ft_strchr((char *)(node->content), '=') + 1;
+		len = ft_strlen(value);
+		write(context->fds.out, (char *)(node->content),
+	ft_strlen((char *)(node->content)) - len);
+		if (value[0] != '\'')
+			write(context->fds.out, "\'", 1);
+		write(context->fds.out, value, len);
+		if (value[len - 1] != '\'')
+			write(context->fds.out, "\'", 1);
 		write(context->fds.out, "\n", 1);
 		return (0);
 	}
