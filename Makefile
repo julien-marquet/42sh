@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/09 03:02:54 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/09 18:31:58 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -29,7 +29,7 @@ aliases)
 
 # C FILES
 
-CFILES = main.c sh.c sh_state.c term_state.c signal_handler.c
+CFILES = main.c sh.c sh_state.c term_state.c signal_handler.c error_handler.c
 CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
@@ -49,7 +49,7 @@ OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 
 # HEADER FILES
 
-TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h
+TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h error_handler.h
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)

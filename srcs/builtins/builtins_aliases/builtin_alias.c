@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:00:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 18:41:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,9 +20,8 @@ t_builtin_context *context)
 
 	if ((node = find_alias_by_name(aliases, name)) == NULL)
 	{
-		write(context->fds.err, "alias: ", 7);
-		ft_putstr_fd(name, context->fds.err);
-		write(context->fds.err, ": not found\n", 12);
+		add_origin(&context->origin, name);
+		print_error(context->origin, "not found", context->fds.err);
 		return (1);
 	}
 	else
@@ -60,11 +59,12 @@ t_builtin_context *context)
 	char	*opts;
 
 	res = 0;
+	add_origin(&context->origin, "alias");
 	if (ac == 1)
 		print_aliases(sh_state->aliases, context->fds.out);
 	else
 	{
-		if ((i = handle_builtin_options(av, "p", &opts, context->fds.err)) <= 0)
+		if ((i = handle_builtin_options(av, "p", &opts, context)) <= 0)
 			return (1);
 		if (opts != NULL && ft_strchr(opts, 'p') != NULL)
 			print_aliases(sh_state->aliases, context->fds.out);

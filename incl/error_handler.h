@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_alias.h                                  .::    .:/ .      .::   */
+/*   error_handler.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:35:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/09 18:11:23 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 18:13:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_ALIAS_H
-# define BUILTIN_ALIAS_H
+#ifndef ERROR_HANDLER_H
+# define ERROR_HANDLER_H
 
 # include "common.h"
-# include "aliases/aliases.h"
-# include "builtins/builtins_utils.h"
-# include "error_handler.h"
 
-int		builtin_alias(t_sh_state *sh_state, int ac, const char **av,
-		t_builtin_context *context);
+void	print_error(const char *origin, const char *err, int fd);
 
 #endif

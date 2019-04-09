@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:01:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:54:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 18:40:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,10 +15,10 @@
 # define BUILTINS_UTILS_H
 
 # include "common.h"
+# include "error_handler.h"
 
 int		handle_builtin_options(const char **av, const char *valid,
-		char **valid_options, int fd_err);
-
+		char **valid_options, t_builtin_context *context);
 int		add_origin(char **origin, const char *src);
 
 #endif
