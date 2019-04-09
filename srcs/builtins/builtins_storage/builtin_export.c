@@ -6,12 +6,37 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 23:37:38 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 21:11:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:12:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_storage/builtin_export.h"
+
+static void	print_export(t_list *internal_storage, int fd)
+{
+	t_list	*tmp;
+	size_t	len;
+	char	*str;
+	char	*value;
+
+	tmp = internal_storage;
+	while (tmp != NULL)
+	{
+		if (((t_internal_storage *)(tmp->content))->exported == 1)
+		{
+			ft_putstr_fd("export ", fd);
+			str = ((t_internal_storage *)(tmp->content))->string;
+			value = ft_strchr(str, '=') + 1;
+			len = ft_strlen(value);
+			write(fd, str, ft_strlen(str) - len);
+			write(fd, "\'", 1);
+			write(fd, value, len);
+			write(fd, "\'\n", 2);
+		}
+		tmp = tmp->next;
+	}
+}
 
 static int	handle_export(t_list **internal_storage, int ac, const char **av,
 int i)
@@ -46,7 +71,7 @@ t_builtin_context *context)
 	add_origin(&context->origin, "export");
 	if (ac == 1)
 	{
-		print_env(sh_state->internal_storage, context->fds.out);
+		print_export(sh_state->internal_storage, context->fds.out);
 		return (0);
 	}
 	else
@@ -62,7 +87,7 @@ t_builtin_context *context)
 		else
 		{
 			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
-				print_env(sh_state->internal_storage, context->fds.out);
+				print_export(sh_state->internal_storage, context->fds.out);
 			else
 				return (handle_export(&sh_state->internal_storage, ac, av, i));
 			return (0);
