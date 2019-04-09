@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 20:18:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 02:09:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 02:35:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -80,4 +80,13 @@ void	print_aliases(t_list *aliases, int fd)
 		write(fd, "\n", 1);
 		tmp = tmp->next;
 	}
+}
+
+void	remove_all_aliases(t_list **aliases)
+{
+	void (*del)(void *, size_t);
+
+	del = free_lstnode;
+	ft_lstdel(aliases, del);
+	*aliases = NULL;
 }
