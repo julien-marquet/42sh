@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:19:59 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:44:51 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -89,7 +89,7 @@ size_t i, size_t end)
 	else
 	{
 		end = i + 1;
-		while (cmd->str[end] && !stresc(";|<>&$ \n", cmd->str, end))
+		while (cmd->str[end] && !stresc(";|<>&$'\" \n", cmd->str, end))
 			end++;
 	}
 	return (expand_param(cmd, sh_state, i + 1, end));

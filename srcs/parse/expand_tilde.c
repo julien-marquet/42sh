@@ -6,19 +6,19 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:23:04 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 17:14:51 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/expand.h"
 
-static char	*expand_getdir(t_cmd *cmd, t_sh_state *sh_state, size_t i)
+static char	*expand_getdir(t_cmd *cmd, t_sh_state *sh_state, size_t i, int *nfr)
 {
 	char	*new;
 
-	//(void)term;
 	new = NULL;
+	(*nfr)++;
 	if (cmd->str[i + 1] == '+')
 		new = get_stored(sh_state->internal_storage, "PWD");
 	else if (cmd->str[i + 1] == '-')
@@ -44,15 +44,17 @@ static char	*expand_getuhome(char *str, size_t len)
 	return (new);
 }
 
-static char	*expand_gethome(t_sh_state *sh_state)
+static char	*expand_gethome(t_sh_state *sh_state, int *nfr)
 {
 	struct passwd	*user;
 	char			*new;
 
 	user = NULL;
+	(*nfr)++;
 	new = get_stored(sh_state->internal_storage, "HOME");
 	if (!new)
 	{
+		nfr--;
 		if (!(user = getpwuid(getuid())))
 			return (NULL);
 		new = user->pw_dir;
@@ -62,24 +64,29 @@ static char	*expand_gethome(t_sh_state *sh_state)
 
 static int	expand_tilde(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 {
-	struct passwd	*user;
 	char			*new;
 	char			*tmp;
+	int				nfr;
+	int				len;
 
-	user = NULL;
-	new = NULL;
+	nfr = 0;
 	if (end - i - 1 == 0)
-		new = expand_gethome(sh_state);
+		new = expand_gethome(sh_state, &nfr);
 	else if (end - i - 1 == 1)
-		new = expand_getdir(cmd, sh_state, i);
+		new = expand_getdir(cmd, sh_state, i, &nfr);
 	else
 		new = expand_getuhome(cmd->str + i + 1, end - i - 1);
 	if (new)
 	{
+		len = ft_strlen(new);
 		if (!(tmp = strinsert(cmd->str, new, i, end)))
+		{
+			nfr ? ft_strdel(&new) : 0;
 			return (0);
+		}
+		nfr ? ft_strdel(&new) : 0;
 		cmd->str = tmp;
-		return (ft_strlen(new));
+		return (len);
 	}
 	return (0);
 }
