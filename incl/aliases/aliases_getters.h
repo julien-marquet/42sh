@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_getters.c                                .::    .:/ .      .::   */
+/*   aliases_getters.h                                .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:06:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 23:31:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 23:39:41 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/08 23:45:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "storage/storage_getters.h"
+#ifndef ALIASES_GETTERS_H
+# define ALIASES_GETTERS_H
 
-char	*get_stored(t_list *storage, const char *var_name)
-{
-	t_list	*node;
+# include "common.h"
+# include "aliases/aliases_utils.h"
 
-	if (var_name == NULL)
-		return (NULL);
-	if ((node = find_node_by_name(storage, var_name)) == NULL)
-		return (NULL);
-	return (ft_strdup(&((t_internal_storage *)(
-node->content))->string[ft_strlen(var_name) + 1]));
-}
+char	*get_alias(t_list *aliases, const char *var_name);
+
+#endif

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_getters.c                                .::    .:/ .      .::   */
+/*   aliases_manipulations.h                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:06:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 23:31:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 20:03:20 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 03:00:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "storage/storage_getters.h"
+#ifndef ALIASES_MANIPULATIONS_H
+# define ALIASES_MANIPULATIONS_H
 
-char	*get_stored(t_list *storage, const char *var_name)
-{
-	t_list	*node;
+# include "common.h"
+# include "data/data_utils/data_utils.h"
+# include "aliases/aliases_utils.h"
+# include "data/data_utils/data_utils_lst.h"
 
-	if (var_name == NULL)
-		return (NULL);
-	if ((node = find_node_by_name(storage, var_name)) == NULL)
-		return (NULL);
-	return (ft_strdup(&((t_internal_storage *)(
-node->content))->string[ft_strlen(var_name) + 1]));
-}
+int		add_alias(t_list **aliases, const char *name, const char *value);
+void	print_aliases(t_list *aliases, int fd);
+int		remove_alias(t_list **aliases, const char *name);
+void	remove_all_aliases(t_list **aliases);
+
+#endif

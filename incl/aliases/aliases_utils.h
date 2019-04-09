@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   lst_utils.h                                      .::    .:/ .      .::   */
+/*   aliases_utils.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:41:05 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:11:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 21:52:17 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 03:00:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef LST_UTILS_H
-# define LST_UTILS_H
+#ifndef ALIASES_UTILS_H
+# define ALIASES_UTILS_H
 
 # include "common.h"
+# include "data/data_utils/data_utils.h"
 
-void		free_dyn_buf(t_dyn_buf **dyn_buf);
-void		free_lstnode(void *buf, size_t len);
+t_list	*find_alias_by_name(t_list *aliases, const char *var_name);
+int		update_existing_alias(t_list *node, const char *name,
+		const char *value, size_t len);
+void	remove_alias_node(t_list **alst, t_list **node, t_list *prev);
 
 #endif

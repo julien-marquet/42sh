@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   lst_utils.c                                      .::    .:/ .      .::   */
+/*   data_utils.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:40:33 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:47:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/08 22:01:14 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 02:57:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "data/lst_utils.h"
+#ifndef DATA_UTILS_H
+# define DATA_UTILS_H
 
-void		free_lstnode(void *buf, size_t len)
-{
-	len++;
-	free(buf);
-	buf = NULL;
-}
+# include "data/data_utils/data_utils_str.h"
+# include "data/data_utils/data_utils_lst.h"
 
-void		free_dyn_buf(t_dyn_buf **dyn_buf)
-{
-	if (dyn_buf != NULL && *dyn_buf != NULL)
-	{
-		if ((*dyn_buf)->buf != NULL)
-			free((*dyn_buf)->buf);
-		free(*dyn_buf);
-	}
-}
+#endif

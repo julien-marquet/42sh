@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 19:36:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,13 +31,23 @@ int		prepare_input(t_input_data *input_data)
 
 int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
 {
-	if (input_data->stored_buf->len > 0)
+	int		valid_here_doc;
+
+	valid_here_doc = -1;
+	if (here_doc != NULL)
+		valid_here_doc = here_doc_is_closed(input_data->active_buf, here_doc);
+	if (valid_here_doc == 1)
+	{
+		ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
+		reset_dyn_buf(input_data->stored_buf);
+	}
+	else if (input_data->stored_buf->len > 0)
 	{
 		if (insert_dyn_buf(input_data->stored_buf->buf, input_data->active_buf, 0) == 1)
 			return (1);
 		reset_dyn_buf(input_data->stored_buf);
 	}
-	if (output_is_ready(input_data->active_buf, here_doc) == false)
+	if (output_is_ready(input_data->active_buf, valid_here_doc) == false)
 	{
 		ft_swap((void **)(&(input_data->active_buf)), (void **)(&(input_data->stored_buf)));
 		if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)

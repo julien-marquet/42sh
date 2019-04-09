@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_getters.c                                .::    .:/ .      .::   */
+/*   data_utils_lst.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:06:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 23:31:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:40:33 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 02:56:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "storage/storage_getters.h"
+#include "data/data_utils/data_utils_lst.h"
 
-char	*get_stored(t_list *storage, const char *var_name)
+void		free_lstnode(void *buf, size_t len)
 {
-	t_list	*node;
+	len++;
+	free(buf);
+	buf = NULL;
+}
 
-	if (var_name == NULL)
-		return (NULL);
-	if ((node = find_node_by_name(storage, var_name)) == NULL)
-		return (NULL);
-	return (ft_strdup(&((t_internal_storage *)(
-node->content))->string[ft_strlen(var_name) + 1]));
+void		free_dyn_buf(t_dyn_buf **dyn_buf)
+{
+	if (dyn_buf != NULL && *dyn_buf != NULL)
+	{
+		if ((*dyn_buf)->buf != NULL)
+			free((*dyn_buf)->buf);
+		free(*dyn_buf);
+	}
 }
