@@ -44,11 +44,12 @@ static int  treate_args(int ac, const char **av)
 
     if (ac < 3)
         return (error());
+    result = 1;
     if (is_binary_op(av[1]))
         result = make_binary_test(av[0], av[1], av[2]);
-    if (ft_strcmp("!", av[0]) != 0)
+    if (ft_strcmp("!", av[0]) == 0)
         result = make_unary_test(av[1][1], av[2]);
-    if (ft_strcmp("(", av[0]) != 0 && ft_strcmp(")", av[2]) != 0) {
+    if (ft_strcmp("(", av[0]) == 0 && ft_strcmp(")", av[2]) == 0) {
         if (av[1][0] != '\0')
             result = 0;
     }
@@ -89,8 +90,18 @@ int        builtin_test(t_sh_state *sh_state, int ac, const char **av, int fd_ou
                 return (1);
         }
         else
-            if (treate_args(ac - 1, av + 1) == -1)
-                return (1);
+        {
+            if (ft_strcmp("!", av[1]) == 0)
+            {
+                if ((sh_state->status = treate_args(ac - 2, av + 2)) > 1)
+                    return (1);
+            }
+            else
+            {
+                if ((sh_state->status = treate_args(ac - 1, av + 1)) > 1)
+                    return (1);
+            }
+        }
     }
     if (negate)
         sh_state->status = !sh_state->status;
