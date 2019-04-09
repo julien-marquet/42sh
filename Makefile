@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/09 16:37:12 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/09 20:52:11 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -35,7 +35,7 @@ CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
-CFILES += $(addprefix parse/, check.c chev.c chev_create.c expand_tilde.c expand_param.c expand.c free.c split.c token.c parse.c utils.c)
+CFILES += $(addprefix parse/, check.c chev.c chev_create.c expand_tilde.c expand_param.c expand.c free.c split.c token.c parse.c utils.c localvar.c)
 CFILES += $(addprefix data/, input_data.c)
 CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
@@ -52,7 +52,7 @@ OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 # HEADER FILES
 
 TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h
-TMPFILES += $(addprefix parse/, parse.h expand.h)
+TMPFILES += $(addprefix parse/, parse.h expand.h localvar.h)
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)

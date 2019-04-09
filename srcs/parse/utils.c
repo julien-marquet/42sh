@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/04 19:40:53 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:29:06 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:12:33 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,7 @@ char	*strinsert(char *dst, char *new, size_t i, size_t end)
 **	ft_strchr with backslash escape
 */
 
-char	*stresc(char *find, char *str, int i)
+char	*stresc(const char *find, char *str, int i)
 {
 	char	*out;
 	int		k;

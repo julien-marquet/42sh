@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   expand.c                                         .::    .:/ .      .::   */
+/*   localvar.h                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 20:43:02 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/09 20:51:02 by mmoya        #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 21:02:14 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse/expand.h"
+#ifndef LOCALVAR_H
+# define LOCALVAR_H
 
-void		parse_expansion(t_cmd *cmd, t_sh_state *sh_state)
-{
-	parse_tilde(cmd, sh_state);
-	parse_param(cmd, sh_state);
-	parse_localvar(cmd, sh_state);
-}
+# include "parse/parse.h"
+# include "storage/storage_manipulations.h"
+
+int		parse_localvar(t_cmd *cmd, t_sh_state *sh_state);
+
+#endif

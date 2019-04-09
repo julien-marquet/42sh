@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:03:01 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:12:38 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,18 +28,6 @@ typedef enum		e_ctype {
 	C_OUT,
 	C_TYPE
 }					t_ctype;
-
-/*
-** TEMP ENV FUNCT
-*/
-/*
-typedef struct		s_term {
-	char			*str;
-	size_t			cpos;
-	char			**env;
-	int				fd;
-	int				flag;
-}					t_term;*/
 
 typedef struct		s_file {
 	char			*file;
@@ -86,7 +74,7 @@ char			**parse_strsplit(char *str, int len);
 ** UTILS
 */
 
-char			*stresc(char *find, char *str, int i);
+char			*stresc(const char *find, char *str, int i);
 char			*strndup_qr(char *str, size_t len);
 char			*strinsert(char *dst, char *new, size_t i, size_t end);
 int				is_quoted(char *str, int i);
