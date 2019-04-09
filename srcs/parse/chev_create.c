@@ -6,12 +6,12 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 16:47:24 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "parse/parse.h"
 #include "editing/input/input_main_process.h"
 
 static void		parse_chevpush(t_file **file, t_file *new)

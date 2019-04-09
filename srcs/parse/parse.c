@@ -6,12 +6,12 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/06 17:35:12 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "parse/parse.h"
 
 /*
 ** TOKEN LEN MINUS REDIRECTION CHARACTERS
@@ -35,7 +35,8 @@ static t_cmd	*parse_tokenparse(t_cmd *cmd, t_term *term, t_sh_state *sh_state, t
 {
 	int		len;
 
-	parse_expansion(cmd, term);
+	(void)term;
+	parse_expansion(cmd, sh_state);
 	parse_chev(cmd, sh_state, input_data);
 	len = parse_tokenlen(cmd);
 	if (!(cmd->arg = parse_strsplit(cmd->str, len)))

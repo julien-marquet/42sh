@@ -6,12 +6,12 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/20 16:00:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 14:59:34 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "parse/parse.h"
 
 static void		free_file(t_file *file)
 {

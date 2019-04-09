@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   expand.c                                         .::    .:/ .      .::   */
+/*   expand.h                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:16:05 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/09 16:16:11 by mmoya        #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 16:25:38 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse/expand.h"
+#ifndef EXPAND_H
+# define EXPAND_H
 
-void		parse_expansion(t_cmd *cmd, t_sh_state *sh_state)
-{
-	parse_tilde(cmd, sh_state);
-	parse_param(cmd, sh_state);
-}
+# include "parse/parse.h"
+# include "storage/storage_getters.h"
+
+void	parse_tilde(t_cmd *cmd, t_sh_state *sh_state);
+void	parse_param(t_cmd *cmd, t_sh_state *sh_state);
+
+#endif

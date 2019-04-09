@@ -6,12 +6,12 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/05 19:38:47 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 15:03:26 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "parse/parse.h"
 
 int			parse_error(char *str, int i)
 {

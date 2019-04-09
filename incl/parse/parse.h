@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 16:47:53 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:31:23 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,9 +34,6 @@ typedef enum		e_ctype {
 /*
 ** TEMP ENV FUNCT
 */
-
-# define sh_getenv(x, y) NULL
-# define sh_getenvn(x, y, z) NULL
 
 typedef struct		s_term {
 	char			*str;
@@ -70,28 +67,33 @@ typedef struct		s_cmd {
 }					t_cmd;
 
 /*
-** PARSE
+** CHECK
 */
-
-int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_data);
-char			*stresc(char *find, char *str, int i);
-void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
-t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data);
-int				parse_tokenize(char *str, t_cmd **cmd);
-void			parse_expansion(t_cmd *cmd, t_term *term);
-void			parse_tilde(t_cmd *cmd, t_term *term);
-char			**parse_strsplit(char *str, int len);
-char			*strndup_qr(char *str, size_t len);
-char			*strinsert(char *dst, char *new, size_t i, size_t end);
-int				is_quoted(char *str, int i);
 
 int				parse_error(char *str, int i);
 int				parse_check(char *str);
 
-t_cmd			*parse_nextfree(t_cmd *cmd);
+/*
+** PARSE
+*/
 
-// char			*sh_getenv(char *key, char **env);
-// char			*sh_getenvn(char *key, char **env, int size);
+int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_data);
+void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
+t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data);
+int				parse_tokenize(char *str, t_cmd **cmd);
+void			parse_expansion(t_cmd *cmd, t_sh_state *sh_state);
+char			**parse_strsplit(char *str, int len);
+
+/*
+** UTILS
+*/
+
+char			*stresc(char *find, char *str, int i);
+char			*strndup_qr(char *str, size_t len);
+char			*strinsert(char *dst, char *new, size_t i, size_t end);
+int				is_quoted(char *str, int i);
+
+t_cmd			*parse_nextfree(t_cmd *cmd);
 
 /*
 ** EXEC

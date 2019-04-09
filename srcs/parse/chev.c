@@ -6,12 +6,12 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 16:49:45 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "parse/parse.h"
 
 static int		*parse_chev_type(char *str, int i)
 {
