@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 01:42:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 02:04:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@ static t_builtin_func	get_builtins_func(const char *name)
 	static char	*assoc_name[BUILTINS_NB + 1] = {
 		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "alias", "unalias", NULL
 	};
-	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, int) = {
+	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, const t_fds) = {
 		builtin_set, builtin_env, builtin_setenv, builtin_unsetenv,
 		builtin_unset, builtin_exit, builtin_echo, builtin_export, builtin_alias, builtin_unalias, NULL
 	};
@@ -38,16 +38,16 @@ static t_builtin_func	get_builtins_func(const char *name)
 }
 
 int			builtins_dispatcher(t_sh_state *sh_state,
-const char **av, int fd_out, int background)
+const char **av, const t_fds fds, int background)
 {
 	t_builtin_func	f;
 
 	if ((f = get_builtins_func(av[0])) != NULL)
 	{
 		if (background == 0)
-			return (exec_builtin(sh_state, av, f, fd_out));
+			return (exec_builtin(sh_state, av, f, fds));
 		else
-			return (background_exec_builtin(sh_state, av, f, fd_out));
+			return (background_exec_builtin(sh_state, av, f, fds));
 	}
 	else
 		return (0);

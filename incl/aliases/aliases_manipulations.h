@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 20:03:20 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 00:36:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 01:51:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,7 +19,7 @@
 # include "aliases/aliases_utils.h"
 
 int		add_alias(t_list **aliases, const char *name, const char *value);
-void	print_aliases(t_list *aliases, int fd_out);
+void	print_aliases(t_list *aliases, int fd);
 int		remove_alias(t_list **aliases, const char *name);
 
 #endif

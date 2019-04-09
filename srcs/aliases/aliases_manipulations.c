@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 20:18:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 01:39:52 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 01:51:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -80,15 +80,15 @@ int		remove_alias(t_list **aliases, const char *name)
 	return (0);
 }
 
-void	print_aliases(t_list *aliases, int fd_out)
+void	print_aliases(t_list *aliases, int fd)
 {
 	t_list	*tmp;
 
 	tmp = aliases;
 	while (tmp != NULL)
 	{
-		write(fd_out, tmp->content, tmp->content_size);
-		write(fd_out, "\n", 1);
+		write(fd, tmp->content, tmp->content_size);
+		write(fd, "\n", 1);
 		tmp = tmp->next;
 	}
 }

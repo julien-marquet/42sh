@@ -6,28 +6,28 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 01:37:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 01:54:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_aliases/builtin_alias.h"
 
-static int	print_alias(t_list *aliases, const char *name)
+static int	print_alias(t_list *aliases, const char *name, const t_fds fds)
 {
 	t_list	*node;
 
 	if ((node = find_alias_by_name(aliases, name)) == NULL)
 	{
-		write(2, "alias: ", 7);
-		ft_putstr_fd(name, 2);
-		write(2, ": not found\n", 12);
+		write(fds.err, "alias: ", 7);
+		ft_putstr_fd(name, fds.err);
+		write(fds.err, ": not found\n", 12);
 		return (1);
 	}
 	else
 	{
-		write(2, node->content, node->content_size);
-		write(2, "\n", 1);
+		write(fds.out, node->content, node->content_size);
+		write(fds.out, "\n", 1);
 		return (0);
 	}
 }
@@ -51,19 +51,20 @@ ft_strlen(str) - ft_strlen(value) - 1)) == NULL)
 	return (0);
 }
 
-int		builtin_alias(t_sh_state *sh_state, int ac, const char **av, int fd_out)
+int		builtin_alias(t_sh_state *sh_state, int ac, const char **av,
+const t_fds fds)
 {
 	int		i;
 	int		res;
 
 	res = 0;
 	if (ac == 1)
-		print_aliases(sh_state->aliases, fd_out);
+		print_aliases(sh_state->aliases, fds.out);
 	i = 1;
 	while (i < ac)
 	{
 		if (ft_strchr(av[i], '=') == NULL)
-			res |= print_alias(sh_state->aliases, av[i]);
+			res |= print_alias(sh_state->aliases, av[i], fds);
 		else
 		{
 			if (assign_alias(&sh_state->aliases, av[i]) == 1)
