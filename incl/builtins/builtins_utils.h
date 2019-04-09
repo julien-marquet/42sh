@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:01:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 03:57:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 17:54:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,5 +18,7 @@
 
 int		handle_builtin_options(const char **av, const char *valid,
 		char **valid_options, int fd_err);
+
+int		add_origin(char **origin, const char *src);
 
 #endif

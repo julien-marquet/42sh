@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:39:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 02:00:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 18:01:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,14 +28,14 @@ static int	params_is_valid(const char *str)
 }
 
 int			builtin_setenv(t_sh_state *sh_state, int ac,
-const char **av, const t_fds fds)
+const char **av, t_builtin_context *context)
 {
 	if (ac == 1)
-		return (builtin_env(sh_state, ac, av, fds));
+		return (builtin_env(sh_state, ac, av, context));
 	else if (ac > 3)
-		write(fds.err, "setenv:, Too many arguments.\n", 30);
+		write(context->fds.err, "setenv:, Too many arguments.\n", 30);
 	else if (!params_is_valid(av[1]))
-		write(fds.err,
+		write(context->fds.err,
 	"setenv: Variable name must contain alphanumeric characters.\n", 61);
 	else
 	{
