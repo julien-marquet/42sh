@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 23:37:38 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 22:15:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 23:03:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,30 +70,30 @@ t_builtin_context *context)
 {
 	int		i;
 	char	*opts;
+	int		res;
 
 	add_origin(&context->origin, "export");
+	res = 0;
 	if (ac == 1)
-	{
 		print_export(sh_state->internal_storage, context->fds.out);
-		return (0);
-	}
 	else
 	{
 		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
-			return (1);
+			res = 1;
 		else if (i == 0)
 		{
-			print_error(context->origin, "usage: export [-p] [name[=value] ... ]",
-		context->fds.err);
-			return (1);
+			print_error(context->origin,
+		"usage: export [-p] [name[=value] ... ]", context->fds.err);
+			res = 1;
 		}
 		else
 		{
 			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
 				print_export(sh_state->internal_storage, context->fds.out);
 			else
-				return (handle_export(&sh_state->internal_storage, ac, av, i));
-			return (0);
+				res = handle_export(&sh_state->internal_storage, ac, av, i);
+			ft_strdel(&opts);
 		}
 	}
+	return (res);
 }

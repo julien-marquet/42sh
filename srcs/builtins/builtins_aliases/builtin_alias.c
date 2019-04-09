@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 22:21:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 23:12:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -76,12 +76,12 @@ t_builtin_context *context)
 	else
 	{
 		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
-			return (1);
+			res = 1;
 		else if (i == 0)
 		{
 			print_error(context->origin, "usage: alias [-p] [name[=value] ... ]",
 		context->fds.err);
-			return (1);
+			res = 1;
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:02:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 20:11:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:58:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,13 +23,16 @@ t_builtin_context *context)
 {
 	size_t	i;
 	char	*err;
+	char	inv_char[2];
 
 	i = 1;
+	inv_char[1] = '\0';
 	while (str[i] != '\0')
 	{
 		if (valid == NULL || ft_strchr(valid, str[i]) == NULL)
 		{
-			if ((err = ft_construct_str(3, "-", &str[i],
+			inv_char[0] = str[i];
+			if ((err = ft_construct_str(3, "-", inv_char,
 		": invalid option")) == NULL)
 				return (-1);
 			print_error(context->origin, err, context->fds.err);
