@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   utils.h                                          .::    .:/ .      .::   */
+/*   data_utils.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 22:01:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:02:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 02:57:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef DATA_UTILS_H
+# define DATA_UTILS_H
 
-# include "utils/utils_str.h"
+# include "data/data_utils/data_utils_str.h"
+# include "data/data_utils/data_utils_lst.h"
 
 #endif

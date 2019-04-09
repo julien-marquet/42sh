@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 01:54:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 04:03:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,21 +56,29 @@ const t_fds fds)
 {
 	int		i;
 	int		res;
+	char	*opts;
 
 	res = 0;
 	if (ac == 1)
 		print_aliases(sh_state->aliases, fds.out);
-	i = 1;
-	while (i < ac)
+	else
 	{
-		if (ft_strchr(av[i], '=') == NULL)
-			res |= print_alias(sh_state->aliases, av[i], fds);
-		else
+		if ((i = handle_builtin_options(av, "p", &opts, fds.err)) <= 0)
+			return (1);
+		if (opts != NULL && ft_strchr(opts, 'p') != NULL)
+			print_aliases(sh_state->aliases, fds.out);
+		while (i < ac)
 		{
-			if (assign_alias(&sh_state->aliases, av[i]) == 1)
-				return (1);
+			if (ft_strchr(av[i], '=') == NULL)
+				res |= print_alias(sh_state->aliases, av[i], fds);
+			else
+			{
+				if (assign_alias(&sh_state->aliases, av[i]) == 1)
+					return (1);
+			}
+			i++;
 		}
-		i++;
+		ft_strdel(&opts);
 	}
 	return (res);
 }

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   lst_utils.c                                      .::    .:/ .      .::   */
+/*   data_utils_lst.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:40:33 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:47:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 02:56:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "data/lst_utils.h"
+#include "data/data_utils/data_utils_lst.h"
 
 void		free_lstnode(void *buf, size_t len)
 {

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   utils_str.c                                      .::    .:/ .      .::   */
+/*   data_utils_str.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 22:02:10 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:02:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 02:55:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "utils/utils_str.h"
+#include "data/data_utils/data_utils_str.h"
 
 char	*merge_name_value(const char *name,
 const char *value, const size_t size)
