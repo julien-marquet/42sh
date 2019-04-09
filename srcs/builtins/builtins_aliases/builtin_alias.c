@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:41:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 20:35:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,22 +64,31 @@ t_builtin_context *context)
 		print_aliases(sh_state->aliases, context->fds.out);
 	else
 	{
-		if ((i = handle_builtin_options(av, "p", &opts, context)) <= 0)
+		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
 			return (1);
-		if (opts != NULL && ft_strchr(opts, 'p') != NULL)
-			print_aliases(sh_state->aliases, context->fds.out);
-		while (i < ac)
+		else if (i == 0)
 		{
-			if (ft_strchr(av[i], '=') == NULL)
-				res |= print_alias(sh_state->aliases, av[i], context);
-			else
-			{
-				if (assign_alias(&sh_state->aliases, av[i]) == 1)
-					return (1);
-			}
-			i++;
+			print_error(context->origin, "usage: alias [-p] [name[=value] ... ]",
+		context->fds.err);
+			return (1);
 		}
-		ft_strdel(&opts);
+		else
+		{
+			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
+				print_aliases(sh_state->aliases, context->fds.out);
+			while (i < ac)
+			{
+				if (ft_strchr(av[i], '=') == NULL)
+					res |= print_alias(sh_state->aliases, av[i], context);
+				else
+				{
+					if (assign_alias(&sh_state->aliases, av[i]) == 1)
+						return (1);
+				}
+				i++;
+			}
+			ft_strdel(&opts);
+		}
 	}
 	return (res);
 }
