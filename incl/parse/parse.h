@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:31:23 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 18:03:01 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,12 +15,10 @@
 # define PARSE_H
 
 # include "common.h"
-# include <pwd.h>
 
 # define SH_NAME "42sh"
 
 # define CHEV_PERM 420
-
 # define READ_END 0
 # define WRITE_END 1
 
@@ -34,14 +32,14 @@ typedef enum		e_ctype {
 /*
 ** TEMP ENV FUNCT
 */
-
+/*
 typedef struct		s_term {
 	char			*str;
 	size_t			cpos;
 	char			**env;
 	int				fd;
 	int				flag;
-}					t_term;
+}					t_term;*/
 
 typedef struct		s_file {
 	char			*file;
@@ -77,7 +75,7 @@ int				parse_check(char *str);
 ** PARSE
 */
 
-int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_data);
+int				parse(char *str, t_sh_state *sh_state, t_input_data *input_data);
 void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
 t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data);
 int				parse_tokenize(char *str, t_cmd **cmd);

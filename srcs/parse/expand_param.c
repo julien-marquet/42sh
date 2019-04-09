@@ -6,14 +6,14 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:44:51 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 18:33:28 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/expand.h"
 
-static int	expand_param_insert(t_cmd *cmd, char *new, size_t i, size_t end)
+static int		expand_param_insert(t_cmd *cmd, char *new, size_t i, size_t end)
 {
 	char	*tmp;
 	size_t	len;
@@ -33,7 +33,7 @@ static int	expand_param_insert(t_cmd *cmd, char *new, size_t i, size_t end)
 	return (1);
 }
 
-static int	expand_check_sub(char *str)
+static int		expand_check_sub(char *str)
 {
 	int i;
 
@@ -54,7 +54,7 @@ static int	expand_check_sub(char *str)
 	return (0);
 }
 
-static int	expand_param(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
+static int		expand_param(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 {
 	char	*new;
 	char	*tmp;
@@ -77,7 +77,7 @@ static int	expand_param(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 	return (expand_param_insert(cmd, new, i, end));
 }
 
-static int	parse_param_cond(t_cmd *cmd, t_sh_state *sh_state,
+static size_t	parse_param_cond(t_cmd *cmd, t_sh_state *sh_state,
 size_t i, size_t end)
 {
 	if (stresc("{", cmd->str, i))
@@ -95,10 +95,11 @@ size_t i, size_t end)
 	return (expand_param(cmd, sh_state, i + 1, end));
 }
 
-void		parse_param(t_cmd *cmd, t_sh_state *sh_state)
+void			parse_param(t_cmd *cmd, t_sh_state *sh_state)
 {
 	size_t	i;
 	size_t	end;
+	size_t	ret;
 
 	i = 0;
 	end = 0;
@@ -109,7 +110,8 @@ void		parse_param(t_cmd *cmd, t_sh_state *sh_state)
 		if (cmd->str[i] && stresc("$", cmd->str, i))
 		{
 			cmd->str[i] = ' ';
-			i += parse_param_cond(cmd, sh_state, i, end);
+			ret = parse_param_cond(cmd, sh_state, i, end);
+			i += ret;
 		}
 		else
 			cmd->str[i] ? i++ : 0;

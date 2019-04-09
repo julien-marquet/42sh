@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 17:59:15 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,6 +14,8 @@
 #include "parse/parse.h"
 
 /*
+** parse_tokenlen:
+**
 ** TOKEN LEN MINUS REDIRECTION CHARACTERS
 */
 
@@ -31,11 +33,10 @@ static int		parse_tokenlen(t_cmd *cmd)
 	return (len);
 }
 
-static t_cmd	*parse_tokenparse(t_cmd *cmd, t_term *term, t_sh_state *sh_state, t_input_data *input_data)
+static t_cmd	*parse_tokenparse(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
 {
 	int		len;
 
-	(void)term;
 	parse_expansion(cmd, sh_state);
 	parse_chev(cmd, sh_state, input_data);
 	len = parse_tokenlen(cmd);
@@ -108,7 +109,7 @@ void			parse_print(t_cmd *cmd)
 // 		wait(&ret);
 // }
 
-int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_data)
+int				parse(char *str, t_sh_state *sh_state, t_input_data *input_data)
 {
 	int		i;
 	t_cmd	*cmd;
@@ -122,7 +123,7 @@ int				parse(char *str, t_term *term, t_sh_state *sh_state, t_input_data *input_
 		i += parse_tokenize(str + i, &cmd);
 	while (cmd)
 	{
-		if (!(cmd = parse_tokenparse(cmd, term, sh_state, input_data)))
+		if (!(cmd = parse_tokenparse(cmd, sh_state, input_data)))
 			return (1);
 		parse_print(cmd);
 		//parse_test(cmd, term);
