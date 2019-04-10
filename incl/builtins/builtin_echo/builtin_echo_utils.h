@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_echo.c                                   .::    .:/ .      .::   */
+/*   builtin_echo_utils.h                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 22:59:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 02:01:38 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/10 02:52:29 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/10 02:55:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtin_echo.h"
+#ifndef BUILTIN_ECHO_UTILS_H
+# define BUILTIN_ECHO_UTILS_H
 
-int			builtin_echo(t_sh_state *sh_state, int ac,
-const char **av, const t_fds fds)
-{
-	int		i;
+# include "common.h"
 
-	sh_state->status = sh_state->status;
-	i = 1;
-	while (i < ac)
-	{
-		ft_putstr_fd(av[i], fds.out);
-		write(fds.out, " ", 1);
-		i++;
-	}
-	write(fds.out, "\n", 1);
-	return (0);
-}
+int		get_octal_chars_nb(const char *str);
+int		convert_to_decimal(int octal);
+
+#endif

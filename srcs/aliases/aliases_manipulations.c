@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 20:18:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 02:35:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 22:23:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -72,11 +72,23 @@ int		remove_alias(t_list **aliases, const char *name)
 void	print_aliases(t_list *aliases, int fd)
 {
 	t_list	*tmp;
+	char	*str;
+	char	*value;
+	size_t	len;
 
 	tmp = aliases;
 	while (tmp != NULL)
 	{
-		write(fd, tmp->content, tmp->content_size);
+		ft_putstr_fd("alias ", fd);
+		str = (char *)(tmp->content);
+		value = ft_strchr(str, '=') + 1;
+		len = ft_strlen(value);
+		write(fd, str, ft_strlen(str) - len);
+		if (value[0] != '\'')
+			write(fd, "\'", 1);
+		write(fd, value, len);
+		if (value[len - 1] != '\'')
+			write(fd, "\'", 1);
 		write(fd, "\n", 1);
 		tmp = tmp->next;
 	}

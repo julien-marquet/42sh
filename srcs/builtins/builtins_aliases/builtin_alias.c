@@ -6,28 +6,39 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 04:03:33 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 23:12:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_aliases/builtin_alias.h"
 
-static int	print_alias(t_list *aliases, const char *name, const t_fds fds)
+static int	print_alias(t_list *aliases, const char *name,
+t_builtin_context *context)
 {
 	t_list	*node;
+	size_t	len;
+	char	*value;
 
 	if ((node = find_alias_by_name(aliases, name)) == NULL)
 	{
-		write(fds.err, "alias: ", 7);
-		ft_putstr_fd(name, fds.err);
-		write(fds.err, ": not found\n", 12);
+		add_origin(&context->origin, name);
+		print_error(context->origin, "not found", context->fds.err);
 		return (1);
 	}
 	else
 	{
-		write(fds.out, node->content, node->content_size);
-		write(fds.out, "\n", 1);
+		ft_putstr_fd("alias ", context->fds.out);
+		value = ft_strchr((char *)(node->content), '=') + 1;
+		len = ft_strlen(value);
+		write(context->fds.out, (char *)(node->content),
+	ft_strlen((char *)(node->content)) - len);
+		if (value[0] != '\'')
+			write(context->fds.out, "\'", 1);
+		write(context->fds.out, value, len);
+		if (value[len - 1] != '\'')
+			write(context->fds.out, "\'", 1);
+		write(context->fds.out, "\n", 1);
 		return (0);
 	}
 }
@@ -52,33 +63,43 @@ ft_strlen(str) - ft_strlen(value) - 1)) == NULL)
 }
 
 int		builtin_alias(t_sh_state *sh_state, int ac, const char **av,
-const t_fds fds)
+t_builtin_context *context)
 {
 	int		i;
 	int		res;
 	char	*opts;
 
 	res = 0;
+	add_origin(&context->origin, "alias");
 	if (ac == 1)
-		print_aliases(sh_state->aliases, fds.out);
+		print_aliases(sh_state->aliases, context->fds.out);
 	else
 	{
-		if ((i = handle_builtin_options(av, "p", &opts, fds.err)) <= 0)
-			return (1);
-		if (opts != NULL && ft_strchr(opts, 'p') != NULL)
-			print_aliases(sh_state->aliases, fds.out);
-		while (i < ac)
+		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
+			res = 1;
+		else if (i == 0)
 		{
-			if (ft_strchr(av[i], '=') == NULL)
-				res |= print_alias(sh_state->aliases, av[i], fds);
-			else
-			{
-				if (assign_alias(&sh_state->aliases, av[i]) == 1)
-					return (1);
-			}
-			i++;
+			print_error(context->origin, "usage: alias [-p] [name[=value] ... ]",
+		context->fds.err);
+			res = 1;
 		}
-		ft_strdel(&opts);
+		else
+		{
+			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
+				print_aliases(sh_state->aliases, context->fds.out);
+			while (i < ac)
+			{
+				if (ft_strchr(av[i], '=') == NULL)
+					res |= print_alias(sh_state->aliases, av[i], context);
+				else
+				{
+					if (assign_alias(&sh_state->aliases, av[i]) == 1)
+						return (1);
+				}
+				i++;
+			}
+			ft_strdel(&opts);
+		}
 	}
 	return (res);
 }
