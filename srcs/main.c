@@ -27,6 +27,11 @@ int		main(int ac, char **av, char **env)
 	t_sh_state		*sh_state;
 	t_input_data	*input_data;
 	int				i;
+        t_builtin_context    *context = ft_memalloc(sizeof(t_builtin_context));
+        context->fds.err = 2;
+        context->fds.in = 0;
+        context->fds.out = 1;
+        add_origin(&context->origin, NAME);
 
 	i = 0;
 	ac = av[0][0];
@@ -34,6 +39,11 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
 		return (1);
+        if (input_data->active_buf->len > 0)
+        {
+            input_data->active_buf->len -= 1;
+            input_data->active_buf->buf[input_data->active_buf->len] = '\0';
+        }
 	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
 		return (1);
 	while (i < 32)
@@ -51,7 +61,7 @@ int		main(int ac, char **av, char **env)
 			input_data->active_buf->len -= 1;
 			input_data->active_buf->buf[input_data->active_buf->len] = '\0';
 		}
-		builtins_dispatcher(sh_state, (const char **)ft_strsplit(input_data->active_buf->buf, ' '), 1, 0);
+		builtins_dispatcher(sh_state, (const char **)ft_strsplit(input_data->active_buf->buf, ' '), context, 0);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);

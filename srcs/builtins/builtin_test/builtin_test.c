@@ -86,7 +86,7 @@ static int  treate_args(const char **av)
     return (result);
 }
 
-int        builtin_test(t_sh_state *sh_state, int ac, const char **av, int fd_out)
+int        builtin_test(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context)
 {
     size_t  negate;
 

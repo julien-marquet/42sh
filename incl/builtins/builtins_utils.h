@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_echo.h                                   .::    .:/ .      .::   */
+/*   builtins_utils.h                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 23:00:21 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/07 23:01:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/09 03:01:23 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 18:40:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_ECHO_H
-# define BUILTIN_ECHO_H
+#ifndef BUILTINS_UTILS_H
+# define BUILTINS_UTILS_H
 
 # include "common.h"
+# include "error_handler.h"
 
-int			builtin_echo(t_sh_state *sh_state, int ac,
-const char **av, int fd_out);
+int		handle_builtin_options(const char **av, const char *valid,
+		char **valid_options, t_builtin_context *context);
+int		add_origin(char **origin, const char *src);
 
 #endif

@@ -6,44 +6,60 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 02:05:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/09 23:51:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_manipulations.h"
 
+static int	is_valid_name(const char *name)
+{
+	if (!name)
+		return (0);
+	while (*name != '\0')
+	{
+		if (!(ft_isalnum(*name) || *name == '_'))
+			return (0);
+		name++;
+	}
+	return (1);
+}
+
+/*
+**	Return 0 on success 1 on parse error and -1 on critical error
+*/
+
 int		add_entry_storage(t_list **storage, const char *name, const char *value, int exported)
 {
-	t_list	*node;
-	size_t	len;
-	t_internal_storage entry;
+	t_list				*node;
+	size_t				len;
+	t_internal_storage	entry;
 
 	len = 0;
 	if (value)
 		len = ft_strlen(value);
 	len += ft_strlen(name) + 1;
-	if (ft_strlen(name) == 0)
-		return (0);
+	if (is_valid_name(name) == 0)
+		return (1);
 	if ((node = find_node_by_name(*storage, name)) != NULL)
 	{
-		free(((t_internal_storage *)node->content)->string);
-		node->content_size = sizeof(t_internal_storage);
-		if ((((t_internal_storage *)node->content)->string =
-	merge_name_value(name, value,
-	len)) == NULL)
-			return (1);
+		if (update_existing_node(node, name, value, len) == 1)
+			return (-1);
+		((t_internal_storage *)node->content)->exported = exported;
+		((t_internal_storage *)node->content)->new_entry = 1;
 	}
 	else
 	{
 		if ((fill_entry(&entry, name, value, len)) == 1)
-			return (1);
+			return (-1);
+		entry.exported = exported;
+		entry.new_entry = 1;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
-			return (1);
+			return (-1);
 		ft_lstprepend(storage, node);
 	}
-	entry.exported = exported;
 	return (0);
 }
 
@@ -53,6 +69,8 @@ int		remove_entry_storage(t_list **storage, const char *name)
 	t_list	*prev;
 	size_t	len;
 
+	if (name == NULL)
+		return (1);
 	tmp = *storage;
 	prev = NULL;
 	len = ft_strlen(name);
@@ -63,7 +81,7 @@ int		remove_entry_storage(t_list **storage, const char *name)
 		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len) == 0 &&
 		((t_internal_storage *)tmp->content)->string[len] == '=')
 		{
-			remove_node(storage, &tmp, prev);
+			remove_storage_node(storage, &tmp, prev);
 			return (1);
 		}
 		prev = tmp;
@@ -72,12 +90,12 @@ int		remove_entry_storage(t_list **storage, const char *name)
 	return (0);
 }
 
-void	print_storage_content(t_list *storage, int fd_out)
+void	print_storage_content(t_list *storage, int fd)
 {
 	while (storage != NULL)
 	{
 		ft_putendl_fd(((t_internal_storage *)(storage->content))->string,
-	fd_out);
+	fd);
 		storage = storage->next;
 	}
 }
@@ -92,4 +110,16 @@ int		update_exported_flag(t_list *storage, const char *name, int exported)
 		return (1);
 	}
 	return (0);
+}
+
+void	flush_new_entry_flag(t_list *storage)
+{
+	t_list	*tmp;
+
+	tmp = storage;
+	while (tmp != NULL)
+	{
+		((t_internal_storage *)tmp->content)->new_entry = 0;
+		tmp = tmp->next;
+	}
 }

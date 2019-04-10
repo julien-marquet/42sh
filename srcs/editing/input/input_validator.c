@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:07:32 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/08 23:38:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,21 +35,15 @@ static void	search_for_quote(size_t i, int *opened, int *quote_type, t_dyn_buf *
 	}
 }
 
-static int		here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
+int		here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
 {
-	int index;
-	int	res;
+	size_t	len;
 
-	index = 0;
-	while (index < (int)dyn_buf->len)
+	if (dyn_buf->buf != NULL && here_doc != NULL)
 	{
-		res = ft_strstr_i(&(dyn_buf->buf[index]), here_doc);
-		if (res == -1)
-			return (0);
-		index += res;
-		if (!is_escaped(dyn_buf->buf, index))
-			return (1);
-		index++;
+		len = ft_strlen(here_doc);
+		if (ft_strncmp(dyn_buf->buf, here_doc, len) == 0)
+			return (dyn_buf->len - 1 == len);
 	}
 	return (0);
 }
@@ -78,33 +72,32 @@ static int		operator_is_lonely(t_dyn_buf *dyn_buf)
 	i = (int)dyn_buf->len - 1;
 	if (i < 2)
 		return (0);
-	if (ft_strncmp(&(dyn_buf->buf[i-2]), "||", 2) == 0 || ft_strncmp(&(dyn_buf->buf[i-2]), "&&", 2) == 0)
+	if (ft_strncmp(&(dyn_buf->buf[i - 2]), "||", 2) == 0 ||
+ft_strncmp(&(dyn_buf->buf[i - 2]), "&&", 2) == 0 ||
+ft_strncmp(&(dyn_buf->buf[i - 2]), "${", 2) == 0)
 	{
 		if (i == 2)
 			return (1);
-		else if (dyn_buf->buf[i-3] == ' ')
+		else if (dyn_buf->buf[i - 3] == ' ')
 			return (1);
 	}
 	return (0);
 }
 
-int		output_is_ready(t_dyn_buf *dyn_buf, char *here_doc)
+int		output_is_ready(t_dyn_buf *dyn_buf, int valid_here_doc)
 {
+	if (valid_here_doc == 0)
+		return (0);
+	if (valid_here_doc == 1)
+		return (1);
 	if (!(dyn_buf->len > 0 && dyn_buf->buf[dyn_buf->len - 1] == '\n'))
 		return (0);
-	if (here_doc != NULL)
-	{
-		if (!here_doc_is_closed(dyn_buf, here_doc))
-			return (0);
-	}
-	else
-	{
-		if (!quotes_are_closed(dyn_buf))
-			return (0);
-		else if (operator_is_lonely(dyn_buf))
-			return (0);
-		else if (dyn_buf->buf[dyn_buf->len - 1] == '\n' && is_escaped(dyn_buf->buf, dyn_buf->len - 1))
-			return (0);
-	}
+	if (!quotes_are_closed(dyn_buf))
+		return (0);
+	else if (operator_is_lonely(dyn_buf))
+		return (0);
+	else if (dyn_buf->buf[dyn_buf->len - 1] == '\n' &&
+is_escaped(dyn_buf->buf, dyn_buf->len - 1))
+		return (0);
 	return (1);
 }
