@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 20:34:58 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/10 16:59:19 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -116,7 +116,7 @@ int				parse(char *str, t_sh_state *sh_state, t_input_data *input_data)
 
 	i = 0;
 	cmd = NULL;
-	//str = parse_alias(str);
+	str = parse_alias(str, sh_state->aliases);
 	if (parse_check(str))
 		return (1);
 	while (str[i])
