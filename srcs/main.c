@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:58:57 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 00:20:56 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,6 +40,8 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	while (i < 32)
 		signal(i++, handle_all);
+	add_alias(&sh_state->aliases, "test", "ls | test");
+	add_alias(&sh_state->aliases, "ls", "cat");
 	// add_entry_storage(&sh_state->internal_storage, "OUI", "NON", 0);
 	while (sh_state->exit_sig == 0)
 	{
