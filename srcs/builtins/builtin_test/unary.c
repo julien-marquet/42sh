@@ -48,7 +48,7 @@ static int  check_op(char op, struct stat stats, const char *path)
     else if (op == 'f')
         return !(S_ISREG(stats.st_mode));
     else if (op == 'g')
-        return !(stats.st_mode == S_ISGID);
+        return ((stats.st_mode & S_ISGID) == 0);
     else if (op == 'L')
         return !(S_ISLNK(stats.st_mode));
     else if (op == 'p')
@@ -58,7 +58,7 @@ static int  check_op(char op, struct stat stats, const char *path)
     else if (op == 's')
         return !(stats.st_size > 0);
     else if (op == 'u')
-        return !(stats.st_mode == S_ISUID);
+        return ((stats.st_mode & S_ISUID) == 0);
     return (0);
 }
 
