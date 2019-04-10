@@ -74,18 +74,21 @@ int        builtin_test(t_sh_state *sh_state, int ac, const char **av, int fd_ou
         if (av[1][0] != '\0')
             sh_state->status = 0;
     } else {
-        if (ft_strcmp("!", av[1]) != 0) {
+        if (ft_strcmp("!", av[1]) == 0) {
             negate = 1;
+            dprintf(2, "Negating...\n");
         }
         if (ac == 3) {
             if (negate && av[2][0] == '\0') {
                 sh_state->status = 0;
                 return (0);
             }
+            dprintf(2, "HelloWorld\n");
             if (is_unary_op(av[1]))
                 sh_state->status = make_unary_test(av[1][1], av[2]);
             else
                 return (0);
+            dprintf(2, "HelloWorld: %i\n", sh_state->status);
             if (sh_state->status > 1)
                 return (1);
         }

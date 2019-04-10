@@ -36,25 +36,25 @@ static int  check_permissions(char op, const char *path)
 static int  check_op(char op, struct stat stats, const char *path)
 {
     if (op == 'b')
-        return !(stats.st_mode == S_IFBLK);
+        return !(S_ISBLK(stats.st_mode));
     else if (op == 'r' || op == 'w' || op == 'x')
         return (check_permissions(op, path));
     else if (op == 'c')
-        return !(stats.st_mode == S_IFCHR);
+        return !(S_ISCHR(stats.st_mode));
     else if (op == 'd')
-        return !(stats.st_mode == S_IFDIR);
+        return !(S_ISDIR(stats.st_mode));
     else if (op == 'e')
         return (0);
     else if (op == 'f')
-        return !(stats.st_mode == S_IFREG);
+        return !(S_ISREG(stats.st_mode));
     else if (op == 'g')
         return !(stats.st_mode == S_ISGID);
     else if (op == 'L')
-        return !(stats.st_mode == S_IFLNK);
+        return !(S_ISLNK(stats.st_mode));
     else if (op == 'p')
-        return !(stats.st_mode == S_IFIFO);
+        return !(S_ISFIFO(stats.st_mode));
     else if (op == 'S')
-        return !(stats.st_mode == S_IFSOCK);
+        return !(S_ISSOCK(stats.st_mode));
     else if (op == 's')
         return !(stats.st_size > 0);
     else if (op == 'u')
