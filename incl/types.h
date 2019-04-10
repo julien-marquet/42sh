@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:48:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/10 22:39:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,26 @@
 # include <unistd.h>
 # include <termios.h>
 # include "../libs/Libft/libft.h"
+
+typedef struct	s_proc
+{
+	int		pid;
+	int		status;
+	char	*name;
+}				t_proc;
+
+typedef struct	s_proc_grp
+{
+	t_list	*procs;
+	int		status;
+	int		pgid;
+	char	*name;
+}				t_proc_grp;
+
+typedef struct	s_jobs
+{
+	t_list	*proc_grps;
+}				t_jobs;
 
 typedef struct	s_cur_abs_pos
 {
@@ -81,6 +101,5 @@ typedef struct	s_builtin_context
 	char	*origin;
 	t_fds	fds;
 }				t_builtin_context;
-
 
 #endif

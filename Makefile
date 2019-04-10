@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/10 02:55:15 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/10 22:29:57 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -22,9 +22,9 @@ LIB_DIR = libs
 
 CFOLDERS = $(addprefix $(OBJ_DIR)/, storage \
 editing editing/cursor editing/history editing/input \
-data data/win_data data/dyn_buf data/data_utils\
-builtins builtins/builtins_storage builtins/builtins_aliases builtins/builtin_echo\
-utils \
+data data/win_data data/dyn_buf data/data_utils \
+builtins builtins/builtins_storage builtins/builtins_aliases builtins/builtin_echo \
+jobs \
 aliases)
 
 # C FILES
@@ -44,6 +44,7 @@ CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
+CFILES += $(addprefix jobs/, jobs.c jobs_super.c jobs_proc.c jobs_proc_grp.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -65,6 +66,7 @@ TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_uns
 TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_alias.h builtin_unalias.h)
 TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
 TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
+TMPFILES += $(addprefix jobs/, jobs.h jobs_super.h jobs_proc_grp.h jobs_proc.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 
