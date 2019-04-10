@@ -72,15 +72,17 @@ static int  treate_args(const char **av)
     if (is_binary_op(av[1]))
         result = make_binary_test(av[0], av[1], av[2]);
     else
+    {
+        if (ft_strcmp("(", av[0]) == 0 && ft_strcmp(")", av[2]) == 0) {
+            if (av[1][0] != '\0')
+                return (0);
+        }
         return (error((char *)((av - 1)[0]), (char *)av[1], "binary operator expected"));
+    }
     if (check_args(av) == 1)
         return (-1);
     if (ft_strcmp("!", av[0]) == 0)
         result = make_unary_test(av[1][1], av[2]);
-    if (ft_strcmp("(", av[0]) == 0 && ft_strcmp(")", av[2]) == 0) {
-        if (av[1][0] != '\0')
-            result = 0;
-    }
     return (result);
 }
 
