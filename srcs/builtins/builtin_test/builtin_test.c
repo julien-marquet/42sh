@@ -41,6 +41,29 @@ static int  is_binary_op(const char *arg)
         ft_strcmp("!=", arg) == 0);
 }
 
+static int  check_arg(const char *arg)
+{
+    size_t  i;
+
+    i = 0;
+    while (arg[i])
+    {
+        if (arg[i] < 48 || arg[i] > 57)
+            return (1);
+        i += 1;
+    }
+    return (0);
+}
+
+static int  check_args(const char **av)
+{
+    if (check_arg((char *)av[0]) == 1)
+        return (error((char *)((av - 1)[0]), (char *)av[0], "integer expression expected"));
+    if (check_arg((char *)av[2]) == 1)
+        return (error((char *)((av - 1)[0]), (char *)av[2], "integer expression expected"));
+    return (0);
+}
+
 static int  treate_args(const char **av)
 {
     int     result;
@@ -50,6 +73,8 @@ static int  treate_args(const char **av)
         result = make_binary_test(av[0], av[1], av[2]);
     else
         return (error((char *)((av - 1)[0]), (char *)av[1], "binary operator expected"));
+    if (check_args(av) == 1)
+        return (-1);
     if (ft_strcmp("!", av[0]) == 0)
         result = make_unary_test(av[1][1], av[2]);
     if (ft_strcmp("(", av[0]) == 0 && ft_strcmp(")", av[2]) == 0) {
