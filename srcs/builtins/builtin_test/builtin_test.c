@@ -14,9 +14,12 @@
 #include "builtins/builtin_test/builtin_test.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-static int  error(void)
+static int  error(char *file, char *msg)
 {
-    dprintf(2, "An error occured\n");
+    if (file != NULL)
+        dprintf(2, "-%s: test: %s: %s\n", NAME, file, msg);
+    else
+        dprintf(2, "-%s: test: %s\n", NAME, msg);
     return (1);
 }
 
@@ -29,13 +32,13 @@ static int  is_unary_op(const char *arg)
 
 static int  is_binary_op(const char *arg)
 {
-    return (ft_strcmp("-eq", arg) != 0 ||
-        ft_strcmp("-ne", arg) != 0 ||
-        ft_strcmp("-ge", arg) != 0 ||
-        ft_strcmp("-lt", arg) != 0 ||
-        ft_strcmp("-le", arg) != 0 ||
-        ft_strcmp("=", arg) != 0 ||
-        ft_strcmp("!=", arg) != 0);
+    return (ft_strcmp("-eq", arg) == 0 ||
+        ft_strcmp("-ne", arg) == 0 ||
+        ft_strcmp("-ge", arg) == 0 ||
+        ft_strcmp("-lt", arg) == 0 ||
+        ft_strcmp("-le", arg) == 0 ||
+        ft_strcmp("=", arg) == 0 ||
+        ft_strcmp("!=", arg) == 0);
 }
 
 static int  treate_args(int ac, const char **av)
@@ -43,10 +46,13 @@ static int  treate_args(int ac, const char **av)
     int     result;
 
     if (ac < 3)
-        return (error());
+        return (error(NULL, "unknown error"));
     result = 1;
+    dprintf(2, "HelloWorld %i\n", is_binary_op(av[1]));
     if (is_binary_op(av[1]))
         result = make_binary_test(av[0], av[1], av[2]);
+    else
+        return (error((char *)av[1], "binary operator expected"));
     if (ft_strcmp("!", av[0]) == 0)
         result = make_unary_test(av[1][1], av[2]);
     if (ft_strcmp("(", av[0]) == 0 && ft_strcmp(")", av[2]) == 0) {
@@ -55,7 +61,7 @@ static int  treate_args(int ac, const char **av)
     }
     // ELSE IS FALSE
     if (result == -1)
-        return (error());
+        return (error(NULL, "unknown error"));
     if (ac > 3)
         return treate_args(ac - 3, av + 3);
     // Check if -1
@@ -96,11 +102,15 @@ int        builtin_test(t_sh_state *sh_state, int ac, const char **av, int fd_ou
         {
             if (ft_strcmp("!", av[1]) == 0)
             {
+                if (ac > 5)
+                    return (error(NULL, "too many arguments"));
                 if ((sh_state->status = treate_args(ac - 2, av + 2)) > 1)
                     return (1);
             }
             else
             {
+                if (ac > 4)
+                    return (error(NULL, "too many arguments"));
                 if ((sh_state->status = treate_args(ac - 1, av + 1)) > 1)
                     return (1);
             }

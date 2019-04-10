@@ -22,4 +22,6 @@
 # include "types.h"
 # include "../libs/Libft/libft.h"
 
+# define NAME 42sh
+
 #endif
