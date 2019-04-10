@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/05 19:38:47 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/10 20:43:28 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,6 +31,7 @@ int			parse_error(char *str, int i)
 
 static int	parse_error_handler(char *str, char *c, int i, int j)
 {
+	dprintf(2, "%c%i\n", *c, j);
 	if (j > 2)
 		return (1);
 	else if (*c == ';' && j > 1)
@@ -67,6 +68,7 @@ int			parse_check(char *str)
 			if (parse_error_handler(str, c, i, j))
 				return (parse_error(str, i));
 			i += j;
+			continue ;
 		}
 		str[i] ? i++ : 0;
 	}
