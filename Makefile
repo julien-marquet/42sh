@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/09 18:31:58 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/10 02:55:15 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -23,7 +23,7 @@ LIB_DIR = libs
 CFOLDERS = $(addprefix $(OBJ_DIR)/, storage \
 editing editing/cursor editing/history editing/input \
 data data/win_data data/dyn_buf data/data_utils\
-builtins builtins/builtins_storage builtins/builtins_aliases\
+builtins builtins/builtins_storage builtins/builtins_aliases builtins/builtin_echo\
 utils \
 aliases)
 
@@ -39,9 +39,10 @@ CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
-CFILES += $(addprefix builtins/, builtins_utils.c builtin_echo.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
+CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
+CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
@@ -59,9 +60,10 @@ TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_uti
 TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
 TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
-TMPFILES += $(addprefix builtins/, builtins_utils.h builtin_echo.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
+TMPFILES += $(addprefix builtins/, builtins_utils.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_unset.h builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
 TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_alias.h builtin_unalias.h)
+TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
 TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))

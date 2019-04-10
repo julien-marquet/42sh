@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_dispatcher.h                            .::    .:/ .      .::   */
+/*   builtin_echo_utils.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 02:50:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/10 02:51:24 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/10 02:56:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DISPATCHER_H
-# define BUILTINS_DISPATCHER_H
+#include "builtins/builtin_echo/builtin_echo_utils.h"
 
-# include "common.h"
-# include "builtins/builtins_defines.h"
-# include "builtins/builtins_execution.h"
-# include "builtins/builtins_storage/builtins_storage.h"
-# include "builtins/builtins_aliases/builtins_aliases.h"
-# include "builtins/builtin_exit.h"
-# include "builtins/builtin_echo/builtin_echo.h"
+int	get_octal_chars_nb(const char *str)
+{
+	int		i;
 
-int		builtins_dispatcher(t_sh_state *sh_state,
-		const char **av, t_builtin_context *context, int background);
+	i = 0;
+	while (str[i] >= '0' && str[i] <= '7')
+		i++;
+	return (i);
+}
 
-#endif
+int	convert_to_decimal(int octal)
+{
+	int decimal;
+	int i;
+
+	decimal = 0;
+	i = 0;
+	while (octal != 0)
+	{
+		decimal = decimal + (octal % 10) * ft_pow(8, i++);
+		octal = octal / 10;
+	}
+	return (decimal);
+}
