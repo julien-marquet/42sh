@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:32:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 01:53:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,18 +37,45 @@ static t_builtin_func	get_builtins_func(const char *name)
 	return (NULL);
 }
 
+t_builtin_context	*init_builtin_context()
+{
+	t_builtin_context *builtin_context;
+
+	if ((builtin_context = ft_memalloc(sizeof(t_builtin_context))) == NULL)
+		return (NULL);
+	if (add_origin(&builtin_context->origin, "42sh") == 1)
+		return (NULL);
+	builtin_context->fds.err = 2;
+	builtin_context->fds.out = 1;
+	builtin_context->fds.in = 0;
+	return (builtin_context);
+}
+
 int			builtins_dispatcher(t_sh_state *sh_state,
-const char **av, t_builtin_context *context, int background)
+const char **av, t_context *context)
 {
 	t_builtin_func	f;
+	int				res;
 
+	res = 0;
 	if ((f = get_builtins_func(av[0])) != NULL)
 	{
-		if (background == 0)
-			return (exec_builtin(sh_state, av, f, context));
+		if ((context->builtin_context = init_builtin_context()) == NULL)
+			return (-1);
+		if (context->background == 0)
+		{
+			sh_state->status = exec_builtin(sh_state, av, f, context);
+			res = 1;
+		}
 		else
-			return (background_exec_builtin(sh_state, av, f, context));
+		{
+			if (background_exec_builtin(sh_state, av, f, context) == 1)
+				res = -1;
+			else
+				res = 1;
+		}
+		free(context->builtin_context);
+		context->builtin_context = NULL;
 	}
-	else
-		return (0);
+	return (res);
 }

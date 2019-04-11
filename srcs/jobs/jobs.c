@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 17:32:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 22:44:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 01:02:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,7 @@ void	list_procs(t_proc_grp *proc_grp)
 	while (tmp != NULL)
 	{
 		proc = (t_proc *)tmp->content;
-		dprintf(2, " | STATUS = %d PID = %d NAME = %s",
+		dprintf(2, " | STATUS = %d PID = %d NAME = %s\n",
 	proc->status, proc->pid, proc->name);
 		tmp = tmp->next;
 	}
@@ -39,7 +39,7 @@ void	list_jobs()
 	while (tmp != NULL)
 	{
 		proc_grp = (t_proc_grp *)tmp->content;
-		dprintf(2, "STATUS = %d PGID = %d NAME = %s",
+		dprintf(2, "STATUS = %d PGID = %d NAME = %s\n",
 	proc_grp->status, proc_grp->pgid, proc_grp->name);
 		list_procs(proc_grp);
 		tmp = tmp->next;

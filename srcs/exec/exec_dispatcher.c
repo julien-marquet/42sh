@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_execution.h                             .::    .:/ .      .::   */
+/*   exec_dispatcher.c                                .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:16:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 01:09:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/11 01:24:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_EXECUTION_H
-# define BUILTINS_EXECUTION_H
+#include "exec/exec_dispatcher.h"
 
-# include "common.h"
-# include "term_state.h"
-# include "builtins/builtins_defines.h"
-# include "jobs/jobs.h"
-
-int		exec_builtin(t_sh_state *sh_state, const char **av,
-		t_builtin_func builtin, t_context *context);
-int		background_exec_builtin(t_sh_state *sh_state, const char **av,
-		t_builtin_func builtin, t_context *context);
-
-#endif
+int		exec_dispatcher()
+{
+	return (0);
+}

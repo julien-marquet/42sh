@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_execution.h                             .::    .:/ .      .::   */
+/*   exec.h                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:16:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 01:09:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/10 23:13:44 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/11 00:12:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_EXECUTION_H
-# define BUILTINS_EXECUTION_H
+#ifndef EXEC_H
+# define EXEC_H
 
 # include "common.h"
-# include "term_state.h"
-# include "builtins/builtins_defines.h"
-# include "jobs/jobs.h"
+# include "builtins/builtins.h"
+# include "exec/exec_dispatcher.h"
 
-int		exec_builtin(t_sh_state *sh_state, const char **av,
-		t_builtin_func builtin, t_context *context);
-int		background_exec_builtin(t_sh_state *sh_state, const char **av,
-		t_builtin_func builtin, t_context *context);
+int		execute(t_sh_state *sh_state, const char **parsed);
 
 #endif

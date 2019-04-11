@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 21:13:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 22:40:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 01:53:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,15 +27,15 @@ t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
 	return (NULL);
 }
 
-t_proc	*new_proc(int pid, int status, char *name)
+t_proc	*new_proc(int pid, int status, const char *name)
 {
 	t_proc	*proc;
 
-	if ((proc = ft_memalloc(sizeof(proc))) == NULL)
+	if ((proc = ft_memalloc(sizeof(t_proc))) == NULL)
 		return (NULL);
 	proc->pid = pid;
 	proc->status = status;
-	proc->name = name;
+	proc->name = ft_strdup(name);
 	return (proc);
 }
 

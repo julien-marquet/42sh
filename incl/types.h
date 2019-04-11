@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 22:39:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 01:29:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -96,10 +96,20 @@ typedef struct	s_fds
 	int		err;
 }				t_fds;
 
+
 typedef struct	s_builtin_context
 {
 	char	*origin;
 	t_fds	fds;
 }				t_builtin_context;
+
+typedef struct	s_context
+{
+	int					pgid;
+	int					background;
+	t_proc_grp			*proc_grp;
+	t_builtin_context	*builtin_context;
+}				t_context;
+
 
 #endif

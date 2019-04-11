@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/10 22:29:57 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/10 23:46:24 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -25,7 +25,8 @@ editing editing/cursor editing/history editing/input \
 data data/win_data data/dyn_buf data/data_utils \
 builtins builtins/builtins_storage builtins/builtins_aliases builtins/builtin_echo \
 jobs \
-aliases)
+aliases \
+exec)
 
 # C FILES
 
@@ -45,6 +46,7 @@ CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalia
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 CFILES += $(addprefix jobs/, jobs.c jobs_super.c jobs_proc.c jobs_proc_grp.c)
+CFILES += $(addprefix exec/, exec.c exec_dispatcher.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -67,6 +69,7 @@ TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_a
 TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
 TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
 TMPFILES += $(addprefix jobs/, jobs.h jobs_super.h jobs_proc_grp.h jobs_proc.h)
+TMPFILES += $(addprefix exec/, exec.h exec_dispatcher.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 
