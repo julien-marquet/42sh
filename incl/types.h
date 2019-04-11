@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 01:29:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 02:33:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,17 +18,22 @@
 # include <termios.h>
 # include "../libs/Libft/libft.h"
 
+typedef enum	e_job_status
+{
+	running,
+	exited
+}				t_job_status;
+
 typedef struct	s_proc
 {
-	int		pid;
-	int		status;
-	char	*name;
+	int				pid;
+	t_job_status	status;
+	char			*name;
 }				t_proc;
 
 typedef struct	s_proc_grp
 {
 	t_list	*procs;
-	int		status;
 	int		pgid;
 	char	*name;
 }				t_proc_grp;

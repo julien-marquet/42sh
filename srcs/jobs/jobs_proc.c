@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 21:13:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 01:53:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 02:36:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,7 @@ t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
 	return (NULL);
 }
 
-t_proc	*new_proc(int pid, int status, const char *name)
+t_proc	*new_proc(int pid, t_job_status status, const char *name)
 {
 	t_proc	*proc;
 

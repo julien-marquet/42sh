@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:01:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 02:39:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@ const char *name, const char *grp_name)
 		return (1);
 	if ((grp_register = (context->proc_grp == NULL)))
 	{
-		if ((context->proc_grp = new_proc_grp(pid, 0, grp_name)) == NULL)
+		if ((context->proc_grp = new_proc_grp(pid, grp_name)) == NULL)
 			return (1);
 	}
 	add_proc(proc, context->proc_grp);
