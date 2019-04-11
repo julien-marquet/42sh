@@ -16,26 +16,26 @@
 static int	handle_negate(t_test_infos *infos,
 				const char **av, int ac, t_sh_state *sh_state)
 {
-		if (!infos->is_last_builtin)
-			ac -= 1;
-		sh_state->status = 2;
-		if (((infos->base_ac == 3 || infos->base_ac == 4) &&
-			!infos->is_last_builtin) ||
-	((infos->base_ac == 4 || infos->base_ac == 5) && infos->is_last_builtin))
-		{
-			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-				NULL, "too many arguments"));
-		}
-		if (((infos->base_ac > 4 && ft_strcmp(av[1], "!") == 0) &&
-				infos->is_last_builtin) ||
-			((infos->base_ac > 3 && ft_strcmp(av[1], "!") == 0) &&
-				!infos->is_last_builtin))
-		{
-			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-				NULL, "argument expected"));
-		}
-		sh_state->status = av[1][0] == '\0' ? 0 : 1;
-		return (0);
+	if (!infos->is_last_builtin)
+		ac -= 1;
+	sh_state->status = 2;
+	if (((infos->base_ac == 3 || infos->base_ac == 4) &&
+		!infos->is_last_builtin) ||
+((infos->base_ac == 4 || infos->base_ac == 5) && infos->is_last_builtin))
+	{
+		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
+			NULL, "too many arguments"));
+	}
+	if (((infos->base_ac > 4 && ft_strcmp(av[1], "!") == 0) &&
+			infos->is_last_builtin) ||
+		((infos->base_ac > 3 && ft_strcmp(av[1], "!") == 0) &&
+			!infos->is_last_builtin))
+	{
+		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
+			NULL, "argument expected"));
+	}
+	sh_state->status = av[1][0] == '\0' ? 0 : 1;
+	return (0);
 }
 
 static int	check_2args(t_test_infos *infos,
