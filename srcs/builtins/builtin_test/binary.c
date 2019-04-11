@@ -18,6 +18,8 @@ int	make_binary_test(const char *arg1, const char *op, const char *arg2)
 	int	nbr1;
 	int nbr2;
 
+        if (check_args(arg1, arg2) != 0)
+            return (1);
 	if (ft_strcmp("=", op) == 0)
 		return (!(ft_strcmp(arg1, arg2) == 0));
 	else if (ft_strcmp("!=", op) == 0)

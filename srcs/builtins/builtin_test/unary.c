@@ -72,9 +72,9 @@ int			make_unary_test(char op, const char *arg)
 	{
 		if (errno == ENOENT)
 			return (1);
-		return (-1);
+		return (2);
 	}
 	if (stat(arg, &stats) == -1)
-		return (-1);
+		return (2);
 	return (check_op(op, stats, arg));
 }
