@@ -22,6 +22,7 @@ typedef struct	s_test_infos
 {
 	size_t		negate;
 	int			base_ac;
+	size_t		is_last_builtin;
 }				t_test_infos;
 
 int				is_unary_op(const char *arg);

@@ -59,6 +59,7 @@ int			builtin_test(t_sh_state *sh_state, int ac,
 
 	infos.negate = 0;
 	infos.base_ac = ac - 1;
+	infos.is_last_builtin = ft_strcmp(av[ac - 1], "]") == 0 ? 1 : 0;
 	sh_state->status = 1;
 	if (ft_strcmp("[", av[0]) == 0)
 	{
