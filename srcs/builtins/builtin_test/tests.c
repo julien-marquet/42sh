@@ -25,15 +25,12 @@ static int	check_2args(t_test_infos *infos,
 	if (ft_strcmp("!", av[0]) == 0)
 	{
 		sh_state->status = 2;
-		if (infos->base_ac == 3 || infos->base_ac == 4)
+		if ((infos->base_ac == 3 || infos->base_ac == 4) ||
+			(infos->base_ac > 3 && ft_strcmp(av[1], "!") == 0))
 		{
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-					NULL, "too many arguments"));
-		}
-		if (infos->base_ac > 3 && ft_strcmp(av[1], "!") == 0)
-		{
-			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-					NULL, "argument expected"));
+					NULL, (infos->base_ac == 3 || infos->base_ac == 4) ?
+					"too many arguments" : "argument expected"));
 		}
 		sh_state->status = av[1][0] == '\0' ? 0 : 1;
 	}
@@ -41,8 +38,12 @@ static int	check_2args(t_test_infos *infos,
 		sh_state->status = make_unary_test(av[0][1], av[1]);
 	else
 	{
-		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-				(char *)av[0], "unary operator expected"));
+		if (infos->base_ac > 3)
+			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
+					NULL, "too many arguments"));
+		else
+			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
+					(char *)av[0], "unary operator expected"));
 	}
 	return (0);
 }
