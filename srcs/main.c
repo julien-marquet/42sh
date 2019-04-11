@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 00:12:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 20:53:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,6 +31,7 @@ int		main(int ac, char **av, char **env)
 	t_input_data	*input_data;
 	int				i;
 
+	setsid();
 	i = 0;
 	ac = av[0][0];
 	if ((sh_state = init_sh()) == NULL)
@@ -43,6 +44,7 @@ int		main(int ac, char **av, char **env)
 		signal(i++, handle_all);
 	while (sh_state->exit_sig == 0)
 	{
+		display_jobs_alert();
 		if (handle_input(sh_state, input_data, NULL) == 1)
 		{
 			sh_state->status = 1;
@@ -64,7 +66,7 @@ int		main(int ac, char **av, char **env)
 		}
 		test = NULL;
 		test = ft_strsplit(input_data->active_buf->buf, ' ');
-		execute(sh_state, (const char **)test);
+		execute(sh_state, test);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);

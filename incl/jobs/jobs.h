@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:38:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 18:48:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,7 @@
 # include "common.h"
 
 void	list_jobs();
-void	update_jobs_list();
+void	update_jobs_status();
+void	display_jobs_alert();
 
 #endif

@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:01:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 20:57:37 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "exec/exec.h"
+#include "signal.h"
 
 static int	is_background(int i)
 {
@@ -28,28 +29,34 @@ t_context	*init_context(int background)
 	return (context);
 }
 
-int		execute(t_sh_state *sh_state, const char **parsed)
+int		execute(t_sh_state *sh_state, char **parsed)
 {
 	int	i;
 	int	found;
 	t_context	*context;
 
 	i = 0;
-	context = init_context(is_background(1));
+	context = init_context(is_background(0));
+	// DEBUG simulate background
+	if (parsed && parsed[0])
+		context->background = ft_strcmp(parsed[0], "1") == 0;
+	if (context->background == 1)
+		parsed = &(parsed[1]);
 	// placeholder for loop in cmd
-	while (i < 2)
+	while (i < 1)
 	{
-		if ((found = builtins_dispatcher(sh_state, parsed, context)) == -1)
+		if ((found = builtins_dispatcher(sh_state, (const char **)parsed, context)) == -1)
 			return (1);
 		else if (found == 0)
 		{
 			found = exec_dispatcher(context);
 		}
 		if (found == 1)
+		{
 			dprintf(2, "EXEC_DONE\n");
+			//kill(context->proc_grp->pgid, 17);
+		}
 		i++;
 	}
-	dprintf(2, "list = \n");
-	list_jobs();
 	return (0);
 }

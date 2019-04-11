@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_defines.h                               .::    .:/ .      .::   */
+/*   builtin_jobs.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 20:49:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/11 20:45:56 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/11 20:48:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DEFINES_H
-# define BUILTINS_DEFINES_H
+#include "builtins/builtins_jobs/builtin_jobs.h"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
-# define BUILTINS_NB 11
-# define BUILTINS_MAX_LEN 20
-
-typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av,
-			t_builtin_context *context);
-
-#endif
+int			builtin_jobs(t_sh_state *sh_state, int ac,
+const char **av, t_builtin_context *context)
+{
+	list_jobs();
+	return (0);
+}

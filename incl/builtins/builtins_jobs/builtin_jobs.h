@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_defines.h                               .::    .:/ .      .::   */
+/*   builtin_jobs.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 20:49:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/11 20:45:10 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/11 20:48:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DEFINES_H
-# define BUILTINS_DEFINES_H
+#ifndef BUILTIN_JOBS_H
+# define BUILTIN_JOBS_H
 
-# define BUILTINS_NB 11
-# define BUILTINS_MAX_LEN 20
+# include "common.h"
+# include "jobs/jobs.h"
 
-typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av,
-			t_builtin_context *context);
+int			builtin_jobs(t_sh_state *sh_state, int ac,
+			const char **av, t_builtin_context *context);
 
 #endif

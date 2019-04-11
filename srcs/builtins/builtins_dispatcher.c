@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 01:53:33 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 20:49:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,11 +16,11 @@
 static t_builtin_func	get_builtins_func(const char *name)
 {
 	static char	*assoc_name[BUILTINS_NB + 1] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "alias", "unalias", NULL
+		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "alias", "unalias", "jobs", NULL
 	};
 	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, t_builtin_context *) = {
 		builtin_set, builtin_env, builtin_setenv, builtin_unsetenv,
-		builtin_unset, builtin_exit, builtin_echo, builtin_export, builtin_alias, builtin_unalias, NULL
+		builtin_unset, builtin_exit, builtin_echo, builtin_export, builtin_alias, builtin_unalias, builtin_jobs, NULL
 	};
 	size_t		i;
 

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:33:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 18:14:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,9 @@
 typedef enum	e_job_status
 {
 	running,
-	exited
+	exited,
+	signaled,
+	stopped
 }				t_job_status;
 
 typedef struct	s_proc
@@ -29,6 +31,7 @@ typedef struct	s_proc
 	int				pid;
 	t_job_status	status;
 	char			*name;
+	int				updated;
 }				t_proc;
 
 typedef struct	s_proc_grp
@@ -110,7 +113,6 @@ typedef struct	s_builtin_context
 
 typedef struct	s_context
 {
-	int					pgid;
 	int					background;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
