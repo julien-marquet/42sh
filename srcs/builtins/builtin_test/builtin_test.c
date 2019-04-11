@@ -81,7 +81,14 @@ static int          make_test(t_test_infos infos, const char **av, int ac, t_sh_
         else if (ac == 2)
         {
                 if (ft_strcmp("!", av[0]) == 0)
+                {
+                        sh_state->status = 2;
+                        if (infos.base_ac == 3 || infos.base_ac == 4)
+                            return (error((char *)((av - (infos.base_ac - ac))[0]), NULL, "too many arguments"));
+                        if (infos.base_ac > 3 && ft_strcmp(av[1], "!") == 0)
+                            return (error((char *)((av - (infos.base_ac - ac))[0]), NULL, "argument expected"));
                         sh_state->status = av[1][0] == '\0' ? 0 : 1;
+                }
                 else if (is_unary_op(av[0]))
                         sh_state->status = make_unary_test(av[0][1], av[1]);
                 else
@@ -101,7 +108,7 @@ static int          make_test(t_test_infos infos, const char **av, int ac, t_sh_
                         sh_state->status = av[1][0] != '\0' ? 0 : 1;
                 else
                         return (error((char *)((av - (infos.base_ac - ac))[0]), (char *)av[1],
-				infos.base_ac > 4 ? "too many arguments" : "binary operator expected"));
+				(ft_strcmp(av[ac - 1], "]") == 0  && infos.base_ac > 5) || (ft_strcmp(av[ac - 1], "]") != 0  && infos.base_ac > 4) ? "too many arguments" : "binary operator expected"));
 	}
         else
         {
