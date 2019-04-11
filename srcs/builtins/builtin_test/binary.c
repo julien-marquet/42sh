@@ -5,8 +5,8 @@
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 17:46:28 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 17:46:28 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/11 21:01:37 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/11 21:01:38 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,8 +18,8 @@ int	make_binary_test(const char *arg1, const char *op, const char *arg2)
 	int	nbr1;
 	int nbr2;
 
-        if (check_args(arg1, arg2) != 0)
-            return (1);
+	if (check_args(arg1, arg2) != 0)
+		return (1);
 	if (ft_strcmp("=", op) == 0)
 		return (!(ft_strcmp(arg1, arg2) == 0));
 	else if (ft_strcmp("!=", op) == 0)
