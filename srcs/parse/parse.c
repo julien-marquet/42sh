@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 15:23:40 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 23:11:08 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -109,14 +109,15 @@ void			parse_print(t_cmd *cmd)
 // 		wait(&ret);
 // }
 
-int				parse(char *str, t_sh_state *sh_state, t_input_data *input_data)
+int				parse(char *line, t_sh_state *sh_state, t_input_data *input_data)
 {
+	char	*str;
 	int		i;
 	t_cmd	*cmd;
 
 	i = 0;
 	cmd = NULL;
-	str = parse_alias(str, sh_state->aliases, NULL);
+	str = parse_alias(line, sh_state->aliases, NULL);
 	if (parse_check(str))
 		return (1);
 	while (str[i])
@@ -126,8 +127,8 @@ int				parse(char *str, t_sh_state *sh_state, t_input_data *input_data)
 		if (!(cmd = parse_tokenparse(cmd, sh_state, input_data)))
 			return (1);
 		parse_print(cmd);
-		//parse_test(cmd, term);
 		cmd = parse_nextfree(cmd);
 	}
+	ft_strdel(&str);
 	return (0);
 }

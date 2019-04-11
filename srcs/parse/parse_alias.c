@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:03:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 22:36:30 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/12 00:22:06 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,7 +34,8 @@ static t_list	*skiplst_handle(char *tmp, t_list **skip)
 		*skip = ft_lstnew(tmp, ft_strlen(tmp) + 1);
 	else
 	{
-		tmplst = ft_lstnew(tmp, ft_strlen(tmp) + 1);
+		if (!(tmplst = ft_lstnew(tmp, ft_strlen(tmp) + 1)))
+			return (NULL);
 		ft_lstadd(skip, tmplst);
 	}
 	return (*skip);
@@ -49,75 +50,109 @@ static t_list	*skiplst_last(t_list *skip)
 	free(skip);
 	return (start);
 }
-/*
-static t_list	*ft_test(char *tmp, t_list *aliases, t_list *skip)
+
+static char		*alias_getfirstword(char *str, int *start, int *i)
 {
-	char	*alias;
-	char	*ret;
-	
-	skip = skiplst_handle(tmp, &skip);
-	alias = get_alias(aliases, tmp);
-	ft_strdel(&tmp);
-	ret = parse_alias(alias, aliases, skip);
-	ft_strdel(&alias);
-	skip = skiplst_last(skip);
-	str = strinsert(str, ret, j, i);
-	i = j + ft_strlen(ret);
-	ft_strdel(&ret);
-}
-*/
-char			*parse_alias(char *src, t_list *aliases, t_list *skip)
-{
-	int i;
-	int j;
-	int is_var;
-	char *str;
-	char *tmp;
-	char	*alias;
-	char	*ret;
+	int		is_var;
+	char	*tmp;
 
 	is_var = 0;
-	i = 0;
-	str = ft_strdup(src);
-	tmp = NULL;
-	while (str[i])
+	while (str[*i] && ft_isspace(str[*i]))
+		(*i)++;
+	(*start) = (*i);
+	while (str[*i] && !ft_isspace(str[*i]))
 	{
-		while (str[i] && ft_isspace(str[i]))
-		{
-			i++;
-		}
-		j = i;
-		while (str[i] && !ft_isspace(str[i]))
-		{
-			if (str[i] == '=')
-				is_var = 1;
-			i++;
-		}
-		tmp = ft_strndup(str + j, i - j);
+		if (str[*i] == '=')
+			is_var = 1;
+		(*i)++;
+	}
+	tmp = ft_strndup(str + (*start), (*i) - (*start));
+	return (tmp);
+}
 
-		if (find_alias_by_name(aliases, tmp) && skiplst_check(tmp, skip))
+static int		alias_getnext(char *str, int i)
+{
+	while (str[i] && !stresc(";|&", str, i))
+	{
+		while (str[i] && is_quoted(str, i))
+			i++;
+		str[i] ? i++ : 0;
+	}
+	while (str[i] && stresc(";|&", str, i))
+		i++;
+	return (i);
+}
+
+/*
+static void		alias_handle(char *tmp, t_list *aliases, t_list *skip)
+{
+	if (find_alias_by_name(aliases, tmp) && skiplst_check(tmp, skip))
+	{
+		skip = skiplst_handle(tmp, &skip);
+		alias = get_alias(aliases, tmp);
+		ft_strdel(&tmp);
+		if ((ret = parse_alias(alias, aliases, skip)))
 		{
-			skip = skiplst_handle(tmp, &skip);
-			alias = get_alias(aliases, tmp);
-			ft_strdel(&tmp);
-			ret = parse_alias(alias, aliases, skip);
-			ft_strdel(&alias);
 			skip = skiplst_last(skip);
-			str = strinsert(str, ret, j, i);
-			i = j + ft_strlen(ret);
+			str = strinsert(str, ret, start, i);
+			i = start + ft_strlen(ret);
 			ft_strdel(&ret);
 		}
-		ft_strdel(&tmp);
+		ft_strdel(&alias);
+	}
+}*/
 
+static char		*alias_handle(char *tmp, t_list *aliases, t_list *skip)
+{
+	char	*alias;
+	char	*ret;
 
-		while (str[i] && !stresc(";|&", str, i))
+	ret = NULL;
+	if (find_alias_by_name(aliases, tmp) && skiplst_check(tmp, skip))
+	{
+		if (!(alias = get_alias(aliases, tmp)))
 		{
-			while (str[i] && is_quoted(str, i))
-				i++;
-			str[i] ? i++ : 0;
+			ft_strdel(&alias);
+			return (NULL);
 		}
-		while (str[i] && stresc(";|&", str, i))
-			i++;
+		if (!(skip = skiplst_handle(tmp, &skip)))
+		{
+			ft_strdel(&alias);
+			return (NULL);
+		}
+		if ((ret = parse_alias(alias, aliases, skip)))
+		{
+			skip = skiplst_last(skip);
+			ft_strdel(&alias);
+			return (ret);
+		}
+		ft_strdel(&alias);
+	}
+	return (NULL);
+}
+
+char			*parse_alias(char *line, t_list *aliases, t_list *skip)
+{
+	int		i;
+	int		start;
+	char	*str;
+	char	*tmp;
+	char	*ret;
+
+	i = 0;
+	str = ft_strdup(line);
+	while (str[i])
+	{
+		tmp = alias_getfirstword(str, &start, &i);
+		if ((ret = alias_handle(tmp, aliases, skip)))
+		{
+			if (!(str = strinsert(str, ret, start, i)))
+				return (NULL);
+			i = start + ft_strlen(ret);
+		}
+		ft_strdel(&ret);
+		i = alias_getnext(str, i);
+		ft_strdel(&tmp);
 	}
 	return (str);
 }
