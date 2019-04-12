@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:03:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 00:22:06 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/12 22:19:53 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,15 +56,20 @@ static char		*alias_getfirstword(char *str, int *start, int *i)
 	int		is_var;
 	char	*tmp;
 
-	is_var = 0;
-	while (str[*i] && ft_isspace(str[*i]))
-		(*i)++;
-	(*start) = (*i);
-	while (str[*i] && !ft_isspace(str[*i]))
+	while (str[*i])
 	{
-		if (str[*i] == '=')
-			is_var = 1;
-		(*i)++;
+		is_var = 0;
+		while (str[*i] && ft_isspace(str[*i]))
+			(*i)++;
+		(*start) = (*i);
+		while (str[*i] && !ft_isspace(str[*i]))
+		{
+			if (str[*i] == '=')
+				is_var = 1;
+			(*i)++;
+		}
+		if (is_var == 0)
+			break ;
 	}
 	tmp = ft_strndup(str + (*start), (*i) - (*start));
 	return (tmp);
@@ -82,25 +87,6 @@ static int		alias_getnext(char *str, int i)
 		i++;
 	return (i);
 }
-
-/*
-static void		alias_handle(char *tmp, t_list *aliases, t_list *skip)
-{
-	if (find_alias_by_name(aliases, tmp) && skiplst_check(tmp, skip))
-	{
-		skip = skiplst_handle(tmp, &skip);
-		alias = get_alias(aliases, tmp);
-		ft_strdel(&tmp);
-		if ((ret = parse_alias(alias, aliases, skip)))
-		{
-			skip = skiplst_last(skip);
-			str = strinsert(str, ret, start, i);
-			i = start + ft_strlen(ret);
-			ft_strdel(&ret);
-		}
-		ft_strdel(&alias);
-	}
-}*/
 
 static char		*alias_handle(char *tmp, t_list *aliases, t_list *skip)
 {
