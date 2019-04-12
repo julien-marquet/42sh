@@ -1,55 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   parse_alias.c                                    .::    .:/ .      .::   */
+/*   alias.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:03:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:19:53 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 00:16:42 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/parse_alias.h"
-
-static int		skiplst_check(char *tmp, t_list *skip)
-{
-	while (skip)
-	{
-		if (skip->content == NULL || tmp == NULL)
-			return (0);
-		if (ft_strcmp(skip->content, tmp) == 0)
-			return (0);
-		skip = skip->next;
-	}
-	return (1);
-}
-
-static t_list	*skiplst_handle(char *tmp, t_list **skip)
-{
-	t_list *tmplst;
-
-	if (!*skip)
-		*skip = ft_lstnew(tmp, ft_strlen(tmp) + 1);
-	else
-	{
-		if (!(tmplst = ft_lstnew(tmp, ft_strlen(tmp) + 1)))
-			return (NULL);
-		ft_lstadd(skip, tmplst);
-	}
-	return (*skip);
-}
-
-static t_list	*skiplst_last(t_list *skip)
-{
-	t_list *start;
-
-	start = skip->next;
-	ft_strdel((char**)&skip->content);
-	free(skip);
-	return (start);
-}
 
 static char		*alias_getfirstword(char *str, int *start, int *i)
 {
@@ -97,10 +59,7 @@ static char		*alias_handle(char *tmp, t_list *aliases, t_list *skip)
 	if (find_alias_by_name(aliases, tmp) && skiplst_check(tmp, skip))
 	{
 		if (!(alias = get_alias(aliases, tmp)))
-		{
-			ft_strdel(&alias);
 			return (NULL);
-		}
 		if (!(skip = skiplst_handle(tmp, &skip)))
 		{
 			ft_strdel(&alias);
@@ -126,7 +85,9 @@ char			*parse_alias(char *line, t_list *aliases, t_list *skip)
 	char	*ret;
 
 	i = 0;
-	str = ft_strdup(line);
+	start = 0;
+	if (!(str = ft_strdup(line)))
+		return (NULL);
 	while (str[i])
 	{
 		tmp = alias_getfirstword(str, &start, &i);

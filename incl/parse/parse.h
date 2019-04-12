@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 15:21:21 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 00:13:02 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,7 @@
 # define PARSE_H
 
 # include "common.h"
+# include "sh.h"
 
 # define SH_NAME "42sh"
 
@@ -22,12 +23,6 @@
 # define READ_END 0
 # define WRITE_END 1
 
-typedef enum		e_ctype {
-	C_IN = 0,
-	C_LEN,
-	C_OUT,
-	C_TYPE
-}					t_ctype;
 
 typedef struct		s_file {
 	char			*file;
@@ -42,6 +37,13 @@ typedef struct		s_arg {
 	struct s_arg	*next;
 }					t_arg;
 
+/*
+** char		**arg = Command arguments
+** char		*red = Redirection type
+** t_file	*in = Inputs
+** t_file	*out = Outputs
+*/
+
 typedef struct		s_cmd {
 	char			*str;
 	char			**arg;
@@ -51,6 +53,17 @@ typedef struct		s_cmd {
 	t_file			*out;
 	struct s_cmd	*next;
 }					t_cmd;
+
+/*
+** REDIRECTION CHEVRON TYPE
+*/
+
+typedef enum		e_ctype {
+	C_IN = 0,
+	C_LEN,
+	C_OUT,
+	C_TYPE
+}					t_ctype;
 
 /*
 ** CHECK

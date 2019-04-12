@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 23:11:08 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 00:08:16 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -111,13 +111,14 @@ void			parse_print(t_cmd *cmd)
 
 int				parse(char *line, t_sh_state *sh_state, t_input_data *input_data)
 {
+	t_cmd	*cmd;
 	char	*str;
 	int		i;
-	t_cmd	*cmd;
 
 	i = 0;
 	cmd = NULL;
-	str = parse_alias(line, sh_state->aliases, NULL);
+	if (!(str = parse_alias(line, sh_state->aliases, NULL)))
+		exit_sh(sh_state, input_data);
 	if (parse_check(str))
 		return (1);
 	while (str[i])
