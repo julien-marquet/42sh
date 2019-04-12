@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 21:19:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:35:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 22:56:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,5 +20,8 @@
 t_proc_grp	*find_by_gpid(int pgid);
 t_proc_grp	*new_proc_grp(int pgid, const char *name);
 int			add_proc_grp(t_proc_grp *proc_grp);
+t_proc_grp	*find_proc_grp_by_name(const char *name, int *nres);
+int			send_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp);
+t_proc_grp	*get_first_proc_grp();
 
 #endif

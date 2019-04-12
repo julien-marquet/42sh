@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 21:13:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:36:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/11 21:17:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,7 +47,7 @@ int			add_proc(t_proc *proc, t_proc_grp *proc_grp)
 	{
 		if ((node = ft_lstnew(proc, sizeof(t_proc))) == NULL)
 			return (1);
-		ft_lstprepend(&proc_grp->procs, node);
+		ft_lstappend(&proc_grp->procs, node);
 		return (0);
 	}
 	else

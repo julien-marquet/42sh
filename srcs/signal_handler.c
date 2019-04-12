@@ -6,22 +6,15 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 11:19:15 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:55:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/12 20:42:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "signal_handler.h"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
-void	handle_all(int signo)
+void	handle_sigwinch(int signo)
 {
-	if (signo == SIGWINCH)
-		update_win_data();
-	else if (signo == 20)
-	{
-		dprintf(2, "SIGNAL RECEIVED = %d\n", signo);
-		update_jobs_status();
-	}
-	else
-		dprintf(2, "SIGNAL RECEIVED = %d\n", signo);
+	update_win_data();
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 21:02:37 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/12 18:05:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,11 @@ const char *name, const char *grp_name)
 	return (0);
 }
 
+void	handle_for(int signo)
+{
+	dprintf(2, "%d\n", signo);
+}
+
 int				background_exec_builtin(t_sh_state *sh_state, const char **av,
 t_builtin_func builtin, t_context *context)
 {
@@ -43,14 +48,16 @@ t_builtin_func builtin, t_context *context)
 	pid = fork();
 	if (pid == 0)
 	{
-		setpgid(0, 0);
+		int i = 1;
+		while (i < 32)
+			signal(i++, SIG_DFL);
+		setpgid(0, context->proc_grp != NULL ? context->proc_grp->pgid : 0);
 		res = builtin(sh_state,
 	ft_arraylen((const void **)av), av, context->builtin_context);
 		exit(res);
 	}
 	else
 	{
-		setpgrp();
 		return (register_process(context, pid, av[0], av[0]));
 	}
 }
@@ -60,8 +67,6 @@ t_builtin_func builtin, t_context *context)
 {
 	int		res;
 	// init fds based on cmd
-	set_term_state_backup(sh_state);
 	res = builtin(sh_state, ft_arraylen((const void **)av), av, context->builtin_context);
-	set_term_state(sh_state);
 	return (res);
 }

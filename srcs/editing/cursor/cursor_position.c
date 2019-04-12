@@ -6,13 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/03 19:02:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/12 02:50:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/cursor/cursor_position.h"
-
+#include "errno.h"
 /*
 **	return start position (without prompt len)
 **	update start position if scroll detected
@@ -96,7 +96,6 @@ int		ask_start_position(t_cur_abs_pos *pos)
 
 	len = 0;
 	i = 0;
-
 	write(0, "\033[6n", 4);
 	while (len < sizeof(str) - 1 && (ret = read(0, str + len, 1)) == 1)
 	{
@@ -104,7 +103,10 @@ int		ask_start_position(t_cur_abs_pos *pos)
 			break ;
 	}
 	if (ret == -1)
+	{
+		dprintf(2, "ERROR = %s\n", strerror(errno));
 		return (1);
+	}
 	str[len] = '\0';
 	process_location_termcaps(i, len, str, pos);
 	return (0);

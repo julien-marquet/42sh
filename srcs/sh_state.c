@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:20:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/12 00:48:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,12 +17,8 @@ t_sh_state	*init_sh_state(void)
 {
 	t_sh_state	*sh_state;
 
-	if ((sh_state = malloc(sizeof(t_sh_state))) == NULL)
+	if ((sh_state = ft_memalloc(sizeof(t_sh_state))) == NULL)
 		return (NULL);
-	sh_state->status = 0;
-	sh_state->exit_sig = 0;
-	sh_state->internal_storage = NULL;
-	sh_state->aliases = NULL;
 	return (sh_state);
 }
 
