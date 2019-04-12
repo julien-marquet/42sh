@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs.h                                           .::    .:/ .      .::   */
+/*   jobs_controls.c                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:16:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 21:42:35 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 21:42:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_H
-# define JOBS_H
+#include "jobs/jobs_controls.h"
 
-# include "jobs/jobs_procs/jobs_procs.h"
-# include "jobs/jobs_proc_grps/jobs_proc_grps.h"
-# include "jobs/jobs_controls.h"
-# include "jobs/jobs_flush.h"
-# include "jobs/jobs_display.h"
-# include "jobs/jobs_update.h"
-# include "common.h"
+int			send_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp)
+{
+	int		stat_loc;
+	t_proc	*last_proc;
 
-void	list_jobs();
-void	update_jobs_status();
-void	display_jobs_alert();
-
-#endif
+	stat_loc = 0;
+	last_proc = get_last_proc(proc_grp);
+	set_term_state_backup(sh_state);
+	tcsetpgrp(0, proc_grp->pgid);
+	waitpid(last_proc->pid, &stat_loc, WUNTRACED);
+	tcsetpgrp(0, sh_state->shell_pid);
+	set_term_state(sh_state);
+	return (0);
+}

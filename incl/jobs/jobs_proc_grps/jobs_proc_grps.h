@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_proc.h                                      .::    .:/ .      .::   */
+/*   jobs_proc_grps.h                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 17:31:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 02:35:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 21:50:11 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 22:21:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_PROC_H
-# define JOBS_PROC_H
+#ifndef JOBS_PROC_GRPS_H
+# define JOBS_PROC_GRPS_H
 
-# include "common.h"
+# include "jobs/jobs_proc_grps/jobs_proc_grps_getters.h"
+# include "jobs/jobs_proc_grps/jobs_proc_grps_setters.h"
+# include "jobs/jobs_proc_grps/jobs_proc_grps_status.h"
 
-t_proc	*find_by_pid(t_proc_grp *proc_grp, int pid);
-t_proc	*new_proc(int pid, t_job_status status, const char *name);
-int		add_proc(t_proc *proc, t_proc_grp *proc_grp);
 #endif

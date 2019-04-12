@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_proc_grp.h                                  .::    .:/ .      .::   */
+/*   jobs_proc_grps_status.c                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 21:19:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 22:56:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 22:20:15 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 22:21:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_PROC_GRP_H
-# define JOBS_PROC_GRP_H
+#include "jobs/jobs_proc_grps/jobs_proc_grps_status.h"
 
-# include "common.h"
-# include "jobs/jobs_super.h"
+int		get_proc_grp_status(t_proc_grp *proc_grp)
+{
+	t_list			*tmp;
+	t_proc			*proc;
+	t_job_status	status;
+	t_list			*prev;
 
-t_proc_grp	*find_by_gpid(int pgid);
-t_proc_grp	*new_proc_grp(int pgid, const char *name);
-int			add_proc_grp(t_proc_grp *proc_grp);
-t_proc_grp	*find_proc_grp_by_name(const char *name, int *nres);
-int			send_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp);
-t_proc_grp	*get_first_proc_grp();
-
-#endif
+	status = -1;
+	prev = NULL;
+	tmp = proc_grp->procs;
+	while (tmp != NULL)
+	{
+		proc = (t_proc *)tmp->content;
+		if (proc->updated == 1)
+			status = proc->status;
+		if (tmp != NULL)
+		{
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	}
+	return (status);
+}

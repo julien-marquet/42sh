@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs.h                                           .::    .:/ .      .::   */
+/*   jobs_procs.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:16:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 21:50:34 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 22:26:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_H
-# define JOBS_H
+#ifndef JOBS_PROCS_H
+# define JOBS_PROCS_H
 
-# include "jobs/jobs_procs/jobs_procs.h"
-# include "jobs/jobs_proc_grps/jobs_proc_grps.h"
-# include "jobs/jobs_controls.h"
-# include "jobs/jobs_flush.h"
-# include "jobs/jobs_display.h"
-# include "jobs/jobs_update.h"
-# include "common.h"
-
-void	list_jobs();
-void	update_jobs_status();
-void	display_jobs_alert();
+# include "jobs/jobs_procs/jobs_procs_getters.h"
+# include "jobs/jobs_procs/jobs_procs_setters.h"
+# include "jobs/jobs_procs/jobs_procs_status.h"
 
 #endif

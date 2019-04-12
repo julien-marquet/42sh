@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs.h                                           .::    .:/ .      .::   */
+/*   jobs_flush.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:16:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 21:23:51 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 22:22:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_H
-# define JOBS_H
+#ifndef JOBS_FLUSH_H
+# define JOBS_FLUSH_H
 
-# include "jobs/jobs_procs/jobs_procs.h"
-# include "jobs/jobs_proc_grps/jobs_proc_grps.h"
-# include "jobs/jobs_controls.h"
-# include "jobs/jobs_flush.h"
-# include "jobs/jobs_display.h"
-# include "jobs/jobs_update.h"
 # include "common.h"
+# include "jobs/jobs_super.h"
 
-void	list_jobs();
-void	update_jobs_status();
-void	display_jobs_alert();
+void	flush_exited();
 
 #endif

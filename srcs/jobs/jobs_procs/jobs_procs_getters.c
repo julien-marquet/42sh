@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs.h                                           .::    .:/ .      .::   */
+/*   jobs_procs_getters.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:16:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 21:46:10 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 21:59:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_H
-# define JOBS_H
+#include "jobs/jobs_procs/jobs_procs_getters.h"
 
-# include "jobs/jobs_procs/jobs_procs.h"
-# include "jobs/jobs_proc_grps/jobs_proc_grps.h"
-# include "jobs/jobs_controls.h"
-# include "jobs/jobs_flush.h"
-# include "jobs/jobs_display.h"
-# include "jobs/jobs_update.h"
-# include "common.h"
+t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
+{
+	t_list	*tmp;
 
-void	list_jobs();
-void	update_jobs_status();
-void	display_jobs_alert();
+	tmp = proc_grp->procs;
+	while (tmp != NULL)
+	{
+		if (((t_proc *)tmp->content)->pid == pid)
+			return ((t_proc *)tmp->content);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
 
-#endif
+t_proc *get_last_proc(t_proc_grp *proc_grp)
+{
+	t_list	*tmp;
+
+	tmp = proc_grp->procs;
+	while (tmp && tmp->next != NULL)
+		tmp = tmp->next;
+	return (tmp == NULL ? NULL : (t_proc *)tmp->content);
+}

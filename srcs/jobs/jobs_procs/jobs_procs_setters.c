@@ -1,31 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_proc.c                                      .::    .:/ .      .::   */
+/*   jobs_procs_setters.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 21:13:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 21:17:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/12 21:45:06 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/12 21:58:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "jobs/jobs_proc.h"
-
-t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
-{
-	t_list	*tmp;
-
-	tmp = proc_grp->procs;
-	while (tmp != NULL)
-	{
-		if (((t_proc *)tmp->content)->pid == pid)
-			return ((t_proc *)tmp->content);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
+#include "jobs/jobs_procs/jobs_procs_setters.h"
 
 t_proc	*new_proc(int pid, t_job_status status, const char *name)
 {
