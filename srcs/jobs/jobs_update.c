@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 21:40:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 02:20:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,13 +23,23 @@ void	update_procs(t_proc_grp *proc_grp)
 	tmp = proc_grp->procs;
 	while (tmp != NULL)
 	{
+		stat_loc = 0;
 		proc = (t_proc *)tmp->content;
-		waitpid(proc->pid, &stat_loc, WNOHANG);
-		status = retrieve_status(stat_loc);
-		if (status != proc->status)
+		if (waitpid(proc->pid, &stat_loc, WUNTRACED) > 0)
 		{
-			proc->updated = 1;
-			proc->status = status;
+			dprintf(2, "update %d\n", proc->pid);
+			dprintf(2, "EXITED = %d\n", WIFEXITED(stat_loc));
+			dprintf(2, "STOPPED = %d\n", WIFSTOPPED(stat_loc));
+			dprintf(2, "SIGNAL = %d\n", WIFSIGNALED(stat_loc));
+			dprintf(2, "STOPPED = %d\n", WIFSTOPPED(stat_loc));
+			dprintf(2, "EXITCODE = %d\n", WEXITSTATUS(stat_loc));
+			dprintf(2, "WTERMSIG = %d\n", WTERMSIG(stat_loc));
+			status = retrieve_status(stat_loc);
+			if (status != proc->status)
+			{
+				proc->updated = 1;
+				proc->status = status;
+			}
 		}
 		tmp = tmp->next;
 	}

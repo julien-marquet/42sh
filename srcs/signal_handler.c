@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 11:19:15 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 20:42:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 01:06:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,4 +17,10 @@
 void	handle_sigwinch(int signo)
 {
 	update_win_data();
+}
+
+void	handle_sigchld(int signo)
+{
+	dprintf(2, "child updated");
+	update_jobs_status();
 }

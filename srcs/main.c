@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 20:41:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 02:03:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,23 +40,24 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
 		return (1);
+
 	signal(SIGWINCH, handle_sigwinch);
-	signal (SIGINT, SIG_IGN);
-	signal (SIGQUIT, SIG_IGN);
-	signal (SIGTSTP, SIG_IGN);
-	signal (SIGTTIN, SIG_IGN);
-	signal (SIGTTOU, SIG_IGN);
-	signal (SIGCHLD, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+	signal(SIGTTIN, SIG_IGN);
+	signal(SIGTTOU, SIG_IGN);
+	signal(SIGCHLD, handle_sigchld);
+
 	sh_state->shell_pid = getpgid(0);
 	tcsetpgrp(0, sh_state->shell_pid);
-	dprintf(2, "sid= %d, pgid = %d\n", getsid(0), sh_state->shell_pid);
 	while (sh_state->exit_sig == 0)
 	{
+
 		display_jobs_alert();
-		dprintf(1, "alors\n");
+		flush_exited();
 		if (handle_input(sh_state, input_data, NULL) == 1)
 		{
-			dprintf(2, "failure");
 			sh_state->status = 1;
 			break ;
 		}

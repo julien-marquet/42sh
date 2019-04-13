@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/11 21:22:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 21:05:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 02:21:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,6 @@ int			builtin_fg(t_sh_state *sh_state, int ac,
 	char		*err;
 
 	add_origin(&context->origin, "fg");
-	update_jobs_status();
 	if (ac > 1)
 	{
 		if ((proc_grp = find_active_proc_grp_by_name(av[1], &nres)) == NULL)
