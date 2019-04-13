@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 02:02:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 03:23:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,9 +48,13 @@ t_builtin_func builtin, t_context *context)
 	pid = fork();
 	if (pid == 0)
 	{
-		int i = 1;
-		while (i < 32)
-			signal(i++, SIG_DFL);
+		signal(SIGWINCH, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);
+		signal(SIGTTIN, SIG_DFL);
+		signal(SIGTTOU, SIG_DFL);
+		signal(SIGCHLD, SIG_DFL);
 		setpgid(0, context->proc_grp != NULL ? context->proc_grp->pgid : 0);
 		res = builtin(sh_state,
 	ft_arraylen((const void **)av), av, context->builtin_context);

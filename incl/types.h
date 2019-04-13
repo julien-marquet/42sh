@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 00:47:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 03:25:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,13 +23,15 @@ typedef enum	e_job_status
 	running,
 	exited,
 	signaled,
-	stopped
+	stopped,
+	continued,
 }				t_job_status;
 
 typedef struct	s_proc
 {
 	int				pid;
 	t_job_status	status;
+	int				code;
 	char			*name;
 	int				updated;
 }				t_proc;
@@ -44,6 +46,7 @@ typedef struct	s_proc_grp
 typedef struct	s_jobs
 {
 	t_list	*proc_grps;
+	int		busy;
 }				t_jobs;
 
 typedef struct	s_cur_abs_pos

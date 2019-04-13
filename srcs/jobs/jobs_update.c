@@ -6,19 +6,36 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 02:20:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 03:31:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "jobs/jobs_update.h"
 
+void	convert_stat_loc(int stat_loc, t_proc *proc)
+{
+	if (WIFEXITED(stat_loc))
+	{
+		proc->status = exited;
+		proc->code = WEXITSTATUS(stat_loc);
+	}
+	else if (WIFSTOPPED(stat_loc))
+		proc->status = stopped;
+	else if (WIFSIGNALED(stat_loc))
+	{
+		proc->status = signaled;
+		proc->code = WTERMSIG(stat_loc);
+	}
+	else if (WIFCONTINUED(stat_loc))
+		proc->status = running;
+}
+
 void	update_procs(t_proc_grp *proc_grp)
 {
 	t_list			*tmp;
 	t_proc			*proc;
 	int				stat_loc;
-	t_job_status	status;
 
 	tmp = proc_grp->procs;
 	while (tmp != NULL)
@@ -27,19 +44,8 @@ void	update_procs(t_proc_grp *proc_grp)
 		proc = (t_proc *)tmp->content;
 		if (waitpid(proc->pid, &stat_loc, WUNTRACED) > 0)
 		{
-			dprintf(2, "update %d\n", proc->pid);
-			dprintf(2, "EXITED = %d\n", WIFEXITED(stat_loc));
-			dprintf(2, "STOPPED = %d\n", WIFSTOPPED(stat_loc));
-			dprintf(2, "SIGNAL = %d\n", WIFSIGNALED(stat_loc));
-			dprintf(2, "STOPPED = %d\n", WIFSTOPPED(stat_loc));
-			dprintf(2, "EXITCODE = %d\n", WEXITSTATUS(stat_loc));
-			dprintf(2, "WTERMSIG = %d\n", WTERMSIG(stat_loc));
-			status = retrieve_status(stat_loc);
-			if (status != proc->status)
-			{
-				proc->updated = 1;
-				proc->status = status;
-			}
+			convert_stat_loc(stat_loc, proc);
+			proc->updated = 1;
 		}
 		tmp = tmp->next;
 	}
@@ -52,11 +58,16 @@ void	update_jobs_status()
 	t_proc_grp	*proc_grp;
 
 	jobs = jobs_super_get();
-	tmp = jobs->proc_grps;
-	while (tmp != NULL)
+	if (jobs->busy == 0)
 	{
-		proc_grp = (t_proc_grp *)tmp->content;
-		update_procs(proc_grp);
-		tmp = tmp->next;
+		jobs->busy = 1;
+		tmp = jobs->proc_grps;
+		while (tmp != NULL)
+		{
+			proc_grp = (t_proc_grp *)tmp->content;
+			update_procs(proc_grp);
+			tmp = tmp->next;
+		}
+		jobs->busy = 0;
 	}
 }
