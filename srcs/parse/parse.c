@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 00:08:16 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 19:24:08 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,7 +33,8 @@ static int		parse_tokenlen(t_cmd *cmd)
 	return (len);
 }
 
-static t_cmd	*parse_tokenparse(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
+static t_cmd	*parse_tokenparse(t_cmd *cmd, t_sh_state *sh_state,
+t_input_data *input_data)
 {
 	int		len;
 
@@ -61,7 +62,8 @@ void			parse_print(t_cmd *cmd)
 	while (file)
 	{
 		dprintf(2, "input in=%i len=%i ", file->type[C_IN], file->type[C_LEN]);
-		dprintf(2, "out=%i = '%s' '%s'\n", file->type[C_OUT], file->file, file->here);
+		dprintf(2, "out=%i = '%s' '%s'\n",
+		file->type[C_OUT], file->file, file->here);
 		file = file->next;
 	}
 	file = cmd->out;
@@ -74,42 +76,45 @@ void			parse_print(t_cmd *cmd)
 	dprintf(2, "Redir %s\n", cmd->red);
 }
 
-// static void		parse_test(t_cmd *cmd, t_term *term)
-// {
-// 	int pid;
-// 	int ret;
-// 	t_file *tmp;
+/*
+** static void		parse_test(t_cmd *cmd, t_term *term)
+** {
+** 	int pid;
+** 	int ret;
+** 	t_file *tmp;
+**
+** 	tmp = NULL;
+** 	pid = fork();
+** 	if (pid == 0)
+** 	{
+** 		exec_chevin(cmd);
+** 		exec_chevout(cmd);
+** 		if (ft_strstr(cmd->arg[0], "ls"))
+** 		{
+** 			execve("/bin/ls", cmd->arg, term->env);
+** 		}
+** 		if (ft_strstr(cmd->arg[0], "cat"))
+** 		{
+** 			execve("/bin/cat", cmd->arg, term->env);
+** 		}
+** 		if (ft_strstr(cmd->arg[0], "echo"))
+** 		{
+** 			execve("/bin/echo", cmd->arg, term->env);
+** 		}
+** 		if (ft_strstr(cmd->arg[0], "env"))
+** 		{
+** 			execve("/usr/bin/env", cmd->arg, term->env);
+** 		}
+** 		dprintf(2, "ERROR\n");
+** 		exit(-1);
+** 	}
+** 	else
+** 		wait(&ret);
+** }
+*/
 
-// 	tmp = NULL;
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		exec_chevin(cmd);
-// 		exec_chevout(cmd);
-// 		if (ft_strstr(cmd->arg[0], "ls"))
-// 		{
-// 			execve("/bin/ls", cmd->arg, term->env);
-// 		}
-// 		if (ft_strstr(cmd->arg[0], "cat"))
-// 		{
-// 			execve("/bin/cat", cmd->arg, term->env);
-// 		}
-// 		if (ft_strstr(cmd->arg[0], "echo"))
-// 		{
-// 			execve("/bin/echo", cmd->arg, term->env);
-// 		}
-// 		if (ft_strstr(cmd->arg[0], "env"))
-// 		{
-// 			execve("/usr/bin/env", cmd->arg, term->env);
-// 		}
-// 		dprintf(2, "ERROR\n");
-// 		exit(-1);
-// 	}
-// 	else
-// 		wait(&ret);
-// }
-
-int				parse(char *line, t_sh_state *sh_state, t_input_data *input_data)
+int				parse(char *line, t_sh_state *sh_state,
+t_input_data *input_data)
 {
 	t_cmd	*cmd;
 	char	*str;

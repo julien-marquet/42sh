@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 15:12:55 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 19:22:19 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,19 +31,18 @@ static void		parse_chevpush(t_file **file, t_file *new)
 ** TODO: Expand heredoc result
 */
 
-t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_state, t_input_data *input_data)
+t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type,
+void *sh_info[2])
 {
 	t_file	*new;
 
 	if (!(new = ft_memalloc(sizeof(t_file))))
-		exit_sh(sh_state, input_data);
+		exit_sh(sh_info[0], sh_info[1]);
 	if (type[C_TYPE] == '<' && type[C_LEN] == 2)
 	{
-		reset_dyn_buf(input_data->active_buf);
-		handle_input(sh_state, input_data, file);
-		new->here = ft_strdup(input_data->active_buf->buf);
-		// new->here = ft_strndup(input_data->active_buf->buf,
-		// ft_strlen(input_data->active_buf->buf) - ft_strlen(file));
+		reset_dyn_buf(((t_input_data*)sh_info[1])->active_buf);
+		handle_input(sh_info[0], ((t_input_data*)sh_info[1]), file);
+		new->here = ft_strdup(((t_input_data*)sh_info[1])->active_buf->buf);
 		ft_strdel(&file);
 	}
 	else

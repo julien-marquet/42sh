@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:33:28 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 19:23:51 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,8 @@ static int		expand_check_sub(char *str)
 	return (0);
 }
 
-static int		expand_param(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
+static int		expand_param(t_cmd *cmd, size_t i, size_t end,
+t_sh_state *sh_state)
 {
 	char	*new;
 	char	*tmp;
@@ -92,7 +93,7 @@ size_t i, size_t end)
 		while (cmd->str[end] && !stresc(";|<>&$'\" \n", cmd->str, end))
 			end++;
 	}
-	return (expand_param(cmd, sh_state, i + 1, end));
+	return (expand_param(cmd, i + 1, end, sh_state));
 }
 
 void			parse_param(t_cmd *cmd, t_sh_state *sh_state)

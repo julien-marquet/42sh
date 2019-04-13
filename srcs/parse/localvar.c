@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 00:21:57 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 19:22:38 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,6 @@ int			parse_localvar(t_cmd *cmd, t_sh_state *sh_state)
 		}
 		if (handle_localvar(cmd->str + start, i - start, sh_state) == 1)
 			continue ;
-
 		while (cmd->str[i] && !stresc(";|&", cmd->str, i))
 			i++;
 		cmd->str[i] ? i++ : 0;

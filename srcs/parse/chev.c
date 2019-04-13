@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 16:44:33 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 19:22:54 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,8 @@ static int		parse_chev_skip(char *str, int i, char c_type)
 	return (i);
 }
 
-static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
+static int		parse_chev_handle(char *str, int i, t_cmd *cmd,
+void *sh_info[2])
 {
 	char	*file;
 	int		len;
@@ -62,7 +63,7 @@ static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state
 	int		*type;
 
 	if (!(type = parse_chev_type(str, i)))
-		exit_sh(sh_state, input_data);
+		exit_sh(sh_info[0], sh_info[1]);
 	len = i;
 	while (i > 0 && ft_isdigit(str[i - 1]))
 		i--;
@@ -73,17 +74,21 @@ static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state
 	while (str[i] && (!stresc(";|<>& \n", str, i) || is_quoted(str, i)))
 		i++;
 	if (!(file = strndup_qr(str + tmp, i - tmp)))
-		exit_sh(sh_state, input_data);
-	parse_chevcreate(file, cmd, type, sh_state, input_data);
+		exit_sh(sh_info[0], sh_info[1]);
+	parse_chevcreate(file, cmd, type, sh_info);
 	ft_memset(str + len, ' ', i - len);
 	return (i);
 }
 
-void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
+void			parse_chev(t_cmd *cmd, t_sh_state *sh_state,
+t_input_data *input_data)
 {
+	void	*sh_info[2];
 	char	*str;
 	int		i;
 
+	sh_info[0] = sh_state;
+	sh_info[1] = input_data;
 	str = cmd->str;
 	i = 0;
 	while (str[i])
@@ -91,7 +96,7 @@ void			parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data)
 		while (str[i] && is_quoted(str, i))
 			i++;
 		if (str[i] && stresc("<>", str, i))
-			i = parse_chev_handle(str, i, cmd, sh_state, input_data);
+			i = parse_chev_handle(str, i, cmd, sh_info);
 		else
 			str[i] ? i++ : 0;
 	}
