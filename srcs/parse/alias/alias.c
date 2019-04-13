@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:03:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 00:16:42 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 17:45:20 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ static char		*alias_getfirstword(char *str, int *start, int *i)
 		while (str[*i] && ft_isspace(str[*i]))
 			(*i)++;
 		(*start) = (*i);
-		while (str[*i] && !ft_isspace(str[*i]))
+		while (str[*i] && !ft_isspace(str[*i]) && !stresc(";|&", str, *i))
 		{
 			if (str[*i] == '=')
 				is_var = 1;
