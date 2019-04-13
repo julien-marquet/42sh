@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 21:31:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 22:46:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,6 +26,13 @@ typedef enum	e_job_status
 	stopped,
 	continued,
 }				t_job_status;
+
+typedef enum	e_exec_mode
+{
+	solo,
+	parallel,
+	conditional,
+}				t_exec_mode;
 
 typedef struct	s_proc
 {
@@ -119,9 +126,14 @@ typedef struct	s_builtin_context
 typedef struct	s_context
 {
 	int					background;
+	t_exec_mode			exec_mode;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
 }				t_context;
 
+typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
+				t_context *context);
+typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
+				t_builtin_context *context);
 
 #endif

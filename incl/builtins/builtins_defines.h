@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:18:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 21:24:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 21:46:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,8 +16,5 @@
 
 # define BUILTINS_NB 12
 # define BUILTINS_MAX_LEN 20
-
-typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av,
-			t_builtin_context *context);
 
 #endif

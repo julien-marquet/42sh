@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 21:33:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 23:11:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,8 @@ const char *name, const char *grp_name)
 			return (1);
 	}
 	setpgid(pid, context->proc_grp->pgid);
+		if (context->background == 0)
+			tcsetpgrp(0, pid);
 	add_proc(proc, context->proc_grp);
 	if (grp_register)
 		add_proc_grp(context->proc_grp);
@@ -44,7 +46,7 @@ void			reset_signal_handlers(void)
 	signal(SIGCHLD, SIG_DFL);
 }
 
-int				background_exec_builtin(t_sh_state *sh_state, const char **av,
+int				exec_builtin(t_sh_state *sh_state, const char **av,
 t_builtin_func builtin, t_context *context)
 {
 	pid_t	pid;
@@ -60,15 +62,16 @@ t_builtin_func builtin, t_context *context)
 		exit(res);
 	}
 	else
+	{
 		return (register_process(context, pid, av[0], av[0]));
+	}
 }
 
-int				exec_builtin(t_sh_state *sh_state, const char **av,
+int				exec_builtin_solo(t_sh_state *sh_state, const char **av,
 t_builtin_func builtin, t_context *context)
 {
 	int		res;
 
-	// init fds based on cmd
 	res = builtin(sh_state, ft_arraylen((const void **)av),
 av, context->builtin_context);
 	return (res);

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 21:24:38 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 23:10:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,14 +64,14 @@ const char **av, t_context *context)
 	{
 		if ((context->builtin_context = init_builtin_context()) == NULL)
 			return (-1);
-		if (context->background == 0)
+		if (context->exec_mode == solo && context->background == 0)
 		{
-			sh_state->status = exec_builtin(sh_state, av, f, context);
+			sh_state->status = exec_builtin_solo(sh_state, av, f, context);
 			res = 1;
 		}
 		else
 		{
-			if (background_exec_builtin(sh_state, av, f, context) == 1)
+			if (exec_builtin(sh_state, av, f, context) == 1)
 				res = -1;
 			else
 				res = 1;
