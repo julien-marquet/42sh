@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 19:24:08 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 20:02:10 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,7 +42,7 @@ t_input_data *input_data)
 	parse_chev(cmd, sh_state, input_data);
 	len = parse_tokenlen(cmd);
 	if (!(cmd->arg = parse_strsplit(cmd->str, len)))
-		return (NULL);
+		exit_sh(sh_state, input_data);
 	ft_strdel(&cmd->str);
 	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 17:56:56 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 21:40:31 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -83,7 +83,8 @@ char			**parse_strsplit(char *str, int len)
 	char	**arg;
 	int		i;
 
-	split = parse_split_create(str, len);
+	if (!(split = parse_split_create(str, len)))
+		return (NULL);
 	i = parse_split_count(split);
 	if (!(arg = malloc(sizeof(char*) * (i + 1))))
 		return (NULL);
