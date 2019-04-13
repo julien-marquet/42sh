@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/13 00:18:43 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/13 19:42:54 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -55,7 +55,7 @@ OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 # HEADER FILES
 
 TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h error_handler.h
-TMPFILES += $(addprefix parse/, parse.h expand.h localvar.h parse_alias.h)
+TMPFILES += $(addprefix parse/, parse.h utils.h expand.h localvar.h parse_alias.h)
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
