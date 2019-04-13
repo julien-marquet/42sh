@@ -28,7 +28,7 @@ typedef struct	s_test_infos
 int				is_unary_op(const char *arg);
 int				is_binary_op(const char *arg);
 int				test_error(char *builtin, char *file,
-                        char *msg, unsigned char *status);
+			char *msg, unsigned char *status);
 int				make_test(t_test_infos *infos, const char **av,
 			int ac, t_sh_state *sh_state);
 int				make_unary_test(char op, const char *arg);
