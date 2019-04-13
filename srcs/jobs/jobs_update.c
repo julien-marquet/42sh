@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 03:31:40 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 21:22:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,42 +31,45 @@ void	convert_stat_loc(int stat_loc, t_proc *proc)
 		proc->status = running;
 }
 
-void	update_procs(t_proc_grp *proc_grp)
+void	update_proc_status(t_jobs *jobs, int pid, int stat_loc)
 {
-	t_list			*tmp;
-	t_proc			*proc;
-	int				stat_loc;
+	t_list		*tmp;
+	t_list		*procs_list;
+	t_proc		*proc;
 
-	tmp = proc_grp->procs;
+	tmp = jobs->proc_grps;
 	while (tmp != NULL)
 	{
-		stat_loc = 0;
-		proc = (t_proc *)tmp->content;
-		if (waitpid(proc->pid, &stat_loc, WUNTRACED) > 0)
+		procs_list = ((t_proc_grp *)tmp->content)->procs;
+		while (procs_list != NULL)
 		{
-			convert_stat_loc(stat_loc, proc);
-			proc->updated = 1;
+			proc = (t_proc *)procs_list->content;
+			if (proc->pid == pid)
+			{
+				convert_stat_loc(stat_loc, proc);
+				proc->updated = 1;
+			}
+			procs_list = procs_list->next;
 		}
 		tmp = tmp->next;
 	}
 }
 
-void	update_jobs_status()
+void	update_jobs_status(int wanted)
 {
-	t_list	*tmp;
+	int		pid;
+	int		stat_loc;
 	t_jobs	*jobs;
-	t_proc_grp	*proc_grp;
 
 	jobs = jobs_super_get();
 	if (jobs->busy == 0)
 	{
 		jobs->busy = 1;
-		tmp = jobs->proc_grps;
-		while (tmp != NULL)
+		while ((pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED)) > 0)
 		{
-			proc_grp = (t_proc_grp *)tmp->content;
-			update_procs(proc_grp);
-			tmp = tmp->next;
+			update_proc_status(jobs, pid, stat_loc);
+			if (wanted == pid || wanted <= 0)
+				break ;
 		}
 		jobs->busy = 0;
 	}

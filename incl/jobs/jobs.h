@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:16:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 18:30:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,7 @@
 # include "jobs/jobs_flush.h"
 # include "jobs/jobs_display.h"
 # include "jobs/jobs_update.h"
+# include "jobs/jobs_printers.h"
 # include "common.h"
 
 void	list_jobs();

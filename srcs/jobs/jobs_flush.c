@@ -6,12 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 03:20:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 18:35:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-# include "jobs/jobs_flush.h"
+#include "jobs/jobs_flush.h"
 
 static void	remove_node_proc(t_list **prev, t_list **tmp, t_proc_grp *proc_grp)
 {
@@ -23,7 +23,6 @@ static void	remove_node_proc(t_list **prev, t_list **tmp, t_proc_grp *proc_grp)
 	free(*tmp);
 	*tmp = *prev;
 }
-
 
 static void	remove_node_proc_grp(t_list **prev, t_list **tmp, t_jobs *jobs)
 {

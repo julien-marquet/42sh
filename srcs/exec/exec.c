@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 23:30:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 21:31:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,19 +43,14 @@ int		execute(t_sh_state *sh_state, char **parsed)
 	if (context->background == 1)
 		parsed = &(parsed[1]);
 	// placeholder for loop in cmd
-	while (i < 1)
+	while (parsed[i] != NULL)
 	{
-		if ((found = builtins_dispatcher(sh_state, (const char **)parsed, context)) == -1)
+		if ((found = builtins_dispatcher(sh_state, (const char **)&(parsed[i]), context)) == -1)
 			return (1);
 		else if (found == 0)
-		{
 			found = exec_dispatcher(context);
-		}
 		if (found == 1)
-		{
 			dprintf(2, "EXEC_DONE\n");
-			//kill(context->proc_grp->pgid, 17);
-		}
 		i++;
 	}
 	return (0);
