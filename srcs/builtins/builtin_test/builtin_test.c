@@ -5,8 +5,8 @@
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/11 21:51:33 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 21:51:34 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/13 18:03:31 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/13 18:03:33 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,10 +29,10 @@ static int	check_arg(const char *arg)
 }
 
 int			test_error(char *builtin, char *file,
-                    char *msg, unsigned char *status)
+					char *msg, unsigned char *status)
 {
-        if (status != NULL)
-                *status = 2;
+	if (status != NULL)
+		*status = 2;
 	if (file != NULL)
 		dprintf(2, "-%s: %s: %s: %s\n", NAME, builtin, file, msg);
 	else
@@ -72,5 +72,9 @@ int			builtin_test(t_sh_state *sh_state, int ac,
 	}
 	if (ac == 1)
 		return (0);
-	return (make_test(&infos, av + 1, ac - 1, sh_state));
+	if (make_test(&infos, av + 1, ac - 1, sh_state) == 1)
+		return (1);
+	if (infos.negate)
+		sh_state->status = !sh_state->status;
+	return (0);
 }
