@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 15:12:55 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,7 +36,7 @@ t_cmd			*parse_chevcreate(char *file, t_cmd *cmd, int *type, t_sh_state *sh_stat
 	t_file	*new;
 
 	if (!(new = ft_memalloc(sizeof(t_file))))
-		return (NULL);
+		exit_sh(sh_state, input_data);
 	if (type[C_TYPE] == '<' && type[C_LEN] == 2)
 	{
 		reset_dyn_buf(input_data->active_buf);

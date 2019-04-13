@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/04 19:40:53 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 22:12:33 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 16:43:58 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -62,7 +62,7 @@ char	*stresc(const char *find, char *str, int i)
 	out = ft_strchr(find, str[i]);
 	if (out && i > 0)
 	{
-		if (*out == '&' && str[i - 1] == '>')
+		if (*out == '&' && (str[i - 1] == '>' || str[i - 1] == '<'))
 			return (NULL);
 		k = --i;
 		while (i >= 0 && str[i] == '\\')

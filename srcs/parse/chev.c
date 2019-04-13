@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 16:44:33 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@ static int		*parse_chev_type(char *str, int i)
 		return (NULL);
 	type[C_TYPE] = str[i];
 	type[C_IN] = type[C_TYPE] == '>' ? 1 : 0;
-	type[C_OUT] = -1;
+	type[C_OUT] = 0;
 	while (i > 0 && ft_isdigit(str[i - 1]))
 		i--;
 	if ((i > 0 && stresc(";|<>& \n", str, i - 1)) || i == 0)
@@ -32,7 +32,12 @@ static int		*parse_chev_type(char *str, int i)
 		type[C_LEN]++;
 	i += type[C_LEN];
 	if (str[i] == '&' && str[i + 1])
-		type[C_OUT] = ft_atoi(str + i + 1);
+	{
+		if (str[i + 1] == '-')
+			type[C_OUT] = -1;
+		else
+			type[C_OUT] = ft_atoi(str + i + 1);
+	}
 	return (type);
 }
 
@@ -57,7 +62,7 @@ static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state
 	int		*type;
 
 	if (!(type = parse_chev_type(str, i)))
-		return (i);
+		exit_sh(sh_state, input_data);
 	len = i;
 	while (i > 0 && ft_isdigit(str[i - 1]))
 		i--;
@@ -68,7 +73,7 @@ static int		parse_chev_handle(char *str, int i, t_cmd *cmd, t_sh_state *sh_state
 	while (str[i] && (!stresc(";|<>& \n", str, i) || is_quoted(str, i)))
 		i++;
 	if (!(file = strndup_qr(str + tmp, i - tmp)))
-		return (0);
+		exit_sh(sh_state, input_data);
 	parse_chevcreate(file, cmd, type, sh_state, input_data);
 	ft_memset(str + len, ' ', i - len);
 	return (i);

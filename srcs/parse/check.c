@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/05 19:38:47 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 20:50:01 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/13 16:54:06 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,17 +29,21 @@ int			parse_error(char *str, int i)
 ** `< > >& <&` followed by `newline |`
 */
 
-static int	parse_error_handler(char *str, char *c, int i, int j)
+static int	parse_error_handler(char *str, char *c, int i, int len)
 {
-	if (j > 2)
+	if (len > 2)
 		return (1);
-	else if (*c == ';' && j > 1)
+	else if (*c == ';' && len > 1)
 		return (1);
 	else if (*c == '<' || *c == '>')
 	{
-		i += j;
+		i += len;
 		if (str[i] == '&')
+		{
+			if (len == 2)
+				return (1);
 			i++;
+		}
 		while (ft_isspace(str[i]))
 			i++;
 		if (ft_strchr(";|<>", str[i]))
@@ -51,7 +55,7 @@ static int	parse_error_handler(char *str, char *c, int i, int j)
 int			parse_check(char *str)
 {
 	int		i;
-	int		j;
+	int		len;
 	char	*c;
 
 	i = 0;
@@ -61,12 +65,12 @@ int			parse_check(char *str)
 			i++;
 		if ((c = stresc(";|<>&", str, i)) && *c)
 		{
-			j = 0;
-			while (str[i + j] == *c)
-				j++;
-			if (parse_error_handler(str, c, i, j))
+			len = 0;
+			while (str[i + len] == *c)
+				len++;
+			if (parse_error_handler(str, c, i, len))
 				return (parse_error(str, i));
-			i += j;
+			i += len;
 			continue ;
 		}
 		str[i] ? i++ : 0;
