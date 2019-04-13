@@ -24,7 +24,7 @@ static int	handle_negate(t_test_infos *infos,
 ((infos->base_ac == 4 || infos->base_ac == 5) && infos->is_last_builtin))
 	{
 		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-			NULL, "too many arguments"));
+	    NULL, "too many arguments", &(sh_state->status)));
 	}
 	if (((infos->base_ac > 4 && ft_strcmp(av[1], "!") == 0) &&
 			infos->is_last_builtin) ||
@@ -32,7 +32,7 @@ static int	handle_negate(t_test_infos *infos,
 			!infos->is_last_builtin))
 	{
 		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-			NULL, "argument expected"));
+            NULL, "argument expected", &(sh_state->status)));
 	}
 	sh_state->status = av[1][0] == '\0' ? 0 : 1;
 	return (0);
@@ -53,10 +53,10 @@ static int	check_2args(t_test_infos *infos,
 		if ((infos->base_ac > 3 && !infos->is_last_builtin) ||
 			(infos->base_ac > 4 && infos->is_last_builtin))
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-					NULL, "too many arguments"));
+                            NULL, "too many arguments", &(sh_state->status)));
 		else
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-					(char *)av[0], "unary operator expected"));
+                            (char *)av[0], "unary operator expected", &(sh_state->status)));
 	}
 	return (0);
 }
@@ -78,10 +78,10 @@ static int	check_3args(t_test_infos *infos,
 		if ((infos->is_last_builtin && infos->base_ac > 5) ||
 			(!infos->is_last_builtin && infos->base_ac > 4))
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-				(char *)av[1], "too many arguments"));
+            (char *)av[1], "too many arguments", &(sh_state->status)));
 		else
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-				(char *)av[1], "binary operator expected"));
+	    (char *)av[1], "binary operator expected", &(sh_state->status)));
 	}
 	return (0);
 }
@@ -96,7 +96,7 @@ static int	check_more_args(t_test_infos *infos,
 	}
 	else
 		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
-			(char *)av[1], "too many arguments"));
+            (char *)av[1], "too many arguments", &(sh_state->status)));
 }
 
 int			make_test(t_test_infos *infos,
