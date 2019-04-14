@@ -13,6 +13,23 @@
 
 #include "storage/storage_getters.h"
 
+char    *get_env_value(t_list *list, const char *key)
+{
+    t_internal_storage  *storage;
+    size_t              key_length;
+
+    key_length = ft_strlen((char *)key);
+    while (list != NULL)
+    {
+        storage = list->content;
+        if (storage->exported && ft_strncmp(storage->string, key,
+            key_length) == 0 && *(storage->string + key_length) == '=')
+            return (storage->string + key_length + 1);
+        list = list->next;
+    }
+    return (NULL);
+}
+
 char	*get_stored(t_list *storage, const char *var_name)
 {
 	t_list	*node;

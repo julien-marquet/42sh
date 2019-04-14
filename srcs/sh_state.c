@@ -23,6 +23,7 @@ t_sh_state	*init_sh_state(void)
 	sh_state->exit_sig = 0;
 	sh_state->internal_storage = NULL;
 	sh_state->aliases = NULL;
+        sh_state->hash_table = NULL;
 	return (sh_state);
 }
 

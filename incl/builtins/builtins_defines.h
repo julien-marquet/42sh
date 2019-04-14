@@ -14,7 +14,7 @@
 #ifndef BUILTINS_DEFINES_H
 # define BUILTINS_DEFINES_H
 
-# define BUILTINS_NB 12
+# define BUILTINS_NB 13
 # define BUILTINS_MAX_LEN 20
 
 typedef int	(*t_builtin_func)(t_sh_state *, int ac, const char **av,

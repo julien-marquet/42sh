@@ -18,6 +18,13 @@
 # include <termios.h>
 # include "../libs/Libft/libft.h"
 
+typedef struct  s_hash_table
+{
+   size_t   hits;
+   char     *bin;
+   char     *path;
+}               t_hash_table;
+
 typedef struct	s_cur_abs_pos
 {
 	int		row;
@@ -32,6 +39,7 @@ typedef struct	s_sh_state
 	size_t			exit_sig;
 	t_list			*internal_storage;
 	t_list			*aliases;
+        t_list                  *hash_table;
 }				t_sh_state;
 
 typedef struct	s_dyn_buf
