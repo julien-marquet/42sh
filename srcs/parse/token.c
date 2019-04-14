@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 22:35:37 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 16:10:26 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 23:15:27 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,18 @@ static void		parse_cmdpush(t_cmd **cmd, t_cmd *new)
 	}
 }
 
-static t_cmd	*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type)
+static int		parse_charhandle(char *str, int i, char chr)
+{
+	if (chr == '&' || chr == '|')
+	{
+		while (str[i] && str[i] == chr)
+			i++;
+		return (i);
+	}
+	return (i + 1);
+}
+
+t_cmd	*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type)
 {
 	t_cmd	*new;
 
@@ -43,17 +54,6 @@ static t_cmd	*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type)
 		return (new);
 	parse_cmdpush(&cmd, new);
 	return (cmd);
-}
-
-static int		parse_charhandle(char *str, int i, char chr)
-{
-	if (chr == '&' || chr == '|')
-	{
-		while (str[i] && str[i] == chr)
-			i++;
-		return (i);
-	}
-	return (i + 1);
 }
 
 int				parse_tokenize(char *str, t_cmd **cmd)

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 19:26:47 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 23:40:07 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,10 +27,6 @@ static void		parse_chevpush(t_file **file, t_file *new)
 	}
 }
 
-/*
-** TODO: Expand heredoc result
-*/
-
 void			parse_chevcreate(char *file, t_cmd *cmd, int *type,
 void *sh_info[2])
 {
@@ -41,8 +37,11 @@ void *sh_info[2])
 	if (type[C_TYPE] == '<' && type[C_LEN] == 2)
 	{
 		reset_dyn_buf(((t_input_data*)sh_info[1])->active_buf);
-		handle_input(sh_info[0], ((t_input_data*)sh_info[1]), file);
-		new->here = ft_strdup(((t_input_data*)sh_info[1])->active_buf->buf);
+		if (handle_input(sh_info[0], ((t_input_data*)sh_info[1]), file))
+			return ;
+		if (!(new->here = get_expand_str(
+			((t_input_data*)sh_info[1])->active_buf->buf, sh_info[0])))
+			return ;
 		ft_strdel(&file);
 	}
 	else

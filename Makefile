@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/13 19:42:54 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/14 23:42:34 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -37,7 +37,7 @@ CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c h
 CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
-CFILES += $(addprefix parse/expand/, expand_tilde.c expand_param.c expand.c)
+CFILES += $(addprefix parse/expand/, expand_tilde.c expand_param.c expand_error.c expand.c)
 CFILES += $(addprefix data/, input_data.c)
 CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
