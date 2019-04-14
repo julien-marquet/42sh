@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:13:44 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 23:03:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 01:45:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,8 +16,8 @@
 
 # include "common.h"
 # include "builtins/builtins.h"
-# include "exec/exec_functions.h"
+# include "exec_dispatcher.h"
 
-int		execute(t_sh_state *sh_state, char **parsed);
+int		exec_cmd_list(t_sh_state *sh_state, t_list *cmd_list, const char *job_name);
 
 #endif

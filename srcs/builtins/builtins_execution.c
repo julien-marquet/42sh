@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 23:11:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 01:44:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,24 +14,16 @@
 #include "builtins/builtins_execution.h"
 
 int				register_process(t_context *context, int pid,
-const char *name, const char *grp_name)
+const char *name)
 {
 	t_proc	*proc;
-	int		grp_register;
 
 	if ((proc = new_proc(pid, 0, name)) == NULL)
 		return (1);
-	if ((grp_register = (context->proc_grp == NULL)))
-	{
-		if ((context->proc_grp = new_proc_grp(pid, grp_name)) == NULL)
-			return (1);
-	}
+	if (context->proc_grp->pgid == 0)
+		context->proc_grp->pgid = pid;
 	setpgid(pid, context->proc_grp->pgid);
-		if (context->background == 0)
-			tcsetpgrp(0, pid);
 	add_proc(proc, context->proc_grp);
-	if (grp_register)
-		add_proc_grp(context->proc_grp);
 	return (0);
 }
 
@@ -46,7 +38,7 @@ void			reset_signal_handlers(void)
 	signal(SIGCHLD, SIG_DFL);
 }
 
-int				exec_builtin(t_sh_state *sh_state, const char **av,
+int				exec_builtin_as_process(t_sh_state *sh_state, const char **av,
 t_builtin_func builtin, t_context *context)
 {
 	pid_t	pid;
@@ -56,18 +48,20 @@ t_builtin_func builtin, t_context *context)
 	if (pid == 0)
 	{
 		reset_signal_handlers();
-		setpgid(0, context->proc_grp != NULL ? context->proc_grp->pgid : 0);
+		setpgid(0, context->proc_grp->pgid);
 		res = builtin(sh_state,
 	ft_arraylen((const void **)av), av, context->builtin_context);
 		exit(res);
 	}
 	else
 	{
-		return (register_process(context, pid, av[0], av[0]));
+		if (register_process(context, pid, av[0]) == 1)
+			return (1);
 	}
+	return (0);
 }
 
-int				exec_builtin_solo(t_sh_state *sh_state, const char **av,
+int				exec_builtin_as_function(t_sh_state *sh_state, const char **av,
 t_builtin_func builtin, t_context *context)
 {
 	int		res;

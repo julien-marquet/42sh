@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 23:10:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 01:54:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,7 @@
 
 static t_builtin_func	get_builtins_func(const char *name)
 {
+	size_t		i;
 	static char	*assoc_name[BUILTINS_NB + 1] = {
 		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export",
 		"alias", "unalias", "jobs", "fg", NULL
@@ -24,7 +25,6 @@ static t_builtin_func	get_builtins_func(const char *name)
 		builtin_unset, builtin_exit, builtin_echo, builtin_export,
 		builtin_alias, builtin_unalias, builtin_jobs, builtin_fg, NULL
 	};
-	size_t		i;
 
 	i = 0;
 	if (name != NULL)
@@ -53,25 +53,26 @@ t_builtin_context	*init_builtin_context()
 	return (builtin_context);
 }
 
-int			builtins_dispatcher(t_sh_state *sh_state,
-const char **av, t_context *context)
+int			builtins_dispatcher(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
 {
 	t_builtin_func	f;
 	int				res;
 
 	res = 0;
-	if ((f = get_builtins_func(av[0])) != NULL)
+	if ((f = get_builtins_func(test_cmd->str[0])) != NULL)
 	{
 		if ((context->builtin_context = init_builtin_context()) == NULL)
 			return (-1);
-		if (context->exec_mode == solo && context->background == 0)
+		if (test_cmd->redir == none && context->background == 0)
 		{
-			sh_state->status = exec_builtin_solo(sh_state, av, f, context);
+			sh_state->status = exec_builtin_as_function(sh_state,
+		(const char **)test_cmd->str, f, context);
 			res = 1;
 		}
 		else
 		{
-			if (exec_builtin(sh_state, av, f, context) == 1)
+			if (exec_builtin_as_process(sh_state, (const char **)test_cmd->str,
+		f, context) == 1)
 				res = -1;
 			else
 				res = 1;

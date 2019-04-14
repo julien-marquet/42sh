@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 22:46:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 01:52:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,6 +18,21 @@
 # include <termios.h>
 # include "../libs/Libft/libft.h"
 
+typedef enum	e_redir
+{
+	none,
+	piping,
+	and,
+	or
+}				t_redir;
+
+typedef struct	s_test_cmd
+{
+	char	**str;
+	t_redir	redir;
+	int		background;
+}				t_test_cmd;
+
 typedef enum	e_job_status
 {
 	running,
@@ -26,13 +41,6 @@ typedef enum	e_job_status
 	stopped,
 	continued,
 }				t_job_status;
-
-typedef enum	e_exec_mode
-{
-	solo,
-	parallel,
-	conditional,
-}				t_exec_mode;
 
 typedef struct	s_proc
 {
@@ -48,7 +56,7 @@ typedef struct	s_proc_grp
 	t_list	*procs;
 	int		pgid;
 	char	*name;
-	int		exec_mode;
+	t_list	*remaining;
 }				t_proc_grp;
 
 typedef struct	s_jobs
@@ -126,7 +134,7 @@ typedef struct	s_builtin_context
 typedef struct	s_context
 {
 	int					background;
-	t_exec_mode			exec_mode;
+	t_list				*rem_cmd;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
 }				t_context;

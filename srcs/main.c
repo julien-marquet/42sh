@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 03:21:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 02:12:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,13 +25,46 @@
 #include "aliases/aliases.h"
 #include "exec/exec.h"
 
+t_list	*create_test_cmd_chain(t_input_data *input_data)
+{
+	char 				**test;
+	t_test_cmd			test_cmd;
+	int					i = 0;
+	t_list				*lst, *node;
+
+	if (input_data->active_buf->len > 0) {
+		input_data->active_buf->len -= 1;
+		input_data->active_buf->buf[input_data->active_buf->len] = '\0';
+	}
+	test = NULL;
+	test = ft_strsplit(input_data->active_buf->buf, ' ');
+	lst = NULL;
+	while (test[i] != NULL && test[i + 1] != NULL) {
+		if (i % 2 == 0) {
+			test_cmd.str = ft_memalloc(sizeof(char *) * 2);
+			test_cmd.redir = 0;
+			test_cmd.str[0] = ft_strdup(test[i]);
+			test_cmd.str[1] = NULL;
+			test_cmd.background = 0;
+			node = ft_lstnew(&test_cmd, sizeof(test_cmd));
+			ft_lstappend(&lst, node);
+		} else {
+			((t_test_cmd *)node->content)->redir = ft_atoi(test[i]);
+		}
+		i++;
+	}
+	if (i >= 2)
+		((t_test_cmd *)node->content)->background = ft_atoi(test[i]);
+	return (lst);
+}
+
 int		main(int ac, char **av, char **env)
 {
 	t_sh_state		*sh_state;
 	t_input_data	*input_data;
-	int				i;
+	t_list			*cmd_list;
+	char			*job_name;
 
-	i = 0;
 	ac = av[0][0];
 	setsid();
 	if ((sh_state = init_sh()) == NULL)
@@ -62,22 +95,9 @@ int		main(int ac, char **av, char **env)
 			break ;
 		}
 		dprintf(2, "OUTPUT = %s", input_data->active_buf->buf);
-
-		char 	**test;
-		t_builtin_context	*context = ft_memalloc(sizeof(t_builtin_context));
-
-		context->fds.err = 2;
-		context->fds.in = 0;
-		context->fds.out = 1;
-		add_origin(&context->origin, "42sh");
-		if (input_data->active_buf->len > 0)
-		{
-			input_data->active_buf->len -= 1;
-			input_data->active_buf->buf[input_data->active_buf->len] = '\0';
-		}
-		test = NULL;
-		test = ft_strsplit(input_data->active_buf->buf, ' ');
-		execute(sh_state, test);
+		cmd_list = create_test_cmd_chain(input_data);
+		job_name = ft_strdup(input_data->active_buf->buf);
+		exec_cmd_list(sh_state, cmd_list, job_name);
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);

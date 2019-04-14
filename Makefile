@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/13 23:03:01 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/14 01:41:49 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -49,7 +49,7 @@ CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliase
 CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
 CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_setters.c)
-CFILES += $(addprefix exec/, exec.c exec_functions.c exec_dispatcher.c)
+CFILES += $(addprefix exec/, exec.c exec_dispatcher.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -75,7 +75,7 @@ TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulati
 TMPFILES += $(addprefix jobs/, jobs_printers.h jobs.h jobs_controls.h jobs_display.h jobs_flush.h jobs_super.h jobs_update.h)
 TMPFILES += $(addprefix jobs/jobs_procs/, jobs_procs.h jobs_procs_getters.h jobs_procs_setters.h)
 TMPFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps.h jobs_proc_grps_getters.h jobs_proc_grps_setters.h)
-TMPFILES += $(addprefix exec/, exec.h exec_functions.h exec_dispatcher.h)
+TMPFILES += $(addprefix exec/, exec.h exec_dispatcher.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 
