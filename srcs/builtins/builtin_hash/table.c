@@ -53,10 +53,25 @@ static char		*add_path(char *path, t_list **table, char *bin)
 	return (content.path);
 }
 
-static char		*search_bin_path(char *bin, t_list **table, t_list *internal_storage)
+static char		*permission_denied(char *path)
+{
+	char	*error;
+
+	error = ft_strjoin("-", NAME);
+	if (error != NULL)
+		error = ft_strjoin(error, ": ");
+	if (error != NULL)
+		error = ft_strjoin(error, path);
+	if (error != NULL)
+		error = ft_strjoin(error, ": Permission denied\n");
+	return (error);
+}
+
+static char		*search_bin_path(char *bin, t_list **table, t_list *internal_storage, size_t *found)
 {
 	int		ret;
 	char	*tmp;
+	char	*error;
 	char	**paths;
 	char	**pointer;
 
@@ -64,8 +79,9 @@ static char		*search_bin_path(char *bin, t_list **table, t_list *internal_storag
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
+	error = NULL;
 	pointer = paths;
-	while (pointer != NULL)
+	while (*pointer != NULL)
 	{
 		tmp = create_path(*pointer, bin);
 		if ((ret = test_bin(tmp)) == -1)
@@ -78,22 +94,41 @@ static char		*search_bin_path(char *bin, t_list **table, t_list *internal_storag
 			ft_freetab(&paths);
 			return (add_path(tmp, table, bin));
 		}
+		if (ret == 2 && error == NULL)
+			error = permission_denied(tmp);
 		free(tmp);
 		pointer += 1;
 	}
+	*found = 0;
+	if (error != NULL)
+		write(2, error, ft_strlen(error));
+	ft_strdel(&error);
 	ft_freetab(&paths);
 	return (NULL);
 }
 
-char			*get_bin_path(char **av, t_list **table, t_list *internal_storage)
+char			*get_bin_path(char **av, t_list **table, t_list *internal_storage, size_t *error)
 {
+	char	*path;
+	size_t	found;
 	t_list	*pointer;
 
+	*error = 0;
 	pointer = *table;
 	while (pointer != NULL && ft_strcmp(av[0], ((t_hash_table *)(pointer->content))->bin) != 0)
 		pointer = pointer->next;
+	found = 1;
 	if (pointer == NULL)
-		return (search_bin_path(av[0], table, internal_storage));
+	{
+		if ((path = search_bin_path(av[0], table, internal_storage, &found)) == NULL)
+		{
+			if (found)
+				return (path);
+			else
+				*error = 1;
+		}
+		return (NULL);
+	}
 	((t_hash_table *)pointer->content)->hits += 1;
 	dprintf(2, "Hits for %s: %zu, path: %s\n", ((t_hash_table *)pointer->content)->bin, ((t_hash_table *)pointer->content)->hits,((t_hash_table *)pointer->content)->path);
 	return (((t_hash_table *)pointer->content)->path);
