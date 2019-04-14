@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 01:54:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 03:09:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -63,14 +63,17 @@ int			builtins_dispatcher(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context 
 	{
 		if ((context->builtin_context = init_builtin_context()) == NULL)
 			return (-1);
-		if (test_cmd->redir == none && context->background == 0)
+		if (test_cmd->redir == ex_classic &&
+	context->prev_ex_flag == ex_classic && context->background == 0)
 		{
+			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
 		(const char **)test_cmd->str, f, context);
 			res = 1;
 		}
 		else
 		{
+			dprintf(2, "as process\n");
 			if (exec_builtin_as_process(sh_state, (const char **)test_cmd->str,
 		f, context) == 1)
 				res = -1;
@@ -82,3 +85,5 @@ int			builtins_dispatcher(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context 
 	}
 	return (res);
 }
+
+// put a last flag in jobs procs to avoid DONE when grp not fully launched

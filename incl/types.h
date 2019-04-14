@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 01:52:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 03:06:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,19 +18,19 @@
 # include <termios.h>
 # include "../libs/Libft/libft.h"
 
-typedef enum	e_redir
+typedef enum	e_ex_flag
 {
-	none,
-	piping,
-	and,
-	or
-}				t_redir;
+	ex_classic,
+	ex_pipe,
+	ex_and,
+	ex_or
+}				t_ex_flag;
 
 typedef struct	s_test_cmd
 {
-	char	**str;
-	t_redir	redir;
-	int		background;
+	char		**str;
+	t_ex_flag	redir;
+	int			background;
 }				t_test_cmd;
 
 typedef enum	e_job_status
@@ -137,6 +137,7 @@ typedef struct	s_context
 	t_list				*rem_cmd;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
+	t_ex_flag			prev_ex_flag;
 }				t_context;
 
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
