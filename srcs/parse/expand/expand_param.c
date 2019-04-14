@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 20:52:00 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 21:48:43 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,38 +33,6 @@ static int		expand_param_insert(t_cmd *cmd, char *new, size_t i, size_t end)
 	return (1);
 }
 
-static int		expand_error(void)
-{
-	ft_putstr_fd(SH_NAME, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(ERR_EOF1, 2);
-	ft_putstr_fd(SH_NAME, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(ERR_EOF2, 2);
-	return (-1);
-}
-
-static int		expand_check_sub(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-		{
-			ft_putstr_fd(SH_NAME, 2);
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(str, 2);
-			ft_putendl_fd(": bad substitution", 2);
-			ft_strdel(&str);
-			return (-1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 static int		expand_param(t_cmd *cmd, size_t i, size_t end,
 t_sh_state *sh_state)
 {
@@ -72,7 +40,7 @@ t_sh_state *sh_state)
 	char	*tmp;
 
 	if (cmd->str[i] == '{' && cmd->str[end - 1] != '}')
-		return (expand_error());
+		return (expand_error_handler(0, NULL));
 	if (cmd->str[i] == '{')
 		tmp = ft_strndup(cmd->str + i + 1, end - i - 2);
 	else
@@ -80,7 +48,7 @@ t_sh_state *sh_state)
 	ft_memset(cmd->str + i, ' ', end - i);
 	if (!tmp)
 		return (1);
-	if (expand_check_sub(tmp) == -1)
+	if (expand_error_handler(1, tmp) == -1)
 		return (-1);
 	if (!(new = get_stored(sh_state->internal_storage, tmp)))
 	{
@@ -89,6 +57,21 @@ t_sh_state *sh_state)
 	}
 	ft_strdel(&tmp);
 	return (expand_param_insert(cmd, new, i, end));
+}
+
+static int		param_len(char *str, int i, int type)
+{
+	if (type == '{')
+	{
+		while (str[i] && str[i - 1] != '}')
+			i++;
+	}
+	else
+	{
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '?'))
+			i++;
+	}
+	return (i);
 }
 
 int				parse_param(t_cmd *cmd, t_sh_state *sh_state)
@@ -105,12 +88,9 @@ int				parse_param(t_cmd *cmd, t_sh_state *sh_state)
 		if (cmd->str[i] && stresc("$", cmd->str, i))
 		{
 			cmd->str[i] = ' ';
-			end = i + 1;
-			while ((cmd->str[end] && ft_isalnum(cmd->str[end]) &&
-			cmd->str[end] != '_') || (cmd->str[end] &&
-			cmd->str[i + 1] == '{' && cmd->str[end - 1] != '}'))
-				end++;
-			if (!(ret = expand_param(cmd, i + 1, end, sh_state)) || ret < 0)
+			end = param_len(cmd->str, i + 1, cmd->str[i + 1]);
+			ret = expand_param(cmd, i + 1, end, sh_state);
+			if (ret < 0)
 				return (1);
 			i += ret;
 		}

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 16:16:11 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 19:09:43 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 21:19:20 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,5 +25,6 @@
 
 void	parse_tilde(t_cmd *cmd, t_sh_state *sh_state);
 int		parse_param(t_cmd *cmd, t_sh_state *sh_state);
+int		expand_error_handler(int type, char *str);
 
 #endif
