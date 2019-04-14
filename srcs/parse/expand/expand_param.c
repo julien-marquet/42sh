@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 18:12:48 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 20:52:00 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,26 +33,34 @@ static int		expand_param_insert(t_cmd *cmd, char *new, size_t i, size_t end)
 	return (1);
 }
 
-static int		expand_check_sub(char *str, int err)
+static int		expand_error(void)
+{
+	ft_putstr_fd(SH_NAME, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(ERR_EOF1, 2);
+	ft_putstr_fd(SH_NAME, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(ERR_EOF2, 2);
+	return (-1);
+}
+
+static int		expand_check_sub(char *str)
 {
 	int i;
 
 	i = 0;
-	while (str[i] && err == 0)
+	while (str[i])
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			err = 1;
-		i++;
-	}
-	if (err != 0)
-	{
-		ft_putstr_fd(SH_NAME, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putendl_fd(": bad substitution", 2);
-		if (err != -1)
+		{
+			ft_putstr_fd(SH_NAME, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(str, 2);
+			ft_putendl_fd(": bad substitution", 2);
 			ft_strdel(&str);
-		return (-1);
+			return (-1);
+		}
+		i++;
 	}
 	return (0);
 }
@@ -64,7 +72,7 @@ t_sh_state *sh_state)
 	char	*tmp;
 
 	if (cmd->str[i] == '{' && cmd->str[end - 1] != '}')
-		return (expand_check_sub(cmd->str + i, -1));
+		return (expand_error());
 	if (cmd->str[i] == '{')
 		tmp = ft_strndup(cmd->str + i + 1, end - i - 2);
 	else
@@ -72,7 +80,7 @@ t_sh_state *sh_state)
 	ft_memset(cmd->str + i, ' ', end - i);
 	if (!tmp)
 		return (1);
-	if (expand_check_sub(tmp, 0) == -1)
+	if (expand_check_sub(tmp) == -1)
 		return (-1);
 	if (!(new = get_stored(sh_state->internal_storage, tmp)))
 	{
