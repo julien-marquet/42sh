@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 22:35:37 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 16:10:26 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,6 +38,7 @@ static t_cmd	*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type)
 	new->out = NULL;
 	new->type = type;
 	new->next = NULL;
+	new->arg = NULL;
 	if (!cmd)
 		return (new);
 	parse_cmdpush(&cmd, new);

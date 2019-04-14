@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 19:45:33 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 16:17:49 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -95,7 +95,7 @@ int					parse(char *str, t_sh_state *sh_state, t_input_data *input_data);
 void				parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
 void				parse_chevcreate(char *file, t_cmd *cmd, int *type, void *sh_info[2]);
 int					parse_tokenize(char *str, t_cmd **cmd);
-void				parse_expansion(t_cmd *cmd, t_sh_state *sh_state);
+int					parse_expansion(t_cmd *cmd, t_sh_state *sh_state);
 char				**parse_strsplit(char *str, int len);
 
 t_cmd				*parse_nextfree(t_cmd *cmd);

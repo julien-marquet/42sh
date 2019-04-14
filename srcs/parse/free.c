@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/20 16:00:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 16:25:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 16:16:28 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,8 @@ static void		free_arg(char **arg)
 	int i;
 
 	i = 0;
+	if (arg == NULL)
+		return ;
 	while (arg[i])
 	{
 		ft_strdel(&arg[i]);
@@ -47,6 +49,7 @@ t_cmd			*parse_nextfree(t_cmd *cmd)
 	t_cmd	*next;
 
 	next = cmd->next;
+	ft_strdel(&cmd->str);
 	ft_strdel(&cmd->red);
 	free_arg(cmd->arg);
 	free_file(cmd->out);

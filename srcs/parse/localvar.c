@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 19:22:38 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 16:24:27 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,8 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
 
 	name = ft_strndup(str, i++);
 	value = strndup_qr(str + i, len - i);
+	if (!name || !value)
+		exit_sh(sh_state, NULL);
 	ft_memset(str, ' ', len);
 	if (name != NULL && value != NULL)
 		add_entry_storage(&sh_state->internal_storage, name, value, 0);
