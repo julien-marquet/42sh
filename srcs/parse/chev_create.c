@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 23:40:07 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 18:00:45 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,8 +47,8 @@ void *sh_info[2])
 	else
 		new->file = file;
 	new->type = type;
-	if (type[C_TYPE] == '<')
-		!cmd->in ? cmd->in = new : parse_chevpush(&cmd->in, new);
-	else if (type[C_TYPE] == '>')
+	if (type[C_OUT] == -2 || type[C_TYPE] == '>')
 		!cmd->out ? cmd->out = new : parse_chevpush(&cmd->out, new);
+	else if (type[C_TYPE] == '<')
+		!cmd->in ? cmd->in = new : parse_chevpush(&cmd->in, new);
 }

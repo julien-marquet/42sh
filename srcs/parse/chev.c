@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 19:22:54 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 16:15:13 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@ static int		*parse_chev_type(char *str, int i)
 		return (NULL);
 	type[C_TYPE] = str[i];
 	type[C_IN] = type[C_TYPE] == '>' ? 1 : 0;
-	type[C_OUT] = 0;
+	type[C_OUT] = CHEV_FILE;
 	while (i > 0 && ft_isdigit(str[i - 1]))
 		i--;
 	if ((i > 0 && stresc(";|<>& \n", str, i - 1)) || i == 0)
@@ -34,7 +34,7 @@ static int		*parse_chev_type(char *str, int i)
 	if (str[i] == '&' && str[i + 1])
 	{
 		if (str[i + 1] == '-')
-			type[C_OUT] = -1;
+			type[C_OUT] = CHEV_CLOSE;
 		else
 			type[C_OUT] = ft_atoi(str + i + 1);
 	}

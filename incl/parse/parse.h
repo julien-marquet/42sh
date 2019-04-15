@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 23:24:44 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 18:25:07 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,8 @@
 
 # define SH_NAME "42sh"
 
+# define CHEV_FILE -1
+# define CHEV_CLOSE -2
 # define CHEV_PERM 420
 # define READ_END 0
 # define WRITE_END 1
@@ -106,7 +108,7 @@ t_cmd				*parse_nextfree(t_cmd *cmd);
 ** EXEC
 */
 
-int					exec_chevout(t_cmd *cmd);
-int					exec_chevin(t_cmd *cmd);
+int					exec_chevout(t_file *out);
+int					exec_chevin(t_file *in);
 
 #endif
