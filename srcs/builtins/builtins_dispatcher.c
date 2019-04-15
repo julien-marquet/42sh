@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 03:09:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 01:03:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,37 +48,37 @@ t_builtin_context	*init_builtin_context()
 	if (add_origin(&builtin_context->origin, "42sh") == 1)
 		return (NULL);
 	builtin_context->fds.err = 2;
-	builtin_context->fds.out = 1;
+	builtin_context->fds.out = 0;
 	builtin_context->fds.in = 0;
 	return (builtin_context);
 }
 
-int			builtins_dispatcher(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
+int			builtins_dispatcher(t_sh_state *sh_state, t_cmd *cmd,
+t_context *context, int last)
 {
 	t_builtin_func	f;
 	int				res;
 
 	res = 0;
-	if ((f = get_builtins_func(test_cmd->str[0])) != NULL)
+	if ((f = get_builtins_func(cmd->arg[0])) != NULL)
 	{
 		if ((context->builtin_context = init_builtin_context()) == NULL)
 			return (-1);
-		if (test_cmd->redir == ex_classic &&
-	context->prev_ex_flag == ex_classic && context->background == 0)
+		if (cmd->red == NULL && context->prev_ex_flag == NULL && context->background == 0)
 		{
 			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
-		(const char **)test_cmd->str, f, context);
+		(const char **)cmd->arg, f, context);
 			res = 1;
 		}
 		else
 		{
 			dprintf(2, "as process\n");
-			if (exec_builtin_as_process(sh_state, (const char **)test_cmd->str,
-		f, context) == 1)
+			if (exec_builtin_as_process(sh_state, (const char **)cmd->arg,
+		f, context, last) == 1)
 				res = -1;
 			else
-				res = 1;
+				res = 2;
 		}
 		free(context->builtin_context);
 		context->builtin_context = NULL;

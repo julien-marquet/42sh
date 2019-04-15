@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 22:44:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 00:54:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -100,7 +100,22 @@ char			*create_job_name(t_cmd *acmd)
 	return (name);
 }
 
-int				parse(char *line, t_sh_state *sh_state,
+int				is_processable(t_cmd *cmd)
+{
+	char	*str;
+	int		res;
+
+	if ((str = ft_strtrim(cmd->str)) == NULL)
+		return (0);
+	if (ft_strlen(str) == 0)
+		res = 0;
+	else
+		res = 1;
+	ft_strdel(&str);
+	return (res);
+}
+
+int				parse_exec(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	t_cmd	*cmd;
@@ -123,13 +138,12 @@ t_input_data *input_data)
 	{
 		if (parse_tokenparse(cmd, sh_state, input_data))
 			return (1);
-
 		parse_print(cmd);
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
 		{
 			job_name = create_job_name(acmd);
-			if (exec_cmd_list(sh_state, cmd, job_name) == 1)
+			if (exec_cmd_list(sh_state, acmd, job_name) == 1)
 				return (1);
 			ft_strdel(&job_name);
 			acmd = cmd->next;

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 22:45:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 00:19:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -138,7 +138,7 @@ typedef struct	s_context
 	t_list				*rem_cmd;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
-	t_ex_flag			prev_ex_flag;
+	char				*prev_ex_flag;
 }				t_context;
 
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 01:46:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 23:05:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -75,12 +75,10 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 
 	if (dup_history(input_data, &hist_copy) == 1)
 		return (1);
-	dprintf(2, "DUP\n");
 	while (input_data->sig_call == 0 && (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
 	{
-		if (prepare_input(input_data) == 1)
+		if (prepare_input(input_data, (const char *)here_doc) == 1)
 		{
-			dprintf(2, "input\n");
 			return (free_hist_copy(&hist_copy, 1));
 		}
 		if (process_entry(input_data, sh_state, hist_copy) == 1)
@@ -88,7 +86,6 @@ int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc
 		if (merge_bufs(input_data, hist_copy, here_doc) == 1)
 			return (free_hist_copy(&hist_copy, 1));
 	}
-	dprintf(2, "OUT LOOP\n");
 	if (here_doc == NULL && input_data->active_buf->len > 0 &&
 input_data->active_buf->buf[0] != '\n')
 	{

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 23:01:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 01:03:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ static int	is_background(t_cmd *cmd_list)
 {
 	while (cmd_list != NULL)
 	{
-		if (cmd_list->next == NULL)
+		if (cmd_list->next == NULL && cmd_list->red != NULL)
 			return (ft_strcmp(cmd_list->red, "&") == 0);
 		cmd_list = cmd_list->next;
 	}
@@ -34,8 +34,6 @@ t_context	*init_context(int background)
 	if ((context = ft_memalloc(sizeof(t_context))) == NULL)
 		return (NULL);
 	context->background = background;
-	context->prev_ex_flag = ex_classic;
-	dprintf(2, "BACK = %d\n", context->background);
 	return (context);
 }
 
@@ -49,15 +47,15 @@ t_proc_grp	*init_proc_grp(const char *name)
 	return (proc_grp);
 }
 
-int		exec_cmd(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
+int		exec_cmd(t_sh_state *sh_state, t_cmd *cmd, t_context *context, int last)
 {
 	int		found;
 
 	found = 0;
-	if ((found = builtins_dispatcher(sh_state, test_cmd, context)) == -1)
+	if ((found = builtins_dispatcher(sh_state, cmd, context, last)) == -1)
 		return (-1);
-	else if (found == 1)
-		return (1);
+	else if (found > 0) 
+		return (found);
 	else
 	{
 		if ((found = exec_dispatcher(context)) == -1)
@@ -68,34 +66,38 @@ int		exec_cmd(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
 	return (0);
 }
 
+/*
+**	WARNING Do not try to free context->prev_ex_flag or
+**	try to access it after cmd_list has been freed
+*/
 
-int		exec_no_flag(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
+int		exec_no_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
 	int				process_type;
 
-	if ((process_type = exec_cmd(sh_state, test_cmd, context)) == -1)
+	if ((process_type = exec_cmd(sh_state, cmd, context, 1)) == -1)
 		return (-1);
 	if (context->background == 0 && process_type != 1)
 		send_to_fg(sh_state, context->proc_grp);
-	context->prev_ex_flag = test_cmd->redir;
+	context->prev_ex_flag = cmd->red;
 	return (0);
 }
-int		exec_pipe_flag(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
+int		exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
-	if (exec_cmd(sh_state, test_cmd, context) == -1)
+	if (exec_cmd(sh_state, cmd, context, 0) == -1)
 		return (-1);
-	context->prev_ex_flag = test_cmd->redir;
+	context->prev_ex_flag = cmd->red;
 	return (0);
 }
-int		exec_conditioned_flag(t_sh_state *sh_state, t_test_cmd *test_cmd, t_context *context)
+int		exec_conditioned_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
-	if (exec_cmd(sh_state, test_cmd, context) == -1)
+	if (exec_cmd(sh_state, cmd, context, 1) == -1)
 		return (-1);
 	if (context->background == 0)
 	{
 		send_to_fg(sh_state, context->proc_grp);
 	}
-	context->prev_ex_flag = test_cmd->redir;
+	context->prev_ex_flag = cmd->red;
 	return (0);
 }
 
@@ -113,58 +115,21 @@ int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list, const char *job_name)
 			if ((context->proc_grp = init_proc_grp(job_name)) == NULL)
 				return (1);
 		}
-		/*if (cmd_list->red == ex_classic)
-			exec_res = exec_no_flag(sh_state, test_cmd, context);
-		else if (test_cmd->redir == ex_pipe)
-			exec_res = exec_pipe_flag(sh_state, test_cmd, context);
-		else if (test_cmd->redir == ex_and || test_cmd->redir == ex_or)
-			exec_res = exec_conditioned_flag(sh_state, test_cmd, context);
+		if (cmd_list->red == NULL || ft_strcmp(cmd_list->red, "&") == 0)
+			exec_res = exec_no_flag(sh_state, cmd_list, context);
+		else if (ft_strcmp(cmd_list->red, "|") == 0)
+			exec_res = exec_pipe_flag(sh_state, cmd_list, context);
+		else if (ft_strcmp(cmd_list->red, "&&") == 0 ||
+	ft_strcmp(cmd_list->red, "||") == 0)
+			exec_res = exec_conditioned_flag(sh_state, cmd_list, context);
 		if (exec_res == -1)
 			return (1);
 		if (exec_res == 1)
 		{
 			// handle stopped
 			return (0);
-		}*/
+		}
 		cmd_list = cmd_list->next;
 	}
 	return (0);
 }
-
-
-// keep mode ;
-// get background()
-// 
-// loop by node
-// if redir = rien
-// {
-//		if (!pgrp)
-//			new_pgrp
-//		exec_dispatch()
-//		if (!background)
-//			send_to_fg()
-// }
-// if redir = && ou ||
-// {
-// 	if (!pgrp)
-// 		new_pgrp
-// 	exec_dispatch()
-// 	if (!background())
-// 	res = send_to_fg()
-//	else
-//	store remaining
-// 	if (res != 0)
-// 	break ;
-// }
-// if redir = |
-// {
-// 		if (!pgrp)
-//			new_pgrp
-//		exec_dispatch()
-//		mode = |
-// }
-
-// in signal
-// on update 
-// continue
-

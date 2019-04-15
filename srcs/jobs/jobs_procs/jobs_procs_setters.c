@@ -6,14 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:45:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 21:58:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 00:50:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "jobs/jobs_procs/jobs_procs_setters.h"
 
-t_proc	*new_proc(int pid, t_job_status status, const char *name)
+t_proc	*new_proc(int pid, t_job_status status, const char *name, int last)
 {
 	t_proc	*proc;
 
@@ -22,6 +22,7 @@ t_proc	*new_proc(int pid, t_job_status status, const char *name)
 	proc->pid = pid;
 	proc->status = status;
 	proc->name = ft_strdup(name);
+	proc->last = last;
 	return (proc);
 }
 

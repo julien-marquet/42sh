@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:46:10 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 21:59:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 00:52:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,5 +34,7 @@ t_proc *get_last_proc(t_proc_grp *proc_grp)
 	tmp = proc_grp->procs;
 	while (tmp && tmp->next != NULL)
 		tmp = tmp->next;
-	return (tmp == NULL ? NULL : (t_proc *)tmp->content);
+	if (tmp == NULL || ((t_proc *)tmp->content)->last != 1)
+		return (NULL);
+	return ((t_proc *)tmp->content);
 }

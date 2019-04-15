@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 19:36:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 23:04:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,11 +20,12 @@ void	reset_input(t_input_data *input_data)
 	input_data->rel_cur_pos = 0;
 }
 
-int		prepare_input(t_input_data *input_data)
+int		prepare_input(t_input_data *input_data, const char *here_doc)
 {
 	if (ask_start_position(input_data->start_pos) == 1)
 		return (1);
-	print_prompt(input_data->stored_buf->len > 0 ? PROMPT_MULTI : PROMPT_SIMPLE);
+	print_prompt(here_doc != NULL || input_data->stored_buf->len > 0 ?
+PROMPT_MULTI : PROMPT_SIMPLE);
 	input_data->rel_cur_pos = 0;
 	return (0);
 }

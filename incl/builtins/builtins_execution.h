@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 01:43:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 00:49:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@
 # include "jobs/jobs.h"
 
 int		exec_builtin_as_process(t_sh_state *sh_state, const char **av,
-		t_builtin_func builtin, t_context *context);
+		t_builtin_func builtin, t_context *context, int last);
 int		exec_builtin_as_function(t_sh_state *sh_state, const char **av,
 		t_builtin_func builtin, t_context *context);
 
