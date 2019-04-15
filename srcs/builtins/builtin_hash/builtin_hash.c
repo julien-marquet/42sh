@@ -70,15 +70,15 @@ static int	handle_args(const char **av, t_list **table, t_list *internal_storage
 
 	i = 1;
 	ret = 0;
-	found = 1;
 	while (av[i] != NULL && av[i][0] == '-')
 		i += 1;
 	while (av[i] != NULL)
 	{
+		found = 1;
 		link = get_link(table, (char *)(av[i]));
 		if (link == NULL)
 		{
-			if (append_bin((char *)(av[i]), table, internal_storage, &found) == NULL)
+			if (append_bin((char *)(av[i]), table, internal_storage, &found) == NULL && found == 1)
 				return (-1);
 		}
 		else
