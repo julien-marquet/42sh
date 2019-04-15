@@ -4,16 +4,13 @@
 static void	print_table(t_list *table)
 {
 	write(1, "hits\t\t", 6);
-	write(1, "command\t\t", 9);
-	write(1, "binary\n", 7);
+	write(1, "command\n", 8);
 	while (table != NULL)
 	{
 		ft_putnbr(((t_hash_table *)(table->content))->hits);
 		write(1, "\t\t", 2);
 		write(1, ((t_hash_table *)(table->content))->path, ft_strlen(((t_hash_table *)(table->content))->path));
-		write(1, "\t\t|", 3);
-		write(1, ((t_hash_table *)(table->content))->bin, ft_strlen(((t_hash_table *)(table->content))->bin));
-		write(1, "|\n", 2);
+		write(1, "\n", 1);
 		table = table->next;
 	}
 }
@@ -71,9 +68,11 @@ static int	handle_args(const char **av, t_list **table, t_list *internal_storage
 	size_t			found;
 	t_hash_table	*link;
 
-	i = 0;
+	i = 1;
 	ret = 0;
 	found = 1;
+	while (av[i] != NULL && av[i][0] == '-')
+		i += 1;
 	while (av[i] != NULL)
 	{
 		link = get_link(table, (char *)(av[i]));
@@ -97,8 +96,6 @@ int			builtin_hash(t_sh_state *sh_state, int ac,
 	if (ac == 1)
 		print_table(sh_state->hash_table);
 	else if (ac > 1 && av[1][0] == '-')
-		return handle_options(av, &(sh_state->hash_table));
-	else
-		return handle_args(av, &(sh_state->hash_table), sh_state->internal_storage);
-    return (0);
+		handle_options(av, &(sh_state->hash_table));
+	return handle_args(av, &(sh_state->hash_table), sh_state->internal_storage);
 }
