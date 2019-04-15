@@ -1,73 +1,39 @@
 #include "builtins/builtin_hash/builtin_hash.h"
 #include "storage/storage.h"
 
-static int		test_bin(char *bin_path)
+t_hash_table	*get_link(t_list **table, char *bin)
 {
-	if (bin_path == NULL)
-		return (-1);
-	if (access(bin_path, F_OK) == -1)
-		return (1);
-	if (access(bin_path, X_OK) == -1)
-		return (2);
-	return (0);
-}
+	t_list	*pointer;
 
-static char		*create_path(char *path, char *bin)
-{
-	char	*tmp;
-	char	*tmp_path;
-
-	if ((tmp = ft_strjoin(path, "/")) == NULL)
-		return (NULL);
-	if ((tmp_path = ft_strjoin(tmp, bin)) == NULL)
-	{
-		free(tmp);
-		return (NULL);
-	}
-	free(tmp);
-	return (tmp_path);
-}
-
-static char		*add_path(char *path, t_list **table, char *bin)
-{
-	t_list			*tmp;
-	t_hash_table	content;
-	t_list			*pointer;
-
-	content.hits = 1;
-	if ((content.bin = ft_strdup(bin)) == NULL)
-		return (NULL);
-	content.path = path;
 	pointer = *table;
-	while (pointer != NULL && pointer->next != NULL)
-		pointer = pointer->next;
-	if ((tmp = ft_lstnew(&content, sizeof(t_hash_table))) == NULL)
+	while (pointer != NULL)
 	{
-		free(content.bin);
-		return (NULL);
+		if (ft_strcmp(((t_hash_table *)(pointer->content))->bin, bin) == 0)
+			return (pointer->content);
+		pointer = pointer->next;
 	}
-	if (*table == NULL)
-		*table = tmp;
-	else
-		ft_lstadd(table, tmp);
-	return (content.path);
+	return (NULL);
 }
 
-static char		*permission_denied(char *path)
+void	delete_table(t_list **table)
 {
-	char	*error;
+	t_list	*pointer;
+	void	*previous;
 
-	error = ft_strjoin("-", NAME);
-	if (error != NULL)
-		error = ft_strjoin(error, ": ");
-	if (error != NULL)
-		error = ft_strjoin(error, path);
-	if (error != NULL)
-		error = ft_strjoin(error, ": Permission denied\n");
-	return (error);
+	pointer = *table;
+	while (pointer != NULL)
+	{
+		free(((t_hash_table *)(pointer->content))->bin);
+		free(((t_hash_table *)(pointer->content))->path);
+		free(pointer->content);
+		previous = pointer;
+		pointer = pointer->next;
+		free(previous);
+	}
+	*table = NULL;
 }
 
-static char		*search_bin_path(char *bin, t_list **table, t_list *internal_storage, size_t *found)
+char			*append_bin(char *bin, t_list **table, t_list *internal_storage, size_t *found)
 {
 	int		ret;
 	char	*tmp;
@@ -92,7 +58,7 @@ static char		*search_bin_path(char *bin, t_list **table, t_list *internal_storag
 		if (ret == 0)
 		{
 			ft_freetab(&paths);
-			return (add_path(tmp, table, bin));
+			return (add_path(tmp, table, bin, *found == 2));
 		}
 		if (ret == 2 && error == NULL)
 			error = permission_denied(tmp);
@@ -117,10 +83,10 @@ char			*get_bin_path(char **av, t_list **table, t_list *internal_storage, size_t
 	pointer = *table;
 	while (pointer != NULL && ft_strcmp(av[0], ((t_hash_table *)(pointer->content))->bin) != 0)
 		pointer = pointer->next;
-	found = 1;
+	found = 2;
 	if (pointer == NULL)
 	{
-		if ((path = search_bin_path(av[0], table, internal_storage, &found)) == NULL)
+		if ((path = append_bin(av[0], table, internal_storage, &found)) == NULL)
 		{
 			if (found)
 				return (path);
@@ -130,6 +96,5 @@ char			*get_bin_path(char **av, t_list **table, t_list *internal_storage, size_t
 		return (NULL);
 	}
 	((t_hash_table *)pointer->content)->hits += 1;
-	dprintf(2, "Hits for %s: %zu, path: %s\n", ((t_hash_table *)pointer->content)->bin, ((t_hash_table *)pointer->content)->hits,((t_hash_table *)pointer->content)->path);
 	return (((t_hash_table *)pointer->content)->path);
 }

@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "sh_state.h"
+#include "builtins/builtin_hash/builtin_hash.h"
 
 t_sh_state	*init_sh_state(void)
 {
@@ -29,22 +30,9 @@ t_sh_state	*init_sh_state(void)
 
 void		free_sh_state(t_sh_state **state)
 {
-	t_list	*pointer;
-	void	*previous;
-
 	if (state == NULL || *state == NULL)
 		return ;
 	ft_lstdel(&((*state)->internal_storage), free_lstnode);
-	pointer = (*state)->hash_table;
-	while (pointer != NULL)
-	{
-		free(((t_hash_table *)(pointer->content))->bin);
-		free(((t_hash_table *)(pointer->content))->path);
-		free(pointer->content);
-		previous = pointer;
-		pointer = pointer->next;
-		free(previous);
-	}
+	delete_table(&((*state)->hash_table));
 	free(*state);
-
 }
