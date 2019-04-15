@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 17:56:56 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 21:40:31 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 15:30:10 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,7 +55,7 @@ static t_arg	*parse_split_create(char *str, int len)
 		while (i < len && ft_isspace(str[i]))
 			i++;
 		start = i;
-		while (i < len && (!stresc(" ", str, i) || is_quoted(str, i)))
+		while (i < len && (!stresc(" \t\n\f\v\r", str, i) || is_quoted(str, i)))
 			i++;
 		if (i - start)
 			arg = parse_argcreate(str + start, i - start, arg);
