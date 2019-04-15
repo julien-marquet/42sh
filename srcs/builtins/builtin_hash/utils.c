@@ -56,6 +56,7 @@ char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits)
 	if ((tmp = ft_lstnew(&content, sizeof(t_hash_table))) == NULL)
 	{
 		free(content.bin);
+		free(content.path);
 		return (NULL);
 	}
 	if (*table == NULL)
@@ -68,14 +69,21 @@ char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits)
 char		*permission_denied(char *path)
 {
 	char	*error;
+	char	*previous;
 
 	error = ft_strjoin("-", NAME);
+	previous = error;
 	if (error != NULL)
 		error = ft_strjoin(error, ": ");
+	free(previous);
+	previous = error;
 	if (error != NULL)
 		error = ft_strjoin(error, path);
+	free(previous);
+	previous = error;
 	if (error != NULL)
 		error = ft_strjoin(error, ": Permission denied\n");
+	free(previous);
 	return (error);
 }
 

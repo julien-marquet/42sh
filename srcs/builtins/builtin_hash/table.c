@@ -84,9 +84,10 @@ char			*append_bin(char *bin, t_list **table,
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
-	if ((tmp = check_paths(paths, bin, table, *found)) == NULL)
-		return (NULL);
+	tmp = check_paths(paths, bin, table, *found);
 	ft_freetab(&paths);
+	if (tmp == NULL)
+		return (NULL);
 	if (tmp[0] != '\0')
 		return (tmp);
 	*found = 0;
@@ -112,8 +113,7 @@ char			*get_bin_path(char **av, t_list **table,
 		{
 			if (found)
 				return (path);
-			else
-				*error = 1;
+			*error = 1;
 		}
 		return (NULL);
 	}
