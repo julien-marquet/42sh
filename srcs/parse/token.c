@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 22:35:37 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 18:24:37 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 23:55:14 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,12 +37,19 @@ static int		parse_charhandle(char *str, int i, char chr)
 	return (i + 1);
 }
 
-t_cmd	*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type)
+t_cmd			*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type)
 {
 	t_cmd	*new;
+	char	*tmp;
 
 	if (!(new = ft_memalloc(sizeof(t_cmd))))
 		return (NULL);
+	tmp = ft_strtrim(str);
+	if (ft_strlen(tmp) == 0)
+	{
+		ft_strdel(&tmp);
+		return (cmd);
+	}
 	new->str = ft_strndup(str, len);
 	new->type = type;
 	if (!cmd)
