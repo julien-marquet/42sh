@@ -16,6 +16,11 @@
 
 static void	print_table(t_list *table)
 {
+	if (table == NULL)
+	{
+		write(1, "hash: hash table empty\n", 23);
+		return ;
+	}
 	write(1, "hits\t\t", 6);
 	write(1, "command\n", 8);
 	while (table != NULL)
@@ -91,7 +96,7 @@ static int	handle_args(const char **av,
 			ret = not_found((char *)(av[i]));
 		i += 1;
 	}
-	return (0);
+	return (ret);
 }
 
 int			builtin_hash(t_sh_state *sh_state, int ac,
@@ -100,7 +105,11 @@ int			builtin_hash(t_sh_state *sh_state, int ac,
 	if (ac == 1)
 		print_table(sh_state->hash_table);
 	else if (ac > 1 && av[1][0] == '-')
-		handle_options(av, &(sh_state->hash_table));
-	return (handle_args(av,
-		&(sh_state->hash_table), sh_state->internal_storage));
+		sh_state->status = handle_options(av, &(sh_state->hash_table));
+	if (sh_state->status == 2)
+		return (0);
+	if ((sh_state->status = handle_args(av,
+		&(sh_state->hash_table), sh_state->internal_storage)) > 2)
+		return (-1);
+	return (0);
 }
