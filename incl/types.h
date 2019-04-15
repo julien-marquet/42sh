@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 20:52:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 22:45:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -145,5 +145,60 @@ typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
 				t_context *context);
 typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
 				t_builtin_context *context);
+
+/*
+** t_arg	t_cmd->arg constructor
+*/
+
+typedef struct		s_arg {
+	char			*arg;
+	int				type;
+	struct s_arg	*next;
+}					t_arg;
+
+/*
+** t_file	Parsed redirections
+**
+** char		*file = Redirection file / Heredoc end
+** char		*here = Heredoc output
+** int		*type = Redirection type (t_ctype)
+*/
+
+typedef struct		s_file {
+	char			*file;
+	char			*here;
+	int				*type;
+	struct s_file	*next;
+}					t_file;
+
+/*
+** t_cmd	Parsed command
+**
+** char		**arg = Command arguments
+** char		*red = Redirection type
+** t_file	*in = Inputs
+** t_file	*out = Outputs
+*/
+
+typedef struct		s_cmd {
+	char			*str;
+	char			**arg;
+	char			type;
+	char			*red;
+	t_file			*in;
+	t_file			*out;
+	struct s_cmd	*next;
+}					t_cmd;
+
+/*
+** t_ctype	Chevron redirection type
+*/
+
+typedef enum		e_ctype {
+	C_IN = 0,
+	C_LEN,
+	C_OUT,
+	C_TYPE
+}					t_ctype;
 
 #endif

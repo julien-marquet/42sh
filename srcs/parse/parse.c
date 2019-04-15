@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 18:16:13 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 22:44:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,7 +44,6 @@ t_input_data *input_data)
 	len = parse_tokenlen(cmd);
 	if (!(cmd->arg = parse_strsplit(cmd->str, len)))
 		return (1);
-	ft_strdel(&cmd->str);
 	return (0);
 }
 
@@ -77,42 +76,29 @@ void			parse_print(t_cmd *cmd)
 	dprintf(2, "Redir %s\n", cmd->red);
 }
 
-/*
-** static void		parse_test(t_cmd *cmd, t_term *term)
-** {
-** 	int pid;
-** 	int ret;
-** 	t_file *tmp;
-**
-** 	tmp = NULL;
-** 	pid = fork();
-** 	if (pid == 0)
-** 	{
-** 		exec_chevin(cmd);
-** 		exec_chevout(cmd);
-** 		if (ft_strstr(cmd->arg[0], "ls"))
-** 		{
-** 			execve("/bin/ls", cmd->arg, term->env);
-** 		}
-** 		if (ft_strstr(cmd->arg[0], "cat"))
-** 		{
-** 			execve("/bin/cat", cmd->arg, term->env);
-** 		}
-** 		if (ft_strstr(cmd->arg[0], "echo"))
-** 		{
-** 			execve("/bin/echo", cmd->arg, term->env);
-** 		}
-** 		if (ft_strstr(cmd->arg[0], "env"))
-** 		{
-** 			execve("/usr/bin/env", cmd->arg, term->env);
-** 		}
-** 		dprintf(2, "ERROR\n");
-** 		exit(-1);
-** 	}
-** 	else
-** 		wait(&ret);
-** }
-*/
+char			*create_job_name(t_cmd *acmd)
+{
+	char	*name;
+	char	*tmp;
+
+	name = NULL;
+	while (acmd != NULL)
+	{
+		if (name == NULL && acmd->str != NULL)
+			name = ft_strdup(acmd->str);
+		else if (acmd->str != NULL)
+		{
+			tmp = name;
+			name = ft_strjoin(tmp, acmd->str);
+			ft_strdel(&tmp);
+		}
+		if (acmd->red == NULL || ft_strcmp(acmd->red, ";") == 0 ||
+		ft_strcmp(acmd->red, "&") == 0)
+			break ;
+		acmd = acmd->next;
+	}
+	return (name);
+}
 
 int				parse(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
@@ -120,6 +106,8 @@ t_input_data *input_data)
 	t_cmd	*cmd;
 	char	*str;
 	int		i;
+	char	*job_name;
+	t_cmd	*acmd;
 
 	i = 0;
 	cmd = NULL;
@@ -130,16 +118,23 @@ t_input_data *input_data)
 	while (str[i])
 		i += parse_tokenize(str + i, &cmd);
 	ft_strdel(&str);
+	acmd = cmd;
 	while (cmd)
 	{
 		if (parse_tokenparse(cmd, sh_state, input_data))
-		{
-			while (cmd)
-				cmd = parse_nextfree(cmd);
 			return (1);
-		}
+
 		parse_print(cmd);
-		cmd = parse_nextfree(cmd);
+		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
+	ft_strcmp(cmd->red, "&") == 0)
+		{
+			job_name = create_job_name(acmd);
+			if (exec_cmd_list(sh_state, cmd, job_name) == 1)
+				return (1);
+			ft_strdel(&job_name);
+			acmd = cmd->next;
+		}
+		cmd = cmd->next;
 	}
 	return (0);
 }

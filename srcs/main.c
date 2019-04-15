@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 22:16:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 22:30:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,10 +30,8 @@ int		main(int ac, char **av, char **env)
 {
 	t_sh_state		*sh_state;
 	t_input_data	*input_data;
-	char			*job_name;
 
 	ac = av[0][0];
-	setsid();
 	if ((sh_state = init_sh()) == NULL)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
@@ -60,18 +58,11 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
-		job_name = ft_strdup(input_data->active_buf->buf);
-		parse(input_data->active_buf->buf, sh_state, input_data);
-		// exec_cmd_list(sh_state, cmd_list, job_name);
-		/*if (input_data->active_buf->len > 0)
+		if (parse(input_data->active_buf->buf, sh_state, input_data) == 1)
 		{
-			input_data->active_buf->len -= 1;
-			input_data->active_buf->buf[input_data->active_buf->len] = '\0';
+			sh_state->status = 1;
+			break ;
 		}
-		test = NULL;
-		test = ft_strsplit(input_data->active_buf->buf, ' ');
-		builtins_dispatcher(sh_state, (const char **)test, 1, 0);*/
-
 		reset_dyn_buf(input_data->active_buf);
 	}
 	exit_sh(sh_state, input_data);

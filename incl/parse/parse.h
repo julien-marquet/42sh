@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 18:25:07 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/15 22:45:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,7 @@
 # include "common.h"
 # include "sh.h"
 # include "parse/utils.h"
+# include "exec/exec.h"
 
 # define SH_NAME "42sh"
 
@@ -25,61 +26,6 @@
 # define CHEV_PERM 420
 # define READ_END 0
 # define WRITE_END 1
-
-/*
-** t_arg	t_cmd->arg constructor
-*/
-
-typedef struct		s_arg {
-	char			*arg;
-	int				type;
-	struct s_arg	*next;
-}					t_arg;
-
-/*
-** t_file	Parsed redirections
-**
-** char		*file = Redirection file / Heredoc end
-** char		*here = Heredoc output
-** int		*type = Redirection type (t_ctype)
-*/
-
-typedef struct		s_file {
-	char			*file;
-	char			*here;
-	int				*type;
-	struct s_file	*next;
-}					t_file;
-
-/*
-** t_cmd	Parsed command
-**
-** char		**arg = Command arguments
-** char		*red = Redirection type
-** t_file	*in = Inputs
-** t_file	*out = Outputs
-*/
-
-typedef struct		s_cmd {
-	char			*str;
-	char			**arg;
-	char			type;
-	char			*red;
-	t_file			*in;
-	t_file			*out;
-	struct s_cmd	*next;
-}					t_cmd;
-
-/*
-** t_ctype	Chevron redirection type
-*/
-
-typedef enum		e_ctype {
-	C_IN = 0,
-	C_LEN,
-	C_OUT,
-	C_TYPE
-}					t_ctype;
 
 /*
 ** CHECK
