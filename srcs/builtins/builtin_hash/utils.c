@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   utils.c                                          .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2019/04/15 22:15:24 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/15 22:15:25 by legrivel    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
+/* ************************************************************************** */
+
 #include "builtins/builtin_hash/builtin_hash.h"
 
-int		test_bin(char *bin_path)
+int			test_bin(char *bin_path)
 {
 	if (bin_path == NULL)
 		return (-1);
@@ -64,4 +77,14 @@ char		*permission_denied(char *path)
 	if (error != NULL)
 		error = ft_strjoin(error, ": Permission denied\n");
 	return (error);
+}
+
+int			not_found(char *bin)
+{
+	write(2, "-", 1);
+	write(2, NAME, ft_strlen(NAME));
+	write(2, ": hash: ", 8);
+	write(2, bin, ft_strlen(bin));
+	write(2, ": not found\n", 12);
+	return (1);
 }

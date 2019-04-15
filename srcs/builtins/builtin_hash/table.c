@@ -1,5 +1,46 @@
+/* ************************************************************************** */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   table.c                                          .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2019/04/15 22:42:12 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/15 22:42:12 by legrivel    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
+/* ************************************************************************** */
+
 #include "builtins/builtin_hash/builtin_hash.h"
 #include "storage/storage.h"
+
+static char		*check_paths(char **paths, char *bin,
+			t_list **table, size_t found)
+{
+	int		ret;
+	char	*tmp;
+	char	*error;
+	char	**pointer;
+
+	error = NULL;
+	pointer = paths;
+	while (*pointer != NULL)
+	{
+		tmp = create_path(*pointer, bin);
+		if ((ret = test_bin(tmp)) == -1)
+			return (NULL);
+		if (ret == 0)
+			return (add_path(tmp, table, bin, found == 2));
+		if (ret == 2 && error == NULL)
+			error = permission_denied(tmp);
+		free(tmp);
+		pointer += 1;
+	}
+	if (error != NULL)
+		write(2, error, ft_strlen(error));
+	ft_strdel(&error);
+	return ("");
+}
 
 t_hash_table	*get_link(t_list **table, char *bin)
 {
@@ -15,7 +56,7 @@ t_hash_table	*get_link(t_list **table, char *bin)
 	return (NULL);
 }
 
-void	delete_table(t_list **table)
+void			delete_table(t_list **table)
 {
 	t_list	*pointer;
 	void	*previous;
@@ -33,47 +74,27 @@ void	delete_table(t_list **table)
 	*table = NULL;
 }
 
-char			*append_bin(char *bin, t_list **table, t_list *internal_storage, size_t *found)
+char			*append_bin(char *bin, t_list **table,
+			t_list *internal_storage, size_t *found)
 {
-	int		ret;
 	char	*tmp;
-	char	*error;
 	char	**paths;
-	char	**pointer;
 
 	if ((tmp = get_env_value(internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
-	error = NULL;
-	pointer = paths;
-	while (*pointer != NULL)
-	{
-		tmp = create_path(*pointer, bin);
-		if ((ret = test_bin(tmp)) == -1)
-		{
-			ft_freetab(&paths);
-			return (NULL);
-		}
-		if (ret == 0)
-		{
-			ft_freetab(&paths);
-			return (add_path(tmp, table, bin, *found == 2));
-		}
-		if (ret == 2 && error == NULL)
-			error = permission_denied(tmp);
-		free(tmp);
-		pointer += 1;
-	}
-	*found = 0;
-	if (error != NULL)
-		write(2, error, ft_strlen(error));
-	ft_strdel(&error);
+	if ((tmp = check_paths(paths, bin, table, *found)) == NULL)
+		return (NULL);
 	ft_freetab(&paths);
+	if (tmp[0] != '\0')
+		return (tmp);
+	*found = 0;
 	return (NULL);
 }
 
-char			*get_bin_path(char **av, t_list **table, t_list *internal_storage, size_t *error)
+char			*get_bin_path(char **av, t_list **table,
+			t_list *internal_storage, size_t *error)
 {
 	char	*path;
 	size_t	found;
@@ -81,7 +102,8 @@ char			*get_bin_path(char **av, t_list **table, t_list *internal_storage, size_t
 
 	*error = 0;
 	pointer = *table;
-	while (pointer != NULL && ft_strcmp(av[0], ((t_hash_table *)(pointer->content))->bin) != 0)
+	while (pointer != NULL &&
+	ft_strcmp(av[0], ((t_hash_table *)(pointer->content))->bin) != 0)
 		pointer = pointer->next;
 	found = 2;
 	if (pointer == NULL)
