@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:37:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:06:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/14 20:50:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -93,6 +93,7 @@ t_proc_grp	*get_first_active_proc_grp()
 	t_list		*tmp;
 	t_jobs		*jobs;
 	t_proc_grp	*proc_grp;
+	t_proc		*proc;
 
 	proc_grp = NULL;
 	jobs = jobs_super_get();
@@ -100,10 +101,9 @@ t_proc_grp	*get_first_active_proc_grp()
 	while (tmp != NULL)
 	{
 		proc_grp = (t_proc_grp *)tmp->content;
-		if (get_last_proc(proc_grp)->status != exited)
+		if ((proc = get_last_proc(proc_grp)) != NULL && proc->status != exited)
 			return (proc_grp);
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
-
