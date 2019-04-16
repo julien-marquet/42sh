@@ -6,14 +6,14 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/05 19:38:47 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 16:54:06 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 16:18:55 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/parse.h"
 
-int			parse_error(char *str, int i)
+static int	parse_error(char *str, int i)
 {
 	ft_putstr_fd(SH_NAME, 2);
 	ft_putstr_fd(": syntax error near unexpected token `", 2);
@@ -22,11 +22,48 @@ int			parse_error(char *str, int i)
 	return (1);
 }
 
+static int	check_start(char *str, int start)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && i < start)
+	{
+		if (!ft_isspace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	check_end(char *str, char c, int len, int start)
+{
+	int special;
+
+	special = 0;
+	if (check_start(str, start))
+		return (1);
+	str += start;
+	if ((c == '&' && len == 1) || c == ';')
+		special = 1;
+	while (str[len] && !ft_strchr(";|&", str[len]))
+	{
+		if (!ft_isspace(str[len]))
+			return (0);
+		len++;
+	}
+	if (special && str[len] == 0)
+		return (0);
+	return (1);
+}
+
 /*
 ** Possible Parse error
 ** more than 1 consecutive `;`
 ** more than 2 consecutive `| < > &`
 ** `< > >& <&` followed by `newline |`
+** `; | || &&` followed by whitespaces only
+** starting or ending with `| || &&`
 */
 
 static int	parse_error_handler(char *str, char *c, int i, int len)
@@ -49,6 +86,8 @@ static int	parse_error_handler(char *str, char *c, int i, int len)
 		if (ft_strchr(";|<>", str[i]))
 			return (1);
 	}
+	if (*c == '|' || *c == '&' || *c == ';')
+		return (check_end(str, *c, len, i));
 	return (0);
 }
 

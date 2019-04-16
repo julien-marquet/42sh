@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 18:25:07 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:19:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,6 +65,7 @@ typedef struct		s_cmd {
 	char			**arg;
 	char			type;
 	char			*red;
+	int				assign;
 	t_file			*in;
 	t_file			*out;
 	struct s_cmd	*next;
@@ -85,7 +86,6 @@ typedef enum		e_ctype {
 ** CHECK
 */
 
-int					parse_error(char *str, int i);
 int					parse_check(char *str);
 
 /*
