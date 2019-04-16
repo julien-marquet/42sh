@@ -37,6 +37,11 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
 		return (1);
+        if (input_data->active_buf->len > 0)
+        {
+            input_data->active_buf->len -= 1;
+            input_data->active_buf->buf[input_data->active_buf->len] = '\0';
+        }
 	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
 		return (1);
 

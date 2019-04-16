@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "sh_state.h"
+#include "builtins/builtin_hash/builtin_hash.h"
 
 t_sh_state	*init_sh_state(void)
 {
@@ -19,17 +20,15 @@ t_sh_state	*init_sh_state(void)
 
 	if ((sh_state = ft_memalloc(sizeof(t_sh_state))) == NULL)
 		return (NULL);
+	sh_state->hash_table = NULL;
 	return (sh_state);
 }
 
 void		free_sh_state(t_sh_state **state)
 {
-	void (*del)(void *, size_t);
-
 	if (state == NULL || *state == NULL)
 		return ;
-
-	del = free_lstnode;
-	ft_lstdel(&((*state)->internal_storage), del);
+	ft_lstdel(&((*state)->internal_storage), free_lstnode);
+	delete_table(&((*state)->hash_table));
 	free(*state);
 }

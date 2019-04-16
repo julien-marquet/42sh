@@ -23,7 +23,7 @@ LIB_DIR = libs
 CFOLDERS = $(addprefix $(OBJ_DIR)/, storage \
 editing editing/cursor editing/history editing/input \
 data data/win_data data/dyn_buf data/data_utils \
-builtins builtins/builtins_storage builtins/builtins_aliases builtins/builtin_echo builtins/builtins_jobs \
+builtins builtins/builtins_storage builtins/builtin_test builtins/builtin_hash builtins/builtins_aliases builtins/builtin_echo builtins/builtins_jobs \
 jobs jobs/jobs_procs jobs/jobs_proc_grps \
 aliases \
 parse parse/alias parse/expand \
@@ -46,6 +46,8 @@ CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
 CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
+CFILES += $(addprefix builtins/builtin_test/, builtin_test.c unary.c binary.c tests.c args.c)
+CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c table.c utils.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c)
@@ -73,6 +75,8 @@ TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_g
 TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
 TMPFILES += $(addprefix builtins/, builtins_utils.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_unset.h builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
+TMPFILES += $(addprefix builtins/builtin_test/, builtin_test.h)
+TMPFILES += $(addprefix builtins/builtin_hash/, builtin_hash.h)
 TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_alias.h builtin_unalias.h)
 TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
 TMPFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.h builtins_jobs.h builtin_jobs.h)

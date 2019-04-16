@@ -14,7 +14,7 @@
 #ifndef BUILTINS_DEFINES_H
 # define BUILTINS_DEFINES_H
 
-# define BUILTINS_NB 12
+# define BUILTINS_NB 15
 # define BUILTINS_MAX_LEN 20
 
 #endif

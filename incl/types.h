@@ -27,6 +27,13 @@ typedef enum	e_job_status
 	continued,
 }				t_job_status;
 
+typedef struct  s_hash_table
+{
+   size_t   hits;
+   char     *bin;
+   char     *path;
+}               t_hash_table;
+
 typedef struct	s_cur_abs_pos
 {
 	int		row;
@@ -41,6 +48,7 @@ typedef struct	s_sh_state
 	size_t			exit_sig;
 	t_list			*internal_storage;
 	t_list			*aliases;
+	t_list                  *hash_table;
 	int				shell_pid;
 }				t_sh_state;
 

@@ -22,6 +22,8 @@
 # include "builtins/builtin_exit.h"
 # include "builtins/builtin_echo/builtin_echo.h"
 # include "builtins/builtins_jobs/builtins_jobs.h"
+# include "builtins/builtin_test/builtin_test.h"
+# include "builtins/builtin_hash/builtin_hash.h"
 
 int		builtins_dispatcher(t_sh_state *sh_state,
 		t_cmd *cmd, t_context *context);
