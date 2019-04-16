@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 23:24:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 23:28:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,7 +59,7 @@ int		main(int ac, char **av, char **env)
 			sh_state->status = 1;
 			break ;
 		}
-		if (parse_exec(input_data->active_buf->buf, sh_state, input_data) == 1)
+		if (parse_exec(input_data->active_buf->buf, sh_state, input_data) == -1)
 		{
 			sh_state->status = 1;
 			break ;

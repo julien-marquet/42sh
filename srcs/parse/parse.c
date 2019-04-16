@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 23:23:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 23:28:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -146,7 +146,7 @@ t_input_data *input_data)
 	{
 		dprintf(2, "loop\n");
 		if (parse_tokenparse(cmd, sh_state, input_data))
-			return (1);
+			return (-1);
 		parse_print(cmd);
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)

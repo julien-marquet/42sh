@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/11 20:45:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 02:55:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 23:32:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,6 +18,5 @@ int			builtin_jobs(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
 {
 	list_jobs();
-	flush_exited();
 	return (0);
 }
