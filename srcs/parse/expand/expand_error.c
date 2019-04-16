@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/14 21:12:10 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 21:20:19 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:36:38 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,9 +18,6 @@ static int	expand_error(void)
 	ft_putstr_fd(SH_NAME, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(ERR_EOF1, 2);
-	ft_putstr_fd(SH_NAME, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(ERR_EOF2, 2);
 	return (-1);
 }
 

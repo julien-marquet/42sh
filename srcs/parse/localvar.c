@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 16:24:27 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 17:06:42 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,10 +18,13 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
 	char *name;
 	char *value;
 
-	name = ft_strndup(str, i++);
-	value = strndup_qr(str + i, len - i);
-	if (!name || !value)
-		exit_sh(sh_state, NULL);
+	if (!(name = ft_strndup(str, i++)))
+		return (-1);
+	if (!(value = strndup_qr(str + i, len - i)))
+	{
+		ft_strdel(&name);
+		return (-1);
+	}
 	ft_memset(str, ' ', len);
 	if (name != NULL && value != NULL)
 		add_entry_storage(&sh_state->internal_storage, name, value, 0);
@@ -30,7 +33,7 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
 	return (1);
 }
 
-static	int	handle_localvar(char *str, int len, t_sh_state *sh_state)
+static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
 {
 	int i;
 
@@ -38,7 +41,12 @@ static	int	handle_localvar(char *str, int len, t_sh_state *sh_state)
 	while ((ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=') && i < len)
 	{
 		if (stresc("=", str, i))
-			return (store_localvar(str, i, len, sh_state));
+		{
+			cmd->assign = 1;
+			if (store_localvar(str, i, len, sh_state) == 1)
+				return (1);
+			return (-1);
+		}
 		i++;
 	}
 	return (0);
@@ -48,6 +56,7 @@ int			parse_localvar(t_cmd *cmd, t_sh_state *sh_state)
 {
 	int i;
 	int start;
+	int ret;
 
 	i = 0;
 	while (cmd->str[i])
@@ -55,14 +64,14 @@ int			parse_localvar(t_cmd *cmd, t_sh_state *sh_state)
 		while (cmd->str[i] && ft_isspace(cmd->str[i]))
 			i++;
 		start = i;
-		while (cmd->str[i] && !ft_isspace(cmd->str[i]))
-		{
-			while (cmd->str[i] && is_quoted(cmd->str, i))
-				i++;
-			cmd->str[i] ? i++ : 0;
-		}
-		if (handle_localvar(cmd->str + start, i - start, sh_state) == 1)
+		while (cmd->str[i] && (!stresc(";|<>& \n", cmd->str, i) ||
+		is_quoted(cmd->str, i)))
+			i++;
+		ret = handle_localvar(cmd, cmd->str + start, i - start, sh_state);
+		if (ret == 1)
 			continue ;
+		else if (ret == -1)
+			return (1);
 		while (cmd->str[i] && !stresc(";|&", cmd->str, i))
 			i++;
 		cmd->str[i] ? i++ : 0;

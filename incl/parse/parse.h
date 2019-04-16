@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 18:11:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 23:24:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,7 +31,6 @@
 ** CHECK
 */
 
-int					parse_error(char *str, int i);
 int					parse_check(char *str);
 
 /*
