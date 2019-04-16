@@ -6,23 +6,18 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 01:00:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:51:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_execution.h"
 
-int				register_process(t_context *context, int pid,
-const char *name, int last)
+int				register_process(t_context *context, t_proc *proc)
 {
-	t_proc	*proc;
-
-	if ((proc = new_proc(pid, 0, name, last)) == NULL)
-		return (1);
 	if (context->proc_grp->pgid == 0)
-		context->proc_grp->pgid = pid;
-	setpgid(pid, context->proc_grp->pgid);
+		context->proc_grp->pgid = proc->pid;
+	setpgid(proc->pid, context->proc_grp->pgid);
 	add_proc(proc, context->proc_grp);
 	dprintf(2, "registered %d, %s, last = %d\n", proc->pid, proc->name, proc->last);
 	return (0);
@@ -39,11 +34,12 @@ void			reset_signal_handlers(void)
 	signal(SIGCHLD, SIG_DFL);
 }
 
-int				exec_builtin_as_process(t_sh_state *sh_state, const char **av,
-t_builtin_func builtin, t_context *context, int last)
+int				exec_builtin_as_process(t_sh_state *sh_state, t_cmd *cmd,
+t_builtin_func builtin, t_context *context)
 {
 	pid_t	pid;
 	int		res;
+	t_proc	*proc;
 
 	pid = fork();
 	if (pid == 0)
@@ -51,12 +47,14 @@ t_builtin_func builtin, t_context *context, int last)
 		reset_signal_handlers();
 		setpgid(0, context->proc_grp->pgid);
 		res = builtin(sh_state,
-	ft_arraylen((const void **)av), av, context->builtin_context);
+	ft_arraylen((const void **)cmd->arg), (const char **)cmd->arg, context->builtin_context);
 		exit(res);
 	}
 	else
 	{
-		if (register_process(context, pid, av[0], last) == 1)
+		if ((proc = new_proc(pid, cmd->arg[0], context->last, cmd->next)) == NULL)
+			return (1);
+		if (register_process(context, proc) == 1)
 			return (1);
 	}
 	return (0);
@@ -65,9 +63,6 @@ t_builtin_func builtin, t_context *context, int last)
 int				exec_builtin_as_function(t_sh_state *sh_state, const char **av,
 t_builtin_func builtin, t_context *context)
 {
-	int		res;
-
-	res = builtin(sh_state, ft_arraylen((const void **)av),
-av, context->builtin_context);
-	return (res);
+	return (builtin(sh_state, ft_arraylen((const void **)av),
+av, context->builtin_context));
 }

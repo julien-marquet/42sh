@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:48:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:34:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,6 +24,6 @@
 # include "builtins/builtins_jobs/builtins_jobs.h"
 
 int		builtins_dispatcher(t_sh_state *sh_state,
-		t_cmd *cmd, t_context *context, int last);
+		t_cmd *cmd, t_context *context);
 
 #endif

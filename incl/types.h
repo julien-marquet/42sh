@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:09:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:33:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,30 +26,6 @@ typedef enum	e_job_status
 	stopped,
 	continued,
 }				t_job_status;
-
-typedef struct	s_proc
-{
-	int				pid;
-	t_job_status	status;
-	int				code;
-	char			*name;
-	int				updated;
-	int				last;
-}				t_proc;
-
-typedef struct	s_proc_grp
-{
-	t_list	*procs;
-	int		pgid;
-	char	*name;
-	t_list	*remaining;
-}				t_proc_grp;
-
-typedef struct	s_jobs
-{
-	t_list	*proc_grps;
-	int		busy;
-}				t_jobs;
 
 typedef struct	s_cur_abs_pos
 {
@@ -117,20 +93,6 @@ typedef struct	s_builtin_context
 	t_fds	fds;
 }				t_builtin_context;
 
-typedef struct	s_context
-{
-	int					background;
-	t_list				*rem_cmd;
-	t_proc_grp			*proc_grp;
-	t_builtin_context	*builtin_context;
-	char				*prev_ex_flag;
-}				t_context;
-
-typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
-				t_context *context);
-typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
-				t_builtin_context *context);
-
 /*
 ** t_arg	t_cmd->arg constructor
 */
@@ -185,5 +147,44 @@ typedef enum		e_ctype {
 	C_OUT,
 	C_TYPE
 }					t_ctype;
+
+typedef struct	s_proc
+{
+	int				pid;
+	t_job_status	status;
+	int				code;
+	char			*name;
+	int				updated;
+	int				last;
+	t_cmd			*remaining;
+}				t_proc;
+
+typedef struct	s_proc_grp
+{
+	t_list	*procs;
+	int		pgid;
+	char	*name;
+}				t_proc_grp;
+
+typedef struct	s_jobs
+{
+	t_list	*proc_grps;
+	int		busy;
+}				t_jobs;
+
+typedef struct	s_context
+{
+	int					background;
+	t_list				*rem_cmd;
+	t_proc_grp			*proc_grp;
+	t_builtin_context	*builtin_context;
+	char				*prev_ex_flag;
+	int					last;
+}				t_context;
+
+typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
+				t_context *context);
+typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
+				t_builtin_context *context);
 
 #endif

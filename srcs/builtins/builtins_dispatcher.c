@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 01:09:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:44:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,8 +53,25 @@ t_builtin_context	*init_builtin_context()
 	return (builtin_context);
 }
 
+int			is_valid_as_function(t_cmd *cmd, t_context *context)
+{
+	if (cmd->red == NULL)
+	{
+		if (context->prev_ex_flag == NULL ||
+	ft_strcmp(context->prev_ex_flag, "|") != 0)
+			return (context->background == 0);
+	}
+	else if (ft_strcmp(cmd->red, "|") != 0)
+	{
+		if (context->prev_ex_flag == NULL ||
+	ft_strcmp(context->prev_ex_flag, "|") != 0)
+			return (context->background == 0);
+	}
+	return (0);
+}
+
 int			builtins_dispatcher(t_sh_state *sh_state, t_cmd *cmd,
-t_context *context, int last)
+t_context *context)
 {
 	t_builtin_func	f;
 	int				res;
@@ -64,7 +81,7 @@ t_context *context, int last)
 	{
 		if ((context->builtin_context = init_builtin_context()) == NULL)
 			return (-1);
-		if (cmd->red == NULL && context->prev_ex_flag == NULL && context->background == 0)
+		if (is_valid_as_function(cmd, context))
 		{
 			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
@@ -74,8 +91,8 @@ t_context *context, int last)
 		else
 		{
 			dprintf(2, "as process\n");
-			if (exec_builtin_as_process(sh_state, (const char **)cmd->arg,
-		f, context, last) == 1)
+			if (exec_builtin_as_process(sh_state, cmd,
+		f, context) == 1)
 				res = -1;
 			else
 				res = 2;
