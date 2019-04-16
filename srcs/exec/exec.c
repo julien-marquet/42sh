@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 03:01:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:29:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,19 +47,27 @@ t_proc_grp	*init_proc_grp(const char *name)
 	return (proc_grp);
 }
 
+/*
+**	Return -1 on error 0 on exited 1 on stopped
+*/
+
 int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list, const char *job_name)
 {
 	t_context		*context;
 	int				exec_res;
 
 	context = init_context(is_background(cmd_list));
+	exec_res = 0;
 	while (cmd_list != NULL)
 	{
 		dprintf(2, "execution of %s\n", (cmd_list->str));
 		if (context->proc_grp == NULL)
 		{
 			if ((context->proc_grp = init_proc_grp(job_name)) == NULL)
-				return (1);
+			{
+				exec_res = -1;
+				break ;
+			}
 		}
 		if (cmd_list->red == NULL || ft_strcmp(cmd_list->red, "&") == 0)
 			exec_res = exec_no_flag(sh_state, cmd_list, context);
@@ -68,14 +76,10 @@ int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list, const char *job_name)
 		else if (ft_strcmp(cmd_list->red, "&&") == 0 ||
 	ft_strcmp(cmd_list->red, "||") == 0)
 			exec_res = exec_conditioned_flag(sh_state, cmd_list, context);
-		if (exec_res == -1)
-			return (1);
-		if (exec_res == 1)
-		{
-			// handle stopped
-			return (0);
-		}
+		if (exec_res != 0)
+			break ;
 		cmd_list = cmd_list->next;
 	}
-	return (0);
+	free_executed_cmds(cmd_list, context->proc_grp->remaining);
+	return (exec_res);
 }

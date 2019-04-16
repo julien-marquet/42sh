@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:42:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:46:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,6 @@ int		main(int ac, char **av, char **env)
 	t_input_data	*input_data;
 
 	ac = av[0][0];
-		dprintf(2, "Main exit\n");
 	if ((sh_state = init_sh()) == NULL)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
@@ -49,6 +48,7 @@ int		main(int ac, char **av, char **env)
 	signal(SIGCHLD, handle_sigchld);
 
 	sh_state->shell_pid = getpgid(0);
+	jobs_set_sh_state(sh_state);
 	while (sh_state->exit_sig == 0)
 	{
 
@@ -61,13 +61,11 @@ int		main(int ac, char **av, char **env)
 		}
 		if (parse_exec(input_data->active_buf->buf, sh_state, input_data) == 1)
 		{
-			dprintf(2, "parse failure\n");
 			sh_state->status = 1;
 			break ;
 		}
 		reset_dyn_buf(input_data->active_buf);
 	}
-	dprintf(2, "Main exit\n");
 	exit_sh(sh_state, input_data);
 	return (0);
 }

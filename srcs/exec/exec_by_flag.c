@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 03:01:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:37:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,9 +44,9 @@ int			exec_no_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	context->last = 1;
 	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
 		return (-1);
+	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (context->background == 0 && process_type != 1)
 		send_to_fg(sh_state, context->proc_grp);
-	context->prev_ex_flag = cmd->red;
 	return (0);
 }
 
@@ -55,27 +55,7 @@ int			exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	context->last = 0;
 	if (exec_cmd(sh_state, cmd, context) == -1)
 		return (-1);
-	context->prev_ex_flag = cmd->red;
-	return (0);
-}
-
-static int	handle_processes_return(t_sh_state *sh_state, t_context *context,
-t_cmd *cmd)
-{
-	t_proc	*last_proc;
-
-	send_to_fg(sh_state, context->proc_grp);
-	last_proc = get_last_proc(context->proc_grp);
-	if (last_proc->status == exited && last_proc->code == 0)
-	{
-		if (ft_strcmp(cmd->red, "||") == 0)
-			return (1);
-	}
-	else if (last_proc->status == signaled || last_proc->status == exited)
-	{
-		if (ft_strcmp(cmd->red, "&&") == 0)
-			return (1);
-	}
+	context->proc_grp->last_red = ft_strdup(cmd->red);
 	return (0);
 }
 
@@ -87,12 +67,14 @@ t_context *context)
 	context->last = 1;
 	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
 		return (-1);
+	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (context->background == 0)
 	{
 		if (process_type == 2)
 		{
-			if (handle_processes_return(sh_state, context, cmd) == 1)
-				return (1);
+			if (send_to_fg(sh_state, context->proc_grp) == 1)
+				return (-1);
+			return (1);
 		}
 		else
 		{
@@ -102,6 +84,7 @@ t_context *context)
 				return (1);
 		}
 	}
-	context->prev_ex_flag = cmd->red;
+	else
+		return (1);
 	return (0);
 }

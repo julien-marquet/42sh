@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:42:35 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 01:01:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 17:27:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,11 +20,15 @@ int			send_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp)
 
 	stat_loc = 0;
 	last_proc = get_last_proc(proc_grp);
-	dprintf(2, "waiting for %d\n", last_proc->pid);
-	set_term_state_backup(sh_state);
-	tcsetpgrp(0, proc_grp->pgid);
-	update_jobs_status(last_proc->pid);
-	tcsetpgrp(0, sh_state->shell_pid);
-	set_term_state(sh_state);
-	return (0);
+	if (last_proc)
+	{
+		dprintf(2, "waiting for %d\n", last_proc->pid);
+		set_term_state_backup(sh_state);
+		tcsetpgrp(0, proc_grp->pgid);
+		handle_process_update(last_proc->pid);
+		tcsetpgrp(0, sh_state->shell_pid);
+		set_term_state(sh_state);
+		return (0);
+	}
+	return (1);
 }

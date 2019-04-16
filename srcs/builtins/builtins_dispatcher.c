@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:44:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 18:49:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,14 +57,14 @@ int			is_valid_as_function(t_cmd *cmd, t_context *context)
 {
 	if (cmd->red == NULL)
 	{
-		if (context->prev_ex_flag == NULL ||
-	ft_strcmp(context->prev_ex_flag, "|") != 0)
+		if (context->proc_grp->last_red == NULL ||
+	ft_strcmp(context->proc_grp->last_red, "|") != 0)
 			return (context->background == 0);
 	}
 	else if (ft_strcmp(cmd->red, "|") != 0)
 	{
-		if (context->prev_ex_flag == NULL ||
-	ft_strcmp(context->prev_ex_flag, "|") != 0)
+		if (context->proc_grp->last_red == NULL ||
+	ft_strcmp(context->proc_grp->last_red, "|") != 0)
 			return (context->background == 0);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:43:29 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 21:59:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:45:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,7 +33,7 @@ int			add_proc_grp(t_proc_grp *proc_grp)
 	{
 		if ((node = ft_memalloc(sizeof(t_list))) == NULL)
 			return (1);
-		jobs = jobs_super_get();
+		jobs = jobs_super_get(NULL);
 		node->content_size = sizeof(t_proc_grp);
 		node->content = proc_grp;
 		node->next = NULL;

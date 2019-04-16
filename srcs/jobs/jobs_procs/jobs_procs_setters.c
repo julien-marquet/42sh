@@ -6,21 +6,20 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:45:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:23:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 18:00:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "jobs/jobs_procs/jobs_procs_setters.h"
 
-t_proc	*new_proc(int pid, const char *name, int last, t_cmd *remaining)
+t_proc	*new_proc(int pid, const char *name, int last)
 {
 	t_proc	*proc;
 
 	if ((proc = ft_memalloc(sizeof(t_proc))) == NULL)
 		return (NULL);
 	proc->pid = pid;
-	proc->remaining = remaining;
 	proc->name = ft_strdup(name);
 	proc->last = last;
 	return (proc);

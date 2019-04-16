@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:54:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:31:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -143,9 +143,10 @@ t_input_data *input_data)
 	ft_strcmp(cmd->red, "&") == 0)
 		{
 			job_name = create_job_name(acmd);
-			if (exec_cmd_list(sh_state, acmd, job_name) == 1)
-				return (1);
+			i = exec_cmd_list(sh_state, acmd, job_name);
 			ft_strdel(&job_name);
+			if (i != 0)
+				return (i == -1 ? 1 : 0);
 			acmd = cmd->next;
 		}
 		cmd = cmd->next;

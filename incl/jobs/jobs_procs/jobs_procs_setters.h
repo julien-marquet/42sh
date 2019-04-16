@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:55:02 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:23:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 18:00:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,7 @@
 
 # include "common.h"
 
-t_proc		*new_proc(int pid, const char *name, int last, t_cmd *remaining);
+t_proc		*new_proc(int pid, const char *name, int last);
 int			add_proc(t_proc *proc, t_proc_grp *proc_grp);
 
 #endif

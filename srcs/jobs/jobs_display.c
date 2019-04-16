@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:41:11 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 18:29:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:45:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ void	display_jobs_alert(void)
 	t_proc			*proc;
 	int				pos;
 
-	jobs = jobs_super_get();
+	jobs = jobs_super_get(NULL);
 	tmp = jobs->proc_grps;
 	pos = 1;
 	while (tmp != NULL)
@@ -44,7 +44,7 @@ void	list_jobs(void)
 	t_proc			*proc;
 	int				pos;
 
-	jobs = jobs_super_get();
+	jobs = jobs_super_get(NULL);
 	tmp = jobs->proc_grps;
 	pos = 1;
 	while (tmp != NULL)

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:33:47 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:41:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -156,7 +156,6 @@ typedef struct	s_proc
 	char			*name;
 	int				updated;
 	int				last;
-	t_cmd			*remaining;
 }				t_proc;
 
 typedef struct	s_proc_grp
@@ -164,12 +163,15 @@ typedef struct	s_proc_grp
 	t_list	*procs;
 	int		pgid;
 	char	*name;
+	t_cmd	*remaining;
+	char	*last_red;
 }				t_proc_grp;
 
 typedef struct	s_jobs
 {
-	t_list	*proc_grps;
-	int		busy;
+	t_list		*proc_grps;
+	int			busy;
+	t_sh_state	*sh_state;
 }				t_jobs;
 
 typedef struct	s_context
@@ -178,7 +180,6 @@ typedef struct	s_context
 	t_list				*rem_cmd;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
-	char				*prev_ex_flag;
 	int					last;
 }				t_context;
 

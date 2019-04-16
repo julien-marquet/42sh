@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 18:35:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 19:45:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,7 +65,7 @@ void		flush_exited(void)
 	t_proc_grp	*proc_grp;
 	t_list		*prev;
 
-	jobs = jobs_super_get();
+	jobs = jobs_super_get(NULL);
 	prev = NULL;
 	tmp = jobs->proc_grps;
 	while (tmp != NULL)
