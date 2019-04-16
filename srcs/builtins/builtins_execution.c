@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 18:02:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 21:41:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,6 @@ t_builtin_func builtin, t_context *context)
 	{
 		if ((proc = new_proc(pid, cmd->arg[0], context->last)) == NULL)
 			return (1);
-		context->proc_grp->remaining = cmd->next;
 		if (register_process(context, proc) == 1)
 			return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 19:37:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 23:01:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,24 +37,35 @@ static int	exec_cmd(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 **	try to access it after cmd_list has been freed
 */
 
-int			exec_no_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
+int			exec_end_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
 	int				process_type;
+	int				arg_len;
 
+	dprintf(2, "EXEC END %s\n", cmd->str);
 	context->last = 1;
-	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
-		return (-1);
+	arg_len = ft_arraylen((const void **)cmd->arg);
+	if (arg_len > 0)
+	{
+		if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
+			return (-1);
+		context->proc_grp->remaining = cmd->next;
+	}
 	context->proc_grp->last_red = ft_strdup(cmd->red);
-	if (context->background == 0 && process_type != 1)
+	if (arg_len > 0 && context->background == 0 && process_type != 1)
 		send_to_fg(sh_state, context->proc_grp);
-	return (0);
+	if (cmd->red != NULL && ft_strcmp(cmd->red, ";") == 0)
+		return (1);
+	return (1);
 }
 
 int			exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
+	dprintf(2, "EXEC PIPE %s\n", cmd->str);
 	context->last = 0;
 	if (exec_cmd(sh_state, cmd, context) == -1)
 		return (-1);
+	context->proc_grp->remaining = cmd->next;
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	return (0);
 }
@@ -68,6 +79,7 @@ t_context *context)
 	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
 		return (-1);
 	context->proc_grp->last_red = ft_strdup(cmd->red);
+	context->proc_grp->remaining = cmd->next;
 	if (context->background == 0)
 	{
 		if (process_type == 2)
