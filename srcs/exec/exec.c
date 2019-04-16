@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 01:03:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:11:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -91,11 +91,24 @@ int		exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 }
 int		exec_conditioned_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
+	t_proc	*last_proc;
+
 	if (exec_cmd(sh_state, cmd, context, 1) == -1)
 		return (-1);
 	if (context->background == 0)
 	{
 		send_to_fg(sh_state, context->proc_grp);
+		last_proc = get_last_proc(context->proc_grp);
+		if (last_proc->status == exited && last_proc->code == 0)
+		{
+			if (ft_strcmp(cmd->red, "||") == 0)
+				return (1);
+		}
+		else if (last_proc->status == signaled || last_proc->status == exited)
+		{
+			if (ft_strcmp(cmd->red, "&&") == 0)
+				return (1);
+		}
 	}
 	context->prev_ex_flag = cmd->red;
 	return (0);

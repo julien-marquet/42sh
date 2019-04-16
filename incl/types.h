@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:19:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 02:09:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,21 +17,6 @@
 # include <unistd.h>
 # include <termios.h>
 # include "../libs/Libft/libft.h"
-
-typedef enum	e_ex_flag
-{
-	ex_classic,
-	ex_pipe,
-	ex_and,
-	ex_or
-}				t_ex_flag;
-
-typedef struct	s_test_cmd
-{
-	char		**str;
-	t_ex_flag	redir;
-	int			background;
-}				t_test_cmd;
 
 typedef enum	e_job_status
 {
