@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 03:17:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/16 17:06:42 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,12 +64,9 @@ int			parse_localvar(t_cmd *cmd, t_sh_state *sh_state)
 		while (cmd->str[i] && ft_isspace(cmd->str[i]))
 			i++;
 		start = i;
-		while (cmd->str[i] && !stresc(";|<>& \n", cmd->str, i))
-		{
-			while (cmd->str[i] && is_quoted(cmd->str, i))
-				i++;
-			cmd->str[i] ? i++ : 0;
-		}
+		while (cmd->str[i] && (!stresc(";|<>& \n", cmd->str, i) ||
+		is_quoted(cmd->str, i)))
+			i++;
 		ret = handle_localvar(cmd, cmd->str + start, i - start, sh_state);
 		if (ret == 1)
 			continue ;
