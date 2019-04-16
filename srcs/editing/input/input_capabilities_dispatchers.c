@@ -15,7 +15,13 @@
 
 int		capabilities_dispatcher_1(t_input_data *input_data)
 {
-	if (ft_strncmp(input_data->build_buf->buf, KEY_NL, 1) == 0 && (input_data->processed_chars = 1))
+	if (ft_strncmp(input_data->build_buf->buf, KEY_TAB, 1) == 0 &&
+	(input_data->processed_chars = 1))
+	{
+		if (handle_completion(input_data) == 1)
+			return (-1);
+	}
+	else if (ft_strncmp(input_data->build_buf->buf, KEY_NL, 1) == 0 && (input_data->processed_chars = 1))
 	{
 		if (handle_enter(input_data) == 1)
 			return (-1);
@@ -63,13 +69,6 @@ int		capabilities_dispatcher_3(t_input_data *input_data)
 	if ((ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 || ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) && (input_data->processed_chars = 1))
 	{
 		if (delete_prev_char(input_data) != 0)
-			return (-1);
-	}
-	else if (ft_strncmp(input_data->build_buf->buf, KEY_TAB, 1) == 0 && (input_data->processed_chars = 1))
-	{
-		if (insert_dyn_buf(" ", input_data->active_buf, input_data->rel_cur_pos) == 1)
-			return (-1);
-		if (insertn_chars(input_data, " ", 1, 0) == 1)
 			return (-1);
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_LEFT, 3) == 0 && (input_data->processed_chars = 3))

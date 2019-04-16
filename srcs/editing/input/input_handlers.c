@@ -13,8 +13,6 @@
 
 #include "editing/input/input_handlers.h"
 
-
-
 int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
 {
 	int	res;

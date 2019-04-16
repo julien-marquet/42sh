@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "editing/input/input_main_process.h"
+#include "editing/input/input_completion.h"
 
 static int		get_buf(t_dyn_buf *build_buf)
 {
