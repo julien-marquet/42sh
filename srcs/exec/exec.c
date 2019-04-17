@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 23:02:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/17 18:54:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,12 +16,21 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wunused-variable"
 
+static int	cmd_is_empty(t_cmd *cmd)
+{
+	return (cmd == NULL || (cmd->arg == NULL &&
+cmd->assign == 0 && cmd->red == NULL));
+}
+
 static int	is_background(t_cmd *cmd_list)
 {
-	while (cmd_list != NULL)
+	while (!cmd_is_empty(cmd_list))
 	{
-		if (cmd_list->next == NULL && cmd_list->red != NULL)
-			return (ft_strcmp(cmd_list->red, "&") == 0);
+		if (cmd_is_empty(cmd_list->next))
+		{
+			return (cmd_list->red != NULL &&
+		ft_strcmp(cmd_list->red, "&") == 0);
+		}
 		cmd_list = cmd_list->next;
 	}
 	return (0);
@@ -49,7 +58,7 @@ t_proc_grp	*init_proc_grp(const char *name)
 
 int		is_end_flag(t_cmd *cmd)
 {
-	return (cmd->red == NULL || ft_strcmp(cmd->red, "&") == 0||
+	return (cmd->red == NULL || ft_strcmp(cmd->red, "&") == 0 ||
 ft_strcmp(cmd->red, ";") == 0);
 }
 
@@ -69,7 +78,8 @@ ft_strcmp(cmd->red, "||") == 0);
 **	exec_flag func return -1 on error 0 on continue 1 on stop
 */
 
-int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list, const char *job_name)
+int		exec_cmd_list(t_sh_state *sh_state,
+t_cmd *cmd_list, const char *job_name)
 {
 	t_context		*context;
 	int				exec_res;
@@ -86,7 +96,6 @@ int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list, const char *job_name)
 				break ;
 			}
 		}
-		dprintf(2, "cmd = %s\n", (cmd_list)->red);
 		if (is_end_flag(cmd_list))
 			exec_res = exec_end_flag(sh_state, cmd_list, context);
 		else if (is_pipe_flag(cmd_list))
@@ -95,12 +104,10 @@ int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list, const char *job_name)
 			exec_res = exec_conditioned_flag(sh_state, cmd_list, context);
 		else
 			dprintf(2, "UNHANDLED FLAG\n");
-		dprintf(2, "END EXEC\n");
 		cmd_list = (cmd_list)->next;
 		if (exec_res == -1 || exec_res == 1)
 			break ;
 	}
-	//dprintf(2, "ADDRESS = %p\n", (void *)(context->proc_grp->remaining));
 	free_executed_cmds(cmd_list, context->proc_grp->remaining);
 	// free context
 	return (exec_res);

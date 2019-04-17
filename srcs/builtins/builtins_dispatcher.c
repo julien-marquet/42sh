@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 18:49:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/17 18:44:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,6 +55,8 @@ t_builtin_context	*init_builtin_context()
 
 int			is_valid_as_function(t_cmd *cmd, t_context *context)
 {
+	dprintf(2, "RED = %s, last red = %s, background = %d\n", cmd->red,
+context->proc_grp->last_red, context->background);
 	if (cmd->red == NULL)
 	{
 		if (context->proc_grp->last_red == NULL ||
@@ -63,8 +65,7 @@ int			is_valid_as_function(t_cmd *cmd, t_context *context)
 	}
 	else if (ft_strcmp(cmd->red, "|") != 0)
 	{
-		if (context->proc_grp->last_red == NULL ||
-	ft_strcmp(context->proc_grp->last_red, "|") != 0)
+		if (context->proc_grp->last_red == NULL)
 			return (context->background == 0);
 	}
 	return (0);

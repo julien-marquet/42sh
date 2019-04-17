@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 23:01:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/17 18:54:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,17 +32,11 @@ static int	exec_cmd(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	return (0);
 }
 
-/*
-**	WARNING Do not try to free context->prev_ex_flag or
-**	try to access it after cmd_list has been freed
-*/
-
 int			exec_end_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
 	int				process_type;
 	int				arg_len;
 
-	dprintf(2, "EXEC END %s\n", cmd->str);
 	context->last = 1;
 	arg_len = ft_arraylen((const void **)cmd->arg);
 	if (arg_len > 0)
@@ -54,14 +48,14 @@ int			exec_end_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (arg_len > 0 && context->background == 0 && process_type != 1)
 		send_to_fg(sh_state, context->proc_grp);
-	if (cmd->red != NULL && ft_strcmp(cmd->red, ";") == 0)
+	if (cmd->red != NULL && (ft_strcmp(cmd->red, ";") == 0 ||
+ft_strcmp(cmd->red, "&") == 0))
 		return (1);
 	return (1);
 }
 
 int			exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 {
-	dprintf(2, "EXEC PIPE %s\n", cmd->str);
 	context->last = 0;
 	if (exec_cmd(sh_state, cmd, context) == -1)
 		return (-1);
