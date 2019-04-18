@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:56:05 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 00:10:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 01:24:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,5 +21,6 @@
 # include "jobs/jobs_update.h"
 
 int			send_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp);
+void		wake_all_processes(t_proc_grp *proc_grp);
 
 #endif
