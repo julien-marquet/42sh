@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:13:44 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 22:43:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 02:22:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,6 @@
 # include "parse/parse.h"
 
 int		exec_cmd_list(t_sh_state *sh_state, t_cmd *cmd_list,
-		const char *job_name);
+		const char *job_name, t_proc_grp *prec_grp);
 
 #endif

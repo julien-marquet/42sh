@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 22:44:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 02:37:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,7 @@ void	revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp)
 {
 	dprintf(2, "proc_grp remaining = %d\n", proc_grp->remaining != NULL);
 	dprintf(2, "startinf from %s\n", proc_grp->remaining->str);
-	exec_cmd_list(sh_state, proc_grp->remaining, proc_grp->name);
+	exec_cmd_list(sh_state, proc_grp->remaining, proc_grp->name, proc_grp);
 }
 
 void	check_revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp, t_proc *last_proc)
@@ -100,19 +100,33 @@ void	handle_process_update(int wanted)
 	jobs = jobs_super_get(NULL);
 	if (jobs->busy == 0)
 	{
-		while ((pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED)) > 0)
+		jobs->busy = 1;
+		dprintf(2, "waiting for %d\n", wanted);
+		while (1)
 		{
-			if ((proc_grp = update_proc_status(jobs, pid, stat_loc)) != NULL)
+			pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED);
+			dprintf(2, "PID %d has been updated\n", pid);
+			if (pid <= 0 || wanted == pid || wanted <= 0)
+				jobs->busy = 0;
+			if (pid > 0)
 			{
-				if ((proc = get_last_proc(proc_grp)) != NULL &&
-			proc->pid == pid && proc_grp->remaining != NULL)
-					check_revive_process_group(jobs->sh_state, proc_grp, proc);
+				if ((proc_grp = update_proc_status(jobs, pid,
+			stat_loc)) != NULL)
+				{
+					if ((proc = get_last_proc(proc_grp)) != NULL &&
+				proc->pid == pid && proc_grp->remaining != NULL)
+					{
+						check_revive_process_group(jobs->sh_state,
+					proc_grp, proc);
+					}
+				}
 			}
-			if (wanted == pid || wanted <= 0)
+			if (pid <= 0 || wanted == pid || wanted <= 0)
 				break ;
 		}
-		jobs->busy = 0;
 	}
+	else
+		dprintf(2, "busy\n");
 }
 
 void	jobs_set_sh_state(t_sh_state *sh_state)

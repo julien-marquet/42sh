@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 23:28:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 02:23:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -90,7 +90,7 @@ char			*create_job_name(t_cmd *acmd)
 	char	*tmp;
 
 	name = NULL;
-	while (acmd != NULL)
+	while (!cmd_is_empty(acmd))
 	{
 		if (name == NULL && acmd->str != NULL)
 			name = ft_strdup(acmd->str);
@@ -151,8 +151,8 @@ t_input_data *input_data)
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
 		{
-			job_name = create_job_name(cmd);
-			i = exec_cmd_list(sh_state, acmd, job_name);
+			job_name = create_job_name(acmd);
+			i = exec_cmd_list(sh_state, acmd, job_name, NULL);
 			dprintf(2, "res = %d\n", i);
 			ft_strdel(&job_name);
 			if (i == -1)

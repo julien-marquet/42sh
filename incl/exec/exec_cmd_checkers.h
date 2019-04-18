@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_proc_grps_setters.h                         .::    .:/ .      .::   */
+/*   exec_cmd_checkers.h                              .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/12 21:53:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 02:28:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/18 01:05:36 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/18 01:08:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_PROC_GRPS_SETTERS_H
-# define JOBS_PROC_GRPS_SETTERS_H
+#ifndef EXEC_CMD_CHECKERS_H
+# define EXEC_CMD_CHECKERS_H
 
 # include "common.h"
-# include "jobs/jobs_super.h"
+# include "parse/parse.h"
 
-t_proc_grp	*new_proc_grp(int background, const char *name);
-int			add_proc_grp(t_proc_grp *proc_grp);
+int		cmd_is_empty(t_cmd *cmd);
+int		is_end_flag(t_cmd *cmd);
+int		is_pipe_flag(t_cmd *cmd);
+int		is_conditionned_flag(t_cmd *cmd);
+int		is_background(t_cmd *cmd_list);
 
 #endif

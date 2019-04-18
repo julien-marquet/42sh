@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/11 21:22:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 02:21:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 02:40:38 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,6 +50,6 @@ int			builtin_fg(t_sh_state *sh_state, int ac,
 			return (1);
 		}
 	}
-	dprintf(2, "GRP = %s, PGID = %d\n", proc_grp->name, proc_grp->pgid);
+	proc_grp->background = 0;
 	return (send_to_fg(sh_state, proc_grp));
 }

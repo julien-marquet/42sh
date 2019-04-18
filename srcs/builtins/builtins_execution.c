@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 21:41:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/17 23:57:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_execution.h"
+# include "signal.h"
 
 int				register_process(t_context *context, t_proc *proc)
 {
@@ -29,6 +30,7 @@ void			reset_signal_handlers(void)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGTSTP, SIG_DFL);
+	signal(SIGSTOP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);

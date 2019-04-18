@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 23:24:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 02:14:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -166,6 +166,7 @@ typedef struct	s_proc_grp
 	char	*name;
 	t_cmd	*remaining;
 	char	*last_red;
+	int		background;
 }				t_proc_grp;
 
 typedef struct	s_jobs
