@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 20:40:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 22:28:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -157,6 +157,7 @@ typedef struct	s_proc
 	char			*name;
 	int				updated;
 	int				last;
+	int				null;
 }				t_proc;
 
 typedef struct	s_proc_grp

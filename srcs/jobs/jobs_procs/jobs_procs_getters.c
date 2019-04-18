@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:46:10 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:52:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 22:48:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,11 +30,21 @@ t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
 t_proc *get_last_proc(t_proc_grp *proc_grp)
 {
 	t_list	*tmp;
+	t_proc	*proc;
+	t_proc	*last_full_proc;
 
+	last_full_proc = NULL;
+	proc = NULL;
 	tmp = proc_grp->procs;
-	while (tmp && tmp->next != NULL)
+	while (tmp)
+	{
+		proc = (t_proc *)tmp->content;
+		if (proc && proc->null != 1)
+			last_full_proc = proc;
 		tmp = tmp->next;
-	if (tmp == NULL || ((t_proc *)tmp->content)->last != 1)
+	}
+	if (proc == NULL || proc->last == 0)
 		return (NULL);
-	return ((t_proc *)tmp->content);
+	else
+		return (last_full_proc);
 }

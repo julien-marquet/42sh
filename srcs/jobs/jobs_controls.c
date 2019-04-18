@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:42:35 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 20:40:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 22:44:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,9 +35,9 @@ int			send_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp)
 
 	stat_loc = 0;
 	last_proc = get_last_proc(proc_grp);
-	dprintf(2, "send %d %s to fg\n", last_proc->pid, last_proc->name);
 	if (last_proc)
 	{
+		dprintf(2, "send %d %s to fg\n", last_proc->pid, last_proc->name);
 		set_term_state_backup(sh_state);
 		tcsetpgrp(0, proc_grp->pgid);
 		wake_all_processes(proc_grp);

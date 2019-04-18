@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:45:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 00:08:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 22:32:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,4 +38,15 @@ int			add_proc(t_proc *proc, t_proc_grp *proc_grp)
 	}
 	else
 		return (1);
+}
+
+int		add_null_proc(t_proc_grp *proc_grp, const char *name, int last)
+{
+	t_proc	*proc;
+
+	if ((proc = new_proc(0, name, last)) == NULL)
+		return (1);
+	proc->null = 1;
+	add_proc(proc, proc_grp);
+	return (0);
 }

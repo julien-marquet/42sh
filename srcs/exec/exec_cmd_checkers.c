@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/18 01:05:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 01:08:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 21:15:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,21 +19,21 @@ int		cmd_is_empty(t_cmd *cmd)
 cmd->assign == 0 && cmd->red == NULL));
 }
 
-int		is_end_flag(t_cmd *cmd)
+int		is_end_flag(const char *red)
 {
-	return (cmd->red == NULL || ft_strcmp(cmd->red, "&") == 0 ||
-ft_strcmp(cmd->red, ";") == 0);
+	return (red == NULL || ft_strcmp(red, "&") == 0 ||
+ft_strcmp(red, ";") == 0);
 }
 
-int		is_pipe_flag(t_cmd *cmd)
+int		is_pipe_flag(const char *red)
 {
-	return (ft_strcmp(cmd->red, "|") == 0);
+	return (ft_strcmp(red, "|") == 0);
 }
 
-int		is_conditionned_flag(t_cmd *cmd)
+int		is_conditionned_flag(const char *red)
 {
-	return (ft_strcmp(cmd->red, "&&") == 0 ||
-ft_strcmp(cmd->red, "||") == 0);
+	return (ft_strcmp(red, "&&") == 0 ||
+ft_strcmp(red, "||") == 0);
 }
 
 int		is_background(t_cmd *cmd_list)
