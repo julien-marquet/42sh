@@ -13,11 +13,12 @@
 
 #include "editing/input/input_handlers.h"
 
-int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
+int		handle_capabilities(t_input_data *input_data,
+		t_list *hist_copy, t_sh_state *sh_state)
 {
 	int	res;
 
-	if ((res = capabilities_dispatcher_1(input_data)) != 0)
+	if ((res = capabilities_dispatcher_1(input_data, sh_state)) != 0)
 		return (res == -1);
 	if ((res = capabilities_dispatcher_2(input_data)) != 0)
 		return (res == -1);

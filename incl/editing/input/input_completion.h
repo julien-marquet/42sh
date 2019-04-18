@@ -3,5 +3,5 @@
 
 #include "common.h"
 
-int		handle_completion(t_input_data *input);
+int		handle_completion(t_input_data *input, t_sh_state *sh_state);
 #endif

@@ -38,7 +38,7 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 	}
 	else if (is_capability(input_data->build_buf->buf) == 1)
 	{
-		if (handle_capabilities(input_data, hist_copy) == 1)
+		if (handle_capabilities(input_data, hist_copy, sh_state) == 1)
 			return (1);
 	}
 	else

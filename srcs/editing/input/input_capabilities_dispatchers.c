@@ -13,12 +13,12 @@
 
 #include "editing/input/input_capabilities_dispatchers.h"
 
-int		capabilities_dispatcher_1(t_input_data *input_data)
+int		capabilities_dispatcher_1(t_input_data *input_data, t_sh_state *sh_state)
 {
 	if (ft_strncmp(input_data->build_buf->buf, KEY_TAB, 1) == 0 &&
 	(input_data->processed_chars = 1))
 	{
-		if (handle_completion(input_data) == 1)
+		if (handle_completion(input_data, sh_state) == 1)
 			return (-1);
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_NL, 1) == 0 && (input_data->processed_chars = 1))
