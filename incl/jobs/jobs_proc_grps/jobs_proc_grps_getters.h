@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:52:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 22:27:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:06:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,5 +23,6 @@ t_proc_grp	*find_active_proc_grp_by_name(const char *name, int *nres);
 t_proc_grp	*find_proc_grp_by_name(const char *name, int *nres);
 t_proc_grp	*get_first_proc_grp();
 t_proc_grp	*get_first_active_proc_grp();
+unsigned char	retrieve_proc_grp_res(t_proc_grp *proc_grp);
 
 #endif

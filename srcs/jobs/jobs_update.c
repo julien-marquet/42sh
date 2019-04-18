@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 02:37:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:08:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -120,6 +120,11 @@ void	handle_process_update(int wanted)
 					proc_grp, proc);
 					}
 				}
+			}
+			if (wanted == pid)
+			{
+				jobs->sh_state->status = retrieve_proc_grp_res(proc_grp);
+				dprintf(2, "status = %d\n", jobs->sh_state->status);
 			}
 			if (pid <= 0 || wanted == pid || wanted <= 0)
 				break ;
