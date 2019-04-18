@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 02:40:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 20:40:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,7 +28,10 @@ t_cmd *cmd_list)
 	if (prec_grp == NULL)
 		context->background = is_background(cmd_list);
 	else
+	{
 		context->background = prec_grp->background;
+		prec_grp->revived = 1;
+	}
 	return (context);
 }
 

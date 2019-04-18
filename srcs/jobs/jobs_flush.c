@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 19:45:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 20:52:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,19 +40,28 @@ static int	flush_procs(t_proc_grp *proc_grp)
 	t_list			*tmp;
 	t_job_status	status;
 	t_list			*prev;
+	t_proc			*last_proc;
 
 	status = -1;
 	prev = NULL;
-	tmp = proc_grp->procs;
-	while (tmp != NULL)
+	if ((last_proc = get_last_proc(proc_grp)) != NULL)
 	{
-		status = ((t_proc *)tmp->content)->status;
-		if (status == exited || status == signaled)
-			remove_node_proc(&prev, &tmp, proc_grp);
-		if (tmp != NULL)
+		if (proc_grp->revived == 1 || last_proc->status == exited ||
+	last_proc->status == signaled)
 		{
-			prev = tmp;
-			tmp = tmp->next;
+			tmp = proc_grp->procs;
+			while (tmp != NULL)
+			{
+				dprintf(2, "PROCS = %s, STATUS = %d", ((t_proc *)tmp->content)->name, ((t_proc *)tmp->content)->status);
+				status = ((t_proc *)tmp->content)->status;
+				if (status == exited || status == signaled)
+					remove_node_proc(&prev, &tmp, proc_grp);
+				if (tmp != NULL)
+				{
+					prev = tmp;
+					tmp = tmp->next;
+				}
+			}
 		}
 	}
 	return (status);

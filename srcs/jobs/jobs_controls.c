@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:42:35 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 02:06:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 20:40:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,6 +23,7 @@ void		wake_all_processes(t_proc_grp *proc_grp)
 	{
 		proc = (t_proc *)tmp->content;
 		kill(proc->pid, SIGCONT);
+		proc->status = running;
 		tmp = tmp->next;
 	}
 }
