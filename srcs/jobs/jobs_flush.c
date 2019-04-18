@@ -6,23 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 20:52:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 01:14:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "jobs/jobs_flush.h"
-
-static void	remove_node_proc(t_list **prev, t_list **tmp, t_proc_grp *proc_grp)
-{
-	if (*prev == NULL)
-		proc_grp->procs = (*tmp)->next;
-	else
-		(*prev)->next = (*tmp)->next;
-	free((t_proc *)(*tmp)->content);
-	free(*tmp);
-	*tmp = *prev;
-}
 
 static void	remove_node_proc_grp(t_list **prev, t_list **tmp, t_jobs *jobs)
 {
@@ -35,36 +24,45 @@ static void	remove_node_proc_grp(t_list **prev, t_list **tmp, t_jobs *jobs)
 	*tmp = *prev;
 }
 
-static int	flush_procs(t_proc_grp *proc_grp)
+static int	has_to_be_flushed(t_proc *last_proc, t_proc *last_proc_all,
+t_proc_grp *proc_grp)
+{
+	if (last_proc == NULL)
+	{
+		if (last_proc_all == NULL)
+			return (0);
+		return (1);
+	}
+	else
+	{
+		return (proc_grp->revived == 1 || last_proc->status == exited ||
+	last_proc->status == signaled);
+	}
+}
+
+static void	flush_procs(t_proc_grp *proc_grp)
 {
 	t_list			*tmp;
-	t_job_status	status;
-	t_list			*prev;
+	t_list			*bfree;
 	t_proc			*last_proc;
+	t_proc			*last_proc_all;
 
-	status = -1;
-	prev = NULL;
-	if ((last_proc = get_last_proc(proc_grp)) != NULL)
+	last_proc_all = get_last_proc_all(proc_grp);
+	last_proc = get_last_proc(proc_grp);
+	if (has_to_be_flushed(last_proc, last_proc_all, proc_grp))
 	{
-		if (proc_grp->revived == 1 || last_proc->status == exited ||
-	last_proc->status == signaled)
+		tmp = proc_grp->procs;
+		while (tmp != NULL)
 		{
-			tmp = proc_grp->procs;
-			while (tmp != NULL)
-			{
-				dprintf(2, "PROCS = %s, STATUS = %d", ((t_proc *)tmp->content)->name, ((t_proc *)tmp->content)->status);
-				status = ((t_proc *)tmp->content)->status;
-				if (status == exited || status == signaled)
-					remove_node_proc(&prev, &tmp, proc_grp);
-				if (tmp != NULL)
-				{
-					prev = tmp;
-					tmp = tmp->next;
-				}
-			}
+			bfree = tmp->next;
+			free((t_proc *)tmp->content);
+			tmp->content = NULL;
+			free(tmp);
+			tmp = NULL;
+			tmp = bfree;
 		}
+		proc_grp->procs = NULL;
 	}
-	return (status);
 }
 
 void		flush_exited(void)
@@ -82,7 +80,10 @@ void		flush_exited(void)
 		proc_grp = (t_proc_grp *)tmp->content;
 		flush_procs(proc_grp);
 		if (proc_grp->procs == NULL)
+		{
+			dprintf(2, "flush proc_grp");
 			remove_node_proc_grp(&prev, &tmp, jobs);
+		}
 		if (tmp != NULL)
 		{
 			prev = tmp;

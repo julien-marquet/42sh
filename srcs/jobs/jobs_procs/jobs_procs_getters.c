@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:46:10 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 22:48:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:54:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,4 +47,22 @@ t_proc *get_last_proc(t_proc_grp *proc_grp)
 		return (NULL);
 	else
 		return (last_full_proc);
+}
+
+t_proc *get_last_proc_all(t_proc_grp *proc_grp)
+{
+	t_list	*tmp;
+	t_proc	*proc;
+
+	proc = NULL;
+	tmp = proc_grp->procs;
+	while (tmp)
+	{
+		proc = (t_proc *)tmp->content;
+		tmp = tmp->next;
+	}
+	if (proc == NULL || proc->last == 0)
+		return (NULL);
+	else
+		return (proc);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 23:06:37 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:39:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,6 +77,7 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 			exec_res = exec_conditioned_flag(sh_state, cmd_list, context);
 		else
 			dprintf(2, "UNHANDLED FLAG\n");
+		dprintf(2, "RES = %d\n", exec_res);
 		cmd_list = (cmd_list)->next;
 		if (exec_res == -1 || exec_res == 1)
 			break ;

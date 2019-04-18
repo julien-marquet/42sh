@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:41:11 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 20:59:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:50:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,6 +30,7 @@ void	display_jobs_alert(void)
 	jobs = jobs_super_get(NULL);
 	tmp = jobs->proc_grps;
 	pos = 1;
+	dprintf(2, "call display\n");
 	while (tmp != NULL)
 	{
 		proc = get_last_proc((t_proc_grp *)tmp->content);

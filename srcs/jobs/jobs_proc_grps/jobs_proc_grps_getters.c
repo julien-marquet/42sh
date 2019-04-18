@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:37:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 00:07:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:35:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -146,4 +146,23 @@ unsigned char	retrieve_proc_grp_res(t_proc_grp *proc_grp)
 	if (proc != NULL)
 		return (get_proc_return(proc));
 	return (0);
+}
+
+int				count_true_procs(t_proc_grp *proc_grp)
+{
+	t_list			*tmp;
+	t_proc			*proc;
+	int				res;
+
+	tmp = proc_grp->procs;
+	proc = NULL;
+	res = 0;
+	while (tmp != NULL)
+	{
+		proc = (t_proc *)tmp->content;
+		if (proc->null == 0)
+			res++;
+		tmp = tmp->next;
+	}
+	return (res);
 }

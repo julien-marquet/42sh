@@ -6,16 +6,18 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 23:55:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 00:47:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "exec/exec_by_flag.h"
 
-static int	handle_not_found_error(t_sh_state *sh_state, const char *cmd_str, t_cmd *cmd_list, t_proc_grp *proc_grp)
+static int	handle_null_cmd(t_sh_state *sh_state, const char *cmd_str, t_cmd *cmd_list, t_proc_grp *proc_grp)
 {
-	if (!cmd_is_null(cmd_list))
+	int		is_null;
+
+	if ((is_null = cmd_is_null(cmd_list)) == 0)
 	{
 		ft_putstr_fd("42sh: ", 2);
 		if (cmd_str)
@@ -26,6 +28,18 @@ static int	handle_not_found_error(t_sh_state *sh_state, const char *cmd_str, t_c
 		return (-1);
 	if (is_last(cmd_list) && proc_grp->background == 0)
 	{
+		if (is_null)
+			sh_state->status = 127;
+		if (count_true_procs(proc_grp) == 0)
+		{
+			if (!is_null && cmd_list->red &&
+		ft_strcmp(cmd_list->red, "&&") == 0)
+				return (1);
+			else if (is_null && cmd_list->assign &&
+		cmd_list->red && ft_strcmp(cmd_list->red, "||") == 0)
+				return (1);
+			return (0);
+		}
 		send_to_fg(sh_state, proc_grp);
 		return (1);
 	}
@@ -66,7 +80,8 @@ int			exec_end_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	context->proc_grp->remaining = cmd->next;
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (process_type == 0)
-		return (handle_not_found_error(sh_state, cmd && cmd->arg ? cmd->arg[0] : NULL, cmd, context->proc_grp));
+		return (handle_null_cmd(sh_state,
+	cmd && cmd->arg ? cmd->arg[0] : NULL, cmd, context->proc_grp));
 	else
 	{
 		if (context->background == 0 && process_type != 1)
@@ -85,7 +100,10 @@ int			exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	context->proc_grp->remaining = cmd->next;
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (process_type == 0)
-		return (handle_not_found_error(sh_state, cmd && cmd->arg ? cmd->arg[0] : NULL, cmd, context->proc_grp));
+	{
+		return (handle_null_cmd(sh_state,
+	cmd && cmd->arg ? cmd->arg[0] : NULL, cmd, context->proc_grp));
+	}
 	return (0);
 }
 
@@ -100,7 +118,10 @@ t_context *context)
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	context->proc_grp->remaining = cmd->next;
 	if (process_type == 0)
-		return (handle_not_found_error(sh_state, cmd && cmd->arg ? cmd->arg[0] : NULL, cmd, context->proc_grp));
+	{
+		return (handle_null_cmd(sh_state,
+	cmd && cmd->arg ? cmd->arg[0] : NULL, cmd, context->proc_grp));
+	}
 	if (context->background == 0)
 	{
 		if (process_type == 2)
