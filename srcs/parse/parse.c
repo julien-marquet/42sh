@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 17:06:36 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 16:49:42 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -175,10 +175,16 @@ t_input_data *input_data)
 {
 	t_cmd	*cmd;
 	char	*str;
+	//t_dyn_buf	*dyn;
 	int		i;
 
 	i = 0;
-	cmd = NULL;
+	cmd = NULL;/*
+	dyn = init_dyn_buf();
+	if (set_dyn_buf(dyn, line))
+		return (1);*/
+	if (!(parse_event(line, input_data->history_list)))
+		exit_sh(sh_state, input_data);
 	if (!(str = parse_alias(line, sh_state->aliases, NULL)))
 		exit_sh(sh_state, input_data);
 	if (parse_check(str))
@@ -186,6 +192,17 @@ t_input_data *input_data)
 	while (str[i])
 		i += parse_tokenize(str + i, &cmd);
 	ft_strdel(&str);
+	//dprintf(2, "str = %sexp = %s\n", input_data->active_buf->buf, get_expand_str(input_data->active_buf->buf, sh_state));
+	//t_list *tmp;
+	i = 0;
+	/*while (1)
+	{
+		tmp = get_history_index(input_data->history_list, i);
+		if (tmp)
+			dprintf(2, "%i = '%s'\n", i++, tmp->content);
+		else
+			break ;
+	}*/
 	while (cmd)
 	{
 		if (parse_tokenparse(cmd, sh_state, input_data))

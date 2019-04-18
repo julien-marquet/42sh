@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:14:51 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/17 23:59:23 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -91,7 +91,7 @@ static int	expand_tilde(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 	return (0);
 }
 
-void		parse_tilde(t_cmd *cmd, t_sh_state *sh_state)
+int		parse_tilde(t_cmd *cmd, t_sh_state *sh_state)
 {
 	size_t	i;
 	size_t	end;
@@ -112,4 +112,5 @@ void		parse_tilde(t_cmd *cmd, t_sh_state *sh_state)
 		}
 		cmd->str[i] ? i++ : 0;
 	}
+	return (0);
 }
