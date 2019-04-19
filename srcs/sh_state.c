@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 00:48:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:39:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ void		free_sh_state(t_sh_state **state)
 	if (state == NULL || *state == NULL)
 		return ;
 
-	del = free_lstnode;
+	del = free_lstinternal_storage_node;
 	ft_lstdel(&((*state)->internal_storage), del);
 	free(*state);
 }
