@@ -211,6 +211,9 @@ static int	find_in_dir(t_input_data *input, char *path,
 	len = ft_strlen(needle);
 	while ((entry = readdir(dir)) != NULL)
 	{
+		if (ft_strcmp(entry->d_name, ".") == 0 ||
+			ft_strcmp(entry->d_name, "..") == 0)
+			continue ;
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
 			if (action == 0)
@@ -241,6 +244,8 @@ static int	complete_arg(t_input_data *input, char *word)
 	len = ft_strlen(word);
 	if (word[len - 1] == '/')
 		return (find_in_dir(input, word, "", 2));
+	else if (len == 0)
+		return (find_in_dir(input, ".", "", 0));
 	else
 	{
 		// TODO If word length is 0
