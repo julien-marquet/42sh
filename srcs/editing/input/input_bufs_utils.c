@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 23:04:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:25:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,7 @@ int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
 		if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)
 			return (free_hist_copy(&hist_copy, 1));
 	}
-	return (0);
+	return (valid_here_doc ? 2 : 0);
 }
 
 
