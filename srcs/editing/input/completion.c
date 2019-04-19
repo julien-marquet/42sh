@@ -171,6 +171,126 @@ static char	*get_current_word(t_input_data *input, t_sh_state *sh_state)
 	return (handle_expand(word, sh_state));
 }
 
+// TODO free `completed` on error
+static int	complete_word(t_input_data *input, char *completed)
+{
+	char	*pointer;
+
+	if (completed == NULL)
+		return (1);
+	pointer = input->active_buf->buf + input->rel_cur_pos - 1;
+	while (pointer != input->active_buf->buf)
+	{
+		if (*pointer == '/' || (*pointer == ' ' && *(pointer - 1) != '\\'))
+			break ;
+		if (delete_prev_char(input) == 1)
+			return (1);
+		pointer -= 1;
+	}
+	if (insertn_dyn_buf(completed, input->active_buf, input->rel_cur_pos, ft_strlen(completed)) == 1)
+		return (1);
+	if (insertn_chars(input, completed, ft_strlen(completed), 0) == 1)
+		return (1);
+	free(completed);
+	return (0);
+}
+
+static int	find_in_dir(t_input_data *input, char *path,
+		char *needle, size_t action)
+{
+	size_t			len;
+	char			*tmp;
+	DIR				*dir;
+	size_t			match;
+	struct dirent	*entry;
+
+	if ((dir = opendir(path)) == NULL)
+		return (0);
+	match = 0;
+	len = ft_strlen(needle);
+	while ((entry = readdir(dir)) != NULL)
+	{
+		if (ft_strncmp(entry->d_name, needle, len) == 0)
+		{
+			if (action == 0)
+				match += 1;
+			else if (action == 1)
+			{
+				tmp = ft_strdup(entry->d_name);
+				closedir(dir);
+				return (complete_word(input, tmp));
+			}
+			else if (action == 2)
+				dprintf(2, "%s\n", entry->d_name);
+		}
+	}
+	closedir(dir);
+	if (action == 0 && match > 0)
+		return (find_in_dir(input, path, needle, match > 1 ? 2 : 1));
+	return (0);
+	/* free(path); */
+	/* free(needle); */
+}
+
+static int	browse_dir(DIR *dir, t_input_data *input, char *word)
+{
+	(void)dir;
+	(void)input;
+	(void)word;
+	return (0);
+}
+
+static int	complete_arg(t_input_data *input, char *word)
+{
+	size_t	i;
+	size_t	len;
+	DIR		*dir;
+
+	len = ft_strlen(word);
+	if (word[len - 1] == '/')
+	{
+		if ((dir = opendir(word)) == NULL)
+			return (0);
+		browse_dir(dir, input, word);
+		closedir(dir);
+	}
+	else
+	{
+		// TODO If word length is 0
+		i = len;
+		word += len - 1;
+		while (!is_stopping(*word))
+		{
+			if (*word == '/' || (*word == '\\' && *(word - 1) != '\\'))
+				return (find_in_dir(input, ft_strndup(word - (i - 1), i), word + 1, 0));
+			i -= 1;
+			word -= 1;
+		}
+	}
+	return (0);
+}
+
+static int	complete_bin(t_input_data *input, char *word)
+{
+	(void)input;
+	(void)word;
+	return (0);
+}
+
+static int	handle_completion_type(t_input_data *input, char *word)
+{
+	char	*pointer;
+
+	pointer = input->active_buf->buf + input->rel_cur_pos;
+	while (pointer != input->active_buf->buf)
+	{
+		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
+			return (complete_arg(input, word));
+		pointer -= 1;
+	}
+	return (complete_bin(input, word));
+}
+
 int		handle_completion(t_input_data *input, t_sh_state *sh_state)
 { 
 	char	*pointer;
@@ -185,6 +305,5 @@ int		handle_completion(t_input_data *input, t_sh_state *sh_state)
 		return (1);
 	if ((currentWord = get_current_word(input, sh_state)) == NULL)
 		return (1);
-	dprintf(2, "CurrentWord: |%s|\n", currentWord);
-	return (0);
+	return (handle_completion_type(input, currentWord));
 }
