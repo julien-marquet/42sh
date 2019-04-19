@@ -204,41 +204,103 @@ static int	complete_word(t_input_data *input, char *completed)
 	return (0);
 }
 
-static int	find_in_dir(t_input_data *input, char *path,
-		char *needle, size_t action)
+static int		lstfree(t_list *list)
 {
-	size_t			len;
-	char			*tmp;
-	DIR				*dir;
-	size_t			match;
+	t_list	*previous;
+
+	while (list != NULL)
+	{
+		previous = list;
+		list = list->next;
+		free(previous->content);
+		free(previous);
+	}
+	return (1);
+}
+
+static t_list	*get_files(char *path, char *needle)
+{
+	size_t	len;
+	DIR		*dir;
+	t_list	*link;
+	t_list	*files;
 	struct dirent	*entry;
 
 	if ((dir = opendir(path)) == NULL)
-		return (0);
-	match = 0;
+		return (NULL);
+	files = NULL;
 	len = ft_strlen(needle);
 	while ((entry = readdir(dir)) != NULL)
 	{
-		if (ft_strcmp(entry->d_name, ".") == 0 ||
-			ft_strcmp(entry->d_name, "..") == 0)
-			continue ;
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
-			if (action == 0)
-				match += 1;
-			else if (action == 1)
+			if ((link = ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
 			{
-				tmp = ft_strdup(entry->d_name);
-				closedir(dir);
-				return (complete_word(input, tmp));
+				lstfree(files);
+				return (0);
 			}
-			else if (action == 2)
-				dprintf(2, "%s\n", entry->d_name);
+			ft_lstadd(&files, link);
 		}
 	}
 	closedir(dir);
-	if (action == 0 && match > 0)
-		return (find_in_dir(input, path, needle, match > 1 ? 2 : 1));
+	return (files);
+}
+
+// TODO Free files on error
+static int	find_in_dir(t_input_data *input, char *path,
+		char *needle)
+{
+	size_t	i;
+	char	*tmp;
+	t_list	*files;
+	t_list	*pointer;
+
+	if ((files = get_files(path, needle)) == NULL)
+		return (1);
+	if (files->next == NULL)
+	{
+		if (complete_word(input, ft_strdup(files->content)) == 1)
+			return (1);
+	}
+	else
+	{
+		tmp = NULL;
+		pointer = files;
+		while (pointer != NULL)
+		{
+			if (tmp == NULL && (tmp = ft_strdup(pointer->content)) == NULL)
+				return (1);
+			else if (tmp != NULL)
+			{
+				i = 0;
+				while (((char *)pointer->content)[i] == tmp[i] && ((char *)pointer->content)[i] != '\0' && tmp[i] != '\0')
+					i += 1;
+				if (tmp[i] != '\0')
+				{
+					free(tmp);
+					((char *)pointer->content)[i] = '\0';
+					if ((tmp = ft_strdup(pointer->content)) == NULL)
+						return (1);
+				}
+			}
+			pointer = pointer->next;
+		}
+		if (ft_strcmp(needle, tmp) != 0)
+		{
+			if (complete_word(input, tmp) == 1)
+				return (1);
+		}
+		else
+		{
+			pointer = files;
+			while (pointer != NULL)
+			{
+				dprintf(2, "%s\n", pointer->content);
+				pointer = pointer->next;
+			}
+		}
+	}
+	lstfree(files);
 	return (0);
 	/* free(path); */
 	/* free(needle); */
@@ -251,9 +313,9 @@ static int	complete_arg(t_input_data *input, char *word)
 
 	len = ft_strlen(word);
 	if (word[len - 1] == '/')
-		return (find_in_dir(input, word, "", 2));
+		return (find_in_dir(input, word, ""));
 	else if (len == 0)
-		return (find_in_dir(input, ".", "", 0));
+		return (find_in_dir(input, ".", ""));
 	else
 	{
 		i = len;
@@ -261,12 +323,12 @@ static int	complete_arg(t_input_data *input, char *word)
 		while (i > 0)
 		{
 			if (*word == '/' || (*word == '\\' && *(word - 1) != '\\'))
-				return (find_in_dir(input, ft_strndup(word - (i - 1), i), word + 1, 0));
+				return (find_in_dir(input, ft_strndup(word - (i - 1), i), word + 1));
 			i -= 1;
 			if (i > 0)
 				word -= 1;
 		}
-		return (find_in_dir(input, ft_strdup("."), word, 0));
+		return (find_in_dir(input, ft_strdup("."), word));
 	}
 	return (0);
 }
