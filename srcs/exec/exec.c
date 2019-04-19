@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 00:39:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 03:04:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,6 +45,12 @@ t_proc_grp	*init_proc_grp(const char *name, int background)
 	return (proc_grp);
 }
 
+void	free_context(t_context **context)
+{
+	free(*context);
+	*context = NULL;
+}
+
 /*
 **	Return -1 on error 0 otherwise
 **	exec_flag func return -1 on error 0 on continue 1 on stop
@@ -55,9 +61,11 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 {
 	t_context		*context;
 	int				exec_res;
+	t_cmd			*acmd;
 
 	context = init_context(prec_grp, cmd_list);
 	exec_res = 0;
+	acmd = cmd_list;
 	while (cmd_list != NULL)
 	{
 		if (context->proc_grp == NULL)
@@ -82,7 +90,8 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 		if (exec_res == -1 || exec_res == 1)
 			break ;
 	}
-	free_executed_cmds(cmd_list, context->proc_grp->remaining);
-	// free context
+	dprintf(2, "end of execution\n");
+	free_executed_cmds(acmd, context->proc_grp->remaining);
+	free_context(&context);
 	return (exec_res);
 }

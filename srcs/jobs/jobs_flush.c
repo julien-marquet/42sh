@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 01:14:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:53:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,11 +15,16 @@
 
 static void	remove_node_proc_grp(t_list **prev, t_list **tmp, t_jobs *jobs)
 {
+	t_proc_grp	*proc_grp;
+
 	if (*prev == NULL)
 		jobs->proc_grps = (*tmp)->next;
 	else
 		(*prev)->next = (*tmp)->next;
-	free((t_proc_grp *)(*tmp)->content);
+	proc_grp = (t_proc_grp *)(*tmp)->content;
+	ft_strdel(&proc_grp->name);
+	ft_strdel(&proc_grp->last_red);
+	free(proc_grp);
 	free(*tmp);
 	*tmp = *prev;
 }
@@ -46,6 +51,7 @@ static void	flush_procs(t_proc_grp *proc_grp)
 	t_list			*bfree;
 	t_proc			*last_proc;
 	t_proc			*last_proc_all;
+	t_proc			*proc;
 
 	last_proc_all = get_last_proc_all(proc_grp);
 	last_proc = get_last_proc(proc_grp);
@@ -55,7 +61,9 @@ static void	flush_procs(t_proc_grp *proc_grp)
 		while (tmp != NULL)
 		{
 			bfree = tmp->next;
-			free((t_proc *)tmp->content);
+			proc = (t_proc *)tmp->content;
+			ft_strdel(&proc->name);
+			free(proc);
 			tmp->content = NULL;
 			free(tmp);
 			tmp = NULL;

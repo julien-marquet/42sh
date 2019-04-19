@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 00:06:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:59:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -184,7 +184,6 @@ typedef struct	s_jobs
 typedef struct	s_context
 {
 	int					background;
-	t_list				*rem_cmd;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
 	int					last;

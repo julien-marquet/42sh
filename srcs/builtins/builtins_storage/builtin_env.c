@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/17 23:26:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:46:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,18 +26,6 @@ t_builtin_context *context)
 {
 	int		i;
 	i = 0;
-	while (i < INT32_MAX)
-	{
-		i++;
-	}
-	print_env(sh_state->internal_storage, context->fds.out);
-		i = 0;
-	while (i < INT32_MAX)
-	{
-		i++;
-	}
-	print_env(sh_state->internal_storage, context->fds.out);
-		i = 0;
 	while (i < INT32_MAX)
 	{
 		i++;

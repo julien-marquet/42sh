@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 23:00:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 03:08:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -127,6 +127,7 @@ int				parse_exec(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	t_cmd	*cmd;
+	t_cmd	*tmp;
 	char	*str;
 	int		i;
 	char	*job_name;
@@ -144,20 +145,24 @@ t_input_data *input_data)
 	acmd = cmd;
 	while (cmd)
 	{
+		tmp = NULL;
 		if (parse_tokenparse(cmd, sh_state, input_data))
 			return (-1);
 		parse_print(cmd);
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
 		{
+			tmp = cmd->next;
 			job_name = create_job_name(acmd);
 			i = exec_cmd_list(sh_state, acmd, job_name, NULL);
 			ft_strdel(&job_name);
 			if (i == -1)
 				return (-1);
-			acmd = cmd->next;
+			cmd = tmp;
+			acmd = cmd;
 		}
-		cmd = cmd->next;
+		else
+			cmd = cmd->next;
 	}
 	return (0);
 }

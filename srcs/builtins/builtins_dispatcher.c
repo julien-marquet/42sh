@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 01:22:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:56:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,6 +71,13 @@ context->proc_grp->last_red, context->background);
 	return (0);
 }
 
+void		free_builtin_context(t_builtin_context **builtin_context)
+{
+	ft_strdel(&(*builtin_context)->origin);
+	free((*builtin_context));
+	*builtin_context = NULL;
+}
+
 int			builtins_dispatcher(t_sh_state *sh_state, t_cmd *cmd,
 t_context *context)
 {
@@ -98,8 +105,7 @@ t_context *context)
 			else
 				res = 2;
 		}
-		free(context->builtin_context);
-		context->builtin_context = NULL;
+		free_builtin_context(&context->builtin_context);
 	}
 	return (res);
 }
