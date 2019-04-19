@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 00:47:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 03:25:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -78,6 +78,7 @@ int			exec_end_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
 		return (-1);
 	context->proc_grp->remaining = cmd->next;
+	ft_strdel(&context->proc_grp->last_red);
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (process_type == 0)
 		return (handle_null_cmd(sh_state,
@@ -98,6 +99,7 @@ int			exec_pipe_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
 		return (-1);
 	context->proc_grp->remaining = cmd->next;
+	ft_strdel(&context->proc_grp->last_red);
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	if (process_type == 0)
 	{
@@ -115,6 +117,7 @@ t_context *context)
 	context->last = 1;
 	if ((process_type = exec_cmd(sh_state, cmd, context)) == -1)
 		return (-1);
+	ft_strdel(&context->proc_grp->last_red);
 	context->proc_grp->last_red = ft_strdup(cmd->red);
 	context->proc_grp->remaining = cmd->next;
 	if (process_type == 0)

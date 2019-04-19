@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:45:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 00:06:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 03:36:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,6 @@
 t_proc	*new_proc(int pid, const char *name, int last)
 {
 	t_proc	*proc;
-
 	if ((proc = ft_memalloc(sizeof(t_proc))) == NULL)
 		return (NULL);
 	proc->pid = pid;
@@ -31,8 +30,11 @@ int			add_proc(t_proc *proc, t_proc_grp *proc_grp)
 
 	if (proc != NULL && proc_grp != NULL)
 	{
-		if ((node = ft_lstnew(proc, sizeof(t_proc))) == NULL)
+		if ((node = ft_memalloc(sizeof(t_list))) == NULL)
 			return (1);
+		node->content_size = sizeof(proc);
+		node->content = proc;
+		node->next = NULL;
 		ft_lstappend(&proc_grp->procs, node);
 		return (0);
 	}

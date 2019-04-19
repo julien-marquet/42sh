@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 02:53:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 03:33:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -97,5 +97,50 @@ void		flush_exited(void)
 			prev = tmp;
 			tmp = tmp->next;
 		}
+	}
+}
+
+void		flush_all_procs(t_proc_grp *proc_grp)
+{
+	t_list			*tmp;
+	t_list			*bfree;
+	t_proc			*proc;
+
+	tmp = proc_grp->procs;
+	while (tmp != NULL)
+	{
+		bfree = tmp->next;
+		proc = (t_proc *)tmp->content;
+		dprintf(2, "FLUSH PROCS %s\n", proc->name);
+		ft_strdel(&proc->name);
+		free(proc);
+		tmp->content = NULL;
+		free(tmp);
+		tmp = NULL;
+		tmp = bfree;
+	}
+	proc_grp->procs = NULL;
+}
+
+void		flush_all_jobs()
+{
+	t_list		*tmp;
+	t_jobs		*jobs;
+	t_proc_grp	*proc_grp;
+	t_list		*bfree;
+
+	jobs = jobs_super_get(NULL);
+	tmp = jobs->proc_grps;
+	while (tmp != NULL)
+	{
+		dprintf(2, "FLUSH PROC_GRP\n");
+		proc_grp = (t_proc_grp *)tmp->content;
+		bfree = tmp->next;
+		flush_all_procs(proc_grp);
+		ft_strdel(&proc_grp->name);
+		ft_strdel(&proc_grp->last_red);
+		free(proc_grp);
+		free(tmp);
+		tmp = bfree;
 	}
 }
