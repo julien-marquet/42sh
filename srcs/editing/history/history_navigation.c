@@ -3,15 +3,42 @@
 /*                                                              /             */
 /*   history_navigation.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:13:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 02:50:53 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/history/history.h"
+
+t_list			*get_history_index_rev(t_list *history, size_t index)
+{
+	size_t	i;
+	t_list	*cur;
+	t_list	*behind;
+
+	cur = history;
+	i = 1;
+	if (index < 1)
+		return (NULL);
+	while (i < index)
+	{
+		if (cur->next)
+			cur = cur->next;
+		else
+			return (NULL);
+		i++;
+	}
+	behind = history;
+	while (cur->next)
+	{
+		cur = cur->next;
+		behind = behind->next;
+	}
+	return (behind);
+}
 
 t_list		*get_history_index(t_list *history, size_t index)
 {

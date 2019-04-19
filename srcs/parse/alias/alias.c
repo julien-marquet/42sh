@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:03:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 22:03:57 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 16:05:58 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -76,18 +76,17 @@ static char		*alias_handle(char *tmp, t_list *aliases, t_list *skip)
 	return (NULL);
 }
 
-char			*parse_alias(char *line, t_list *aliases, t_list *skip)
+char			*parse_alias(char *str, t_list *aliases, t_list *skip)
 {
 	int		i;
 	int		start;
-	char	*str;
 	char	*tmp;
 	char	*ret;
 
 	i = 0;
 	start = 0;
-	if (!(str = ft_strdup(line)))
-		return (NULL);
+	if (skip != NULL)
+		str = ft_strdup(str);
 	while (str[i])
 	{
 		if (!(tmp = alias_getfirstword(str, &start, &i)))

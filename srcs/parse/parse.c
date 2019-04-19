@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 17:06:36 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 18:46:53 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -173,16 +173,22 @@ static void		parse_test(t_cmd *cmd)
 int				parse(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
 {
-	t_cmd	*cmd;
-	char	*str;
-	int		i;
+	t_cmd		*cmd;
+	char		*str;
+	int			i;
 
 	i = 0;
 	cmd = NULL;
-	if (!(str = parse_alias(line, sh_state->aliases, NULL)))
-		exit_sh(sh_state, input_data);
-	if (parse_check(str))
+	if (!(str = parse_event(line, input_data->history_list)))
 		return (1);
+	if (!(str = parse_alias(str, sh_state->aliases, NULL)))
+		exit_sh(sh_state, input_data);
+	dprintf(2, "buf = %s\n", str);
+	if (parse_check(str))
+	{
+		ft_strdel(&str);
+		return (1);
+	}
 	while (str[i])
 		i += parse_tokenize(str + i, &cmd);
 	ft_strdel(&str);
