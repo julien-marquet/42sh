@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 16:06:13 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 18:46:53 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -175,13 +175,12 @@ t_input_data *input_data)
 {
 	t_cmd		*cmd;
 	char		*str;
-	// char		*tmp;
 	int			i;
 
 	i = 0;
 	cmd = NULL;
 	if (!(str = parse_event(line, input_data->history_list)))
-		exit_sh(sh_state, input_data);
+		return (1);
 	if (!(str = parse_alias(str, sh_state->aliases, NULL)))
 		exit_sh(sh_state, input_data);
 	dprintf(2, "buf = %s\n", str);
