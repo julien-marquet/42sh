@@ -191,6 +191,7 @@ static int	complete_word(t_input_data *input, char *completed)
 		return (1);
 	if (insertn_chars(input, completed, ft_strlen(completed), 0) == 1)
 		return (1);
+	// TODO If completed is a dir, add a /
 	free(completed);
 	return (0);
 }
@@ -232,28 +233,14 @@ static int	find_in_dir(t_input_data *input, char *path,
 	/* free(needle); */
 }
 
-static int	browse_dir(DIR *dir, t_input_data *input, char *word)
-{
-	(void)dir;
-	(void)input;
-	(void)word;
-	return (0);
-}
-
 static int	complete_arg(t_input_data *input, char *word)
 {
 	size_t	i;
 	size_t	len;
-	DIR		*dir;
 
 	len = ft_strlen(word);
 	if (word[len - 1] == '/')
-	{
-		if ((dir = opendir(word)) == NULL)
-			return (0);
-		browse_dir(dir, input, word);
-		closedir(dir);
-	}
+		return (find_in_dir(input, word, "", 2));
 	else
 	{
 		// TODO If word length is 0
@@ -301,8 +288,6 @@ int		handle_completion(t_input_data *input, t_sh_state *sh_state)
 		pointer += 1;
 	if (*pointer == '\0')
 		return (0);
-	if (insert_dyn_buf("", input->active_buf, input->rel_cur_pos) == 1)
-		return (1);
 	if ((currentWord = get_current_word(input, sh_state)) == NULL)
 		return (1);
 	return (handle_completion_type(input, currentWord));
