@@ -191,7 +191,7 @@ static int	delete_completed(t_input_data *input)
 
 
 // TODO free `completed` on error
-static int	complete_word(t_input_data *input, char *completed)
+static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 {
 	if (completed == NULL)
 		return (1);
@@ -201,6 +201,7 @@ static int	complete_word(t_input_data *input, char *completed)
 		return (1);
 	if (insertn_chars(input, completed, ft_strlen(completed), 0) == 1)
 		return (1);
+	(void)add_slash;
 	// TODO If completed is a dir, add a /
 	free(completed);
 	return (0);
@@ -262,10 +263,10 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 	t_list	*pointer;
 
 	if (files == NULL)
-		return (1);
+		return (0);
 	if (files->next == NULL)
 	{
-		if (complete_word(input, ft_strdup(files->content)) == 1)
+		if (complete_word(input, ft_strdup(files->content), 1) == 1)
 			return (1);
 	}
 	else
@@ -292,7 +293,7 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 		}
 		if (ft_strcmp(needle, tmp) != 0)
 		{
-			if (complete_word(input, tmp) == 1)
+			if (complete_word(input, tmp, 0) == 1)
 				return (1);
 		}
 		else
@@ -319,14 +320,57 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 	/* free(needle); */
 }
 
+static char	*get_path(t_input_data *input)
+{
+	char	old;
+	char	old2;
+	char	*tmp;
+	char	*pointer;
+
+	old2 = 0;
+	old = input->active_buf->buf[input->rel_cur_pos];
+	input->active_buf->buf[input->rel_cur_pos] = '\0';
+	pointer = input->active_buf->buf + input->rel_cur_pos;
+	while (pointer != input->active_buf->buf)
+	{
+		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
+			break ;
+		if (*pointer == '/' && old2 == 0)
+		{
+			old2 = *pointer;
+			*pointer = '\0';
+		}
+		pointer -= 1;
+	}
+	tmp = ft_strdup(pointer + 1);
+	input->active_buf->buf[input->rel_cur_pos] = old;
+	while (old2 != 0)
+	{
+		if (*pointer == '\0')
+		{
+			*pointer = old2;
+			break ;
+		}
+		pointer += 1;
+	}
+	return (tmp);
+}
+
 static int	complete_arg(t_input_data *input, char *word)
 {
 	size_t	i;
 	size_t	len;
+	char	*tmp;
 
 	len = ft_strlen(word);
 	if (word[len - 1] == '/')
-		return (find_in_dir(get_files(word, ""), input, ""));
+	{
+		if ((tmp = get_path(input)) == NULL)
+			return (1);
+		if (find_in_dir(get_files(tmp, ""), input, "") == 1)
+			return (1);
+		free(tmp);
+	}
 	else if (len == 0)
 		return (find_in_dir(get_files(".", ""), input, ""));
 	else
@@ -337,11 +381,9 @@ static int	complete_arg(t_input_data *input, char *word)
 		{
 			if (*word == '/' || (*word == '\\' && *(word - 1) != '\\'))
 			{
-				char	*tmp;
-				tmp = ft_strndup(word - (i - 1), i);
-				if (tmp == NULL)
+				if ((tmp = get_path(input)) == NULL)
 					return (1);
-				if (find_in_dir(get_files(word, word + 1), input, word + 1) == 1)
+				if (find_in_dir(get_files(tmp, word + 1), input, word + 1) == 1)
 					return (1);
 				free(tmp);
 				return (0);
