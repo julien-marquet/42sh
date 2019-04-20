@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/20 16:00:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 19:57:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 01:32:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,20 +58,24 @@ t_cmd			*parse_nextfree(t_cmd *cmd)
 	return (next);
 }
 
-void	free_executed_cmds(t_cmd *cmd_list, t_cmd *remaining)
+void	free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
 {
 	t_cmd	*prev;
+	t_cmd	*end;
 
-	while (cmd_list != NULL && cmd_list != remaining)
+	if (remaining != NULL)
+		end = remaining;
+	else
+		end = cmd;
+	while (acmd != NULL && acmd != end)
 	{
-		dprintf(2, "freeing %s\n", cmd_list->str);
-		ft_strdel(&cmd_list->str);
-		ft_strdel(&cmd_list->red);
-		free_arg(cmd_list->arg);
-		free_file(cmd_list->out);
-		free_file(cmd_list->in);
-		prev = cmd_list;
-		cmd_list = cmd_list->next;
+		ft_strdel(&acmd->str);
+		ft_strdel(&acmd->red);
+		free_arg(acmd->arg);
+		free_file(acmd->out);
+		free_file(acmd->in);
+		prev = acmd;
+		acmd = acmd->next;
 		free(prev);
 	}
 }
