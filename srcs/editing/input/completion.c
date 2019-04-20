@@ -189,10 +189,59 @@ static int	delete_completed(t_input_data *input)
 	return (0);
 }
 
+static char	*get_path(t_input_data *input, size_t get_all)
+{
+	char	old;
+	char	old2;
+	char	*tmp;
+	char	*pointer;
+
+	old2 = 0;
+	old = input->active_buf->buf[input->rel_cur_pos];
+	input->active_buf->buf[input->rel_cur_pos] = '\0';
+	pointer = input->active_buf->buf + input->rel_cur_pos;
+	while (pointer != input->active_buf->buf)
+	{
+		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
+			break ;
+		if (*pointer == '/' && old2 == 0)
+		{
+			if (!get_all)
+			{
+				old2 = *pointer;
+				*pointer = '\0';
+			}
+		}
+		pointer -= 1;
+	}
+	tmp = ft_strdup(pointer + 1);
+	input->active_buf->buf[input->rel_cur_pos] = old;
+	while (old2 != 0)
+	{
+		if (*pointer == '\0')
+		{
+			*pointer = old2;
+			break ;
+		}
+		pointer += 1;
+	}
+	return (tmp);
+}
+
+static size_t	is_dir(char *path)
+{
+	struct stat	stats;
+
+	if (stat(path, &stats) == -1)
+		return (0);
+	return (S_ISDIR(stats.st_mode));
+}
 
 // TODO free `completed` on error
 static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 {
+	char	*path;
+
 	if (completed == NULL)
 		return (1);
 	if (delete_completed(input) == 1)
@@ -201,7 +250,14 @@ static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 		return (1);
 	if (insertn_chars(input, completed, ft_strlen(completed), 0) == 1)
 		return (1);
-	(void)add_slash;
+	if (add_slash)
+	{
+		if ((path = get_path(input, 1)) == NULL)
+			return (1);
+		if (is_dir(path))
+			return (complete_word(input, ft_strjoin(completed, "/"), 0));
+		free(path);
+	}
 	// TODO If completed is a dir, add a /
 	free(completed);
 	return (0);
@@ -320,42 +376,6 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 	/* free(needle); */
 }
 
-static char	*get_path(t_input_data *input)
-{
-	char	old;
-	char	old2;
-	char	*tmp;
-	char	*pointer;
-
-	old2 = 0;
-	old = input->active_buf->buf[input->rel_cur_pos];
-	input->active_buf->buf[input->rel_cur_pos] = '\0';
-	pointer = input->active_buf->buf + input->rel_cur_pos;
-	while (pointer != input->active_buf->buf)
-	{
-		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
-			break ;
-		if (*pointer == '/' && old2 == 0)
-		{
-			old2 = *pointer;
-			*pointer = '\0';
-		}
-		pointer -= 1;
-	}
-	tmp = ft_strdup(pointer + 1);
-	input->active_buf->buf[input->rel_cur_pos] = old;
-	while (old2 != 0)
-	{
-		if (*pointer == '\0')
-		{
-			*pointer = old2;
-			break ;
-		}
-		pointer += 1;
-	}
-	return (tmp);
-}
-
 static int	complete_arg(t_input_data *input, char *word)
 {
 	size_t	i;
@@ -365,7 +385,7 @@ static int	complete_arg(t_input_data *input, char *word)
 	len = ft_strlen(word);
 	if (word[len - 1] == '/')
 	{
-		if ((tmp = get_path(input)) == NULL)
+		if ((tmp = get_path(input, 0)) == NULL)
 			return (1);
 		if (find_in_dir(get_files(tmp, ""), input, "") == 1)
 			return (1);
@@ -381,7 +401,7 @@ static int	complete_arg(t_input_data *input, char *word)
 		{
 			if (*word == '/' || (*word == '\\' && *(word - 1) != '\\'))
 			{
-				if ((tmp = get_path(input)) == NULL)
+				if ((tmp = get_path(input, 0)) == NULL)
 					return (1);
 				if (find_in_dir(get_files(tmp, word + 1), input, word + 1) == 1)
 					return (1);
