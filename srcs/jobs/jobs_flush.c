@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:24:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 03:33:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 04:09:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,9 @@ static void	remove_node_proc_grp(t_list **prev, t_list **tmp, t_jobs *jobs)
 	t_proc_grp	*proc_grp;
 
 	if (*prev == NULL)
+	{
 		jobs->proc_grps = (*tmp)->next;
+	}
 	else
 		(*prev)->next = (*tmp)->next;
 	proc_grp = (t_proc_grp *)(*tmp)->content;
@@ -26,7 +28,10 @@ static void	remove_node_proc_grp(t_list **prev, t_list **tmp, t_jobs *jobs)
 	ft_strdel(&proc_grp->last_red);
 	free(proc_grp);
 	free(*tmp);
-	*tmp = *prev;
+	if (*prev == NULL)
+		*tmp = jobs->proc_grps;
+	else
+		*tmp = *prev;
 }
 
 static int	has_to_be_flushed(t_proc *last_proc, t_proc *last_proc_all,
@@ -89,10 +94,9 @@ void		flush_exited(void)
 		flush_procs(proc_grp);
 		if (proc_grp->procs == NULL)
 		{
-			dprintf(2, "flush proc_grp");
 			remove_node_proc_grp(&prev, &tmp, jobs);
 		}
-		if (tmp != NULL)
+		else
 		{
 			prev = tmp;
 			tmp = tmp->next;
@@ -111,7 +115,6 @@ void		flush_all_procs(t_proc_grp *proc_grp)
 	{
 		bfree = tmp->next;
 		proc = (t_proc *)tmp->content;
-		dprintf(2, "FLUSH PROCS %s\n", proc->name);
 		ft_strdel(&proc->name);
 		free(proc);
 		tmp->content = NULL;
@@ -133,7 +136,6 @@ void		flush_all_jobs()
 	tmp = jobs->proc_grps;
 	while (tmp != NULL)
 	{
-		dprintf(2, "FLUSH PROC_GRP\n");
 		proc_grp = (t_proc_grp *)tmp->content;
 		bfree = tmp->next;
 		flush_all_procs(proc_grp);

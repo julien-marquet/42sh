@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 03:04:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 04:00:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -90,6 +90,7 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 		if (exec_res == -1 || exec_res == 1)
 			break ;
 	}
+	dprintf(2, "NULL ? = %d\n", context->proc_grp->procs == NULL);
 	dprintf(2, "end of execution\n");
 	free_executed_cmds(acmd, context->proc_grp->remaining);
 	free_context(&context);
