@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 00:08:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 02:53:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -96,9 +96,11 @@ void	handle_process_update(int wanted)
 	t_jobs		*jobs;
 	t_proc_grp	*proc_grp;
 	t_proc		*proc;
+	int			active_pid;
 
 	jobs = jobs_super_get(NULL);
-	if (jobs->busy == 0)
+	active_pid = wanted > 0 ? pid_is_active(wanted) : 1;
+	if (jobs->busy == 0 && active_pid)
 	{
 		jobs->busy = 1;
 		dprintf(2, "waiting for %d\n", wanted);
@@ -130,8 +132,14 @@ void	handle_process_update(int wanted)
 				break ;
 		}
 	}
+	else if (!active_pid)
+	{
+		dprintf(2, "retrieve status\n");
+	}
 	else
+	{
 		dprintf(2, "busy\n");
+	}
 }
 
 void	jobs_set_sh_state(t_sh_state *sh_state)

@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_getters.h                                .::    .:/ .      .::   */
+/*   data_utils_arr.h                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:04:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 21:20:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/19 21:46:09 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/19 22:47:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_GETTERS_H
-# define STORAGE_GETTERS_H
+#ifndef DATA_UTILS_ARR_H
+# define DATA_UTILS_ARR_H
 
 # include "common.h"
-# include "storage/storage_utils.h"
 
-char	*get_stored(t_list *storage, const char *var_name);
-t_list	*duplicate_storage(t_list *storage);
+char	**duplicate_array(char **array);
+void	free_arr(char **array);
 
 #endif

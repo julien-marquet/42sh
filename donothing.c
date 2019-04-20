@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   storage_getters.h                                .::    .:/ .      .::   */
+/*   donothing.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:04:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 21:20:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/20 01:16:43 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/20 01:17:10 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef STORAGE_GETTERS_H
-# define STORAGE_GETTERS_H
-
-# include "common.h"
-# include "storage/storage_utils.h"
-
-char	*get_stored(t_list *storage, const char *var_name);
-t_list	*duplicate_storage(t_list *storage);
-
-#endif
+int main(void)
+{
+	return (0);
+}

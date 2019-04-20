@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/19 02:31:37 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/20 01:15:19 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -40,7 +40,7 @@ CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
 CFILES += $(addprefix parse/expand/, expand_tilde.c expand_param.c expand_error.c expand.c)
 CFILES += $(addprefix data/, input_data.c)
-CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c)
+CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_utils_arr.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
@@ -67,7 +67,7 @@ TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_na
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
 TMPFILES += $(addprefix data/, input_data.h)
-TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h)
+TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h data_utils_arr.h)
 TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
 TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
