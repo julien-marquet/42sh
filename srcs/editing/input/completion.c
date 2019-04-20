@@ -258,7 +258,6 @@ static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 			return (complete_word(input, ft_strjoin(completed, "/"), 0));
 		free(path);
 	}
-	// TODO If completed is a dir, add a /
 	free(completed);
 	return (0);
 }
