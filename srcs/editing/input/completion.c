@@ -236,7 +236,6 @@ static t_list	*get_files(char *path, char *needle)
 	{
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
-			/* dprintf(2, "Matching for: %s\n", entry->d_name); */
 			if ((link = ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
 			{
 				lstfree(files);
@@ -247,6 +246,12 @@ static t_list	*get_files(char *path, char *needle)
 	}
 	closedir(dir);
 	return (files);
+}
+
+static void	write_file(char *file)
+{
+	write(1, file, ft_strlen(file));
+	write(1, "\t", 1);
 }
 
 // TODO Free files on error
@@ -279,8 +284,7 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 				if (tmp[i] != '\0')
 				{
 					free(tmp);
-					((char *)pointer->content)[i] = '\0';
-					if ((tmp = ft_strdup(pointer->content)) == NULL)
+					if ((tmp = ft_strndup(pointer->content, i)) == NULL)
 						return (1);
 				}
 			}
@@ -294,10 +298,18 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 		else
 		{
 			pointer = files;
+			if (pointer != NULL)
+				write(1, "\n", 1);
 			while (pointer != NULL)
 			{
-				dprintf(2, "%s\n", pointer->content);
+				write_file(pointer->content);
 				pointer = pointer->next;
+			}
+			if (files != NULL)
+			{
+				write(1, "\n", 1);
+				print_prompt(0);
+				write(1, input->active_buf->buf, ft_strlen(input->active_buf->buf));
 			}
 		}
 	}
