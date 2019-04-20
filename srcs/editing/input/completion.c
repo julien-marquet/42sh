@@ -220,19 +220,6 @@ static int		lstfree(t_list *list)
 	return (1);
 }
 
-/* static size_t	yo(t_list *list) */
-/* { */
-/* 	size_t	i; */
-
-/* 	i = 0; */
-/* 	while (list != NULL) */
-/* 	{ */
-/* 		list = list->next; */
-/* 		i += 1; */
-/* 	} */
-/* 	return (i); */
-/* } */
-
 static t_list	*get_files(char *path, char *needle)
 {
 	size_t	len;
