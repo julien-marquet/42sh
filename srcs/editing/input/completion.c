@@ -214,7 +214,10 @@ static char	*get_path(t_input_data *input, size_t get_all)
 		}
 		pointer -= 1;
 	}
-	tmp = ft_strdup(pointer + 1);
+	if (*(pointer + 1) == '\0')
+		tmp = ft_strdup("/");
+	else
+		tmp = ft_strdup(pointer + 1);
 	input->active_buf->buf[input->rel_cur_pos] = old;
 	while (old2 != 0)
 	{
@@ -386,6 +389,7 @@ static int	complete_arg(t_input_data *input, char *word)
 	{
 		if ((tmp = get_path(input, 0)) == NULL)
 			return (1);
+		dprintf(2, "Tmp: %s\n", tmp);
 		if (find_in_dir(get_files(tmp, ""), input, "") == 1)
 			return (1);
 		free(tmp);
