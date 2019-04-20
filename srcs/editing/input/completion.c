@@ -184,6 +184,8 @@ static int	delete_completed(t_input_data *input)
 			return (1);
 		pointer -= 1;
 	}
+	if (pointer == input->active_buf->buf)
+		return (delete_prev_char(input));
 	return (0);
 }
 
@@ -218,6 +220,19 @@ static int		lstfree(t_list *list)
 	return (1);
 }
 
+/* static size_t	yo(t_list *list) */
+/* { */
+/* 	size_t	i; */
+
+/* 	i = 0; */
+/* 	while (list != NULL) */
+/* 	{ */
+/* 		list = list->next; */
+/* 		i += 1; */
+/* 	} */
+/* 	return (i); */
+/* } */
+
 static t_list	*get_files(char *path, char *needle)
 {
 	size_t	len;
@@ -234,10 +249,11 @@ static t_list	*get_files(char *path, char *needle)
 	{
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
+			/* dprintf(2, "Matching for: %s\n", entry->d_name); */
 			if ((link = ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
 			{
 				lstfree(files);
-				return (0);
+				return (NULL);
 			}
 			ft_lstadd(&files, link);
 		}
@@ -247,15 +263,13 @@ static t_list	*get_files(char *path, char *needle)
 }
 
 // TODO Free files on error
-static int	find_in_dir(t_input_data *input, char *path,
-		char *needle)
+static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 {
 	size_t	i;
 	char	*tmp;
-	t_list	*files;
 	t_list	*pointer;
 
-	if ((files = get_files(path, needle)) == NULL)
+	if (files == NULL)
 		return (1);
 	if (files->next == NULL)
 	{
@@ -313,9 +327,9 @@ static int	complete_arg(t_input_data *input, char *word)
 
 	len = ft_strlen(word);
 	if (word[len - 1] == '/')
-		return (find_in_dir(input, word, ""));
+		return (find_in_dir(get_files(word, ""), input, ""));
 	else if (len == 0)
-		return (find_in_dir(input, ".", ""));
+		return (find_in_dir(get_files(".", ""), input, ""));
 	else
 	{
 		i = len;
@@ -323,26 +337,56 @@ static int	complete_arg(t_input_data *input, char *word)
 		while (i > 0)
 		{
 			if (*word == '/' || (*word == '\\' && *(word - 1) != '\\'))
-				return (find_in_dir(input, ft_strndup(word - (i - 1), i), word + 1));
+			{
+				char	*tmp;
+				tmp = ft_strndup(word - (i - 1), i);
+				if (tmp == NULL)
+					return (1);
+				if (find_in_dir(get_files(word, word + 1), input, word + 1) == 1)
+					return (1);
+				free(tmp);
+				return (0);
+			}
 			i -= 1;
 			if (i > 0)
 				word -= 1;
 		}
-		return (find_in_dir(input, ft_strdup("."), word));
+		return (find_in_dir(get_files(".", word), input, word));
 	}
 	return (0);
 }
 
-static int	complete_bin(t_input_data *input, char *word)
+static int	complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 {
-	/* if (delete_completed(input) == 1) */
-	/* 	return (1); */
-	(void)input;
-	(void)word;
+	char	*tmp;
+	t_list	*files;
+	char	**paths;
+	char	**pointer;
+	t_list	*files_pointer;
+
+	if ((tmp = get_env_value(sh_state->internal_storage, "PATH")) == NULL)
+		tmp = "";
+	if ((paths = ft_strsplit(tmp, ':')) == NULL)
+		return (1);
+	files = NULL;
+	pointer = paths;
+	while (*pointer != NULL)
+	{
+		files_pointer = files;
+		while (files != NULL && files_pointer->next != NULL)
+			files_pointer = files_pointer->next;
+		if (files == NULL)
+			files = get_files(*pointer, word);
+		else
+			files_pointer->next = get_files(*pointer, word);
+		pointer += 1;
+	}
+	find_in_dir(files, input, word);
+	ft_freetab(&paths);
 	return (0);
 }
 
-static int	handle_completion_type(t_input_data *input, char *word)
+static int	handle_completion_type(t_input_data *input, t_sh_state *sh_state, char *word)
 {
 	char	*pointer;
 
@@ -353,7 +397,7 @@ static int	handle_completion_type(t_input_data *input, char *word)
 			return (complete_arg(input, word));
 		pointer -= 1;
 	}
-	return (complete_bin(input, word));
+	return (complete_bin(word, sh_state, input));
 }
 
 int		handle_completion(t_input_data *input, t_sh_state *sh_state)
@@ -368,5 +412,5 @@ int		handle_completion(t_input_data *input, t_sh_state *sh_state)
 		return (0);
 	if ((currentWord = get_current_word(input, sh_state)) == NULL)
 		return (1);
-	return (handle_completion_type(input, currentWord));
+	return (handle_completion_type(input, sh_state, currentWord));
 }
