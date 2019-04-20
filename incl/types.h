@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 02:59:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 22:22:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,13 @@ typedef enum	e_job_status
 	continued,
 }				t_job_status;
 
+typedef struct	s_hash_table
+{
+	size_t		hits;
+	char		*bin;
+	char		*path;
+}				t_hash_table;
+
 typedef struct	s_cur_abs_pos
 {
 	int		row;
@@ -42,6 +49,7 @@ typedef struct	s_sh_state
 	t_list			*internal_storage;
 	t_list			*aliases;
 	int				shell_pid;
+	t_list			*hash_table;
 }				t_sh_state;
 
 typedef struct	s_dyn_buf

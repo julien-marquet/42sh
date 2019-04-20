@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_update.h                                    .::    .:/ .      .::   */
+/*   exec_binary.h                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/12 21:57:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 23:17:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/20 22:43:28 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/20 23:20:37 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_UPDATE_H
-# define JOBS_UPDATE_H
+#ifndef EXEC_BINARY_H
+# define EXEC_BINARY_H
 
 # include "common.h"
-# include "jobs/jobs_super.h"
-# include "jobs/jobs_procs/jobs_procs.h"
-# include "exec/exec.h"
+# include "jobs/jobs.h"
+# include "exec/exec_utils.h"
 
-void	update_jobs_status(int wanted);
-void	handle_process_update(int wanted);
-void	jobs_set_sh_state(t_sh_state *sh_state);
+int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context);
 
 #endif

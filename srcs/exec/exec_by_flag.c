@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 03:25:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 23:14:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,7 @@ static int	exec_cmd(t_sh_state *sh_state, t_cmd *cmd, t_context *context)
 			return (found);
 		else
 		{
-			if ((found = exec_dispatcher(context)) == -1)
+			if ((found = exec_dispatcher(sh_state, cmd, context)) == -1)
 				return (-1);
 			if (found == 1)
 				return (2);

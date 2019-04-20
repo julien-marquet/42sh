@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 20:30:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 22:23:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,6 +36,11 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
 		return (1);
+        if (input_data->active_buf->len > 0)
+        {
+            input_data->active_buf->len -= 1;
+            input_data->active_buf->buf[input_data->active_buf->len] = '\0';
+        }
 	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
 		return (1);
 

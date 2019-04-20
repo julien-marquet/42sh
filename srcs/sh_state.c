@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:56:52 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 03:13:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 22:24:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "sh_state.h"
+#include "builtins/builtin_hash/builtin_hash.h"
 
 t_sh_state	*init_sh_state(void)
 {
@@ -40,13 +41,11 @@ t_sh_state	*duplicate_sh_state(t_sh_state *sh_state)
 
 void		free_sh_state(t_sh_state **state)
 {
-	void (*del)(void *, size_t);
-
 	if (state == NULL || *state == NULL)
 		return ;
 
-	del = free_lstinternal_storage_node;
 	remove_all_aliases(&(*state)->aliases);
-	ft_lstdel(&((*state)->internal_storage), del);
+	ft_lstdel(&((*state)->internal_storage), free_lstinternal_storage_node);
+	delete_table(&((*state)->hash_table));
 	free(*state);
 }

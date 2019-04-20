@@ -17,6 +17,7 @@
 # include "common.h"
 # include "storage/storage_utils.h"
 
+char	*get_env_value(t_list *list, const char *key);
 char	*get_stored(t_list *storage, const char *var_name);
 t_list	*duplicate_storage(t_list *storage);
 
