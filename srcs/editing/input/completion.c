@@ -178,10 +178,15 @@ static int	delete_completed(t_input_data *input)
 	pointer = input->active_buf->buf + input->rel_cur_pos - 1;
 	while (pointer != input->active_buf->buf)
 	{
+		// TODO ' ' to is_stopping
 		if (*pointer == '/' || (*pointer == ' ' && *(pointer - 1) != '\\'))
+			break ;
+		if ((*pointer == '$' && (*(pointer - 1) == ' ' && *(pointer - 2) != '\\')))
 			break ;
 		if (delete_prev_char(input) == 1)
 			return (1);
+		if (*(pointer - 1) == '$' && pointer - 1 == input->active_buf->buf)
+			break ;
 		pointer -= 1;
 	}
 	if (pointer == input->active_buf->buf)
@@ -279,7 +284,77 @@ static int		lstfree(t_list *list)
 	return (1);
 }
 
-static t_list	*get_files(char *path, char *needle)
+static int		get_builtins(t_list **files, char *needle)
+{
+	size_t	i;
+	size_t	len;
+	t_list	*link;
+	char	*builtins[BUILTINS_NB] = {
+		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "test", "[", "alias", "unalias", "jobs", "fg", "hash"
+	};
+	
+	i = 0;
+	len = ft_strlen(needle);
+	while (i < BUILTINS_NB) {
+		if (ft_strncmp(builtins[i], needle, len) == 0)
+		{
+			if ((link = ft_lstnew(builtins[i], ft_strlen(builtins[i]) + 1)) == NULL)
+			{
+				lstfree(*files);
+				return (1);
+			}
+			ft_lstadd(files, link);
+		}
+		i += 1;
+	}
+	return (0);
+}
+
+static size_t	get_var_name_length(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '=')
+		i += 1;
+	return (i);
+}
+
+static int		get_vars(t_list **files, t_list *storage, char *needle)
+{
+	size_t	len;
+	char	*tmp;
+	char	*name;
+	t_list	*link;
+
+	while (storage != NULL)
+	{
+		name = ((t_internal_storage *)(storage->content))->string;
+		len = get_var_name_length(name);
+		if (ft_strncmp(name, needle + 1, ft_strlen(needle + 1)) == 0)
+		{
+			if ((tmp = malloc(len + 1)) == NULL)
+			{
+				lstfree(*files);
+				return (1);
+			}
+			ft_strncpy(tmp, name, len);
+			tmp[len] = '\0';
+			if ((link = ft_lstnew(tmp, len + 1)) == NULL)
+			{
+				free(tmp);
+				lstfree(*files);
+				return (1);
+			}
+			ft_lstadd(files, link);
+		}
+		storage = storage->next;
+	}
+	return (0);
+}
+
+static t_list	*get_files(char *path, char *needle,
+			size_t builtins, size_t vars, t_list *internal_storage)
 {
 	size_t	len;
 	DIR		*dir;
@@ -304,6 +379,10 @@ static t_list	*get_files(char *path, char *needle)
 		}
 	}
 	closedir(dir);
+	if (builtins && get_builtins(&files, needle) == 1)
+		return (NULL);
+	if (vars && get_vars(&files, internal_storage, needle) == 1)
+		return (NULL);
 	return (files);
 }
 
@@ -349,7 +428,7 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 			}
 			pointer = pointer->next;
 		}
-		if (ft_strcmp(needle, tmp) != 0)
+		if (ft_strcmp(needle[0] == '$' ? needle + 1 : needle, tmp) != 0)
 		{
 			if (complete_word(input, tmp, 0) == 1)
 				return (1);
@@ -378,24 +457,24 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 	/* free(needle); */
 }
 
-static int	complete_arg(t_input_data *input, char *word)
+static int	complete_arg(t_input_data *input, char *word, t_sh_state *state)
 {
 	size_t	i;
 	size_t	len;
 	char	*tmp;
 
 	len = ft_strlen(word);
-	if (word[len - 1] == '/')
+	if (len == 0)
+		return (find_in_dir(get_files(".", "", 0, 0, state->internal_storage), input, ""));
+	else if (word[len - 1] == '/')
 	{
 		if ((tmp = get_path(input, 0)) == NULL)
 			return (1);
 		dprintf(2, "Tmp: %s\n", tmp);
-		if (find_in_dir(get_files(tmp, ""), input, "") == 1)
+		if (find_in_dir(get_files(tmp, "", 0, 0, state->internal_storage), input, "") == 1)
 			return (1);
 		free(tmp);
 	}
-	else if (len == 0)
-		return (find_in_dir(get_files(".", ""), input, ""));
 	else
 	{
 		i = len;
@@ -406,7 +485,7 @@ static int	complete_arg(t_input_data *input, char *word)
 			{
 				if ((tmp = get_path(input, 0)) == NULL)
 					return (1);
-				if (find_in_dir(get_files(tmp, word + 1), input, word + 1) == 1)
+				if (find_in_dir(get_files(tmp, word + 1, 0, 0, state->internal_storage), input, word + 1) == 1)
 					return (1);
 				free(tmp);
 				return (0);
@@ -415,7 +494,7 @@ static int	complete_arg(t_input_data *input, char *word)
 			if (i > 0)
 				word -= 1;
 		}
-		return (find_in_dir(get_files(".", word), input, word));
+		return (find_in_dir(get_files(".", word, 0, word[0] == '$', state->internal_storage), input, word));
 	}
 	return (0);
 }
@@ -440,9 +519,9 @@ static int	complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 		while (files != NULL && files_pointer->next != NULL)
 			files_pointer = files_pointer->next;
 		if (files == NULL)
-			files = get_files(*pointer, word);
+			files = get_files(*pointer, word, 1, word[0] == '$', sh_state->internal_storage);
 		else
-			files_pointer->next = get_files(*pointer, word);
+			files_pointer->next = get_files(*pointer, word, 1, word[0] == '$', sh_state->internal_storage);
 		pointer += 1;
 	}
 	find_in_dir(files, input, word);
@@ -458,7 +537,7 @@ static int	handle_completion_type(t_input_data *input, t_sh_state *sh_state, cha
 	while (pointer != input->active_buf->buf)
 	{
 		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
-			return (complete_arg(input, word));
+			return (complete_arg(input, word, sh_state));
 		pointer -= 1;
 	}
 	return (complete_bin(word, sh_state, input));
