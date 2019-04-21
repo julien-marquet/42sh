@@ -178,10 +178,9 @@ static int	delete_completed(t_input_data *input)
 	pointer = input->active_buf->buf + input->rel_cur_pos - 1;
 	while (pointer != input->active_buf->buf)
 	{
-		// TODO ' ' to is_stopping
-		if (*pointer == '/' || (*pointer == ' ' && *(pointer - 1) != '\\'))
+		if ((*pointer == '/') || (is_stopping(*pointer) && *(pointer - 1) != '\\'))
 			break ;
-		if ((*pointer == '$' && (*(pointer - 1) == ' ' && *(pointer - 2) != '\\')))
+		if ((*pointer == '$' && (is_stopping(*(pointer - 1)) && *(pointer - 2) != '\\')))
 			break ;
 		if (delete_prev_char(input) == 1)
 			return (1);
@@ -560,7 +559,12 @@ static int	handle_completion_type(t_input_data *input, t_sh_state *sh_state, cha
 	while (pointer != input->active_buf->buf)
 	{
 		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
-			return (complete_arg(input, word, sh_state));
+		{
+			if (*pointer == ' ')
+				return (complete_arg(input, word, sh_state));
+			else
+				return (complete_bin(word, sh_state, input));
+		}
 		pointer -= 1;
 	}
 	return (complete_bin(word, sh_state, input));
