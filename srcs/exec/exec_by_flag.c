@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 23:14:40 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:14:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,7 +19,8 @@ static int	handle_null_cmd(t_sh_state *sh_state, const char *cmd_str, t_cmd *cmd
 
 	if ((is_null = cmd_is_null(cmd_list)) == 0)
 	{
-		ft_putstr_fd("42sh: ", 2);
+		ft_putstr_fd(NAME, 2);
+		ft_putstr_fd(": ", 2);
 		if (cmd_str)
 			ft_putstr_fd(cmd_str, 2);
 		ft_putstr_fd(": command not found\n", 2);

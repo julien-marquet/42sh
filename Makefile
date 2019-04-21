@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/21 01:02:40 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/21 02:36:12 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -25,6 +25,7 @@ editing editing/cursor editing/history editing/input \
 data data/win_data data/dyn_buf data/data_utils \
 builtins builtins/builtins_storage builtins/builtins_aliases \
 builtins/builtin_hash builtins/builtin_echo builtins/builtins_jobs \
+builtins/builtin_test \
 jobs jobs/jobs_procs jobs/jobs_proc_grps \
 aliases \
 parse parse/alias parse/expand \
@@ -51,6 +52,7 @@ CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c table.c utils.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
+CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
 CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)

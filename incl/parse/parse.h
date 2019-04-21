@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 01:21:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:15:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,8 +19,6 @@
 # include "parse/utils.h"
 # include "exec/exec.h"
 # include "exec/exec_cmd_checkers.h"
-
-# define SH_NAME "42sh"
 
 # define CHEV_FILE -1
 # define CHEV_CLOSE -2
