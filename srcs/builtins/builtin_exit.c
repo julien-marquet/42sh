@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 22:38:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:03:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 03:21:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,5 +25,5 @@ t_builtin_context *context)
 	if (ac > 1)
 		return (ft_atoi(av[1]));
 	else
-		return ((int)sh_state->status);
+		return (0);
 }

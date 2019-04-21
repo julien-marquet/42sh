@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 20:37:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 02:29:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -69,25 +69,30 @@ static int		process_entry(t_input_data *input_data, t_sh_state *sh_state, t_list
 	return (0);
 }
 
-int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc)
+int		handle_input(t_sh_state *sh_state, t_input_data *input_data,
+char *here_doc)
 {
 	t_list	*hist_copy;
+	int		valid_here_doc;
 
 	if (dup_history(input_data, &hist_copy) == 1)
 		return (1);
-	while (input_data->sig_call == 0 && (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
+	valid_here_doc = 0;
+	while (valid_here_doc != 2 && input_data->sig_call == 0 &&
+(input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
 	{
-		if (prepare_input(input_data) == 1)
+		if (prepare_input(input_data, (const char *)here_doc) == 1)
 			return (free_hist_copy(&hist_copy, 1));
 		if (process_entry(input_data, sh_state, hist_copy) == 1)
 			return (free_hist_copy(&hist_copy, 1));
-		if (merge_bufs(input_data, hist_copy, here_doc) == 1)
+		if ((valid_here_doc = merge_bufs(input_data, hist_copy, here_doc)) == 1)
 			return (free_hist_copy(&hist_copy, 1));
 	}
 	if (here_doc == NULL && input_data->active_buf->len > 0 &&
 input_data->active_buf->buf[0] != '\n')
 	{
-		if (add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len) == NULL)
+		if (add_to_history_list(&(input_data->history_list),
+	input_data->active_buf->buf, input_data->active_buf->len) == NULL)
 			return (free_hist_copy(&hist_copy, 1));
 	}
 	if (handle_user_reset(input_data) == 1)

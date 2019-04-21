@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:48:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:44:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,22 @@
 # include <unistd.h>
 # include <termios.h>
 # include "../libs/Libft/libft.h"
+
+typedef enum	e_job_status
+{
+	running,
+	exited,
+	signaled,
+	stopped,
+	continued,
+}				t_job_status;
+
+typedef struct	s_hash_table
+{
+	size_t		hits;
+	char		*bin;
+	char		*path;
+}				t_hash_table;
 
 typedef struct	s_cur_abs_pos
 {
@@ -32,6 +48,8 @@ typedef struct	s_sh_state
 	size_t			exit_sig;
 	t_list			*internal_storage;
 	t_list			*aliases;
+	int				shell_pid;
+	t_list			*hash_table;
 }				t_sh_state;
 
 typedef struct	s_dyn_buf
@@ -76,11 +94,113 @@ typedef struct	s_fds
 	int		err;
 }				t_fds;
 
+
 typedef struct	s_builtin_context
 {
 	char	*origin;
 	t_fds	fds;
 }				t_builtin_context;
 
+/*
+** t_arg	t_cmd->arg constructor
+*/
+
+typedef struct		s_arg {
+	char			*arg;
+	int				type;
+	struct s_arg	*next;
+}					t_arg;
+
+/*
+** t_file	Parsed redirections
+**
+** char		*file = Redirection file / Heredoc end
+** char		*here = Heredoc output
+** int		*type = Redirection type (t_ctype)
+*/
+
+typedef struct		s_file {
+	char			*file;
+	char			*here;
+	int				*type;
+	struct s_file	*next;
+}					t_file;
+
+/*
+** t_cmd	Parsed command
+**
+** char		**arg = Command arguments
+** char		*red = Redirection type
+** t_file	*in = Inputs
+** t_file	*out = Outputs
+*/
+
+typedef struct		s_cmd {
+	char			*str;
+	char			**arg;
+	char			type;
+	char			*red;
+	t_file			*in;
+	t_file			*out;
+	struct s_cmd	*next;
+	int				assign;
+}					t_cmd;
+
+/*
+** t_ctype	Chevron redirection type
+*/
+
+typedef enum		e_ctype {
+	C_IN = 0,
+	C_LEN,
+	C_OUT,
+	C_TYPE
+}					t_ctype;
+
+typedef struct	s_proc
+{
+	int				pid;
+	t_job_status	status;
+	int				code;
+	char			*name;
+	int				updated;
+	int				last;
+	int				null;
+	int				assign;
+	int				not_found;
+	int				no_permission;
+}				t_proc;
+
+typedef struct	s_proc_grp
+{
+	t_list	*procs;
+	int		pgid;
+	char	*name;
+	t_cmd	*remaining;
+	char	*last_red;
+	int		background;
+	int		revived;
+}				t_proc_grp;
+
+typedef struct	s_jobs
+{
+	t_list		*proc_grps;
+	int			busy;
+	int			last_bpid;
+	t_sh_state	*sh_state;
+}				t_jobs;
+
+typedef struct	s_context
+{
+	int					background;
+	t_proc_grp			*proc_grp;
+	t_builtin_context	*builtin_context;
+	int					last;
+}				t_context;
+
+typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
+				t_context *context);
+typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
+				t_builtin_context *context);
 
 #endif

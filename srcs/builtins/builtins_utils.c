@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:02:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 22:58:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 01:02:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -102,4 +102,26 @@ int			add_origin(char **origin, const char *src)
 		return (1);
 	free(tmp);
 	return (0);
+}
+
+void		free_builtin_context(t_builtin_context **builtin_context)
+{
+	ft_strdel(&(*builtin_context)->origin);
+	free(*builtin_context);
+	*builtin_context = NULL;
+}
+
+t_builtin_context	*duplicate_builtin_context(t_builtin_context *context)
+{
+	t_builtin_context	*new_context;
+
+	if ((new_context = ft_memalloc(sizeof(t_builtin_context))) == NULL)
+		return (NULL);
+	new_context->fds = context->fds;
+	if ((new_context->origin = ft_strdup(context->origin)) == NULL)
+	{
+		free(new_context);
+		return (NULL);
+	}
+	return (new_context);
 }
