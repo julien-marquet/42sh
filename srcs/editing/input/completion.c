@@ -110,7 +110,7 @@ static char	*handle_expand(char *word, t_sh_state *sh_state)
 	char	*currentWord;
 
 	if (*word == '\0')
-		return ("");
+		return (ft_strdup(""));
 	if ((currentWord = get_expand_str(word, sh_state)) == NULL)
 		return (NULL);
 	pointer = currentWord;
@@ -467,8 +467,6 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 	}
 	lstfree(files);
 	return (0);
-	/* free(path); */
-	/* free(needle); */
 }
 
 static int	complete_arg(t_input_data *input, char *word, t_sh_state *state)
@@ -583,5 +581,11 @@ int		handle_completion(t_input_data *input, t_sh_state *sh_state)
 		return (0);
 	if ((currentWord = get_current_word(input, sh_state)) == NULL)
 		return (1);
-	return (handle_completion_type(input, sh_state, currentWord));
+	if (handle_completion_type(input, sh_state, currentWord) == 1)
+	{
+		free(currentWord);
+		return (1);
+	}
+	free(currentWord);
+	return (0);
 }
