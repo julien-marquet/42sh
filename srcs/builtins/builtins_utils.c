@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:02:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 01:02:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 22:17:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -97,10 +97,13 @@ int			add_origin(char **origin, const char *src)
 {
 	char	*tmp;
 
-	tmp = *origin;
-	if ((*origin = ft_construct_str(3, tmp, src, ": ")) == NULL)
-		return (1);
-	free(tmp);
+	if (origin && src)
+	{
+		tmp = *origin;
+		if ((*origin = ft_construct_str(3, tmp, src, ": ")) == NULL)
+			return (1);
+		ft_strdel(&tmp);
+	}
 	return (0);
 }
 

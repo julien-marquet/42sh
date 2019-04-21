@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   builtin_hash.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:14:29 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 22:14:31 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 22:26:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,23 +15,9 @@
 # define BUILTIN_HASH_H
 
 # include "common.h"
-
-int				not_found(char *bin);
-int				test_bin(char *bin_path);
-char			*permission_denied(char *path);
-char			*create_path(char *path, char *bin);
-char			*add_path(char *path, t_list **table,
-			char *bin, size_t inc_hits);
-
-t_hash_table	*get_link(t_list **table, char *bin);
-void			delete_table(t_list **table);
-char			*append_bin(char *bin, t_list **table,
-			t_list *internal_storage, size_t *found);
-char			*get_bin_path(char **av, t_list **table,
-			t_list *internal_storage, size_t *error);
+# include "hash/hash.h"
 
 int				builtin_hash(t_sh_state *sh_state, int ac,
 			const char **av, t_builtin_context *context);
-int				search_path(t_list *table, t_list *internal_storage);
 
 #endif

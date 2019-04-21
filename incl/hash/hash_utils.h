@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   common.h                                         .::    .:/ .      .::   */
+/*   hash_utils.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:34:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/21 22:22:29 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/21 22:24:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_COMMON_H
-# define SH_COMMON_H
+#ifndef HASH_UTILS_H
+# define HASH_UTILS_H
 
-# include <sys/ioctl.h>
-# include <curses.h>
-# include <term.h>
-# include <unistd.h>
-# include <termios.h>
-# include "types.h"
-# include "signal.h"
-# include "../libs/Libft/libft.h"
-# include <sys/stat.h>
+# include "common.h"
 
-# define NAME "42sh"
+int			test_bin(char *bin_path);
+char		*create_path(char *path, char *bin);
+char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits);
+char		*permission_denied(char *path);
+int			not_found(char *bin);
 
 #endif

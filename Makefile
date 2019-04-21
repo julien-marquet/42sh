@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/21 03:28:42 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/21 22:29:43 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -29,6 +29,7 @@ builtins/builtin_test \
 jobs jobs/jobs_procs jobs/jobs_proc_grps \
 aliases \
 parse parse/alias parse/expand \
+hash \
 exec)
 
 # C FILES
@@ -48,7 +49,7 @@ CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.
 CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
 CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
-CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c table.c utils.c)
+CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
@@ -58,6 +59,7 @@ CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs
 CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_setters.c)
 CFILES += $(addprefix exec/, exec.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c )
+CFILES += $(addprefix hash/, hash_table.c hash_utils.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -87,6 +89,7 @@ TMPFILES += $(addprefix jobs/, jobs_printers.h jobs.h jobs_controls.h jobs_displ
 TMPFILES += $(addprefix jobs/jobs_procs/, jobs_procs.h jobs_procs_getters.h jobs_procs_setters.h)
 TMPFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps.h jobs_proc_grps_getters.h jobs_proc_grps_setters.h)
 TMPFILES += $(addprefix exec/, exec.h exec_utils.h exec_binary.h exec_dispatcher.h exec_by_flag.h exec_cmd_checkers.h)
+TMPFILES += $(addprefix hash/, hash.h hash_table.h hash_utils.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 

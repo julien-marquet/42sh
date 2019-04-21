@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   common.h                                         .::    .:/ .      .::   */
+/*   hash_table.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:34:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/21 22:22:45 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/21 22:31:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_COMMON_H
-# define SH_COMMON_H
+#ifndef HASH_TABLE_H
+# define HASH_TABLE_H
 
-# include <sys/ioctl.h>
-# include <curses.h>
-# include <term.h>
-# include <unistd.h>
-# include <termios.h>
-# include "types.h"
-# include "signal.h"
-# include "../libs/Libft/libft.h"
-# include <sys/stat.h>
+# include "common.h"
+# include "storage/storage.h"
 
-# define NAME "42sh"
+t_hash_table	*get_link(t_list **table, char *bin);
+void			delete_table(t_list **table);
+char			*append_bin(char *bin, t_list **table,
+			t_list *internal_storage, size_t *found);
+char			*get_bin_path(char **av, t_list **table,
+			t_list *internal_storage, size_t *error);
 
 #endif

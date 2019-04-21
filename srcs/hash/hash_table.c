@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   table.c                                          .::    .:/ .      .::   */
+/*   hash_table.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:42:12 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 23:40:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 22:30:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtin_hash/builtin_hash.h"
-#include "storage/storage.h"
+#include "hash/hash_table.h"
 
 static char		*check_paths(char **paths, char *bin,
 			t_list **table, size_t found)
