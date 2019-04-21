@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:43:29 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 21:00:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:46:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,4 +42,11 @@ int			add_proc_grp(t_proc_grp *proc_grp)
 	}
 	else
 		return (1);
+}
+
+void		update_last_bpid(int pid)
+{
+	t_jobs	*jobs;
+	jobs = jobs_super_get(NULL);
+	jobs->last_bpid = pid;
 }

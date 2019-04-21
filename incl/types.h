@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 22:22:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:44:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -186,6 +186,7 @@ typedef struct	s_jobs
 {
 	t_list		*proc_grps;
 	int			busy;
+	int			last_bpid;
 	t_sh_state	*sh_state;
 }				t_jobs;
 

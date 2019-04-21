@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 01:32:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:45:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -62,6 +62,7 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 	t_context		*context;
 	int				exec_res;
 	t_cmd			*acmd;
+	t_proc	*last_proc;
 
 	context = init_context(prec_grp, cmd_list);
 	exec_res = 0;
@@ -90,6 +91,11 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 	(context->proc_grp->last_red != NULL &&
 	ft_strcmp(context->proc_grp->last_red, ";") == 0))
 			break ;
+	}
+	if (exec_res != -1 && context->background == 1)
+	{
+		if ((last_proc = get_last_proc(context->proc_grp)) != NULL)
+			update_last_bpid(last_proc->pid);
 	}
 	free_executed_cmds(acmd, context->proc_grp->remaining, cmd_list);
 	free_context(&context);

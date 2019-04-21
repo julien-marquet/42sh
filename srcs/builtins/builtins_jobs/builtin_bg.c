@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 01:20:00 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 01:25:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:47:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,6 +55,7 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 	last_proc = get_last_proc(proc_grp);
 	if (last_proc)
 	{
+		update_last_bpid(last_proc->pid);
 		wake_all_processes(proc_grp);
 		return (0);
 	}
