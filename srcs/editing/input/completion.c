@@ -262,7 +262,11 @@ static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 		if ((path = get_path(input, 1)) == NULL)
 			return (1);
 		if (is_dir(path))
-			return (complete_word(input, ft_strjoin(completed, "/"), 0));
+		{
+			path = ft_strjoin(completed, "/");
+			free(completed);
+			return (complete_word(input, path, 0));
+		}
 		free(path);
 	}
 	free(completed);
