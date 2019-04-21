@@ -482,7 +482,6 @@ static int	complete_arg(t_input_data *input, char *word, t_sh_state *state)
 	{
 		if ((tmp = get_path(input, 0)) == NULL)
 			return (1);
-		dprintf(2, "Tmp: %s\n", tmp);
 		if (find_in_dir(get_files(tmp, "", 0, 0, state->internal_storage), input, "") == 1)
 			return (1);
 		free(tmp);
