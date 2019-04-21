@@ -415,6 +415,7 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 	size_t	i;
 	char	*tmp;
 	t_list	*pointer;
+	t_cur_abs_pos	pos;
 
 	if (files == NULL)
 		return (0);
@@ -465,7 +466,9 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 				write(1, "\n", 1);
 				print_prompt(0);
 				write(1, input->active_buf->buf, ft_strlen(input->active_buf->buf));
-				// TODO set cursor position here
+				if (get_cursor_position(&pos, input->active_buf, input->rel_cur_pos, input->start_pos) == 1)
+					return (1);
+				tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
 			}
 		}
 	}
