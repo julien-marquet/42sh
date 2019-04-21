@@ -303,7 +303,10 @@ static int		get_builtins(t_list **files, char *needle)
 				lstfree(*files);
 				return (1);
 			}
-			ft_lstadd(files, link);
+			if (*files == NULL)
+				*files = link;
+			else
+				ft_lstadd(files, link);
 		}
 		i += 1;
 	}
@@ -346,7 +349,10 @@ static int		get_vars(t_list **files, t_list *storage, char *needle)
 				lstfree(*files);
 				return (1);
 			}
-			ft_lstadd(files, link);
+			if (*files == NULL)
+				*files = link;
+			else
+				ft_lstadd(files, link);
 		}
 		storage = storage->next;
 	}
@@ -362,9 +368,15 @@ static t_list	*get_files(char *path, char *needle,
 	t_list	*files;
 	struct dirent	*entry;
 
+	files = NULL;
+	if (builtins && get_builtins(&files, needle) == 1)
+		return (NULL);
+	if (vars && get_vars(&files, internal_storage, needle) == 1)
+		return (NULL);
+	if (path == NULL)
+		return (files);
 	if ((dir = opendir(path)) == NULL)
 		return (NULL);
-	files = NULL;
 	len = ft_strlen(needle);
 	while ((entry = readdir(dir)) != NULL)
 	{
@@ -375,14 +387,13 @@ static t_list	*get_files(char *path, char *needle,
 				lstfree(files);
 				return (NULL);
 			}
-			ft_lstadd(&files, link);
+			if (files == NULL)
+				files = link;
+			else
+				ft_lstadd(&files, link);
 		}
 	}
 	closedir(dir);
-	if (builtins && get_builtins(&files, needle) == 1)
-		return (NULL);
-	if (vars && get_vars(&files, internal_storage, needle) == 1)
-		return (NULL);
 	return (files);
 }
 
@@ -499,13 +510,27 @@ static int	complete_arg(t_input_data *input, char *word, t_sh_state *state)
 	return (0);
 }
 
+static void	lstmerge(t_list **list1, t_list *list2)
+{
+	t_list	*pointer;
+
+	pointer = *list1;
+	if (pointer == NULL)
+	{
+		*list1 = list2;
+		return ;
+	}
+	while (pointer->next != NULL)
+		pointer = pointer->next;
+	pointer->next = list2;
+}
+
 static int	complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 {
 	char	*tmp;
 	t_list	*files;
 	char	**paths;
 	char	**pointer;
-	t_list	*files_pointer;
 
 	if ((tmp = get_env_value(sh_state->internal_storage, "PATH")) == NULL)
 		tmp = "";
@@ -515,15 +540,10 @@ static int	complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 	pointer = paths;
 	while (*pointer != NULL)
 	{
-		files_pointer = files;
-		while (files != NULL && files_pointer->next != NULL)
-			files_pointer = files_pointer->next;
-		if (files == NULL)
-			files = get_files(*pointer, word, 1, word[0] == '$', sh_state->internal_storage);
-		else
-			files_pointer->next = get_files(*pointer, word, 1, word[0] == '$', sh_state->internal_storage);
+		lstmerge(&files, get_files(*pointer, word, 0, 0, sh_state->internal_storage));
 		pointer += 1;
 	}
+	lstmerge(&files, get_files(NULL, word, 1, word[0] == '$', sh_state->internal_storage));
 	find_in_dir(files, input, word);
 	ft_freetab(&paths);
 	return (0);
