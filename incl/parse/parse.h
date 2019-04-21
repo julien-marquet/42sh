@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 01:11:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 01:21:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,7 +49,7 @@ char				*get_expand_str(char *str, t_sh_state *sh_state);
 char				**parse_strsplit(char *str, int len);
 
 t_cmd				*parse_nextfree(t_cmd *cmd);
-void				free_executed_cmds(t_cmd *cmd_list, t_cmd *remaining);
+void				free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd);
 
 /*
 ** EXEC
