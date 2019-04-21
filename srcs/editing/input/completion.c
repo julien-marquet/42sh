@@ -382,6 +382,9 @@ static t_list	*get_files(char *path, char *needle,
 	{
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
+			if ((ft_strcmp(entry->d_name, ".") == 0 ||
+			ft_strcmp(entry->d_name, "..") == 0) && ft_strcmp(needle, ".") != 0)
+				continue ;
 			if ((link = ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
 			{
 				lstfree(files);
