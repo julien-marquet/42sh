@@ -461,6 +461,7 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 				write(1, "\n", 1);
 				print_prompt(0);
 				write(1, input->active_buf->buf, ft_strlen(input->active_buf->buf));
+				// TODO set cursor position here
 			}
 		}
 	}
