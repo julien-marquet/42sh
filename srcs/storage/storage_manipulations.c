@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 23:51:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 02:23:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,13 +46,16 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 	{
 		if (update_existing_node(node, name, value, len) == 1)
 			return (-1);
-		((t_internal_storage *)node->content)->exported = exported;
+		if (exported == 1 || exported == 0)
+			((t_internal_storage *)node->content)->exported = exported;
 		((t_internal_storage *)node->content)->new_entry = 1;
 	}
 	else
 	{
 		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (-1);
+		if (exported != 1 && exported != 0)
+			exported = 0;
 		entry.exported = exported;
 		entry.new_entry = 1;
 		if ((node = ft_lstnew((const void *)&entry,

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   localvar.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 17:06:42 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 02:27:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,7 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
 	}
 	ft_memset(str, ' ', len);
 	if (name != NULL && value != NULL)
-		add_entry_storage(&sh_state->internal_storage, name, value, 0);
+		add_entry_storage(&sh_state->internal_storage, name, value, 2);
 	ft_strdel(&name);
 	ft_strdel(&value);
 	return (1);
