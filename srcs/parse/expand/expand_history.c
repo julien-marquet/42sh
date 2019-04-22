@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/17 23:50:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 17:55:36 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 23:01:06 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ t_list		*get_history_search(t_list *hist, char *find)
 
 static char	*event_error(char *str, size_t len)
 {
-	ft_putstr_fd(SH_NAME, 2);
+	ft_putstr_fd(NAME, 2);
 	ft_putstr_fd(": ", 2);
 	write(2, str, len);
 	ft_putstr_fd(": event not found\n", 2);

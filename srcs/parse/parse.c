@@ -3,14 +3,10 @@
 /*                                                              /             */
 /*   parse.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-<<<<<<< HEAD
-/*   Updated: 2019/04/20 00:26:19 by mmoya       ###    #+. /#+    ###.fr     */
-=======
-/*   Updated: 2019/04/21 02:21:27 by jmarquet    ###    #+. /#+    ###.fr     */
->>>>>>> 36309cbd40c8d2be1e2b9a1ce2a548606d6199af
+/*   Updated: 2019/04/22 22:52:11 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -172,11 +168,10 @@ t_input_data *input_data)
 			cmd = tmp;
 			acmd = cmd;
 		}
-		builtins_dispatcher(sh_state, (const char **)cmd->arg, NULL, 0);
-		//parse_print(cmd);
-		//parse_test(cmd);
 		else
 			cmd = cmd->next;
+		//parse_print(cmd);
+		//parse_test(cmd);
 	}
 	return (0);
 }

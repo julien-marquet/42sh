@@ -3,14 +3,10 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
+#    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-<<<<<<< HEAD
-#    Updated: 2019/04/22 16:38:45 by mmoya       ###    #+. /#+    ###.fr      #
-=======
-#    Updated: 2019/04/21 22:29:43 by jmarquet    ###    #+. /#+    ###.fr      #
->>>>>>> 36309cbd40c8d2be1e2b9a1ce2a548606d6199af
+#    Updated: 2019/04/22 22:50:35 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -50,13 +46,8 @@ CFILES += $(addprefix data/, input_data.c)
 CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_utils_arr.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
-<<<<<<< HEAD
-CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
-CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c builtin_fc.c)
-=======
 CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
-CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
->>>>>>> 36309cbd40c8d2be1e2b9a1ce2a548606d6199af
+CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c builtin_fc.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
 CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
