@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_dispatcher.h                            .::    .:/ .      .::   */
+/*   builtin_fc.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 16:35:35 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/22 17:50:07 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_DISPATCHER_H
-# define BUILTINS_DISPATCHER_H
+#ifndef BUILTIN_FC_H
+# define BUILTIN_FC_H
 
 # include "common.h"
-# include "builtins/builtins_defines.h"
-# include "builtins/builtins_execution.h"
-# include "builtins/builtins_storage/builtins_storage.h"
-# include "builtins/builtins_aliases/builtins_aliases.h"
-# include "builtins/builtin_exit.h"
-# include "builtins/builtin_echo/builtin_echo.h"
-# include "builtins/builtin_fc.h"
+# include "builtins/builtins_utils.h"
+# include "error_handler.h"
 
-int		builtins_dispatcher(t_sh_state *sh_state,
-		const char **av, t_builtin_context *context, int background);
+# define F_E 1 << 1
+# define F_L 1 << 2
+# define F_N 1 << 3
+# define F_R 1 << 4
+# define F_S 1 << 5
+
+int		builtin_fc(t_sh_state *sh_state, int ac, const char **av,
+		t_builtin_context *context);
 
 #endif

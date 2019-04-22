@@ -6,12 +6,13 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 18:46:53 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 00:26:19 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/parse.h"
+#include "builtins/builtins.h"
 
 /*
 ** parse_tokenlen:
@@ -200,7 +201,8 @@ t_input_data *input_data)
 				cmd = parse_nextfree(cmd);
 			exit_sh(sh_state, input_data);
 		}
-		parse_print(cmd);
+		builtins_dispatcher(sh_state, (const char **)cmd->arg, NULL, 0);
+		//parse_print(cmd);
 		//parse_test(cmd);
 		cmd = parse_nextfree(cmd);
 	}
