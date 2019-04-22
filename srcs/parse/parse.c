@@ -3,10 +3,14 @@
 /*                                                              /             */
 /*   parse.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
+<<<<<<< HEAD
 /*   Updated: 2019/04/20 00:26:19 by mmoya       ###    #+. /#+    ###.fr     */
+=======
+/*   Updated: 2019/04/21 02:21:27 by jmarquet    ###    #+. /#+    ###.fr     */
+>>>>>>> 36309cbd40c8d2be1e2b9a1ce2a548606d6199af
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -51,7 +55,6 @@ t_input_data *input_data)
 		return (0);
 	if (!(cmd->arg = parse_strsplit(cmd->str, len)))
 		return (1);
-	// ft_strdel(&cmd->str);
 	return (0);
 }
 
@@ -85,98 +88,55 @@ void			parse_print(t_cmd *cmd)
 	dprintf(2, "Redir %s Assign %i\n", cmd->red, cmd->assign);
 	dprintf(2, "\033[0m");
 }
-/*
-int		exec_chevin(t_file *in)
-{
-	int		fd[2];
 
-	if (in == NULL)
-		return (0);
-	if (access(in->file, F_OK) != 0)
-		return (0);
-	while (in->next)
+char			*create_job_name(t_cmd *acmd)
+{
+	char	*name;
+	char	*tmp;
+
+	name = NULL;
+	while (!cmd_is_empty(acmd))
 	{
-		// CHECK READ ACCESS AND REPORT ERROR
-		if (access(in->file, F_OK) != 0)
-			return (0);
-		dprintf(2, "LOOP\n");
-		in = in->next;
+		if (name == NULL && acmd->str != NULL)
+			name = ft_strdup(acmd->str);
+		else if (acmd->str != NULL)
+		{
+			tmp = name;
+			name = ft_strjoin(tmp, acmd->str);
+			ft_strdel(&tmp);
+		}
+		if (acmd->red == NULL || ft_strcmp(acmd->red, ";") == 0 ||
+		ft_strcmp(acmd->red, "&") == 0)
+			break ;
+		acmd = acmd->next;
 	}
-	if (in->here)
-	{
-		pipe(fd);
-		in->type[C_OUT] = fd[0];
-		ft_putstr_fd(in->here, fd[1]);
-		close(fd[1]);
-	}
-	else
-		in->type[C_OUT] = open(in->file, O_RDONLY);
-	dup2(in->type[C_OUT], in->type[C_IN]);
-	return (0);
+	return (name);
 }
 
-int		exec_chevout(t_file *out)
+int				is_processable(t_cmd *cmd)
 {
-	int		perm;
+	char	*str;
+	int		res;
 
-	if (out == NULL)
+	if ((str = ft_strtrim(cmd->str)) == NULL)
 		return (0);
-	while (out)
-	{
-		perm = O_WRONLY | O_CREAT;
-		if (out->type[C_LEN] == 2)
-			perm |= O_APPEND;
-		if (out->type[C_OUT] == CHEV_FILE)
-			out->type[C_OUT] = open(out->file, perm, CHEV_PERM);
-		else if (out->type[C_OUT] == CHEV_CLOSE)
-			close(out->type[C_IN]);
-		dup2(out->type[C_OUT], out->type[C_IN]);
-		out = out->next;
-	}
-	return (0);
-}
-*/
-/*
-static void		parse_test(t_cmd *cmd)
-{
-	int pid;
-	int ret;
-	t_file *tmp;
-	tmp = NULL;
-	pid = fork();
-	if (pid == 0)
-	{
-		//exec_chevin(cmd->in);
-		//exec_chevout(cmd->out);
-		if (ft_strstr(cmd->arg[0], "ls"))
-		{
-			execve("/bin/ls", cmd->arg, NULL);
-		}
-		if (ft_strstr(cmd->arg[0], "cat"))
-		{
-			execve("/bin/cat", cmd->arg, NULL);
-		}
-		if (ft_strstr(cmd->arg[0], "echo"))
-		{
-			execve("/bin/echo", cmd->arg, NULL);
-		}
-		if (ft_strstr(cmd->arg[0], "env"))
-		{
-			execve("/usr/bin/env", cmd->arg, NULL);
-		}
-		dprintf(2, "ERROR\n");
-		exit(-1);
-	}
+	if (ft_strlen(str) == 0)
+		res = 0;
 	else
-		wait(&ret);
-}*/
+		res = 1;
+	ft_strdel(&str);
+	return (res);
+}
 
-int				parse(char *line, t_sh_state *sh_state,
+int				parse_exec(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
 {
-	t_cmd		*cmd;
-	char		*str;
-	int			i;
+	t_cmd	*cmd;
+	t_cmd	*tmp;
+	char	*str;
+	int		i;
+	char	*job_name;
+	t_cmd	*acmd;
 
 	i = 0;
 	cmd = NULL;
@@ -193,18 +153,30 @@ t_input_data *input_data)
 	while (str[i])
 		i += parse_tokenize(str + i, &cmd);
 	ft_strdel(&str);
+	acmd = cmd;
 	while (cmd)
 	{
+		tmp = NULL;
 		if (parse_tokenparse(cmd, sh_state, input_data))
+			return (-1);
+		parse_print(cmd);
+		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
+	ft_strcmp(cmd->red, "&") == 0)
 		{
-			while (cmd)
-				cmd = parse_nextfree(cmd);
-			exit_sh(sh_state, input_data);
+			tmp = cmd->next;
+			job_name = create_job_name(acmd);
+			i = exec_cmd_list(sh_state, acmd, job_name, NULL);
+			ft_strdel(&job_name);
+			if (i == -1)
+				return (-1);
+			cmd = tmp;
+			acmd = cmd;
 		}
 		builtins_dispatcher(sh_state, (const char **)cmd->arg, NULL, 0);
 		//parse_print(cmd);
 		//parse_test(cmd);
-		cmd = parse_nextfree(cmd);
+		else
+			cmd = cmd->next;
 	}
 	return (0);
 }

@@ -3,10 +3,14 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
+#    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
+<<<<<<< HEAD
 #    Updated: 2019/04/22 16:38:45 by mmoya       ###    #+. /#+    ###.fr      #
+=======
+#    Updated: 2019/04/21 22:29:43 by jmarquet    ###    #+. /#+    ###.fr      #
+>>>>>>> 36309cbd40c8d2be1e2b9a1ce2a548606d6199af
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -22,11 +26,15 @@ LIB_DIR = libs
 
 CFOLDERS = $(addprefix $(OBJ_DIR)/, storage \
 editing editing/cursor editing/history editing/input \
-data data/win_data data/dyn_buf data/data_utils\
-builtins builtins/builtins_storage builtins/builtins_aliases builtins/builtin_echo\
-utils \
+data data/win_data data/dyn_buf data/data_utils \
+builtins builtins/builtins_storage builtins/builtins_aliases \
+builtins/builtin_hash builtins/builtin_echo builtins/builtins_jobs \
+builtins/builtin_test \
+jobs jobs/jobs_procs jobs/jobs_proc_grps \
 aliases \
-parse parse/alias parse/expand)
+parse parse/alias parse/expand \
+hash \
+exec)
 
 # C FILES
 
@@ -39,15 +47,28 @@ CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
 CFILES += $(addprefix parse/expand/, expand_history.c expand_tilde.c expand_param.c expand_error.c expand.c)
 CFILES += $(addprefix data/, input_data.c)
-CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c)
+CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_utils_arr.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
+<<<<<<< HEAD
 CFILES += $(addprefix storage/, storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
 CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c builtin_fc.c)
+=======
+CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
+CFILES += $(addprefix builtins/, builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
+>>>>>>> 36309cbd40c8d2be1e2b9a1ce2a548606d6199af
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
+CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
+CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
+CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
+CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
+CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)
+CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_setters.c)
+CFILES += $(addprefix exec/, exec.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c )
+CFILES += $(addprefix hash/, hash_table.c hash_utils.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -61,15 +82,23 @@ TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_na
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
 TMPFILES += $(addprefix data/, input_data.h)
-TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h)
+TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h data_utils_arr.h)
 TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
-TMPFILES += $(addprefix storage/, storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
+TMPFILES += $(addprefix storage/, storage_special_params.h storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
 TMPFILES += $(addprefix builtins/, builtins_utils.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtin_fc.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_unset.h builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
+TMPFILES += $(addprefix builtins/builtin_test/, builtin_test.h)
+TMPFILES += $(addprefix builtins/builtin_hash/, builtin_hash.h)
 TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_alias.h builtin_unalias.h)
 TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
+TMPFILES += $(addprefix builtins/builtins_jobs/, builtin_bg.h builtin_fg.h builtins_jobs.h builtin_jobs.h)
 TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
+TMPFILES += $(addprefix jobs/, jobs_printers.h jobs.h jobs_controls.h jobs_display.h jobs_flush.h jobs_super.h jobs_update.h)
+TMPFILES += $(addprefix jobs/jobs_procs/, jobs_procs.h jobs_procs_getters.h jobs_procs_setters.h)
+TMPFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps.h jobs_proc_grps_getters.h jobs_proc_grps_setters.h)
+TMPFILES += $(addprefix exec/, exec.h exec_utils.h exec_binary.h exec_dispatcher.h exec_by_flag.h exec_cmd_checkers.h)
+TMPFILES += $(addprefix hash/, hash.h hash_table.h hash_utils.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 
