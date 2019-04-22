@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   exec_binary.h                                    .::    .:/ .      .::   */
+/*   pipe_defines.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/20 22:43:28 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 00:09:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/22 01:45:08 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/22 01:53:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef EXEC_BINARY_H
-# define EXEC_BINARY_H
+#ifndef PIPE_DEFINE_H
+# define PIPE_DEFINE_H
 
-# include "common.h"
-# include "jobs/jobs.h"
-# include "exec/exec_utils.h"
-# include "pipe_redir/pipe_redir.h"
-
-int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context);
+# define READ_END 1
+# define WRITE_END 2
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:44:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 01:48:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -169,6 +169,8 @@ typedef struct	s_proc
 	int				assign;
 	int				not_found;
 	int				no_permission;
+	int				pipe_in;
+	int				pipe_out;
 }				t_proc;
 
 typedef struct	s_proc_grp
@@ -196,6 +198,7 @@ typedef struct	s_context
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
 	int					last;
+	int					last_pipe_read;
 }				t_context;
 
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,

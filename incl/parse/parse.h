@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:15:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 01:53:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,8 +23,6 @@
 # define CHEV_FILE -1
 # define CHEV_CLOSE -2
 # define CHEV_PERM 420
-# define READ_END 0
-# define WRITE_END 1
 
 /*
 ** CHECK

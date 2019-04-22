@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:45:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 03:36:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 00:42:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,8 @@ t_proc	*new_proc(int pid, const char *name, int last)
 	proc->pid = pid;
 	proc->name = ft_strdup(name);
 	proc->last = last;
+	proc->pipe_in = -1;
+	proc->pipe_out = -1;
 	return (proc);
 }
 

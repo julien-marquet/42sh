@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:45:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 01:48:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,6 +25,7 @@ t_cmd *cmd_list)
 
 	if ((context = ft_memalloc(sizeof(t_context))) == NULL)
 		return (NULL);
+	context->last_pipe_read = -1;
 	if (prec_grp == NULL)
 		context->background = is_background(cmd_list);
 	else
