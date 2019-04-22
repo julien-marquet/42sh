@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/20 23:16:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 02:44:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 02:44:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,6 @@ int				register_process(t_context *context, t_proc *proc, int new_pipe[3])
 		context->last_pipe_read = -1;
 	close(new_pipe[WRITE_END]);
 	add_proc(proc, context->proc_grp);
-	dprintf(2, "registered %d, %s, last = %d\n", proc->pid, proc->name, proc->last);
 	return (0);
 }
 
