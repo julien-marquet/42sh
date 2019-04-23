@@ -20,4 +20,7 @@ int		handle_completion(t_input_data *input, t_sh_state *sh_state);
 char	*get_current_word(t_input_data *input, t_sh_state *sh_state);
 int		complete_arg(t_input_data *input, char *word, t_sh_state *state);
 int		complete_bin(char *word, t_sh_state *sh_state, t_input_data *input);
+int		complete_word(t_input_data *input, char *completed, size_t add_slash);
+
+int		find_in_dir(t_list *files, t_input_data *input, char *needle);
 #endif

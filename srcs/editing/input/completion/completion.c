@@ -78,7 +78,7 @@ static char	*get_path(t_input_data *input, size_t get_all)
 }
 
 // TODO free `completed` on error
-static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
+int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 {
 	char	*path;
 
@@ -222,80 +222,7 @@ static t_list	*get_files(char *path, char *needle,
 	return (files);
 }
 
-static void	write_file(char *file)
-{
-	write(1, file, ft_strlen(file));
-	write(1, "\t", 1);
-}
-
 // TODO Free files on error
-static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
-{
-	size_t	i;
-	char	*tmp;
-	t_list	*pointer;
-	t_cur_abs_pos	pos;
-
-	if (files == NULL)
-		return (0);
-	if (files->next == NULL)
-	{
-		if (complete_word(input, ft_strdup(files->content), 1) == 1)
-			return (1);
-	}
-	else
-	{
-		tmp = NULL;
-		pointer = files;
-		while (pointer != NULL)
-		{
-			if (tmp == NULL && (tmp = ft_strdup(pointer->content)) == NULL)
-				return (1);
-			else if (tmp != NULL)
-			{
-				i = 0;
-				while (((char *)pointer->content)[i] == tmp[i] && ((char *)pointer->content)[i] != '\0' && tmp[i] != '\0')
-					i += 1;
-				if (tmp[i] != '\0')
-				{
-					free(tmp);
-					if ((tmp = ft_strndup(pointer->content, i)) == NULL)
-						return (1);
-				}
-			}
-			pointer = pointer->next;
-		}
-		if (ft_strcmp(needle[0] == '$' ? needle + 1 : needle, tmp) != 0)
-		{
-			if (complete_word(input, tmp, 0) == 1)
-				return (1);
-		}
-		else
-		{
-			/* ft_strdel(&tmp); */
-			pointer = files;
-			if (pointer != NULL)
-				write(1, "\n", 1);
-			while (pointer != NULL)
-			{
-				write_file(pointer->content);
-				pointer = pointer->next;
-			}
-			if (files != NULL)
-			{
-				write(1, "\n", 1);
-				print_prompt(0);
-				write(1, input->active_buf->buf, ft_strlen(input->active_buf->buf));
-				if (get_cursor_position(&pos, input->active_buf, input->rel_cur_pos, input->start_pos) == 1)
-					return (1);
-				tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar);
-			}
-		}
-	}
-	lstfree(files);
-	return (0);
-}
-
 int			complete_arg(t_input_data *input, char *word, t_sh_state *state)
 {
 	size_t	i;
