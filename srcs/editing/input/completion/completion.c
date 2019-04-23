@@ -1,4 +1,4 @@
-#include "editing/input/input_completion.h"
+#include "editing/input/completion/completion.h"
 #include "editing/input/input_action_handlers.h"
 #include "parse/parse.h"
 
@@ -104,28 +104,6 @@ static char	*get_current_word(t_input_data *input, t_sh_state *sh_state)
 	ft_strncpy(word, input->active_buf->buf + input->rel_cur_pos - i, i);
 	word[i] = '\0';
 	return (handle_expand(word, sh_state));
-}
-
-static int	delete_completed(t_input_data *input)
-{
-	char *pointer;
-
-	pointer = input->active_buf->buf + input->rel_cur_pos - 1;
-	while (pointer != input->active_buf->buf)
-	{
-		if ((*pointer == '/') || (is_stopping(*pointer) && *(pointer - 1) != '\\'))
-			break ;
-		if ((*pointer == '$' && (is_stopping(*(pointer - 1)) && *(pointer - 2) != '\\')))
-			break ;
-		if (delete_prev_char(input) == 1)
-			return (1);
-		if (*(pointer - 1) == '$' && pointer - 1 == input->active_buf->buf)
-			break ;
-		pointer -= 1;
-	}
-	if (pointer == input->active_buf->buf && *pointer != '/')
-		return (delete_prev_char(input));
-	return (0);
 }
 
 static char	*get_path(t_input_data *input, size_t get_all)
@@ -427,21 +405,6 @@ static int	complete_arg(t_input_data *input, char *word, t_sh_state *state)
 				word -= 1;
 		}
 		return (find_in_dir(get_files(".", word, 0, word[0] == '$', state->internal_storage), input, word));
-	}
-	return (0);
-}
-
-static int	is_path(const char *word)
-{
-	char	*pointer;
-
-	pointer = (char *)word;
-	while (*pointer)
-	{
-		if (*pointer == '/' &&
-			(pointer == word || *(pointer - 1) != '\\'))
-			return (1);
-		pointer += 1;
 	}
 	return (0);
 }

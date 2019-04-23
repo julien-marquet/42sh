@@ -26,6 +26,6 @@
 # include "editing/input/input_main_process.h"
 # include "editing/input/input_utils.h"
 # include "editing/input/input_validator.h"
-# include "editing/input/input_completion.h"
+# include "editing/input/completion/completion.h"
 
 #endif

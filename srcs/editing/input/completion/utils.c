@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "editing/input/input_completion.h"
+#include "editing/input/completion/completion.h"
 
 char			*trim(char *str)
 {

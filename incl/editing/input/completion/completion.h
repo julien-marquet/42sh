@@ -7,7 +7,9 @@
 char	*trim(char *str);
 size_t	is_dir(char *path);
 size_t	is_stopping(char str);
+size_t	is_path(const char *word);
 size_t	is_closed(char *str, char *base);
+int		delete_completed(t_input_data *input);
 
 int		lstfree(t_list *files);
 void	lstmerge(t_list **list1, t_list *list2);

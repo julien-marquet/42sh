@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "editing/input/input_completion.h"
+#include "editing/input/completion/completion.h"
 
 int		lstfree(t_list *list)
 {
