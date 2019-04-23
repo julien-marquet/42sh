@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 03:16:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 04:27:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,21 +44,55 @@ int		check_file_read(const char *path)
 	return (0);
 }
 
-int		modify_path(char **path)
+int		check_file_write(const char *path)
 {
-	char	*cpy;
-	if (path == NULL || *path == NULL)
+	struct stat	f_stat;
+
+	if (path == NULL)
+		return (-1);
+	if (access(path, F_OK) == -1)
 		return (1);
-	if (ft_strchr((const char *)*path, '/') == NULL)
-	{
-		cpy = *path;
-		if ((*path = ft_memalloc(ft_strlen((const char *)*path) + 3)) == NULL)
-			return (1);
-		ft_strcpy(*path, "./");
-		ft_strcpy(*path, cpy);
-		ft_strdel(&cpy);
-	}
+	if (access(path, W_OK) == -1)
+		return (2);
+	if (stat(path, &f_stat) == -1)
+		return (-1);
+	if (S_ISREG(f_stat.st_mode) == 0)
+		return (3);
 	return (0);
+}
+
+
+int		check_dir_write(const char *path)
+{
+	struct stat	f_stat;
+
+	if (path == NULL)
+		return (-1);
+	if (access(path, F_OK) == -1)
+		return (1);
+	if (access(path, W_OK) == -1)
+		return (2);
+	if (stat(path, &f_stat) == -1)
+		return (-1);
+	if (S_ISDIR(f_stat.st_mode) == 0)
+		return (3);
+	return (0);
+}
+
+char	*get_parent_dir_path(const char *path)
+{
+	char	*last_slash;
+	size_t	i;
+
+	if ((last_slash = strrchr(path, '/')) == NULL)
+		return (ft_strdup("."));
+	else
+	{
+		i = 0;
+		while (&(path[i]) != last_slash)
+			i++;
+		return (ft_strndup(path, i));
+	}
 }
 
 int		handle_file_in(t_file *in)
@@ -66,8 +100,6 @@ int		handle_file_in(t_file *in)
 	int		err;
 	int		fd;
 
-	if ((modify_path(&in->file)) == 1)
-		return (-1);
 	if ((err = check_file_read(in->file)) != 0)
 		return (err);
 	else
@@ -132,12 +164,61 @@ int		handle_in(t_file *in, char *origin)
 	return (0);
 }
 
+int		handle_file_out(t_file *out, char *origin)
+{
+	int		err;
+	char	*dir_path;
+	int		fd;
+	int		open_flags;
+
+	if ((err = check_file_write(out->file)) != 0)
+	{
+		if (err == 1)
+		{
+			if ((dir_path = get_parent_dir_path(out->file)) == NULL)
+				return (-1);
+			if ((err = check_dir_write(dir_path)) != 0)
+			{
+				handle_dir_path_error((const char *)origin,
+			(const char *)out->file, err);
+				ft_strdel(&dir_path);
+				return (err);
+			}
+			ft_strdel(&dir_path);
+		}
+		else
+		{
+			handle_path_error(origin, out->file, err);
+			return (err);
+		}
+	}
+	open_flags = O_WRONLY | O_CREAT;
+	if (out->type[C_LEN] == 2)
+		open_flags |= O_APPEND;
+	if ((fd = open(out->file, open_flags, 0666)) == -1)
+		return (-1);
+	dup2(fd, out->type[C_IN]);
+	close(fd);
+	return (0);
+}
+
 int		handle_out(t_file *out, char *origin)
 {
+	int		err;
+
 	while (out != NULL)
 	{
-		dprintf(2, "OUT NODE\n");
-		dprintf(2, "orig = %s\n", origin);
+		if (out->type[C_OUT] != -1)
+		{
+
+		}
+		else if (out->file != NULL)
+		{
+			if ((err = handle_file_out(out, origin)) != 0)
+				return (err);
+		}
+		else
+			return (-1);
 		out = out->next;
 	}
 	return (0);
