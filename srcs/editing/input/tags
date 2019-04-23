@@ -31,7 +31,7 @@ handle_completion	completion.c	/^int		handle_completion(t_input_data *input, t_s
 handle_completion_type	completion.c	/^static int	handle_completion_type(t_input_data *input, t_sh_state *sh_state, char *word)$/;"	f	file:
 handle_enter	input_action_handlers.c	/^int		handle_enter(t_input_data *input_data)$/;"	f
 handle_expand	completion.c	/^static char	*handle_expand(char *word, t_sh_state *sh_state)$/;"	f	file:
-handle_input	input_main_process.c	/^int		handle_input(t_sh_state *sh_state, t_input_data *input_data, char *here_doc)$/;"	f
+handle_input	input_main_process.c	/^int		handle_input(t_sh_state *sh_state, t_input_data *input_data,$/;"	f
 handle_insertion	input_handlers.c	/^int		handle_insertion(t_input_data *input_data)$/;"	f
 handle_quotes	completion.c	/^static char	*handle_quotes(char *word)$/;"	f	file:
 handle_sig	input_handlers.c	/^int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)$/;"	f

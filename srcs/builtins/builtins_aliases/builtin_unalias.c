@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 20:23:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 03:09:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,14 +53,19 @@ t_builtin_context *context)
 		{
 			print_error(context->origin, "usage: unalias [-a] name [name ...]",
 		context->fds.err);
+		ft_strdel(&opts);
 			return (1);
 		}
 		else if (opts != NULL && ft_strchr(opts, 'a') != NULL)
 		{
 			remove_all_aliases(&sh_state->aliases);
+			ft_strdel(&opts);
 			return (0);
 		}
 		else
+		{
+			ft_strdel(&opts);
 			return (handle_remove(&sh_state->aliases, av, context, i));
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:44:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:08:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,13 +17,14 @@ static t_builtin_func	get_builtins_func(const char *name)
 {
 	size_t		i;
 	static char	*assoc_name[BUILTINS_NB + 1] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "test", "[", "alias", "unalias", "jobs", "fg", "hash", NULL
+		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export",
+		"[", "alias", "unalias", "jobs", "fg", "bg", "hash", "test", NULL
 	};
 	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, t_builtin_context *) = {
 		builtin_set, builtin_env, builtin_setenv, builtin_unsetenv,
 		builtin_unset, builtin_exit, builtin_echo, builtin_export,
-		builtin_test, builtin_test, builtin_alias, builtin_unalias,
-		builtin_jobs, builtin_fg, builtin_hash, NULL
+		builtin_test, builtin_alias, builtin_unalias, builtin_jobs, builtin_fg,
+		builtin_bg, builtin_hash, builtin_test, NULL
 	};
 
 	i = 0;
@@ -45,7 +46,7 @@ t_builtin_context	*init_builtin_context()
 
 	if ((builtin_context = ft_memalloc(sizeof(t_builtin_context))) == NULL)
 		return (NULL);
-	if (add_origin(&builtin_context->origin, "42sh") == 1)
+	if (add_origin(&builtin_context->origin, NAME) == 1)
 		return (NULL);
 	builtin_context->fds.err = 2;
 	builtin_context->fds.out = 1;
@@ -55,16 +56,17 @@ t_builtin_context	*init_builtin_context()
 
 int			is_valid_as_function(t_cmd *cmd, t_context *context)
 {
+	dprintf(2, "RED = %s, last red = %s, background = %d\n", cmd->red,
+context->proc_grp->last_red, context->background);
 	if (cmd->red == NULL)
 	{
-		if (context->prev_ex_flag == NULL ||
-	ft_strcmp(context->prev_ex_flag, "|") != 0)
+		if (context->proc_grp->last_red == NULL ||
+	ft_strcmp(context->proc_grp->last_red, "|") != 0)
 			return (context->background == 0);
 	}
 	else if (ft_strcmp(cmd->red, "|") != 0)
 	{
-		if (context->prev_ex_flag == NULL ||
-	ft_strcmp(context->prev_ex_flag, "|") != 0)
+		if (context->proc_grp->last_red == NULL)
 			return (context->background == 0);
 	}
 	return (0);
@@ -97,8 +99,7 @@ t_context *context)
 			else
 				res = 2;
 		}
-		free(context->builtin_context);
-		context->builtin_context = NULL;
+		free_builtin_context(&context->builtin_context);
 	}
 	return (res);
 }

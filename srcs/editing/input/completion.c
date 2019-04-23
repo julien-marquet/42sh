@@ -297,7 +297,7 @@ static int		get_builtins(t_list **files, char *needle)
 	size_t	len;
 	t_list	*link;
 	char	*builtins[BUILTINS_NB] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "test", "[", "alias", "unalias", "jobs", "fg", "hash"
+		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "test", "[", "alias", "unalias", "jobs", "fg", "bg", "hash"
 	};
 	
 	i = 0;

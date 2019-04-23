@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:42:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:15:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,8 +18,7 @@
 # include "sh.h"
 # include "parse/utils.h"
 # include "exec/exec.h"
-
-# define SH_NAME "42sh"
+# include "exec/exec_cmd_checkers.h"
 
 # define CHEV_FILE -1
 # define CHEV_CLOSE -2
@@ -31,7 +30,6 @@
 ** CHECK
 */
 
-int					parse_error(char *str, int i);
 int					parse_check(char *str);
 
 /*
@@ -49,6 +47,7 @@ char				*get_expand_str(char *str, t_sh_state *sh_state);
 char				**parse_strsplit(char *str, int len);
 
 t_cmd				*parse_nextfree(t_cmd *cmd);
+void				free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd);
 
 /*
 ** EXEC

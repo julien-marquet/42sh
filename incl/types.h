@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:33:47 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 03:44:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,12 +27,12 @@ typedef enum	e_job_status
 	continued,
 }				t_job_status;
 
-typedef struct  s_hash_table
+typedef struct	s_hash_table
 {
-   size_t   hits;
-   char     *bin;
-   char     *path;
-}               t_hash_table;
+	size_t		hits;
+	char		*bin;
+	char		*path;
+}				t_hash_table;
 
 typedef struct	s_cur_abs_pos
 {
@@ -48,8 +48,8 @@ typedef struct	s_sh_state
 	size_t			exit_sig;
 	t_list			*internal_storage;
 	t_list			*aliases;
-	t_list                  *hash_table;
 	int				shell_pid;
+	t_list			*hash_table;
 }				t_sh_state;
 
 typedef struct	s_dyn_buf
@@ -143,6 +143,7 @@ typedef struct		s_cmd {
 	t_file			*in;
 	t_file			*out;
 	struct s_cmd	*next;
+	int				assign;
 }					t_cmd;
 
 /*
@@ -164,7 +165,10 @@ typedef struct	s_proc
 	char			*name;
 	int				updated;
 	int				last;
-	t_cmd			*remaining;
+	int				null;
+	int				assign;
+	int				not_found;
+	int				no_permission;
 }				t_proc;
 
 typedef struct	s_proc_grp
@@ -172,21 +176,25 @@ typedef struct	s_proc_grp
 	t_list	*procs;
 	int		pgid;
 	char	*name;
+	t_cmd	*remaining;
+	char	*last_red;
+	int		background;
+	int		revived;
 }				t_proc_grp;
 
 typedef struct	s_jobs
 {
-	t_list	*proc_grps;
-	int		busy;
+	t_list		*proc_grps;
+	int			busy;
+	int			last_bpid;
+	t_sh_state	*sh_state;
 }				t_jobs;
 
 typedef struct	s_context
 {
 	int					background;
-	t_list				*rem_cmd;
 	t_proc_grp			*proc_grp;
 	t_builtin_context	*builtin_context;
-	char				*prev_ex_flag;
 	int					last;
 }				t_context;
 

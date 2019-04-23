@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:55:02 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 02:23:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/18 23:54:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,8 +15,11 @@
 # define JOBS_PROCS_SETTERS_H
 
 # include "common.h"
+# include "exec/exec_cmd_checkers.h"
 
-t_proc		*new_proc(int pid, const char *name, int last, t_cmd *remaining);
+t_proc		*new_proc(int pid, const char *name, int last);
 int			add_proc(t_proc *proc, t_proc_grp *proc_grp);
+int			add_null_proc(t_proc_grp *proc_grp, const char *name,
+t_cmd *cmd);
 
 #endif

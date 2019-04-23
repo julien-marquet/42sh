@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   builtin_test.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/11 21:00:28 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/11 21:00:29 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 22:34:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,6 @@
 
 # include "common.h"
 # include <errno.h>
-# include <sys/stat.h>
 
 typedef struct	s_test_infos
 {

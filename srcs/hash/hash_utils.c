@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   utils.c                                          .::    .:/ .      .::   */
+/*   hash_utils.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:15:24 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 22:15:25 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 22:32:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtin_hash/builtin_hash.h"
+#include "hash/hash_utils.h"
 
 int			test_bin(char *bin_path)
 {
+	struct stat	f_stat;
+
 	if (bin_path == NULL)
 		return (-1);
 	if (access(bin_path, F_OK) == -1)
 		return (1);
 	if (access(bin_path, X_OK) == -1)
 		return (2);
+	if (stat(bin_path, &f_stat) == -1)
+		return (-1);
+	if (S_ISREG(f_stat.st_mode) == 0)
+		return (3);
 	return (0);
 }
 

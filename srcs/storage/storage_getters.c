@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 18:06:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 23:31:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/19 21:20:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,4 +40,38 @@ char	*get_stored(t_list *storage, const char *var_name)
 		return (NULL);
 	return (ft_strdup(&((t_internal_storage *)(
 node->content))->string[ft_strlen(var_name) + 1]));
+}
+
+t_list	*duplicate_storage(t_list *storage)
+{
+	t_list				*new;
+	t_list				*node;
+	t_internal_storage	*entry;
+	t_internal_storage	*old_entry;
+
+	new = NULL;
+	while (storage != NULL)
+	{
+		old_entry = (t_internal_storage *)storage->content;
+		if ((entry = ft_memalloc(sizeof(t_internal_storage))) == NULL)
+			return (new);
+			entry->exported = old_entry->exported;
+			entry->new_entry = old_entry->new_entry;
+		if ((entry->string = ft_strdup(old_entry->string)) == NULL)
+		{
+			free(entry);
+			return (new);
+		}
+		if ((node = ft_memalloc(sizeof(t_list))) == NULL)
+		{
+			ft_strdel(&entry->string);
+			free(entry);
+			return (new);
+		}
+		node->content = entry;
+		node->content_size = sizeof(t_internal_storage);
+		ft_lstappend(&new, node);
+		storage = storage->next;
+	}
+	return (new);
 }

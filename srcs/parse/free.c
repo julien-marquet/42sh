@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   free.c                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/20 16:00:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 16:16:28 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 01:32:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,4 +56,26 @@ t_cmd			*parse_nextfree(t_cmd *cmd)
 	free_file(cmd->in);
 	free(cmd);
 	return (next);
+}
+
+void	free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
+{
+	t_cmd	*prev;
+	t_cmd	*end;
+
+	if (remaining != NULL)
+		end = remaining;
+	else
+		end = cmd;
+	while (acmd != NULL && acmd != end)
+	{
+		ft_strdel(&acmd->str);
+		ft_strdel(&acmd->red);
+		free_arg(acmd->arg);
+		free_file(acmd->out);
+		free_file(acmd->in);
+		prev = acmd;
+		acmd = acmd->next;
+		free(prev);
+	}
 }

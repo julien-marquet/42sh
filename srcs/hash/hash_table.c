@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   table.c                                          .::    .:/ .      .::   */
+/*   hash_table.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:42:12 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 22:42:12 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 22:30:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtin_hash/builtin_hash.h"
-#include "storage/storage.h"
+#include "hash/hash_table.h"
 
 static char		*check_paths(char **paths, char *bin,
 			t_list **table, size_t found)
@@ -109,7 +108,7 @@ char			*get_bin_path(char **av, t_list **table,
 	found = 2;
 	if (pointer == NULL)
 	{
-		if ((path = append_bin(av[0], table, internal_storage, &found)) == NULL)
+		if ((path = append_bin(av[0], table, internal_storage, &found)) != NULL)
 		{
 			if (found)
 				return (path);

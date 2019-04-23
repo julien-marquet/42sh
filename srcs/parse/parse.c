@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 00:54:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 02:21:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,11 +37,17 @@ static int		parse_tokenparse(t_cmd *cmd, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	int		len;
+	int		i;
 
+	i = 0;
 	if (parse_expansion(cmd, sh_state))
 		return (1);
 	parse_chev(cmd, sh_state, input_data);
 	len = parse_tokenlen(cmd);
+	while (i < len && ft_isspace(cmd->str[i]))
+		i++;
+	if (i == len)
+		return (0);
 	if (!(cmd->arg = parse_strsplit(cmd->str, len)))
 		return (1);
 	return (0);
@@ -53,7 +59,8 @@ void			parse_print(t_cmd *cmd)
 	t_file	*file;
 
 	i = 0;
-	while (cmd->arg[i])
+	dprintf(2, "\033[34;1m");
+	while (cmd->arg && cmd->arg[i])
 	{
 		dprintf(2, "arg[%i] = %s\n", i, cmd->arg[i]);
 		i++;
@@ -73,7 +80,8 @@ void			parse_print(t_cmd *cmd)
 		dprintf(2, "out=%i = '%s'\n", file->type[C_OUT], file->file);
 		file = file->next;
 	}
-	dprintf(2, "Redir %s\n", cmd->red);
+	dprintf(2, "Redir %s Assign %i\n", cmd->red, cmd->assign);
+	dprintf(2, "\033[0m");
 }
 
 char			*create_job_name(t_cmd *acmd)
@@ -82,7 +90,7 @@ char			*create_job_name(t_cmd *acmd)
 	char	*tmp;
 
 	name = NULL;
-	while (acmd != NULL)
+	while (!cmd_is_empty(acmd))
 	{
 		if (name == NULL && acmd->str != NULL)
 			name = ft_strdup(acmd->str);
@@ -119,6 +127,7 @@ int				parse_exec(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	t_cmd	*cmd;
+	t_cmd	*tmp;
 	char	*str;
 	int		i;
 	char	*job_name;
@@ -136,19 +145,24 @@ t_input_data *input_data)
 	acmd = cmd;
 	while (cmd)
 	{
+		tmp = NULL;
 		if (parse_tokenparse(cmd, sh_state, input_data))
-			return (1);
+			return (-1);
 		parse_print(cmd);
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
 		{
+			tmp = cmd->next;
 			job_name = create_job_name(acmd);
-			if (exec_cmd_list(sh_state, acmd, job_name) == 1)
-				return (1);
+			i = exec_cmd_list(sh_state, acmd, job_name, NULL);
 			ft_strdel(&job_name);
-			acmd = cmd->next;
+			if (i == -1)
+				return (-1);
+			cmd = tmp;
+			acmd = cmd;
 		}
-		cmd = cmd->next;
+		else
+			cmd = cmd->next;
 	}
 	return (0);
 }

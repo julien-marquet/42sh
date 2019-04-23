@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 23:37:38 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 00:05:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/20 03:20:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -99,8 +99,8 @@ t_builtin_context *context)
 				print_export(sh_state->internal_storage, context->fds.out);
 			else
 				res = handle_export(&sh_state->internal_storage, av, i, context);
-			ft_strdel(&opts);
 		}
+		ft_strdel(&opts);
 	}
 	return (res);
 }
