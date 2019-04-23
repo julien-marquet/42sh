@@ -200,20 +200,6 @@ static int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 	return (0);
 }
 
-static int		lstfree(t_list *list)
-{
-	t_list	*previous;
-
-	while (list != NULL)
-	{
-		previous = list;
-		list = list->next;
-		free(previous->content);
-		free(previous);
-	}
-	return (1);
-}
-
 static int		get_builtins(t_list **files, char *needle)
 {
 	size_t	i;
@@ -443,21 +429,6 @@ static int	complete_arg(t_input_data *input, char *word, t_sh_state *state)
 		return (find_in_dir(get_files(".", word, 0, word[0] == '$', state->internal_storage), input, word));
 	}
 	return (0);
-}
-
-static void	lstmerge(t_list **list1, t_list *list2)
-{
-	t_list	*pointer;
-
-	pointer = *list1;
-	if (pointer == NULL)
-	{
-		*list1 = list2;
-		return ;
-	}
-	while (pointer->next != NULL)
-		pointer = pointer->next;
-	pointer->next = list2;
 }
 
 static int	is_path(const char *word)

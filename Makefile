@@ -21,7 +21,7 @@ LIB_DIR = libs
 # C FOLDERS LIST
 
 CFOLDERS = $(addprefix $(OBJ_DIR)/, storage \
-editing editing/cursor editing/history editing/input \
+editing editing/cursor editing/history editing/input editing/input/completion \
 data data/win_data data/dyn_buf data/data_utils \
 builtins builtins/builtins_storage builtins/builtins_aliases \
 builtins/builtin_hash builtins/builtin_echo builtins/builtins_jobs \
@@ -38,7 +38,8 @@ CFILES = main.c sh.c sh_state.c term_state.c signal_handler.c error_handler.c
 CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
-CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c completion.c)
+CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
+CFILES += $(addprefix editing/input/completion/, utils.c lst_utils.c completion.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
 CFILES += $(addprefix parse/expand/, expand_tilde.c expand_param.c expand_error.c expand.c)
