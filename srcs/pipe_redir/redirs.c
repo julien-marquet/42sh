@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 04:52:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 05:02:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,7 +56,7 @@ int		check_file_write(const char *path)
 		return (2);
 	if (stat(path, &f_stat) == -1)
 		return (-1);
-	if (S_ISREG(f_stat.st_mode) == 0)
+	if (S_ISDIR(f_stat.st_mode) == 1)
 		return (3);
 	return (0);
 }
@@ -123,7 +123,7 @@ void	handle_fd_error(t_file *in, char *origin)
 int		handle_signal_in(t_file *in)
 {
 	if (dup2(in->type[C_OUT], in->type[C_IN]) == -1)
-			return (1);
+		return (1);
 	return (0);
 }
 
@@ -192,7 +192,7 @@ int		handle_file_out(t_file *out, char *origin)
 		}
 		else
 		{
-			handle_path_error(origin, out->file, err);
+			handle_write_path_error(origin, out->file, err);
 			return (err);
 		}
 	}
@@ -248,8 +248,3 @@ int		handle_redir(t_cmd *cmd, char *origin)
 	}
 	return (0);
 }
-
-/*
-**	OUT -1  no redir in canal -2 close
-**	IN 1 default 0 chev gauche default * value of in
-*/
