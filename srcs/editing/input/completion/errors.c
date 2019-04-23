@@ -13,8 +13,10 @@
 
 #include "editing/input/completion/completion.h"
 
-int		free_exit(t_list *files)
+int		free_exit(t_list *files, char *str)
 {
 	lstfree(files);
+	if (str != NULL)
+		free(str);
 	return (1);
 }

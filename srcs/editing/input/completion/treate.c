@@ -94,7 +94,7 @@ static int	half_complete(t_list *files, t_input_data *input, char *needle)
 		free(tmp);
 		return (print_files(files, input));
 	}
-	free(tmp);
+	/* free(tmp); */
 	return (0);
 }
 
