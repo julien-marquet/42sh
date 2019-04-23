@@ -110,7 +110,10 @@ static char	*handle_expand(char *word, t_sh_state *sh_state)
 	char	*currentWord;
 
 	if (*word == '\0')
+	{
+		free(word);
 		return (ft_strdup(""));
+	}
 	if ((currentWord = get_expand_str(word, sh_state)) == NULL)
 		return (NULL);
 	pointer = currentWord;
@@ -188,7 +191,7 @@ static int	delete_completed(t_input_data *input)
 			break ;
 		pointer -= 1;
 	}
-	if (pointer == input->active_buf->buf)
+	if (pointer == input->active_buf->buf && *pointer != '/')
 		return (delete_prev_char(input));
 	return (0);
 }
@@ -218,10 +221,11 @@ static char	*get_path(t_input_data *input, size_t get_all)
 		}
 		pointer -= 1;
 	}
-	if (*(pointer + 1) == '\0')
+	if (*(pointer + 1) == '\0' ||
+(ft_strrchr(input->active_buf->buf, '/') == input->active_buf->buf && old2 == 0))
 		tmp = ft_strdup("/");
 	else
-		tmp = ft_strdup(pointer + 1);
+		tmp = ft_strdup(*pointer == '/' ? pointer : pointer + 1);
 	input->active_buf->buf[input->rel_cur_pos] = old;
 	while (old2 != 0)
 	{
@@ -453,6 +457,7 @@ static int	find_in_dir(t_list *files, t_input_data *input, char *needle)
 		}
 		else
 		{
+			/* ft_strdel(&tmp); */
 			pointer = files;
 			if (pointer != NULL)
 				write(1, "\n", 1);
@@ -532,6 +537,21 @@ static void	lstmerge(t_list **list1, t_list *list2)
 	pointer->next = list2;
 }
 
+static int	is_path(const char *word)
+{
+	char	*pointer;
+
+	pointer = (char *)word;
+	while (*pointer)
+	{
+		if (*pointer == '/' &&
+			(pointer == word || *(pointer - 1) != '\\'))
+			return (1);
+		pointer += 1;
+	}
+	return (0);
+}
+
 static int	complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 {
 	char	*tmp;
@@ -539,6 +559,8 @@ static int	complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 	char	**paths;
 	char	**pointer;
 
+	if (is_path(word))
+		return (complete_arg(input, word, sh_state));
 	if ((tmp = get_env_value(sh_state->internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
