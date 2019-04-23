@@ -86,7 +86,8 @@ static int	fill_list(t_list **files, DIR *dir, char *needle)
 			if ((ft_strcmp(entry->d_name, ".") == 0 ||
 			ft_strcmp(entry->d_name, "..") == 0) && ft_strcmp(needle, ".") != 0)
 				continue ;
-			if ((link = ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
+			if ((link =
+				ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
 				return (free_exit(*files, NULL));
 			if (*files == NULL)
 				*files = link;
