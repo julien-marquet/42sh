@@ -17,7 +17,9 @@ void	lstmerge(t_list **list1, t_list *list2);
 char	*handle_expand(char *word, t_sh_state *sh_state);
 int		handle_completion(t_input_data *input, t_sh_state *sh_state);
 
+char	*get_path(t_input_data *input, size_t get_all);
 char	*get_current_word(t_input_data *input, t_sh_state *sh_state);
+
 int		complete_arg(t_input_data *input, char *word, t_sh_state *state);
 int		complete_bin(char *word, t_sh_state *sh_state, t_input_data *input);
 int		complete_word(t_input_data *input, char *completed, size_t add_slash);
