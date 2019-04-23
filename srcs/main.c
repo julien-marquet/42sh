@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 22:23:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/21 23:53:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,11 +36,6 @@ int		main(int ac, char **av, char **env)
 		return (1);
 	if ((input_data = init_input_data()) == NULL)
 		return (1);
-        if (input_data->active_buf->len > 0)
-        {
-            input_data->active_buf->len -= 1;
-            input_data->active_buf->buf[input_data->active_buf->len] = '\0';
-        }
 	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
 		return (1);
 
@@ -75,7 +70,3 @@ int		main(int ac, char **av, char **env)
 	exit_sh(sh_state, input_data);
 	return (0);
 }
-
-// handle escape \ for aliases
-// piste =>
-// The waitpid() function allows the calling thread to obtain status information for one of its child processes. The calling thread suspends processing until status information is available for the specified child process, if the options argument is 0. A suspended waitpid() function call can be interrupted by the delivery of a signal whose action is either to run a signal-catching function or to terminate the process. When waitpid() is successful, status information about how the child process ended (for example, whether the process ended normally) is stored in the location specified by stat_loc.
