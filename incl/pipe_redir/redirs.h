@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   pipe_redir.h                                     .::    .:/ .      .::   */
+/*   redirs.h                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/22 00:01:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 23:31:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/22 23:22:40 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/23 01:44:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef PIPE_REDIR_H
-# define PIPE_REDIR_H
+#ifndef REDIRS_H
+# define REDIRS_H
 
-# include "pipe_redir/pipes.h"
 # include "pipe_redir/pipe_defines.h"
-# include "pipe_redir/redirs.h"
+# include "common.h"
+# include <fcntl.h>
+# include "error_handler.h"
+
+int		handle_redir(t_cmd *cmd, char *origin);
 
 #endif

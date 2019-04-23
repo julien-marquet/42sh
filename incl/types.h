@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 01:48:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 21:36:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -112,6 +112,17 @@ typedef struct		s_arg {
 }					t_arg;
 
 /*
+** t_ctype	Chevron redirection type
+*/
+
+typedef enum		e_ctype {
+	C_IN = 0,
+	C_LEN,
+	C_OUT,
+	C_TYPE
+}					t_ctype;
+
+/*
 ** t_file	Parsed redirections
 **
 ** char		*file = Redirection file / Heredoc end
@@ -145,17 +156,6 @@ typedef struct		s_cmd {
 	struct s_cmd	*next;
 	int				assign;
 }					t_cmd;
-
-/*
-** t_ctype	Chevron redirection type
-*/
-
-typedef enum		e_ctype {
-	C_IN = 0,
-	C_LEN,
-	C_OUT,
-	C_TYPE
-}					t_ctype;
 
 typedef struct	s_proc
 {

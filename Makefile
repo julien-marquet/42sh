@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/22 01:52:23 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/22 23:31:43 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -61,7 +61,7 @@ CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_setters.c)
 CFILES += $(addprefix exec/, exec.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c )
 CFILES += $(addprefix hash/, hash_table.c hash_utils.c)
-CFILES += $(addprefix pipe_redir/, pipes.c)
+CFILES += $(addprefix pipe_redir/, redirs.c pipes.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -92,7 +92,7 @@ TMPFILES += $(addprefix jobs/jobs_procs/, jobs_procs.h jobs_procs_getters.h jobs
 TMPFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps.h jobs_proc_grps_getters.h jobs_proc_grps_setters.h)
 TMPFILES += $(addprefix exec/, exec.h exec_utils.h exec_binary.h exec_dispatcher.h exec_by_flag.h exec_cmd_checkers.h)
 TMPFILES += $(addprefix hash/, hash.h hash_table.h hash_utils.h)
-TMPFILES += $(addprefix pipe_redir/, pipe_redir.h pipes.h pipe_defines.h)
+TMPFILES += $(addprefix pipe_redir/, redirs.h pipe_redir.h pipes.h pipe_defines.h)
 
 HFILES = $(addprefix $(PATH)$(HEAD_DIR)/, $(TMPFILES))
 

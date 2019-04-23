@@ -6,26 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 00:08:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 01:42:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "exec/exec_dispatcher.h"
-
-void	handle_path_error(const char *origin, const char *path, int err)
-{
-	char	*str;
-
-	if (err == 1)
-		str = ft_construct_str(2, path, ": no such file or directory\n");
-	else if (err == 2)
-		str = ft_construct_str(2, path, ": permission denied\n");
-	else if (err == 3)
-		str = ft_construct_str(2, path, ": is not a regular file\n");
-	print_error(origin, str, 2);
-	ft_strdel(&str);
-}
 
 static int	is_absolute_path(const char *path)
 {

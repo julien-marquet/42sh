@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/20 23:16:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 02:44:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 02:13:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,10 +21,12 @@ int				register_process(t_context *context, t_proc *proc, int new_pipe[3])
 	if (context->last_pipe_read != -1)
 		close(context->last_pipe_read);
 	if (new_pipe[0] == 1)
-		context->last_pipe_read = new_pipe[1];
+	{
+		context->last_pipe_read = new_pipe[READ_END];
+		close(new_pipe[WRITE_END]);
+	}
 	else
 		context->last_pipe_read = -1;
-	close(new_pipe[WRITE_END]);
 	add_proc(proc, context->proc_grp);
 	return (0);
 }
