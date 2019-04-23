@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:08:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 20:43:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -87,7 +87,7 @@ t_context *context)
 		{
 			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
-		(const char **)cmd->arg, f, context);
+		cmd, f, context);
 			res = 1;
 		}
 		else

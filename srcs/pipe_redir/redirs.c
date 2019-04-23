@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 05:02:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 20:56:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,7 +39,7 @@ int		check_file_read(const char *path)
 		return (2);
 	if (stat(path, &f_stat) == -1)
 		return (-1);
-	if (S_ISREG(f_stat.st_mode) == 0)
+	if (S_ISDIR(f_stat.st_mode) == 1)
 		return (3);
 	return (0);
 }
@@ -157,7 +157,7 @@ int		handle_in(t_file *in, char *origin)
 		{
 			if ((err = handle_file_in(in)) != 0)
 			{
-				handle_path_error(origin, in->file, err);
+				handle_no_dir_error(origin, in->file, err);
 				return (err);
 			}
 		}
@@ -192,7 +192,7 @@ int		handle_file_out(t_file *out, char *origin)
 		}
 		else
 		{
-			handle_write_path_error(origin, out->file, err);
+			handle_no_dir_error(origin, out->file, err);
 			return (err);
 		}
 	}
@@ -243,6 +243,7 @@ int		handle_redir(t_cmd *cmd, char *origin)
 	}
 	if (cmd->out != NULL)
 	{
+		dprintf(2, "cmd = %s\n", cmd->out->file);
 		if ((err = handle_out(cmd->out, origin)) != 0)
 			return (err);
 	}

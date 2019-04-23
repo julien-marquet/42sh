@@ -6,14 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 02:46:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 20:45:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_execution.h"
-# include "signal.h"
-# include "errno.h"
+
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -26,6 +25,7 @@ t_builtin_func builtin, t_context *context)
 	const char **arg;
 	t_builtin_context	*builtin_context;
 	int		new_pipe[3];
+	int		err;
 
 	new_pipe[0] = 0;
 	builtin_context = context->builtin_context;
@@ -40,11 +40,19 @@ t_builtin_func builtin, t_context *context)
 	if (pid == 0)
 	{
 		use_pipes(context, new_pipe);
-		reset_signal_handlers();
-		setpgid(0, context->proc_grp->pgid);
-		res = builtin(sh_state,
-	ft_arraylen((const void **)arg), arg, builtin_context);
-		exit(0);
+		if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
+		{
+			dprintf(2, "exiting with status %d\n", err);
+			exit(err);
+		}
+		else
+		{
+			reset_signal_handlers();
+			setpgid(0, context->proc_grp->pgid);
+			res = builtin(sh_state,
+		ft_arraylen((const void **)arg), arg, builtin_context);
+			exit(res);
+		}
 	}
 	else
 	{
@@ -56,9 +64,27 @@ t_builtin_func builtin, t_context *context)
 	return (0);
 }
 
-int				exec_builtin_as_function(t_sh_state *sh_state, const char **av,
+int				exec_builtin_as_function(t_sh_state *sh_state, t_cmd *cmd,
 t_builtin_func builtin, t_context *context)
 {
-	return (builtin(sh_state, ft_arraylen((const void **)av),
-av, context->builtin_context));
+	int		err;
+	int		std_state[3];
+
+	std_state[0] = dup(0);
+	std_state[1] = dup(1);
+	std_state[2] = dup(2);
+	if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
+	{
+		dprintf(2, "exiting with status %d\n", err);
+		exit(err);
+	}
+	err = builtin(sh_state, ft_arraylen((const void **)cmd->arg),
+(const char **)cmd->arg, context->builtin_context);
+	dup2(std_state[0], 0);
+	close(std_state[0]);
+	dup2(std_state[1], 1);
+	close(std_state[1]);
+	dup2(std_state[2], 2);
+	close(std_state[2]);
+	return (err);
 }
