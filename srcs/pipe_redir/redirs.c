@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 02:10:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 03:16:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -79,17 +79,43 @@ int		handle_file_in(t_file *in)
 	return (0);
 }
 
+void	handle_fd_error(t_file *in, char *origin)
+{
+	char	*err;
+
+	err = ft_construct_str(2, in->file, ": Bad file descriptor");
+	print_error(origin, err, 2);
+	ft_strdel(&err);
+}
+
+int		handle_signal_in(t_file *in)
+{
+	if (in->type[C_IN] != -1 && in->type[C_OUT] != -1)
+	{
+		if (dup2(in->type[C_OUT], in->type[C_IN]) == -1)
+			return (1);
+	}
+	return (0);
+}
+
 int		handle_in(t_file *in, char *origin)
 {
 	int		err;
 
 	while (in != NULL)
 	{
-		dprintf(2, "IN NODE\n");
 		if (in->here != NULL)
 		{
 			if ((err = handle_here(in)) != 0)
 				return (-1);
+		}
+		else if (in->type[C_OUT] != -1)
+		{
+			if ((err = handle_signal_in(in)) != 0)
+			{
+				handle_fd_error(in, origin);
+				return (1);
+			}
 		}
 		else if (in->file != NULL)
 		{
@@ -99,8 +125,8 @@ int		handle_in(t_file *in, char *origin)
 				return (err);
 			}
 		}
-		/*else
-			handle_signal();*/
+		else
+			return (-1);
 		in = in->next;
 	}
 	return (0);
