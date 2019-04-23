@@ -30,45 +30,6 @@ int	complete_word(t_input_data *input, char *completed, size_t add_slash)
 	return (0);
 }
 
-static int		get_builtins(t_list **files, char *needle)
-{
-	size_t	i;
-	size_t	len;
-	t_list	*link;
-	char	*builtins[BUILTINS_NB] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export", "test", "[", "alias", "unalias", "jobs", "fg", "bg", "hash"
-	};
-	
-	i = 0;
-	len = ft_strlen(needle);
-	while (i < BUILTINS_NB) {
-		if (ft_strncmp(builtins[i], needle, len) == 0)
-		{
-			if ((link = ft_lstnew(builtins[i], ft_strlen(builtins[i]) + 1)) == NULL)
-			{
-				lstfree(*files);
-				return (1);
-			}
-			if (*files == NULL)
-				*files = link;
-			else
-				ft_lstadd(files, link);
-		}
-		i += 1;
-	}
-	return (0);
-}
-
-static size_t	get_var_name_length(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '=')
-		i += 1;
-	return (i);
-}
-
 static int		get_vars(t_list **files, t_list *storage, char *needle)
 {
 	size_t	len;

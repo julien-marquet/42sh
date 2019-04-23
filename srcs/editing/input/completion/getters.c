@@ -31,6 +31,16 @@ static size_t	should_stop(t_input_data *input, char **pointer, size_t *i)
 	return (0);
 }
 
+size_t			get_var_name_length(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '=')
+		i += 1;
+	return (i);
+}
+
 char			*dup_path(t_input_data *input,
 		char *pointer, char old, char old2)
 {

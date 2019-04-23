@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   utils2.c                                         .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2019/04/23 21:34:51 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/23 21:34:51 by legrivel    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
+/* ************************************************************************** */
+
 #include "editing/input/completion/completion.h"
 #include "editing/input/input_action_handlers.h"
 
@@ -8,9 +21,11 @@ int		delete_completed(t_input_data *input)
 	pointer = input->active_buf->buf + input->rel_cur_pos - 1;
 	while (pointer != input->active_buf->buf)
 	{
-		if ((*pointer == '/') || (is_stopping(*pointer) && *(pointer - 1) != '\\'))
+		if ((*pointer == '/') ||
+			(is_stopping(*pointer) && *(pointer - 1) != '\\'))
 			break ;
-		if ((*pointer == '$' && (is_stopping(*(pointer - 1)) && *(pointer - 2) != '\\')))
+		if ((*pointer == '$' &&
+			(is_stopping(*(pointer - 1)) && *(pointer - 2) != '\\')))
 			break ;
 		if (delete_prev_char(input) == 1)
 			return (1);
