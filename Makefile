@@ -21,7 +21,7 @@ LIB_DIR = libs
 # C FOLDERS LIST
 
 CFOLDERS = $(addprefix $(OBJ_DIR)/, storage \
-editing editing/cursor editing/history editing/input \
+editing editing/cursor editing/history editing/input editing/input/completion \
 data data/win_data data/dyn_buf data/data_utils \
 builtins builtins/builtins_storage builtins/builtins_aliases \
 builtins/builtin_hash builtins/builtin_echo builtins/builtins_jobs \
@@ -40,6 +40,7 @@ CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix editing/input/, input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
+CFILES += $(addprefix editing/input/completion/, utils.c utils2.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
 CFILES += $(addprefix parse/expand/, expand_tilde.c expand_param.c expand_error.c expand.c)
@@ -73,6 +74,7 @@ TMPFILES += $(addprefix parse/, parse.h utils.h expand.h localvar.h parse_alias.
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
 TMPFILES += $(addprefix editing/input/, input.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
+TMPFILES += $(addprefix editing/input/completion/, completion.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
 TMPFILES += $(addprefix data/, input_data.h)
 TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h data_utils_arr.h)

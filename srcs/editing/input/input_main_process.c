@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "editing/input/input_main_process.h"
+#include "editing/input/completion/completion.h"
 
 static int		get_buf(t_dyn_buf *build_buf)
 {
@@ -37,7 +38,7 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 	}
 	else if (is_capability(input_data->build_buf->buf) == 1)
 	{
-		if (handle_capabilities(input_data, hist_copy) == 1)
+		if (handle_capabilities(input_data, hist_copy, sh_state) == 1)
 			return (1);
 	}
 	else

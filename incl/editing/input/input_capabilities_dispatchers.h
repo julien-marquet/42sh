@@ -17,7 +17,8 @@
 # include "common.h"
 # include "editing/input/input.h"
 
-int		capabilities_dispatcher_1(t_input_data *input_data);
+int		capabilities_dispatcher_1(t_input_data *input_data,
+		t_sh_state *sh_state);
 int		capabilities_dispatcher_2(t_input_data *input_data);
 int		capabilities_dispatcher_3(t_input_data *input_data);
 int		capabilities_dispatcher_4(t_input_data *input_data, t_list *hist_copy);
