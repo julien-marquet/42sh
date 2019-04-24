@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 02:21:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 01:01:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -147,7 +147,10 @@ t_input_data *input_data)
 	{
 		tmp = NULL;
 		if (parse_tokenparse(cmd, sh_state, input_data))
-			return (-1);
+		{
+			free_cmds(acmd);
+			return (1);
+		}
 		parse_print(cmd);
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
