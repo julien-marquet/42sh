@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/21 02:38:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:49:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 00:13:38 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,7 @@ char	*get_special_parameter(t_sh_state *sh_state, char *search)
 	else if (ft_strcmp(search, "!") == 0)
 		return (ft_itoa(jobs_super_get(NULL)->last_bpid));
 	else if (ft_strcmp(search, "0") == 0)
-		return (NAME);
+		return (ft_strdup(NAME));
 	else
 		return (NULL);
 }
