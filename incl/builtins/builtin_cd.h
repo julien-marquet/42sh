@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   common.h                                         .::    .:/ .      .::   */
+/*   builtin_cd.h                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 05:26:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/23 20:25:04 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/24 03:07:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_COMMON_H
-# define SH_COMMON_H
+#ifndef BUILTIN_CD_H
+# define BUILTIN_CD_H
 
-# include <sys/ioctl.h>
-# include <curses.h>
-# include <term.h>
-# include <unistd.h>
-# include <termios.h>
-# include "types.h"
-# include "signal.h"
-# include "../libs/Libft/libft.h"
-# include <sys/stat.h>
-# include "limits.h"
+# include "common.h"
+# include "storage/storage.h"
+# include "builtins/builtins_utils.h"
 
-# define NAME "42sh"
+int		builtin_cd(t_sh_state *sh_state, int ac,
+		const char **av, t_builtin_context *context);
 
 #endif

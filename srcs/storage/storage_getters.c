@@ -6,12 +6,16 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 18:06:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 21:20:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 01:32:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_getters.h"
+
+/*
+**	Does not need to be freed
+*/
 
 char    *get_env_value(t_list *list, const char *key)
 {
@@ -29,6 +33,10 @@ char    *get_env_value(t_list *list, const char *key)
     }
     return (NULL);
 }
+
+/*
+**	Need to be freed
+*/
 
 char	*get_stored(t_list *storage, const char *var_name)
 {
