@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 20:23:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 05:22:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 06:12:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,15 +18,16 @@ int		check_dir_path(const char *path)
 {
 	struct stat	f_stat;
 
-	dprintf(2, "check dir path, path = %s\n", path);
 	if (path == NULL)
-		return (1);
+		return (-1);
 	if (access(path, F_OK) == -1)
 		return (1);
 	if (stat(path, &f_stat) == -1)
-		return (1);
+		return (-1);
 	if (S_ISDIR(f_stat.st_mode) == 0)
-		return (1);
+		return (3);
+	if (access(path, X_OK) == -1)
+		return (2);
 	return (0);
 }
 
@@ -138,18 +139,20 @@ int start)
 		return (ft_strdup(av[start]));
 }
 
-char	*get_curpath(t_sh_state *sh_state, int ac, const char **av, int i)
+char	*get_curpath(t_sh_state *sh_state, int ac, const char **av, int *i)
 {
 	char	*directory;
 	char	*curpath;
 
-	if ((directory = get_dir_operand(sh_state, ac, av, i)) == NULL)
+	if ((directory = get_dir_operand(sh_state, ac, av, *i)) == NULL)
 		return (NULL);
 	if (ft_strncmp(directory, "/", 1) == 0 ||
 ft_strncmp(directory, "./", 2) == 0 || ft_strncmp(directory, "../", 3) == 0)
 		return (directory);
-	else if ((curpath = retrieve_cdpath(sh_state, ac, av, i)) == NULL)
+	else if ((curpath = retrieve_cdpath(sh_state, ac, av, *i)) == NULL)
 		return (directory);
+	else
+		*i = -2;
 	ft_strdel(&directory);
 	return (curpath);
 }
@@ -275,32 +278,84 @@ int		make_path_canonical(char **path)
 	return (0);
 }
 
+char	*format_path(t_sh_state *sh_state, char *curpath)
+{
+	char	*canon;
+
+	if ((canon = ft_strdup(curpath)) == NULL)
+		return (NULL);
+	if (make_path_absolute(sh_state, &canon) != 0)
+		return (NULL);
+	if (make_path_canonical(&canon) != 0)
+		return (NULL);
+	return (canon);
+}
+
+int		verify_path(char *origin, char *curpath, char *formatted)
+{
+	int		err;
+
+	err = 0;
+	if (formatted == NULL)
+		err = 1;
+	else
+	{
+		if (ft_strlen(formatted) > PATH_MAX)
+		{
+			print_error(origin, "path is too long", 2);
+			err = 1;
+		}
+		if ((err = check_dir_path(formatted)) != 0)
+		{
+			handle_dir_path_error(origin, curpath, err);
+			err = 1;
+		}
+	}
+	ft_strdel(&curpath);
+	return (err);
+}
+
+int		change_dir(t_sh_state *sh_state, char *formatted, int print)
+{
+	char	*pwd;
+
+	if (chdir(formatted) != 0)
+		return (1);
+	if ((pwd = get_env_value(sh_state->internal_storage, "PWD")) != NULL)
+		add_entry_storage(&sh_state->internal_storage, "OLDPWD", pwd, 1);
+	add_entry_storage(&sh_state->internal_storage, "PWD", formatted, 1);
+	if (print)
+		ft_putendl_fd(formatted, 1);
+	ft_strdel(&formatted);
+	return (0);
+}
+
 int		builtin_cd(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
 {
 	char	*curpath;
+	char	*formatted;
 	char	*opts;
 	int		i;
 
 	add_origin(&context->origin, "cd");
+	i = -2;
 	if (ac == 2 && ft_strcmp(av[1], "-") == 0)
 		curpath = get_old_pwd(sh_state, context);
 	else
 	{
-		if ((i = handle_builtin_options(av, "LP", &opts, context)) == -1)
+		if ((i = handle_builtin_options(av, "", &opts, context)) == -1)
 			return (1);
 		else if (i == 0)
 		{
-			print_error(context->origin, "usage: cd [-L|-P] [dir]", 2);
+			print_error(context->origin, "usage: cd [ - | dir ]", 2);
 			return (1);
 		}
 		else
-			curpath = get_curpath(sh_state, ac, av, i);
+			curpath = get_curpath(sh_state, ac, av, &i);
 	}
-	if (make_path_absolute(sh_state, &curpath) != 0)
+	formatted = format_path(sh_state, curpath);
+	if (verify_path(context->origin, curpath, formatted) != 0)
 		return (1);
-	if (make_path_canonical(&curpath) != 0)
-		return (1);
-	dprintf(2, "canonical path = %s\n", curpath);
-	return (0);
+	return (change_dir(sh_state, formatted, i == -2));
 }
