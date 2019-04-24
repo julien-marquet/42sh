@@ -32,6 +32,7 @@ t_context *context)
 	char			**env;
 	char			*origin;
 
+	err = 0;
 	res = 0;
 	path = NULL;
 	origin = NULL;

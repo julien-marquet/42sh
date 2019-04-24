@@ -21,12 +21,12 @@ int			test_bin(char *bin_path)
 		return (-1);
 	if (access(bin_path, F_OK) == -1)
 		return (1);
-	if (access(bin_path, X_OK) == -1)
-		return (2);
 	if (stat(bin_path, &f_stat) == -1)
 		return (-1);
-	if (S_ISREG(f_stat.st_mode) == 0)
+	if (!S_ISREG(f_stat.st_mode))
 		return (3);
+	if (access(bin_path, X_OK) == -1)
+		return (2);
 	return (0);
 }
 
@@ -70,27 +70,6 @@ char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits)
 	else
 		ft_lstadd(table, tmp);
 	return (content.path);
-}
-
-char		*permission_denied(char *path)
-{
-	char	*error;
-	char	*previous;
-
-	error = ft_strjoin("-", NAME);
-	previous = error;
-	if (error != NULL)
-		error = ft_strjoin(error, ": ");
-	free(previous);
-	previous = error;
-	if (error != NULL)
-		error = ft_strjoin(error, path);
-	free(previous);
-	previous = error;
-	if (error != NULL)
-		error = ft_strjoin(error, ": Permission denied\n");
-	free(previous);
-	return (error);
 }
 
 int			not_found(char *bin)

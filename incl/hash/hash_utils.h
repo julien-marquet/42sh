@@ -19,7 +19,6 @@
 int			test_bin(char *bin_path);
 char		*create_path(char *path, char *bin);
 char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits);
-char		*permission_denied(char *path);
 int			not_found(char *bin);
 
 #endif

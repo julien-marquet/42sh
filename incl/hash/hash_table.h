@@ -20,7 +20,7 @@
 t_hash_table	*get_link(t_list **table, char *bin);
 void			delete_table(t_list **table);
 char			*append_bin(char *bin, t_list **table,
-			t_list *internal_storage, size_t *found);
+			t_list *internal_storage, size_t *error);
 char			*get_bin_path(char **av, t_list **table,
 			t_list *internal_storage, size_t *error);
 
