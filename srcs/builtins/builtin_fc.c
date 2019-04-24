@@ -6,65 +6,122 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 18:44:50 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 17:04:48 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtin_fc.h"
 
-int		flag_handler(const char *arg, int *flag)
+static int		is_builtin_option(const char *str)
 {
-	size_t i;
-	size_t len;
+	size_t	i;
+	size_t	digit;
 
 	i = 0;
-	len = ft_strlen(arg);
-	while (i < len)
+	digit = 0;
+	while (str[i])
+		digit += ft_isdigit(str[i++]);
+	return (str && str[0] == '-' && str[1] != '\0' && digit == 0);
+}
+
+static void		add_valid(char **opts, char new)
+{
+	size_t len;
+	
+	len = ft_strlen(*opts);		
+	if (!ft_strchr(*opts, new))
+		(*opts)[len] = new;
+}
+
+static int		fc_option_e(const char **av, char **editor, int i, t_builtin_context *context)
+{
+	if (av[++i] != NULL)
 	{
-		if (arg[i] == 'e')
-			*flag |= F_E;
-		if (arg[i] == 'l')
-			*flag |= F_L;
-		if (arg[i] == 'n')
-			*flag |= F_N;
-		if (arg[i] == 'r')
-			*flag |= F_R;
-		if (arg[i] == 's')
-			*flag |= F_S;
-		i++;
+		if (*editor != NULL)
+			ft_strdel(editor);
+		if (!(*editor = ft_strdup(av[i])))
+			return (-1);
 	}
+	else
+	{
+		print_error(context->origin, "-e: option requires an argument", context->fds.err);
+		return (0);
+	}
+	return (i);
+}
+
+static int		fc_options(const char **av, char **opts, char **editor, t_builtin_context *context)
+{
+	int i;
+	int j;
+
+	i = 1;
+	while (av[i] && is_builtin_option(av[i]))
+	{
+		if (ft_strcmp("-e", av[i]) == 0)
+		{
+			if ((i = fc_option_e(av, editor, i, context)) <= 0)
+				return (i);
+		}
+		else
+		{
+			j = 1;
+			while (av[i][j])
+			{
+				if (ft_strchr("lnrs", av[i][j]))
+					add_valid(opts, av[i][j++]);
+				else
+					return (0);
+			}
+		}
+		av[i] ? i++ : 0;
+	}
+	return (i);
+}
+
+static int		fc_dispatch(t_sh_state *sh_state, const char **av, char *opts, char *editor, t_builtin_context *context)
+{
+	int i;
+	char *first = NULL;
+	char *last = NULL;
+
+	i = 0;
+	(void)sh_state;
+	(void)editor;
+	print_error(context->origin, "test", context->fds.err);
+	if (av[0])
+	{
+		if (!(first = ft_strdup(av[0])))
+			return (-1);
+		if (av[1])
+			if (!(last = ft_strdup(av[1])))
+				return (-1);
+	}
+	dprintf(1, "%s %s\n", first, last);
+	if (opts != NULL && ft_strchr(opts, 'l') != NULL)
+		;
 	return (0);
 }
 
-int		builtin_fc(t_sh_state *sh_state, int ac,
-const char **av, t_builtin_context *context)
+int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context)
 {
-	int		i;
-	int		flag;
+	int		args_i;
+	char	*opts;
 	char	*editor;
 
-	flag = 0;
+	(void)ac;
+	add_origin(&context->origin, "fc");
 	editor = NULL;
-	(void)sh_state;
-	(void)context;
-	i = 0;
-	while (i < ac)
+	if (!(opts = ft_strnew(5)))
+		return (-1);
+	if ((args_i = fc_options(av, &opts, &editor, context)) == -1)
+		return (1);
+	else if (args_i == 0)
 	{
-		if (av[i][0] == '-' && !(flag & F_E))
-			flag_handler(av[i], &flag);
-		else if (flag & F_E)
-		{
-			editor = ft_strdup(av[i]);
-			flag -= F_E;
-		}
-		i++;
+		print_error(context->origin, "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]", context->fds.err);
+		return (1);
 	}
-	dprintf(2, "EDIT= %s\n", editor);
-	dprintf(2, "F_E = %i\n", flag & F_E);
-	dprintf(2, "F_L = %i\n", flag & F_L);
-	dprintf(2, "F_N = %i\n", flag & F_N);
-	dprintf(2, "F_R = %i\n", flag & F_R);
-	dprintf(2, "F_S = %i\n", flag & F_S);
-	return (0);
+	else
+		return (fc_dispatch(sh_state, av + args_i, opts, editor, context));
 }

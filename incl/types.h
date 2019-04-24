@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   types.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:44:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/22 23:28:17 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,6 +50,7 @@ typedef struct	s_sh_state
 	t_list			*aliases;
 	int				shell_pid;
 	t_list			*hash_table;
+	t_list			*history;
 }				t_sh_state;
 
 typedef struct	s_dyn_buf
