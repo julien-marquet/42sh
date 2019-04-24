@@ -27,7 +27,7 @@ int		exec_dispatcher(t_sh_state *sh_state, t_cmd *cmd,
 t_context *context)
 {
 	int				res;
-	size_t			err;
+	int				err;
 	char			*path;
 	char			**env;
 	char			*origin;
@@ -52,6 +52,8 @@ sh_state->internal_storage, &err)) == NULL)
 		if (err == 0)
 			res = 1;
 	}
+	/* if (err != 0 || (err == 0 && path == NULL)) */
+	/* 	handle_bin_error(err, cmd->arg[0]); */
 	if (path != NULL)
 	{
 		env = generate_env(sh_state->internal_storage);

@@ -77,6 +77,7 @@ static int	handle_args(const char **av,
 	int				ret;
 	size_t			found;
 	t_hash_table	*link;
+	int				error;
 
 	i = 1;
 	ret = 0;
@@ -88,8 +89,12 @@ static int	handle_args(const char **av,
 		link = get_link(table, (char *)(av[i]));
 		if (link == NULL)
 			if (append_bin((char *)(av[i]),
-			table, internal_storage, &found) == NULL && found == 1)
-				return (-1);
+		table, internal_storage, &error) == NULL)
+			{
+				found = error == 0 ? 0 : 1;
+				if (error == -1)
+					return (-1);
+			}
 		if (link != NULL)
 			link->hits = 0;
 		if (!found)

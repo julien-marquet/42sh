@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "hash/hash_utils.h"
+#include "builtins/builtins_utils.h"
 
 int			test_bin(char *bin_path)
 {
@@ -80,4 +81,27 @@ int			not_found(char *bin)
 	write(2, bin, ft_strlen(bin));
 	write(2, ": not found\n", 12);
 	return (1);
+}
+
+void		handle_bin_error(int error, char *path)
+{
+	char	*str;
+	char	*origin;
+
+	str = NULL;
+	origin = NULL;
+	if (add_origin(&origin, NAME) == 1)
+		return ;
+	if (error == 0)
+		str = ft_construct_str(2, path, ": command not found\n");
+	else if (error == 1)
+		str = ft_construct_str(2, path, ": permission denied\n");
+	else if (error == 2)
+		str = ft_construct_str(2, path, ": is not a regular file\n");
+	if (str != NULL)
+	{
+		print_error(origin, str, 2);
+		free(str);
+	}
+	free(origin);
 }

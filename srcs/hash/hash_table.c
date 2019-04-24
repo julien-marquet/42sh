@@ -14,7 +14,7 @@
 #include "hash/hash_table.h"
 
 static char		*check_paths(char **paths, char *bin,
-			t_list **table, size_t *error)
+			t_list **table, int *error)
 {
 	int		ret;
 	char	*tmp;
@@ -71,11 +71,12 @@ void			delete_table(t_list **table)
 }
 
 char			*append_bin(char *bin, t_list **table,
-			t_list *internal_storage, size_t *error)
+			t_list *internal_storage, int *error)
 {
 	char	*tmp;
 	char	**paths;
 
+	*error = 4;
 	if ((tmp = get_env_value(internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
@@ -85,25 +86,26 @@ char			*append_bin(char *bin, t_list **table,
 		return (NULL);
 	ft_freetab(&paths);
 	if (tmp == NULL)
+	{
+		*error = -1;
 		return (NULL);
+	}
+	*error = 0;
 	if (tmp[0] != '\0')
 		return (tmp);
-	*error = 0;
 	return (NULL);
 }
 
 char			*get_bin_path(char **av, t_list **table,
-			t_list *internal_storage, size_t *error)
+			t_list *internal_storage, int *error)
 {
 	char	*path;
 	t_list	*pointer;
 
-	*error = 0;
 	pointer = *table;
 	while (pointer != NULL &&
 	ft_strcmp(av[0], ((t_hash_table *)(pointer->content))->bin) != 0)
 		pointer = pointer->next;
-	*error = 4;
 	if (pointer == NULL)
 	{
 		if ((path = append_bin(av[0], table, internal_storage, error)) != NULL)
