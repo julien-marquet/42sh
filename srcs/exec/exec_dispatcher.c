@@ -6,26 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:36:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 01:42:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "exec/exec_dispatcher.h"
-
-void	handle_path_error(const char *origin, const char *path, int err)
-{
-	char	*str;
-
-	if (err == 1)
-		str = ft_construct_str(2, path, ": no such file or directory\n");
-	else if (err == 2)
-		str = ft_construct_str(2, path, ": permission denied\n");
-	else if (err == 3)
-		str = ft_construct_str(2, path, ": is not a regular file\n");
-	print_error(origin, str, 2);
-	ft_strdel(&str);
-}
 
 static int	is_absolute_path(const char *path)
 {
@@ -41,11 +27,12 @@ int		exec_dispatcher(t_sh_state *sh_state, t_cmd *cmd,
 t_context *context)
 {
 	int				res;
-	size_t			err;
+	int				err;
 	char			*path;
 	char			**env;
 	char			*origin;
 
+	err = 0;
 	res = 0;
 	path = NULL;
 	origin = NULL;
@@ -65,6 +52,8 @@ sh_state->internal_storage, &err)) == NULL)
 		if (err == 0)
 			res = 1;
 	}
+	/* if (err != 0 || (err == 0 && path == NULL)) */
+	/* 	handle_bin_error(err, cmd->arg[0]); */
 	if (path != NULL)
 	{
 		env = generate_env(sh_state->internal_storage);

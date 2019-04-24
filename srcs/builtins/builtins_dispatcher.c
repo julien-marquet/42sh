@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 22:45:38 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 22:20:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,13 +18,14 @@ static t_builtin_func	get_builtins_func(const char *name)
 	size_t		i;
 	static char	*assoc_name[BUILTINS_NB + 1] = {
 		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export",
-		"alias", "unalias", "jobs", "fg", "bg", "hash", "test", "fc", NULL
+		"alias", "unalias", "jobs", "fg", "bg", "hash", "test", "cd", "fc", NULL
 	};
 	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, t_builtin_context *) = {
 		builtin_set, builtin_env, builtin_setenv, builtin_unsetenv,
 		builtin_unset, builtin_exit, builtin_echo, builtin_export,
 		builtin_alias, builtin_unalias, builtin_jobs, builtin_fg,
-		builtin_bg, builtin_hash, builtin_test, builtin_fc, NULL
+		builtin_bg, builtin_hash, builtin_test, builtin_cd, builtin_fc,
+		NULL
 	};
 
 	i = 0;
@@ -87,7 +88,7 @@ t_context *context)
 		{
 			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
-		(const char **)cmd->arg, f, context);
+		cmd, f, context);
 			res = 1;
 		}
 		else

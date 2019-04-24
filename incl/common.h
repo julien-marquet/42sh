@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:34:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 05:26:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,6 +23,7 @@
 # include "signal.h"
 # include "../libs/Libft/libft.h"
 # include <sys/stat.h>
+# include "limits.h"
 
 # define NAME "42sh"
 

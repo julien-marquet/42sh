@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "hash/hash_utils.h"
+#include "builtins/builtins_utils.h"
 
 int			test_bin(char *bin_path)
 {
@@ -21,12 +22,12 @@ int			test_bin(char *bin_path)
 		return (-1);
 	if (access(bin_path, F_OK) == -1)
 		return (1);
-	if (access(bin_path, X_OK) == -1)
-		return (2);
 	if (stat(bin_path, &f_stat) == -1)
 		return (-1);
-	if (S_ISREG(f_stat.st_mode) == 0)
+	if (!S_ISREG(f_stat.st_mode))
 		return (3);
+	if (access(bin_path, X_OK) == -1)
+		return (2);
 	return (0);
 }
 
@@ -72,27 +73,6 @@ char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits)
 	return (content.path);
 }
 
-char		*permission_denied(char *path)
-{
-	char	*error;
-	char	*previous;
-
-	error = ft_strjoin("-", NAME);
-	previous = error;
-	if (error != NULL)
-		error = ft_strjoin(error, ": ");
-	free(previous);
-	previous = error;
-	if (error != NULL)
-		error = ft_strjoin(error, path);
-	free(previous);
-	previous = error;
-	if (error != NULL)
-		error = ft_strjoin(error, ": Permission denied\n");
-	free(previous);
-	return (error);
-}
-
 int			not_found(char *bin)
 {
 	write(2, "-", 1);
@@ -101,4 +81,27 @@ int			not_found(char *bin)
 	write(2, bin, ft_strlen(bin));
 	write(2, ": not found\n", 12);
 	return (1);
+}
+
+void		handle_bin_error(int error, char *path)
+{
+	char	*str;
+	char	*origin;
+
+	str = NULL;
+	origin = NULL;
+	if (add_origin(&origin, NAME) == 1)
+		return ;
+	if (error == 0)
+		str = ft_construct_str(2, path, ": command not found\n");
+	else if (error == 1)
+		str = ft_construct_str(2, path, ": permission denied\n");
+	else if (error == 2)
+		str = ft_construct_str(2, path, ": is not a regular file\n");
+	if (str != NULL)
+	{
+		print_error(origin, str, 2);
+		free(str);
+	}
+	free(origin);
 }

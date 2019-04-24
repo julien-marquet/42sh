@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 18:11:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:13:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/23 20:55:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,5 +17,8 @@
 # include "common.h"
 
 void	print_error(const char *origin, const char *err, int fd);
+void	handle_path_error(const char *origin, const char *path, int err);
+void	handle_dir_path_error(const char *origin, const char *path, int err);
+void	handle_no_dir_error(const char *origin, const char *path, int err);
 
 #endif
