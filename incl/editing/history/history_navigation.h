@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:22:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/16 19:38:39 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 17:42:55 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,7 @@
 # define HIST_PREV 1
 # define HIST_RESET 2
 
+t_list	*get_history_search(t_list *hist, char *find);
 t_list	*get_history_index(t_list *history, size_t index);
 t_list	*get_history_index_rev(t_list *history, size_t index);
 int		history_navigate(t_input_data *input_data,

@@ -6,26 +6,13 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/17 23:50:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 23:01:06 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 17:41:52 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/expand.h"
 #include "editing/history/history.h"
-
-t_list		*get_history_search(t_list *hist, char *find)
-{
-	if (hist)
-		hist = hist->next;
-	while (hist)
-	{
-		if (ft_strstr(hist->content, find) != NULL)
-			return (hist);
-		hist = hist->next;
-	}
-	return (NULL);
-}
 
 static char	*event_error(char *str, size_t len)
 {

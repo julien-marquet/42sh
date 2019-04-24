@@ -6,14 +6,27 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/18 02:50:53 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 18:54:16 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/history/history.h"
 
-t_list			*get_history_index_rev(t_list *history, size_t index)
+t_list	*get_history_search(t_list *hist, char *find)
+{
+	if (hist)
+		hist = hist->next;
+	while (hist)
+	{
+		if (ft_strstr(hist->content, find) != NULL)
+			return (hist);
+		hist = hist->next;
+	}
+	return (NULL);
+}
+
+t_list	*get_history_index_rev(t_list *history, size_t index)
 {
 	size_t	i;
 	t_list	*cur;
@@ -40,7 +53,7 @@ t_list			*get_history_index_rev(t_list *history, size_t index)
 	return (behind);
 }
 
-t_list		*get_history_index(t_list *history, size_t index)
+t_list	*get_history_index(t_list *history, size_t index)
 {
 	size_t	i;
 	t_list	*tmp_hist;
