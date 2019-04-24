@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 20:23:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 04:48:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/24 05:22:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -185,27 +185,92 @@ int		make_path_absolute(t_sh_state *sh_state, char **path)
 	return (path == NULL);
 }
 
+int		get_prec_slash_pos(char *path, int i)
+{
+	if (i > 0)
+		i--;
+	while (i > 0)
+	{
+		if (path[i] == '/')
+			return (i);
+		i--;
+	}
+	return (i);
+}
+
+int		count_unnecessary_slashes(char *path, int i)
+{
+	int		cpt;
+
+	cpt = 0;
+	i++;
+	while (path[i] == '/')
+	{
+		cpt++;
+		i++;
+	}
+	return (cpt);
+}
+
+int	remove_dot(char **path, int *i)
+{
+	if (ft_strncmp(&(*path)[*i], "/./", 3) == 0)
+	{
+		ft_strcpy(&(*path)[*i], &(*path)[*i + 2]);
+		*i -= 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	remove_dot_dot(char **path, int *i)
+{
+	int		j;
+
+	if (ft_strncmp(&(*path)[*i], "/../", 4) == 0)
+	{
+		j = get_prec_slash_pos(*path, *i);
+		ft_strcpy(&(*path)[j],
+	&(*path)[*i + 3]);
+		*i -= j + 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	remove_slashes(char **path, int *i)
+{
+	int		j;
+
+	if ((j = count_unnecessary_slashes(*path, *i)) > 0)
+	{
+		if ((*i == 0 && j > 1) || (*i != 0))
+		{
+			ft_strcpy(&(*path)[*i],
+		&(*path)[*i + j]);
+			*i -= 1;
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int		make_path_canonical(char **path)
 {
 	int		i;
 
-	i = 0;
-	while ((*path)[i] != '\0')
+	i = -1;
+	while ((*path)[++i] != '\0')
 	{
 		if ((*path)[i] == '/')
 		{
-			if (ft_strncmp(&(*path)[i], "/./", 3) == 0)
-			{
-				ft_strcpy(&(*path)[i], &(*path)[i + 2]);
-				i = -1;
-			}
-			else if (ft_strncmp(&(*path)[i], "/../", 4) == 0)
-			{
-				
-				i = -1;
-			}
+			if (remove_dot(path, &i))
+				continue ;
+			else if (remove_dot_dot(path, &i))
+				continue ;
+			else if (remove_slashes(path, &i))
+				continue ;
 		}
-		i++;
 	}
 	return (0);
 }
