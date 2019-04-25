@@ -281,17 +281,120 @@ int		make_path_canonical(char **path)
 	return (0);
 }
 
-char	*format_path(t_sh_state *sh_state, char *curpath)
+static char	*resolve(t_sh_state *state, char *path)
 {
+	ssize_t	len;
+	char	*tmp;
+	char	buf[_POSIX_PATH_MAX];
+
+	if (path == NULL)
+		return (NULL);
+	if ((len = readlink(path, buf, _POSIX_PATH_MAX - 1)) == -1)
+		return (NULL);
+	buf[len] = '\0';
+	dprintf(2, "Result: %s\n", buf);
+	if ((tmp = ft_strdup(buf)) == NULL)
+		return (NULL);
+	if (make_path_absolute(state, &tmp) != 0)
+		return (NULL);
+	dprintf(2, "Result of result: %s\n", tmp);
+	return (tmp);
+}
+
+static char	*rejoin_path(char **arr)
+{
+	char	*tmp;
+	char	*path;
+
+	path = NULL;
+	while (*arr && *(arr + 1))
+	{
+		if (path == NULL)
+		{
+			if ((path = ft_strjoin(*arr, *(arr + 1))) == NULL)
+				return (NULL);
+		}
+		else
+		{
+			tmp = path;
+			if ((path = ft_strjoin(*arr, *(arr + 1))) == NULL)
+				return (NULL);
+			free(tmp);
+		}
+		arr += 1;
+	}
+	if (path == NULL)
+		return (*arr == NULL ? ft_strdup("") : ft_strdup(*arr));
+	else
+	{
+		tmp = path;
+		path = ft_strjoin(path, *arr);
+		free(tmp);
+		return (path);
+	}
+}
+
+static int	is_symbolic_link(char *path)
+{
+	struct stat	stats;
+
+	if (lstat(path, &stats) == -1)
+		return (-1);
+	return (S_ISLNK(stats.st_mode));
+}
+
+// TODO free here
+static char	*resolve_links(t_sh_state *state, char *base, char *path)
+{
+	int		ret;
+	char	*tmp;
+	char	**dirs;
+	char	**pointer;
+
+	if (base == NULL || path == NULL)
+		return (NULL);
+	if ((dirs = ft_strsplit(path, '/')) == NULL)
+		return (NULL);
+	pointer = dirs;
+	while (*pointer)
+	{
+		if ((tmp = ft_strjoin(base, *pointer)) == NULL)
+			return (NULL);
+		free(base);
+		if ((ret = is_symbolic_link(tmp)) == -1)
+			return (NULL);
+		if (ret == 1)
+			return (resolve_links(state, resolve(state, tmp), rejoin_path(pointer + 1)));
+		if ((base = ft_strjoin(tmp, "/")) == NULL)
+			return (NULL);
+		free(tmp);
+		pointer += 1;
+	}
+	return (base);
+}
+
+char	*format_path(t_sh_state *sh_state, char *curpath, size_t res_links)
+{
+	char	*final;
 	char	*canon;
 
 	if ((canon = ft_strdup(curpath)) == NULL)
 		return (NULL);
 	if (make_path_absolute(sh_state, &canon) != 0)
 		return (NULL);
-	if (make_path_canonical(&canon) != 0)
+	final = NULL;
+	if (!res_links)
+		final = canon;
+	else
+	{
+		if ((final = resolve_links(sh_state, ft_strdup("/"), canon)) == NULL)
+			return (NULL);
+		free(canon);
+	}
+	dprintf(2, "Final: %s\n", final);
+	if (make_path_canonical(&final) != 0)
 		return (NULL);
-	return (canon);
+	return (final);
 }
 
 int		verify_path(char *origin, char *curpath, char *formatted)
@@ -330,6 +433,24 @@ int		change_dir(t_sh_state *sh_state, char *formatted, int print)
 	return (0);
 }
 
+static int	check_links(const char **av, size_t opts)
+{
+	size_t	i;
+	size_t	res_links;
+
+	i = 0;
+	res_links = 0;
+	while (i < opts)
+	{
+		if (ft_strcmp(av[i + 1], "-L") == 0)
+			res_links = 0;
+		else if (ft_strcmp(av[i + 1], "-P") == 0)
+			res_links = 1;
+		i += 1;
+	}
+	return (res_links);
+}
+
 int		builtin_cd(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
 {
@@ -344,17 +465,17 @@ const char **av, t_builtin_context *context)
 		curpath = get_old_pwd(sh_state, context);
 	else
 	{
-		if ((i = handle_builtin_options(av, "", &opts, context)) == -1)
+		if ((i = handle_builtin_options(av, "PL", &opts, context)) == -1)
 			return (1);
 		else if (i == 0)
 		{
-			print_error(context->origin, "usage: cd [ - | dir ]", 2);
+			print_error(context->origin, "usage: cd [-L|[-P]] [dir]", 2);
 			return (1);
 		}
 		else
 			curpath = get_curpath(sh_state, ac, av, &i);
 	}
-	formatted = format_path(sh_state, curpath);
+	formatted = format_path(sh_state, curpath, check_links(av, i - 1));
 	if (verify_path(context->origin, curpath, formatted) != 0)
 		return (1);
 	return (change_dir(sh_state, formatted, i == -2));
