@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 04:03:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:57:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,11 +15,13 @@
 
 static t_builtin_func	get_builtins_func(const char *name)
 {
-	size_t				i;
-	static char			*assoc_name[BUILTINS_NB + 1] = {B_1, B_2, B_3};
-	static t_assoc_func	assoc_func = {F_1, F_2, F_3, F_4, F_5};
+	size_t					i;
+	const char				**assoc_name;
+	const t_builtin_func	*assoc_func;
 
 	i = 0;
+	assoc_name = get_builtins_names();
+	assoc_func = get_builtins_funcs();
 	if (name != NULL)
 	{
 		while (assoc_name[i] != NULL)

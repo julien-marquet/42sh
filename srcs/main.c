@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 23:53:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:02:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,3 +70,5 @@ int		main(int ac, char **av, char **env)
 	exit_sh(sh_state, input_data);
 	return (0);
 }
+
+// TODO couper + (copier coller integres)

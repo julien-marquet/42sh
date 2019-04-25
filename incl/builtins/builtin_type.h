@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_env.c                                    .::    .:/ .      .::   */
+/*   builtin_type.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 05:35:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/25 05:04:39 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/25 06:04:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtins_storage/builtin_env.h"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+#ifndef BUILTIN_TYPE_H
+# define BUILTIN_TYPE_H
 
-int		builtin_env(t_sh_state *sh_state, int ac, const char **av,
-t_builtin_context *context)
+# include "common.h"
+# include "builtins/builtins_utils.h"
+# include "aliases/aliases.h"
+# include "editing/input/completion/completion.h"
+
+typedef enum	e_cmd_type
 {
-	print_env(sh_state->internal_storage, context->fds.out);
-	return (0);
-}
+	cmd_notfound,
+	cmd_alias,
+	cmd_builtin,
+	cmd_executable
+}				t_cmd_type;
+
+int		builtin_type(t_sh_state *sh_state, int ac,
+		const char **av, t_builtin_context *context);
+
+#endif

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   getters2.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 21:34:17 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 21:34:18 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:51:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,12 +19,10 @@ int			get_builtins(t_list **files, char *needle)
 	size_t		i;
 	size_t		len;
 	t_list		*link;
-	static char	*builtins[BUILTINS_NB] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", \
-"export", "test", "[", "alias", "unalias", "jobs", "fg", "bg", "hash"
-	};
+	const char	**builtins;
 
 	i = 0;
+	builtins = get_builtins_names();
 	len = ft_strlen(needle);
 	while (i < BUILTINS_NB)
 	{

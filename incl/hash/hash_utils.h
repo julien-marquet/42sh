@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/21 22:22:29 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:24:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:44:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,8 +18,8 @@
 
 void		handle_bin_error(int error, char *path);
 int			test_bin(char *bin_path);
-char		*create_path(char *path, char *bin);
-char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits);
+char		*create_path(const char *path, const char *bin);
+char		*add_path(char *path, t_list **table, const char *bin, size_t inc_hits);
 int			not_found(char *bin);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:27:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:40:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,7 +44,7 @@ t_context *context)
 		else if (res != -1)
 			res--;
 	}
-	else if ((path = get_bin_path(cmd->arg, &sh_state->hash_table,
+	else if ((path = get_bin_path((const char **)cmd->arg, &sh_state->hash_table,
 sh_state->internal_storage, &err)) == NULL)
 		res = err;
 	if (path != NULL)

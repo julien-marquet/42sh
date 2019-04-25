@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:15:24 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:32:40 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:43:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,7 +31,7 @@ int			test_bin(char *bin_path)
 	return (0);
 }
 
-char		*create_path(char *path, char *bin)
+char		*create_path(const char *path, const char *bin)
 {
 	char	*tmp;
 	char	*tmp_path;
@@ -47,7 +47,7 @@ char		*create_path(char *path, char *bin)
 	return (tmp_path);
 }
 
-char		*add_path(char *path, t_list **table, char *bin, size_t inc_hits)
+char		*add_path(char *path, t_list **table, const char *bin, size_t inc_hits)
 {
 	t_list			*tmp;
 	t_hash_table	content;
