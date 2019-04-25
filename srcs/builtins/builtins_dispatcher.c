@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 00:48:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 02:42:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,14 +85,12 @@ t_context *context)
 			return (-1);
 		if (is_valid_as_function(cmd, context))
 		{
-			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
 		cmd, f, context);
 			res = 1;
 		}
 		else
 		{
-			dprintf(2, "as process\n");
 			if (exec_builtin_as_process(sh_state, cmd,
 		f, context) == 1)
 				res = -1;

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 01:42:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 02:46:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,21 +39,14 @@ t_context *context)
 	add_origin(&origin, NAME);
 	if (cmd->arg && is_absolute_path(cmd->arg[0]))
 	{
-		if ((res = test_bin(cmd->arg[0])) != 0)
-			handle_path_error(origin, cmd->arg[0], res);
-		else
+		if ((res = test_bin(cmd->arg[0])) == 0)
 			path = ft_strdup(cmd->arg[0]);
+		else if (res != -1)
+			res--;
 	}
 	else if ((path = get_bin_path(cmd->arg, &sh_state->hash_table,
 sh_state->internal_storage, &err)) == NULL)
-	{
-		if (err == 1)
-			res = -1;
-		if (err == 0)
-			res = 1;
-	}
-	/* if (err != 0 || (err == 0 && path == NULL)) */
-	/* 	handle_bin_error(err, cmd->arg[0]); */
+		res = err;
 	if (path != NULL)
 	{
 		env = generate_env(sh_state->internal_storage);
@@ -62,6 +55,7 @@ sh_state->internal_storage, &err)) == NULL)
 		else
 			res = 1;
 	}
-	dprintf(2, "path = %s, res = %d\n", path, res);
+	else
+		handle_path_error(origin, cmd->arg[0], res);
 	return (res);
 }
