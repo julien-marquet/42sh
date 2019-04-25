@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:09:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 00:45:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,8 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 	}
 	else
 	{
-		reset_selection(input_data->active_buf);
+		reset_selection(input_data->start_pos, input_data->active_buf,
+	&input_data->rel_cur_pos);
 		if (handle_insertion(input_data) == -1)
 			return (1);
 	}

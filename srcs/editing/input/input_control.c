@@ -6,14 +6,15 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:07:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 00:31:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/input_control.h"
 
-int		print_anew(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf, size_t rel_cur_pos)
+int		print_anew(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,
+size_t rel_cur_pos)
 {
 	t_cur_abs_pos	pos;
 	int				start;
@@ -24,10 +25,18 @@ start_pos->row), 1, ft_putchar) != 0)
 	if (tputs(tgetstr("cd", NULL), 1, ft_putchar) != 0)
 		return (1);
 	print_prompt(PROMPT_NO_SET);
-	start = get_first_selected_char(active_buf);
-	//tputs(tgetstr("so", NULL), 1, ft_putchar);
-
-	write(1, active_buf->buf, active_buf->len);
+	if ((start = get_first_selected_char(active_buf)) != -1)
+	{
+		dprintf(2, "abs start = %d,\n sel_start = %d,\n  sel_len = %d,\n", start, active_buf->sel_start, active_buf->sel_len);
+		write(1, active_buf->buf, start);
+		tputs(tgetstr("so", NULL), 1, ft_putchar);
+		write(1, &(active_buf->buf[start]), ft_abs(active_buf->sel_len));
+		tputs(tgetstr("se", NULL), 1, ft_putchar);
+		write(1, &(active_buf->buf[start + ft_abs(active_buf->sel_len)]),
+	active_buf->len - ft_abs(active_buf->sel_len) - start);
+	}
+	else
+		write(1, active_buf->buf, active_buf->len);
 	if (get_cursor_position(&pos, active_buf, rel_cur_pos, start_pos) == 1)
 		return (1);
 	if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
