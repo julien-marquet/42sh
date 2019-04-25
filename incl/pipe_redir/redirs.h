@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:22:40 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 03:11:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 04:58:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,5 +21,5 @@
 # include "error_handler.h"
 
 int		handle_redir(t_cmd *cmd, char *origin);
-
+int		create_redir_file(t_cmd *cmd);
 #endif

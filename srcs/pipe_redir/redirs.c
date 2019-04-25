@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:43:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 04:58:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -120,17 +120,15 @@ void	handle_fd_error(t_file *in, char *origin)
 	ft_strdel(&err);
 }
 
-int		handle_signal_in(t_file *in)
+int		handle_signal(t_file *file)
 {
-	if (dup2(in->type[C_OUT], in->type[C_IN]) == -1)
-		return (1);
-	return (0);
-}
-
-int		handle_signal_out(t_file *in)
-{
-	if (dup2(in->type[C_OUT], in->type[C_IN]) == -1)
-		return (1);
+	if (file->type[C_OUT] >= 0)
+	{
+		if (dup2(file->type[C_OUT], file->type[C_IN]) == -1)
+			return (1);
+	}
+	else
+		close(file->type[C_IN]);
 	return (0);
 }
 
@@ -147,7 +145,7 @@ int		handle_in(t_file *in, char *origin)
 		}
 		else if (in->type[C_OUT] != -1)
 		{
-			if ((err = handle_signal_in(in)) != 0)
+			if ((err = handle_signal(in)) != 0)
 			{
 				handle_fd_error(in, origin);
 				return (1);
@@ -165,6 +163,39 @@ int		handle_in(t_file *in, char *origin)
 			return (-1);
 		in = in->next;
 	}
+	return (0);
+}
+
+int		create_redir_file(t_cmd *cmd)
+{
+	int		err;
+	char	*dir_path;
+	int		fd;
+	t_file	*out;
+
+	if (!cmd || !cmd->out || cmd->out->type[C_OUT] != -1 ||
+cmd->out->file == NULL)
+		return (1);
+	out = cmd->out;
+	if ((err = check_file_write(out->file)) != 0)
+	{
+		if (err == 1)
+		{
+			if ((dir_path = get_parent_dir_path(out->file)) == NULL)
+				return (-1);
+			if ((err = check_dir_write(dir_path)) != 0)
+			{
+				ft_strdel(&dir_path);
+				return (err);
+			}
+			ft_strdel(&dir_path);
+		}
+		else
+			return (err);
+	}
+	if ((fd = open(out->file, O_WRONLY | O_CREAT, 0666)) == -1)
+		return (-1);
+	close(fd);
 	return (0);
 }
 
@@ -214,7 +245,7 @@ int		handle_out(t_file *out, char *origin)
 	{
 		if (out->type[C_OUT] != -1)
 		{
-			if ((err = handle_signal_out(out)) != 0)
+			if ((err = handle_signal(out)) != 0)
 			{
 				handle_fd_error(out, origin);
 				return (1);
