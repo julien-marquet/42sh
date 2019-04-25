@@ -322,8 +322,8 @@ int		change_dir(t_sh_state *sh_state, char *formatted, int print)
 	if (chdir(formatted) != 0)
 		return (1);
 	if ((pwd = get_env_value(sh_state->internal_storage, "PWD")) != NULL)
-		add_entry_storage(&sh_state->internal_storage, "OLDPWD", pwd, 1);
-	add_entry_storage(&sh_state->internal_storage, "PWD", formatted, 1);
+		add_entry_storage(sh_state, "OLDPWD", pwd, 1);
+	add_entry_storage(sh_state, "PWD", formatted, 1);
 	if (print)
 		ft_putendl_fd(formatted, 1);
 	ft_strdel(&formatted);

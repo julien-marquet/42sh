@@ -26,8 +26,7 @@ const char **av, t_builtin_context *context)
 		write(context->fds.err, "setenv:, Too many arguments.\n", 30);
 	else
 	{
-		if ((res = add_entry_storage(&sh_state->internal_storage,
-	av[1], av[2], 1)) == -1)
+		if ((res = add_entry_storage(sh_state, av[1], av[2], 1)) == -1)
 			return (1);
 		else if (res == 1)
 		{

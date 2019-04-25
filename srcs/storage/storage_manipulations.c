@@ -11,6 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
+#include "hash/hash.h"
 #include "storage/storage_manipulations.h"
 
 static int	is_valid_name(const char *name)
@@ -30,7 +31,7 @@ static int	is_valid_name(const char *name)
 **	Return 0 on success 1 on parse error and -1 on critical error
 */
 
-int		add_entry_storage(t_list **storage, const char *name, const char *value, int exported)
+int		add_entry_storage(t_sh_state *state, const char *name, const char *value, int exported)
 {
 	t_list				*node;
 	size_t				len;
@@ -42,9 +43,10 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 	len += ft_strlen(name) + 1;
 	if (is_valid_name(name) == 0)
 		return (1);
-	if ((node = find_node_by_name(*storage, name)) != NULL)
+	if ((node = find_node_by_name(state->internal_storage, name)) != NULL)
 	{
-		if (update_existing_node(node, name, value, len) == 1)
+		dprintf(2, "HelloWorld\n");
+		if (update_existing_node(&(state->hash_table), node, name, value, len) == 1)
 			return (-1);
 		if (exported == 1 || exported == 0)
 			((t_internal_storage *)node->content)->exported = exported;
@@ -52,6 +54,7 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 	}
 	else
 	{
+		dprintf(2, "Adding entry...\n");
 		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (-1);
 		if (exported != 1 && exported != 0)
@@ -60,8 +63,9 @@ int		add_entry_storage(t_list **storage, const char *name, const char *value, in
 		entry.new_entry = 1;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
+#include "hash/hash.h"
 			return (-1);
-		ft_lstprepend(storage, node);
+		ft_lstprepend(&(state->internal_storage), node);
 	}
 	return (0);
 }
@@ -103,10 +107,13 @@ void	print_storage_content(t_list *storage, int fd)
 	}
 }
 
-int		update_exported_flag(t_list *storage, const char *name, int exported)
+int		update_exported_flag(t_list *storage, t_list **hash_table,
+		const char *name, int exported)
 {
 	t_list	*node;
 
+	if (ft_strcmp("PATH", name) == 0)
+		delete_table(hash_table);
 	if ((node = find_node_by_name(storage, name)) != NULL)
 	{
 		((t_internal_storage *)node->content)->exported = exported;

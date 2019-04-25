@@ -17,11 +17,12 @@
 # include "common.h"
 # include "storage/storage_utils.h"
 
-int		add_entry_storage(t_list **storage, const char *name,
+int		add_entry_storage(t_sh_state *state, const char *name,
 		const char *value, int exported);
 void	print_storage_content(t_list *storage, int fd);
 int		remove_entry_storage(t_list **storage, const char *name);
-int		update_exported_flag(t_list *storage, const char *name, int exported);
+int		update_exported_flag(t_list *storage, t_list **hash_table,
+		const char *name, int exported);
 void	flush_new_entry_flag(t_list *storage);
 
 #endif
