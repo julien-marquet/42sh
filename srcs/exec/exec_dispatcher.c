@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 02:46:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:27:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,6 +56,9 @@ sh_state->internal_storage, &err)) == NULL)
 			res = 1;
 	}
 	else
+	{
 		handle_path_error(origin, cmd->arg[0], res);
+		res = 0 - res;
+	}
 	return (res);
 }

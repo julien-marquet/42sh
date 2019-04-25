@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 01:01:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 02:51:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -159,6 +159,7 @@ t_input_data *input_data)
 			job_name = create_job_name(acmd);
 			i = exec_cmd_list(sh_state, acmd, job_name, NULL);
 			ft_strdel(&job_name);
+			dprintf(2, "sh_state->status = %d\n", sh_state->status);
 			if (i == -1)
 				return (-1);
 			cmd = tmp;
