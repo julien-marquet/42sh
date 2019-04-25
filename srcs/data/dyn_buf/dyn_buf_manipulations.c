@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:57:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 00:12:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,6 +23,7 @@ t_dyn_buf	*init_dyn_buf(void)
 	dyn_buf->size = DEFAULT_DYN_BUF_SIZE;
 	if ((dyn_buf->buf = (char *)malloc(DEFAULT_DYN_BUF_SIZE)) == NULL)
 		return (NULL);
+	dyn_buf->sel_start = -1;
 	ft_bzero(dyn_buf->buf, dyn_buf->size);
 	return (dyn_buf);
 }

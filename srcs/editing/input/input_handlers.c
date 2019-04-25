@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:51:47 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 04:17:37 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 00:09:25 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,17 +18,25 @@ int		handle_capabilities(t_input_data *input_data,
 {
 	int	res;
 
-	if ((res = capabilities_dispatcher_1(input_data, sh_state)) != 0)
-		return (res == -1);
-	if ((res = capabilities_dispatcher_2(input_data)) != 0)
-		return (res == -1);
-	if ((res = capabilities_dispatcher_3(input_data)) != 0)
-		return (res == -1);
-	if ((res = capabilities_dispatcher_4(input_data, hist_copy)) != 0)
+	if ((res = capabilities_dispatcher_selection(input_data)) != 0)
 		return (res == -1);
 	else
-		input_data->processed_chars = count_escape_chars(
-	input_data->build_buf->buf);
+	{
+		reset_selection(input_data->active_buf);
+		if ((res = capabilities_dispatcher_1(input_data, sh_state)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_2(input_data)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_3(input_data)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_4(input_data, hist_copy)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_selection(input_data)) != 0)
+			return (res == -1);
+		else
+			input_data->processed_chars = count_escape_chars(
+		input_data->build_buf->buf);
+	}
 	return (0);
 }
 

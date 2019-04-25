@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 05:57:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 23:54:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,6 +58,8 @@ typedef struct	s_dyn_buf
 	size_t	len;
 	size_t	size;
 	char	*buf;
+	int		sel_start;
+	int		sel_len;
 }				t_dyn_buf;
 
 typedef struct	s_input_data

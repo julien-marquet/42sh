@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:46:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 04:15:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 00:08:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -84,13 +84,15 @@ ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0) &&
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_LEFT, 3) == 0 &&
 (input_data->processed_chars = 3))
 	{
-		if (move_cursor_left(input_data) == 1)
+		if (move_cursor_left(input_data->start_pos, input_data->active_buf,
+	&input_data->rel_cur_pos) == 1)
 			return (-1);
 	}
 	else if (ft_strncmp(input_data->build_buf->buf, KEY_ARROW_RIGHT, 3) == 0 &&
 (input_data->processed_chars = 3))
 	{
-		if (move_cursor_right(input_data) == 1)
+		if (move_cursor_right(input_data->start_pos, input_data->active_buf,
+	&input_data->rel_cur_pos) == 1)
 			return (-1);
 	}
 	return (input_data->processed_chars > 0);
@@ -120,6 +122,25 @@ int		capabilities_dispatcher_4(t_input_data *input_data, t_list *hist_copy)
 (input_data->processed_chars = 1))
 	{
 		if (clear_input(input_data) == 1)
+			return (-1);
+	}
+	return (input_data->processed_chars > 0);
+}
+
+int		capabilities_dispatcher_selection(t_input_data *input_data)
+{
+	if ((ft_strncmp(input_data->build_buf->buf, KEY_SHIFT_LEFT, 6) == 0) &&
+(input_data->processed_chars = 6))
+	{
+		if (expand_selection_left(input_data->start_pos, input_data->active_buf,
+	&input_data->rel_cur_pos) == 1)
+			return (-1);
+	}
+	else if ((ft_strncmp(input_data->build_buf->buf, KEY_SHIFT_RIGHT,
+6) == 0) && (input_data->processed_chars = 6))
+	{
+		if (expand_selection_right(input_data->start_pos,
+	input_data->active_buf, &input_data->rel_cur_pos) == 1)
 			return (-1);
 	}
 	return (input_data->processed_chars > 0);
