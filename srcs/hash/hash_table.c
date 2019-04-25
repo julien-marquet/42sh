@@ -57,7 +57,6 @@ void			delete_table(t_list **table)
 	t_list	*pointer;
 	void	*previous;
 
-	dprintf(2, "Deleting hash table...\n");
 	pointer = *table;
 	while (pointer != NULL)
 	{

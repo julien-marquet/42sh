@@ -45,7 +45,6 @@ int		add_entry_storage(t_sh_state *state, const char *name, const char *value, i
 		return (1);
 	if ((node = find_node_by_name(state->internal_storage, name)) != NULL)
 	{
-		dprintf(2, "HelloWorld\n");
 		if (update_existing_node(&(state->hash_table), node, name, value, len) == 1)
 			return (-1);
 		if (exported == 1 || exported == 0)
@@ -54,7 +53,6 @@ int		add_entry_storage(t_sh_state *state, const char *name, const char *value, i
 	}
 	else
 	{
-		dprintf(2, "Adding entry...\n");
 		if ((fill_entry(&entry, name, value, len)) == 1)
 			return (-1);
 		if (exported != 1 && exported != 0)
