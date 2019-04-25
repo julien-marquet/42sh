@@ -292,12 +292,10 @@ static char	*resolve(t_sh_state *state, char *path)
 	if ((len = readlink(path, buf, _POSIX_PATH_MAX - 1)) == -1)
 		return (NULL);
 	buf[len] = '\0';
-	dprintf(2, "Result: %s\n", buf);
 	if ((tmp = ft_strdup(buf)) == NULL)
 		return (NULL);
 	if (make_path_absolute(state, &tmp) != 0)
 		return (NULL);
-	dprintf(2, "Result of result: %s\n", tmp);
 	return (tmp);
 }
 
@@ -391,7 +389,6 @@ char	*format_path(t_sh_state *sh_state, char *curpath, size_t res_links)
 			return (NULL);
 		free(canon);
 	}
-	dprintf(2, "Final: %s\n", final);
 	if (make_path_canonical(&final) != 0)
 		return (NULL);
 	return (final);
@@ -475,7 +472,7 @@ const char **av, t_builtin_context *context)
 		else
 			curpath = get_curpath(sh_state, ac, av, &i);
 	}
-	formatted = format_path(sh_state, curpath, check_links(av, i - 1));
+	formatted = format_path(sh_state, curpath, check_links(av, i < 0 ? 0 : i - 1));
 	if (verify_path(context->origin, curpath, formatted) != 0)
 		return (1);
 	return (change_dir(sh_state, formatted, i == -2));
