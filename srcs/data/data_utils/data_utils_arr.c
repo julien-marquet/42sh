@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 21:41:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 01:42:37 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:42:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,10 +28,8 @@ char	**duplicate_array(char **array)
 		i = 0;
 		while (array[i] != NULL)
 		{
-			dprintf(2, "cpy\n");
 			if ((new_arr[i] = ft_strdup(array[i])) == NULL)
 				return (new_arr);
-			dprintf(2, "ARR = %s\n", new_arr[i]);
 			i++;
 		}
 	}

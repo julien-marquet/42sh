@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/20 22:42:46 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 02:09:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:42:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,10 +37,7 @@ int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context)
 	{
 		use_pipes(context, new_pipe);
 		if ((err = handle_redir(cmd, origin)) != 0)
-		{
-			dprintf(2, "exiting with status %d\n", err);
 			exit(err);
-		}
 		else
 		{
 			reset_signal_handlers();

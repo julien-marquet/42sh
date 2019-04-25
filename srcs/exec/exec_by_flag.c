@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:36:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 04:05:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,7 +55,7 @@ t_context *context)
 	{
 		if ((found = builtins_dispatcher(sh_state, cmd, context)) < 0)
 			return (found);
-		else
+		else if (found == 0)
 		{
 			if ((found = exec_dispatcher(sh_state, cmd, context)) <= 0)
 				return (found);

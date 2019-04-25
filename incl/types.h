@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 21:36:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:47:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <termios.h>
 # include "../libs/Libft/libft.h"
+# include "builtins/builtins_defines.h"
 
 typedef enum	e_job_status
 {
@@ -205,5 +206,6 @@ typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
 				t_context *context);
 typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
 				t_builtin_context *context);
-
+typedef int		(*t_assoc_func[BUILTINS_NB + 1])(t_sh_state *, int,
+				const char **, t_builtin_context *);
 #endif

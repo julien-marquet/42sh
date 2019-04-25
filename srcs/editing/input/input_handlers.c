@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:51:47 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:42:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,8 +48,6 @@ int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) && (input_data->processed_chars = 1))
 		exit_sh(sh_state, input_data);
-	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_Z, 1) == 0) && (input_data->processed_chars = 1))
-		dprintf(2, "SUSPEND SIG\n");
 	return (0);
 }
 

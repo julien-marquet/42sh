@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 02:42:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 04:03:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,17 +15,9 @@
 
 static t_builtin_func	get_builtins_func(const char *name)
 {
-	size_t		i;
-	static char	*assoc_name[BUILTINS_NB + 1] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export",
-		"[", "alias", "unalias", "jobs", "fg", "bg", "hash", "test", "cd", NULL
-	};
-	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, t_builtin_context *) = {
-		builtin_set, builtin_env, builtin_setenv, builtin_unsetenv,
-		builtin_unset, builtin_exit, builtin_echo, builtin_export,
-		builtin_test, builtin_alias, builtin_unalias, builtin_jobs, builtin_fg,
-		builtin_bg, builtin_hash, builtin_test, builtin_cd, NULL
-	};
+	size_t				i;
+	static char			*assoc_name[BUILTINS_NB + 1] = {B_1, B_2, B_3};
+	static t_assoc_func	assoc_func = {F_1, F_2, F_3, F_4, F_5};
 
 	i = 0;
 	if (name != NULL)
@@ -40,7 +32,7 @@ static t_builtin_func	get_builtins_func(const char *name)
 	return (NULL);
 }
 
-t_builtin_context	*init_builtin_context()
+t_builtin_context	*init_builtin_context(void)
 {
 	t_builtin_context *builtin_context;
 
@@ -56,8 +48,6 @@ t_builtin_context	*init_builtin_context()
 
 int			is_valid_as_function(t_cmd *cmd, t_context *context)
 {
-	dprintf(2, "RED = %s, last red = %s, background = %d\n", cmd->red,
-context->proc_grp->last_red, context->background);
 	if (cmd->red == NULL)
 	{
 		if (context->proc_grp->last_red == NULL ||

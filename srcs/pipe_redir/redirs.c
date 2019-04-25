@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 20:56:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:43:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -243,7 +243,6 @@ int		handle_redir(t_cmd *cmd, char *origin)
 	}
 	if (cmd->out != NULL)
 	{
-		dprintf(2, "cmd = %s\n", cmd->out->file);
 		if ((err = handle_out(cmd->out, origin)) != 0)
 			return (err);
 	}

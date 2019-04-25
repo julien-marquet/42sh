@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 02:51:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:40:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -151,7 +151,7 @@ t_input_data *input_data)
 			free_cmds(acmd);
 			return (1);
 		}
-		parse_print(cmd);
+		// parse_print(cmd);
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
 		{

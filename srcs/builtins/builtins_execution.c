@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 20:45:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:42:16 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,10 +41,7 @@ t_builtin_func builtin, t_context *context)
 	{
 		use_pipes(context, new_pipe);
 		if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
-		{
-			dprintf(2, "exiting with status %d\n", err);
 			exit(err);
-		}
 		else
 		{
 			reset_signal_handlers();
@@ -74,10 +71,7 @@ t_builtin_func builtin, t_context *context)
 	std_state[1] = dup(1);
 	std_state[2] = dup(2);
 	if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
-	{
-		dprintf(2, "exiting with status %d\n", err);
 		exit(err);
-	}
 	err = builtin(sh_state, ft_arraylen((const void **)cmd->arg),
 (const char **)cmd->arg, context->builtin_context);
 	dup2(std_state[0], 0);
