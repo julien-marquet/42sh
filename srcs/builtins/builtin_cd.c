@@ -291,6 +291,7 @@ static char	*resolve(t_sh_state *state, char *path)
 		return (NULL);
 	if ((len = readlink(path, buf, _POSIX_PATH_MAX - 1)) == -1)
 		return (NULL);
+	free(path);
 	buf[len] = '\0';
 	if ((tmp = ft_strdup(buf)) == NULL)
 		return (NULL);
@@ -362,12 +363,19 @@ static char	*resolve_links(t_sh_state *state, char *base, char *path)
 		if ((ret = is_symbolic_link(tmp)) == -1)
 			return (NULL);
 		if (ret == 1)
-			return (resolve_links(state, resolve(state, tmp), rejoin_path(pointer + 1)));
+		{
+			free(path);
+			path = rejoin_path(pointer + 1);
+			ft_freetab(&dirs);
+			return (resolve_links(state, resolve(state, tmp), path));
+		}
 		if ((base = ft_strjoin(tmp, "/")) == NULL)
 			return (NULL);
 		free(tmp);
 		pointer += 1;
 	}
+	free(path);
+	ft_freetab(&dirs);
 	return (base);
 }
 
@@ -384,11 +392,8 @@ char	*format_path(t_sh_state *sh_state, char *curpath, size_t res_links)
 	if (!res_links)
 		final = canon;
 	else
-	{
 		if ((final = resolve_links(sh_state, ft_strdup("/"), canon)) == NULL)
 			return (NULL);
-		free(canon);
-	}
 	if (make_path_canonical(&final) != 0)
 		return (NULL);
 	return (final);
