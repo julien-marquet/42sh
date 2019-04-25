@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 20:55:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 23:52:54 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -97,16 +97,15 @@ int				fc_get_hist_numrev(t_list *find, t_list *hist)
 
 int				fc_get_hist_num(t_sh_state *sh_state, const char *str)
 {
-	int i = 0;
-	int is_alpha = 0;
-	int neg = 0;
-	t_list *find = NULL;
+	int		i = 0;
+	int		is_alpha = 0;
+	int		neg = 0;
+	t_list	*find = NULL;
 
 	if (str[i] == '-')
 		neg++;
-	while (str[i + neg] && is_alpha == 0)
-		is_alpha += !ft_isdigit(str[i++]);
-	dprintf(1, "%i\n", is_alpha);
+	while (str[neg + i] && is_alpha == 0)
+		is_alpha += !ft_isdigit(str[neg + i++]);
 	if (!is_alpha)
 	{
 		if (neg == 0)
@@ -119,28 +118,90 @@ int				fc_get_hist_num(t_sh_state *sh_state, const char *str)
 	}
 	else
 	{
-		return (0);
+		find = get_history_search(sh_state->history, (char *)str);
+		return (fc_get_hist_numrev(find, sh_state->history));
 	}
 }
 
-static int		fc_print(t_sh_state *sh_state, int first, int last, t_builtin_context *context)
+size_t			get_hist_len(t_list *hist)
 {
-	(void)sh_state;
-	(void)context;
+	size_t len;
 
-	dprintf(1, "first = %i\n", first);
-	dprintf(1, "last  = %i\n", last);
+	len = 0;
+	while (hist)
+	{
+		len++;
+		hist = hist->next;
+	}
+	return (len);
+}
+
+void			hist_print(t_list *hist, size_t len, int num)
+{
+	while (hist && num > 0)
+	{
+		num--;
+		dprintf(1, "%zu\t%s\n", len--, hist->content);
+		hist = hist->next;
+	}
+}
+
+void			hist_print_rev(t_list *hist, size_t len, int num)
+{
+	if (hist && num > 0)
+	{
+		hist_print_rev(hist->next, len - 1, num - 1);
+		dprintf(1, "%zu\t%s\n", len, hist->content);
+	}
+}
+
+static int		fc_print(t_sh_state *sh_state, t_fc_infos *fc_infos, t_builtin_context *context)
+{
+	t_list	*tmp;
+
+	tmp = sh_state->history;
+	(void)context;
+	if (tmp == NULL || tmp->next == NULL)
+		return (1);
+	tmp = tmp->next;
+	if (fc_infos->first == -1)
+	{
+		if (ft_strchr(fc_infos->opts, 'r'))
+			hist_print(tmp, get_hist_len(tmp), 16);
+		else
+			hist_print_rev(tmp, get_hist_len(tmp), 16);
+	}
+	else
+	{
+		/*if (fc_infos->first == -1)
+		{
+			if (ft_strchr(fc_infos->opts, 'r'))
+				hist_print(tmp, get_hist_len(tmp), get_hist_len(sh_state->history) - fc_infos->first);
+			else
+				hist_print_rev(tmp, get_hist_len(tmp), get_hist_len(sh_state->history) - fc_infos->first);
+		}
+		else
+		{*/
+		size_t big = fc_infos->first > fc_infos->last ? fc_infos->first : fc_infos->last;
+		size_t small = fc_infos->first > fc_infos->last ? fc_infos->last : fc_infos->first;
+		//if (fc_infos->first > fc_infos->last || ft_strchr(fc_infos->opts, 'r'))
+		//{
+			tmp = get_history_index_rev(sh_state->history, big);
+			hist_print(tmp, get_hist_len(tmp), get_hist_len(tmp) - small);
+		//}
+		//else
+		//	tmp = get_history_index_rev(sh_state->history, small);
+		
+		//}
+	}
 	return (0);
 }
 
 static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos, t_builtin_context *context)
 {
 	int i;
-	//int first = 0;
-	//int last = 0;
 
 	i = 0;
-	print_error(context->origin, "test", context->fds.err);
 	if (av[0])
 	{
 		fc_infos->first = fc_get_hist_num(sh_state, av[0]);
@@ -148,7 +209,7 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 			fc_infos->last = fc_get_hist_num(sh_state, av[1]);
 	}
 	if (fc_infos->opts != NULL && ft_strchr(fc_infos->opts, 'l') != NULL)
-		return (fc_print(sh_state, fc_infos->first, fc_infos->last, context));
+		return (fc_print(sh_state, fc_infos, context));
 	return (0);
 }
 
@@ -158,11 +219,12 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 	int			args_i;
 
 	(void)ac;
-	fc_infos = ft_memalloc(sizeof(t_fc_infos));
 	add_origin(&context->origin, "fc");
-	fc_infos->editor = NULL;
+	fc_infos = ft_memalloc(sizeof(t_fc_infos));
 	if (!(fc_infos->opts = ft_strnew(5)))
 		return (-1);
+	fc_infos->first = -1;
+	fc_infos->last = -1;
 	if ((args_i = fc_options(av, fc_infos, context)) == -1)
 		return (1);
 	else if (args_i == 0)
