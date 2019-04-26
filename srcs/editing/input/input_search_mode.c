@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 04:03:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 04:13:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 04:55:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,12 @@ int		get_search_mode(void)
 }
 void	set_search_mode(int	setter)
 {
-	*search_mode_super_get() = setter;
+	int		*tmp;
+
+	tmp = search_mode_super_get();
+	if (setter == 0)
+		set_searched(NULL);
+	*tmp = setter;
 }
 char	*get_searched(void)
 {
@@ -40,5 +45,11 @@ char	*get_searched(void)
 }
 void	set_searched(char *setter)
 {
-	*searched_super_get() = setter;
+	char	**searched;
+	char	*tmp;
+
+	searched = searched_super_get();
+	tmp = *searched;
+	ft_strdel(&tmp);
+	*searched = setter;
 }

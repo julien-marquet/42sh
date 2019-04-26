@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 01:14:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 04:41:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,17 +36,25 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 		if (handle_sig(input_data, sh_state) == 1)
 			return (1);
 	}
-	else if (is_capability(input_data->build_buf->buf) == 1)
+	else if (get_search_mode() == 1)
 	{
-		if (handle_capabilities(input_data, hist_copy, sh_state) == 1)
-			return (1);
+		handle_search_input(input_data);
+		input_data->processed_chars = input_data->build_buf->len;
 	}
 	else
 	{
-		reset_selection(input_data->start_pos, input_data->active_buf,
-	&input_data->rel_cur_pos);
-		if (handle_insertion(input_data) == -1)
-			return (1);
+		if (is_capability(input_data->build_buf->buf) == 1)
+		{
+			if (handle_capabilities(input_data, hist_copy, sh_state) == 1)
+				return (1);
+		}
+		else
+		{
+			reset_selection(input_data->start_pos, input_data->active_buf,
+		&input_data->rel_cur_pos);
+			if (handle_insertion(input_data) == -1)
+				return (1);
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:51:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 04:13:33 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 04:41:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,4 +29,5 @@
 # include "editing/input/completion/completion.h"
 # include "editing/input/input_selection.h"
 # include "editing/input/input_search_mode.h"
+# include "editing/input/input_search_history.h"
 #endif
