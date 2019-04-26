@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 22:00:24 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 22:50:01 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,9 +15,19 @@
 
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos, t_builtin_context *context)
 {
-	(void)sh_state;
-	(void)fc_infos;
 	(void)context;
+	int i;
+	static char *job_name = "EDITOR";
+	t_cmd *cmd;
+
+	cmd = ft_memalloc(sizeof(t_cmd));
+	cmd->arg = ft_memalloc(sizeof(char*) * 3);
+	cmd->arg[0] = ft_strdup(fc_infos->editor);
+	cmd->arg[1] = ft_strdup("/tmp/test");
+	i = exec_cmd_list(sh_state, cmd, job_name, NULL);
+	dprintf(1, "RETURN %i\n", i);
+	if (i == -1)
+		return (-1);
 	return (0);
 }
 
