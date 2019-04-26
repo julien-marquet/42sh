@@ -6,92 +6,115 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 04:24:25 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 05:44:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 06:27:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/input_search_history.h"
 
-t_list	*history_search(t_list *hist, char *find)
-{
-	while (hist)
-	{
-		if (ft_strstr(hist->content, find) != NULL)
-			return (hist);
-		hist = hist->next;
-	}
-	return (NULL);
-}
-
-char	*search_in_history(char *searched)
+char	*search_in_history(char *searched, int next)
 {
 	t_list	*active_search_node;
-	t_list	*match;
 
 	if ((active_search_node = get_active_search_node()) == NULL ||
 active_search_node->next == NULL)
 		return (NULL);
-	if ((match = history_search(active_search_node, searched)) != NULL)
+	if (next)
+		active_search_node = active_search_node->next;
+	while (active_search_node)
 	{
-		set_active_search_node(match);
-		return ((char *)match->content);
+		if (ft_strstr(active_search_node->content, searched) != NULL)
+			break ;
+		active_search_node = active_search_node->next;
+	}
+	if (active_search_node != NULL)
+	{
+		set_active_search_node(active_search_node);
+		return ((char *)active_search_node->content);
 	}
 	return (NULL);
+}
+
+char	*handle_actions(t_input_data *input_data)
+{
+	const char	*tmp;
+	size_t	len;
+
+	if (ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 ||
+	ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0)
+	{
+		tmp = get_searched();
+		len = tmp == NULL ? 0 : ft_strlen(tmp);
+		if (len > 0)
+			return (ft_strndup(tmp, len - 1));
+	}
+	else
+	{
+		set_search_mode(0);
+		input_data->processed_chars = 0;
+	}
+	return (NULL);
+}
+
+char	*append_to_searched(t_input_data *input_data)
+{
+	const char	*tmp;
+	size_t	len;
+	char	*searched;
+
+	tmp = get_searched();
+	len = tmp == NULL ? 0 : ft_strlen(tmp);
+	if ((searched = ft_memalloc(len + 2)) == NULL)
+		return (NULL);
+	if (tmp != NULL)
+		ft_strcpy(searched, tmp);
+	ft_strcpy(&(searched[len]), input_data->build_buf->buf);
+	return (searched);
+}
+
+int		find_in_history(t_sh_state *sh_state, t_input_data *input_data, char *searched, int next)
+{
+	char	*result;
+
+	if (searched != NULL)
+	{
+		if (get_active_search_node() == NULL)
+			set_active_search_node(sh_state->history);
+		if ((result = search_in_history(searched, next)) != NULL)
+		{
+			if (set_dyn_buf(input_data->active_buf, result) == 1)
+				return (-1);
+			input_data->rel_cur_pos = 0;
+			set_searched(searched);
+			if (print_anew(input_data->start_pos, input_data->active_buf,
+		input_data->rel_cur_pos) == 1)
+				return (-1);
+			return (1);
+		}
+	}
+	write(1, "\a", 1);
+	return (0);
 }
 
 int		handle_search_input(t_sh_state *sh_state, t_input_data *input_data)
 {
 	char	*searched;
-	const char	*tmp;
-	size_t	len;
-	char	*result;
+	int		result;
 
 	searched = NULL;
 	input_data->processed_chars = input_data->build_buf->len;
 	if (is_capability(input_data->build_buf->buf) ||
 input_data->build_buf->len > 1)
-	{
-		if (ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 ||
-ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0)
-		{
-			tmp = get_searched();
-			len = tmp == NULL ? 0 : ft_strlen(tmp);
-			if (len > 0)
-			{
-				if ((searched = ft_strndup(tmp, len - 1)) == NULL)
-					return (1);
-			}
-		}
-	}
+		searched = handle_actions(input_data);
 	else
-	{
-		tmp = get_searched();
-		len = tmp == NULL ? 0 : ft_strlen(tmp);
-		if ((searched = ft_memalloc(len + 2)) == NULL)
-			return (1);
-		if (tmp != NULL)
-			ft_strcpy(searched, tmp);
-		ft_strcpy(&(searched[len]), input_data->build_buf->buf);
-	}
+		searched = append_to_searched(input_data);
 	if (searched != NULL)
 	{
-		if (get_active_search_node() == NULL)
-			set_active_search_node(sh_state->history);
-		if ((result = search_in_history(searched)) != NULL)
-		{
-			if (set_dyn_buf(input_data->active_buf, result) == 1)
-				return (1);
-			input_data->rel_cur_pos = 0;
-			set_searched(searched);
-			if (print_anew(input_data->start_pos, input_data->active_buf,
-		input_data->rel_cur_pos) == 1)
-				return (1);
-		}
-		else
+		if ((result = find_in_history(sh_state, input_data, searched, 0)) <= 0)
 		{
 			ft_strdel(&searched);
-			write(1, "\a", 1);
+			return (result == -1 ? 1 : 0);
 		}
 	}
 	return (0);
