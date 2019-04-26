@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 23:52:54 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 19:18:49 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -80,7 +80,7 @@ static int		fc_options(const char **av, t_fc_infos *fc_infos, t_builtin_context 
 	return (i);
 }
 
-int				fc_get_hist_numrev(t_list *find, t_list *hist)
+int				fc_hist_to_num(t_list *find, t_list *hist)
 {
 	int num;
 
@@ -93,6 +93,23 @@ int				fc_get_hist_numrev(t_list *find, t_list *hist)
 	if (hist != NULL)
 		return (num);
 	return (0);
+}
+
+int				fc_hist_to_num_rev(t_list *find, t_list *hist)
+{
+	int num;
+
+	num = 0;
+	while (hist && hist != find)
+		hist = hist->next;
+	while (hist)
+	{
+		num++;
+		hist = hist->next;
+	}
+	//if (hist != NULL)
+		return (num);
+	//return (0);
 }
 
 int				fc_get_hist_num(t_sh_state *sh_state, const char *str)
@@ -113,13 +130,13 @@ int				fc_get_hist_num(t_sh_state *sh_state, const char *str)
 		else
 		{
 			find = get_history_index_rev(sh_state->history, ft_atoi(str + 1));
-			return (fc_get_hist_numrev(find, sh_state->history));
+			return (fc_hist_to_num(find, sh_state->history));
 		}
 	}
 	else
 	{
 		find = get_history_search(sh_state->history, (char *)str);
-		return (fc_get_hist_numrev(find, sh_state->history));
+		return (fc_hist_to_num_rev(find, sh_state->history));
 	}
 }
 
@@ -173,26 +190,30 @@ static int		fc_print(t_sh_state *sh_state, t_fc_infos *fc_infos, t_builtin_conte
 	}
 	else
 	{
-		/*if (fc_infos->first == -1)
+		dprintf(1, "first = %i last = %i\n", fc_infos->first, fc_infos->last);
+		if (fc_infos->last != -1)
 		{
+			if (fc_infos->first > fc_infos->last)
+			{
+				int num = fc_infos->first;
+				fc_infos->first = fc_infos->last;
+				fc_infos->last = num;
+				add_valid(fc_infos, 'r');
+			}
+			tmp = get_history_index_rev(sh_state->history, fc_infos->last);
 			if (ft_strchr(fc_infos->opts, 'r'))
-				hist_print(tmp, get_hist_len(tmp), get_hist_len(sh_state->history) - fc_infos->first);
+				hist_print(tmp, get_hist_len(tmp), get_hist_len(tmp) - fc_infos->first + 1);
 			else
-				hist_print_rev(tmp, get_hist_len(tmp), get_hist_len(sh_state->history) - fc_infos->first);
+				hist_print_rev(tmp, get_hist_len(tmp), get_hist_len(tmp) - fc_infos->first + 1);
 		}
 		else
-		{*/
-		size_t big = fc_infos->first > fc_infos->last ? fc_infos->first : fc_infos->last;
-		size_t small = fc_infos->first > fc_infos->last ? fc_infos->last : fc_infos->first;
-		//if (fc_infos->first > fc_infos->last || ft_strchr(fc_infos->opts, 'r'))
-		//{
-			tmp = get_history_index_rev(sh_state->history, big);
-			hist_print(tmp, get_hist_len(tmp), get_hist_len(tmp) - small);
-		//}
-		//else
-		//	tmp = get_history_index_rev(sh_state->history, small);
-		
-		//}
+		{
+			tmp = get_history_index_rev(sh_state->history, fc_infos->first);
+			if (ft_strchr(fc_infos->opts, 'r'))
+				hist_print(tmp, get_hist_len(tmp), get_hist_len(tmp) - fc_infos->first + 1);
+			else
+				hist_print_rev(tmp, get_hist_len(tmp), get_hist_len(tmp) - fc_infos->first + 1);
+		}
 	}
 	return (0);
 }
