@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/17 23:50:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 17:41:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/27 00:42:29 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -79,7 +79,7 @@ char		*parse_event(char *str, t_list *hist)
 	{
 		while (str[i] && is_quoted(str, i) == 1)
 			i++;
-		if (stresc("!", str, i) && !ft_strchr(" \n", str[i + 1]))
+		if (stresc("!", str, i) && !ft_strchr(" \n}", str[i + 1]))
 		{
 			tmp = event_hanlder(str, &i, hist);
 			if (tmp == NULL)

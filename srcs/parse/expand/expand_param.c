@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/27 00:34:18 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/27 00:42:51 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,7 +58,6 @@ t_sh_state *sh_state)
 		return (1);
 	if (expand_error_handler(1, tmp) == -1)
 		return (-1);
-	dprintf(1, "%s\n", get_special_parameter(sh_state, tmp));
 	if (!(new = expand_bytype(sh_state, tmp)))
 	{
 		ft_strdel(&tmp);
