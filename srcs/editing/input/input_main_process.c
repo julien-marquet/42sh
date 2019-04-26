@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 04:41:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 05:43:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,8 +38,8 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 	}
 	else if (get_search_mode() == 1)
 	{
-		handle_search_input(input_data);
-		input_data->processed_chars = input_data->build_buf->len;
+		if (handle_search_input(sh_state, input_data) == 1)
+			return (1);
 	}
 	else
 	{

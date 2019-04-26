@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 04:06:00 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 05:06:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 05:25:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,9 +16,11 @@
 
 # include "common.h"
 
-int		get_search_mode(void);
-void	set_search_mode(int	setter);
+int			get_search_mode(void);
+void		set_search_mode(int	setter);
 const char	*get_searched(void);
-void	set_searched(char *setter);
+void		set_searched(char *setter);
+void		set_active_search_node(t_list *node);
+t_list		*get_active_search_node(void);
 
 #endif
