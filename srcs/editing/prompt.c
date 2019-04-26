@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:48:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:38:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 04:15:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,20 +36,40 @@ size_t		print_prompt(int mode_modifier)
 	size_t	display_len;
 	size_t	buf_len;
 
-	mode = prompt_mode(mode_modifier);
-	display_len = mode == PROMPT_SIMPLE ?
-PROMPT_SIMPLE_DISPLAY_LEN : PROMPT_MULTI_DISPLAY_LEN;
-	buf_len = mode == PROMPT_SIMPLE ?
-PROMPT_SIMPLE_BUF_LEN : PROMPT_MULTI_BUF_LEN;
-	if (mode_modifier != PROMPT_NO_PRINT)
+	if (get_search_mode() == 0)
 	{
-		if (mode == PROMPT_SIMPLE)
-			write(1, PROMPT_SIMPLE_TXT, buf_len);
-		else if (mode == PROMPT_MULTI)
-			write(1, PROMPT_MULTI_TXT, buf_len);
-		tputs(tgetstr("cd", NULL), 1, ft_putchar);
+		mode = prompt_mode(mode_modifier);
+		display_len = mode == PROMPT_SIMPLE ?
+	PROMPT_SIMPLE_DISPLAY_LEN : PROMPT_MULTI_DISPLAY_LEN;
+		buf_len = mode == PROMPT_SIMPLE ?
+	PROMPT_SIMPLE_BUF_LEN : PROMPT_MULTI_BUF_LEN;
+		if (mode_modifier != PROMPT_NO_PRINT)
+		{
+			if (mode == PROMPT_SIMPLE)
+				write(1, PROMPT_SIMPLE_TXT, buf_len);
+			else if (mode == PROMPT_MULTI)
+				write(1, PROMPT_MULTI_TXT, buf_len);
+			tputs(tgetstr("cd", NULL), 1, ft_putchar);
+		}
+		return (display_len);
 	}
-	return (display_len);
+	else
+	{
+		char	*searched;
+
+		if ((searched = get_searched()) == NULL)
+			display_len = PROMPT_SEARCH_DISPLAY_LEN + 2;
+		else
+			display_len = PROMPT_SEARCH_DISPLAY_LEN + ft_strlen(searched) + 2;
+		if (mode_modifier != PROMPT_NO_PRINT)
+		{
+			write(1, PROMPT_SEARCH_TXT, PROMPT_SEARCH_BUF_LEN);
+			ft_putstr_fd(searched, 1);
+			write(1, ": ", 2);
+			tputs(tgetstr("cd", NULL), 1, ft_putchar);
+		}
+		return (display_len);
+	}
 }
 
 size_t		get_prompt_len(void)

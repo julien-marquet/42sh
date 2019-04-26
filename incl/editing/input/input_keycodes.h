@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:18:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 01:14:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 03:27:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,7 +36,7 @@
 # define KEY_DEL "\033[3~"
 # define CTRL_C "\03"
 # define CTRL_D "\04"
-# define CTRL_Z "\032"
+# define CTRL_R "\022"
 # define KEY_NL "\012"
 # define KEY_NP "\014"
 

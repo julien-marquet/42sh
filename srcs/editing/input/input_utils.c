@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:12:45 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 01:45:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 03:28:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,7 +38,7 @@ int		is_capability(char *s)
 
 int		is_sig(char *s)
 {
-	return (*s == '\04' || *s == '\03' || *s == '\032');
+	return (*s == '\04' || *s == '\03' || *s == '\022');
 }
 
 int		is_escaped(char *str, size_t i)
