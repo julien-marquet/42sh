@@ -20,6 +20,7 @@ t_sh_state	*init_sh_state(void)
 
 	if ((sh_state = ft_memalloc(sizeof(t_sh_state))) == NULL)
 		return (NULL);
+	sh_state->hash_table = NULL;
 	return (sh_state);
 }
 

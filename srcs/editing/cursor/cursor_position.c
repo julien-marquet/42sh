@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/03 19:02:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/12 02:50:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:42:32 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -103,10 +103,7 @@ int		ask_start_position(t_cur_abs_pos *pos)
 			break ;
 	}
 	if (ret == -1)
-	{
-		dprintf(2, "ERROR = %s\n", strerror(errno));
 		return (1);
-	}
 	str[len] = '\0';
 	process_location_termcaps(i, len, str, pos);
 	return (0);

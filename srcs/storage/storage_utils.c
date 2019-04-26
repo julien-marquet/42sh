@@ -11,6 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
+#include "hash/hash.h"
 #include "storage/storage_utils.h"
 
 t_list	*find_node_by_name(t_list *env, const char *var_name)
@@ -52,9 +53,11 @@ void	remove_storage_node(t_list **alst, t_list **node, t_list *prev)
 	free(*node);
 }
 
-int		update_existing_node(t_list *node, const char *name,
+int		update_existing_node(t_list **hash_table, t_list *node, const char *name,
 const char *value, size_t len)
 {
+	if (ft_strcmp("PATH", name) == 0)
+		delete_table(hash_table);
 	free(((t_internal_storage *)node->content)->string);
 	node->content_size = sizeof(t_internal_storage);
 	if ((((t_internal_storage *)node->content)->string =

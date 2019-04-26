@@ -6,64 +6,109 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:51:47 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:25 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 06:28:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/input_handlers.h"
 
-
-
-int		handle_capabilities(t_input_data *input_data, t_list *hist_copy)
+int		handle_capabilities(t_input_data *input_data,
+		t_list *hist_copy, t_sh_state *sh_state)
 {
 	int	res;
 
-	if ((res = capabilities_dispatcher_1(input_data)) != 0)
-		return (res == -1);
-	if ((res = capabilities_dispatcher_2(input_data)) != 0)
-		return (res == -1);
-	if ((res = capabilities_dispatcher_3(input_data)) != 0)
-		return (res == -1);
-	if ((res = capabilities_dispatcher_4(input_data, hist_copy)) != 0)
+	if ((res = capabilities_dispatcher_selection(input_data)) != 0)
 		return (res == -1);
 	else
-		input_data->processed_chars = count_escape_chars(input_data->build_buf->buf);
+	{
+		reset_selection(input_data->start_pos, input_data->active_buf,
+	&input_data->rel_cur_pos);
+		if ((res = capabilities_dispatcher_1(input_data, sh_state)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_2(input_data)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_3(input_data)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_4(input_data, hist_copy)) != 0)
+			return (res == -1);
+		else if ((res = capabilities_dispatcher_selection(input_data)) != 0)
+			return (res == -1);
+		else
+			input_data->processed_chars = count_escape_chars(
+		input_data->build_buf->buf);
+	}
 	return (0);
 }
-
 
 int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 {
 	t_cur_abs_pos pos;
 
 	sh_state->exit_sig = sh_state->exit_sig;
-	if ((ft_strncmp(input_data->build_buf->buf, CTRL_C, 1) == 0) && (input_data->processed_chars = 1))
+	if ((ft_strncmp(input_data->build_buf->buf, CTRL_C, 1) == 0) &&
+(input_data->processed_chars = 1))
 	{
 		input_data->sig_call = 1;
-		if (get_cursor_position(&pos, input_data->active_buf, input_data->active_buf->len ,input_data->start_pos) == 1)
+		if (get_cursor_position(&pos, input_data->active_buf,
+	input_data->active_buf->len, input_data->start_pos) == 1)
 			return (1);
-		if (tputs(tgoto(tgetstr("cm", NULL), pos.col, pos.row), 1, ft_putchar) != 0)
+		if (tputs(tgoto(tgetstr("cm", NULL), pos.col,
+	pos.row), 1, ft_putchar) != 0)
 			return (1);
 		write(1, "\n", 1);
+		if (get_search_mode() == 1)
+		{
+			reset_dyn_buf(input_data->active_buf);
+			set_search_mode(0);
+		}
 	}
-	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) && (input_data->processed_chars = 1))
-		exit_sh(sh_state, input_data);
-	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_Z, 1) == 0) && (input_data->processed_chars = 1))
-		dprintf(2, "SUSPEND SIG\n");
+	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) &&
+(input_data->processed_chars = 1))
+	{
+		if (input_data->active_buf->len == 0 &&
+	input_data->stored_buf->len == 0)
+			exit_sh(sh_state, input_data);
+		else
+			write(1, "\a", 1);
+	}
+	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_R, 1) == 0) &&
+(input_data->processed_chars = 1))
+	{
+		char	*searched;
+		int		result;
+
+		if (get_search_mode() == 0)
+		{
+			set_search_mode(1);
+			print_anew(input_data->start_pos, input_data->active_buf,
+		input_data->rel_cur_pos);
+		}
+		else
+		{
+			searched = ft_strdup(get_searched());
+			if ((result = find_in_history(sh_state, input_data,
+		searched, 1)) <= 0)
+			{
+				ft_strdel(&searched);
+				return (result == -1 ? 1 : 0);
+			}
+		}
+	}
 	return (0);
 }
-
 
 int		handle_insertion(t_input_data *input_data)
 {
 	size_t		i;
 
 	i = 0;
-	while (i < input_data->build_buf->len && !is_capability(&(input_data->build_buf->buf[i])))
+	while (i < input_data->build_buf->len &&
+!is_capability(&(input_data->build_buf->buf[i])))
 		i++;
 	input_data->processed_chars = i;
-	if (insertn_dyn_buf(input_data->build_buf->buf, input_data->active_buf, input_data->rel_cur_pos, i) == 1)
+	if (insertn_dyn_buf(input_data->build_buf->buf,
+input_data->active_buf, input_data->rel_cur_pos, i) == 1)
 		return (1);
 	return (insertn_chars(input_data, input_data->build_buf->buf, i, 0));
 }

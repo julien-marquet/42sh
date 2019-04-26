@@ -6,19 +6,19 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:42:12 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 22:30:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 05:43:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "hash/hash_table.h"
 
-static char		*check_paths(char **paths, char *bin,
+static char		*check_paths(const char **paths, const char *bin,
 			t_list **table, int *error)
 {
 	int		ret;
 	char	*tmp;
-	char	**pointer;
+	const char	**pointer;
 
 	pointer = paths;
 	while (*pointer != NULL)
@@ -70,7 +70,7 @@ void			delete_table(t_list **table)
 	*table = NULL;
 }
 
-char			*append_bin(char *bin, t_list **table,
+char			*append_bin(const char *bin, t_list **table,
 			t_list *internal_storage, int *error)
 {
 	char	*tmp;
@@ -81,7 +81,7 @@ char			*append_bin(char *bin, t_list **table,
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
-	tmp = check_paths(paths, bin, table, error);
+	tmp = check_paths((const char **)paths, bin, table, error);
 	if (*error != 4)
 		return (NULL);
 	ft_freetab(&paths);
@@ -96,7 +96,7 @@ char			*append_bin(char *bin, t_list **table,
 	return (NULL);
 }
 
-char			*get_bin_path(char **av, t_list **table,
+char			*get_bin_path(const char **av, t_list **table,
 			t_list *internal_storage, int *error)
 {
 	char	*path;
@@ -110,12 +110,11 @@ char			*get_bin_path(char **av, t_list **table,
 	{
 		if ((path = append_bin(av[0], table, internal_storage, error)) != NULL)
 		{
-			if (*error == 4)
+			if (*error == 0)
 				return (path);
 		}
 		return (NULL);
 	}
-
 	((t_hash_table *)pointer->content)->hits += 1;
 	return (((t_hash_table *)pointer->content)->path);
 }

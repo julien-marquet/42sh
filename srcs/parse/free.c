@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/20 16:00:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 01:32:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 01:01:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,6 +68,23 @@ void	free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
 	else
 		end = cmd;
 	while (acmd != NULL && acmd != end)
+	{
+		ft_strdel(&acmd->str);
+		ft_strdel(&acmd->red);
+		free_arg(acmd->arg);
+		free_file(acmd->out);
+		free_file(acmd->in);
+		prev = acmd;
+		acmd = acmd->next;
+		free(prev);
+	}
+}
+
+void	free_cmds(t_cmd *acmd)
+{
+	t_cmd	*prev;
+
+	while (acmd != NULL)
 	{
 		ft_strdel(&acmd->str);
 		ft_strdel(&acmd->red);

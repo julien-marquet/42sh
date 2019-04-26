@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 20:23:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 06:12:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 00:39:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -147,7 +147,8 @@ char	*get_curpath(t_sh_state *sh_state, int ac, const char **av, int *i)
 	if ((directory = get_dir_operand(sh_state, ac, av, *i)) == NULL)
 		return (NULL);
 	if (ft_strncmp(directory, "/", 1) == 0 ||
-ft_strncmp(directory, "./", 2) == 0 || ft_strncmp(directory, "../", 3) == 0)
+ft_strncmp(directory, "./", 2) == 0 || ft_strncmp(directory, "../", 3) == 0 ||
+ft_strcmp(directory, ".") == 0 || ft_strcmp(directory, "..") == 0)
 		return (directory);
 	else if ((curpath = retrieve_cdpath(sh_state, ac, av, *i)) == NULL)
 		return (directory);
@@ -217,7 +218,8 @@ int		count_unnecessary_slashes(char *path, int i)
 
 int	remove_dot(char **path, int *i)
 {
-	if (ft_strncmp(&(*path)[*i], "/./", 3) == 0)
+	if (ft_strncmp(&(*path)[*i], "/.", 2) == 0 &&
+((*path)[*i + 2] == '\0' || (*path)[*i + 2] == '/'))
 	{
 		ft_strcpy(&(*path)[*i], &(*path)[*i + 2]);
 		*i -= 1;
@@ -230,12 +232,13 @@ int	remove_dot_dot(char **path, int *i)
 {
 	int		j;
 
-	if (ft_strncmp(&(*path)[*i], "/../", 4) == 0)
+	if (ft_strncmp(&(*path)[*i], "/..", 3) == 0 &&
+((*path)[*i + 3] == '\0' || (*path)[*i + 3] == '/'))
 	{
 		j = get_prec_slash_pos(*path, *i);
 		ft_strcpy(&(*path)[j],
 	&(*path)[*i + 3]);
-		*i -= j + 1;
+		*i = j - 1;
 		return (1);
 	}
 	return (0);
@@ -301,10 +304,7 @@ int		verify_path(char *origin, char *curpath, char *formatted)
 	else
 	{
 		if (ft_strlen(formatted) > PATH_MAX)
-		{
-			print_error(origin, "path is too long", 2);
 			err = 1;
-		}
 		if ((err = check_dir_path(formatted)) != 0)
 		{
 			handle_dir_path_error(origin, curpath, err);
@@ -322,8 +322,8 @@ int		change_dir(t_sh_state *sh_state, char *formatted, int print)
 	if (chdir(formatted) != 0)
 		return (1);
 	if ((pwd = get_env_value(sh_state->internal_storage, "PWD")) != NULL)
-		add_entry_storage(&sh_state->internal_storage, "OLDPWD", pwd, 1);
-	add_entry_storage(&sh_state->internal_storage, "PWD", formatted, 1);
+		add_entry_storage(sh_state, "OLDPWD", pwd, 1);
+	add_entry_storage(sh_state, "PWD", formatted, 1);
 	if (print)
 		ft_putendl_fd(formatted, 1);
 	ft_strdel(&formatted);
