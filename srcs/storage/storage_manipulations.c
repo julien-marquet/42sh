@@ -6,12 +6,11 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 02:23:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 02:35:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "hash/hash.h"
 #include "storage/storage_manipulations.h"
 
 static int	is_valid_name(const char *name)
@@ -31,7 +30,7 @@ static int	is_valid_name(const char *name)
 **	Return 0 on success 1 on parse error and -1 on critical error
 */
 
-int		add_entry_storage(t_sh_state *state, const char *name, const char *value, int exported)
+int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value, int exported)
 {
 	t_list				*node;
 	size_t				len;
@@ -43,9 +42,9 @@ int		add_entry_storage(t_sh_state *state, const char *name, const char *value, i
 	len += ft_strlen(name) + 1;
 	if (is_valid_name(name) == 0)
 		return (1);
-	if ((node = find_node_by_name(state->internal_storage, name)) != NULL)
+	if ((node = find_node_by_name(sh_state->internal_storage, name)) != NULL)
 	{
-		if (update_existing_node(&(state->hash_table), node, name, value, len) == 1)
+		if (update_existing_node(&(sh_state->hash_table), node, name, value, len) == 1)
 			return (-1);
 		if (exported == 1 || exported == 0)
 			((t_internal_storage *)node->content)->exported = exported;
@@ -61,14 +60,13 @@ int		add_entry_storage(t_sh_state *state, const char *name, const char *value, i
 		entry.new_entry = 1;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
-#include "hash/hash.h"
 			return (-1);
-		ft_lstprepend(&(state->internal_storage), node);
+		ft_lstprepend(&(sh_state->internal_storage), node);
 	}
 	return (0);
 }
 
-int		remove_entry_storage(t_list **storage, const char *name)
+int		remove_entry_storage(t_sh_state *sh_state, t_list **storage, const char *name)
 {
 	t_list	*tmp;
 	t_list	*prev;
@@ -86,6 +84,8 @@ int		remove_entry_storage(t_list **storage, const char *name)
 		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len) == 0 &&
 		((t_internal_storage *)tmp->content)->string[len] == '=')
 		{
+			if (ft_strcmp("PATH", name) == 0)
+				delete_table(&sh_state->hash_table);
 			remove_storage_node(storage, &tmp, prev);
 			return (1);
 		}
@@ -110,11 +110,14 @@ int		update_exported_flag(t_list *storage, t_list **hash_table,
 {
 	t_list	*node;
 
-	if (ft_strcmp("PATH", name) == 0)
-		delete_table(hash_table);
 	if ((node = find_node_by_name(storage, name)) != NULL)
 	{
-		((t_internal_storage *)node->content)->exported = exported;
+		if (((t_internal_storage *)node->content)->exported != exported)
+		{
+			((t_internal_storage *)node->content)->exported = exported;
+			if (ft_strcmp("PATH", name) == 0)
+				delete_table(hash_table);
+		}
 		return (1);
 	}
 	return (0);

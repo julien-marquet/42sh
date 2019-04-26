@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 23:23:29 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:01:47 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 02:35:38 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ t_builtin_context *context)
 
 	i = 1;
 	while (i < ac)
-		remove_entry_storage(&sh_state->internal_storage, av[i++]);
+		remove_entry_storage(sh_state, &sh_state->internal_storage, av[i++]);
 	i = context->fds.out;
 	return (0);
 }
