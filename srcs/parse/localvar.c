@@ -27,7 +27,7 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
 	}
 	ft_memset(str, ' ', len);
 	if (name != NULL && value != NULL)
-		add_entry_storage(&sh_state->internal_storage, name, value, 2);
+		add_entry_storage(sh_state, name, value, 2);
 	ft_strdel(&name);
 	ft_strdel(&value);
 	return (1);

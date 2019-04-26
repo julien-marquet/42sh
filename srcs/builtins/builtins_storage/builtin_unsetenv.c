@@ -27,7 +27,8 @@ const char **av, t_builtin_context *context)
 	{
 		i = 1;
 		while (i < ac)
-			update_exported_flag(sh_state->internal_storage, av[i++], 0);
+			update_exported_flag(sh_state->internal_storage,
+			&(sh_state->hash_table), av[i++], 0);
 		return (0);
 	}
 }
