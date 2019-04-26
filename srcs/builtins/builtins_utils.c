@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:02:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 03:05:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 06:00:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -127,4 +127,34 @@ t_builtin_context	*duplicate_builtin_context(t_builtin_context *context)
 		return (NULL);
 	}
 	return (new_context);
+}
+
+const char	**get_builtins_names(void)
+{
+	static const char	*assoc_names[BUILTINS_NB + 1] = {BUILTINS_NAMES};
+
+	return (assoc_names);
+}
+
+int			builtin_exist(const char *name)
+{
+	const char	**assoc_names;
+	int			i;
+
+	assoc_names = get_builtins_names();
+	i = 0;
+	while (assoc_names[i] != NULL)
+	{
+		if (ft_strcmp(assoc_names[i], name) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+const t_builtin_func	*get_builtins_funcs(void)
+{
+	static const t_assoc_func	assoc_funcs = {BUILTINS_FUNCS};
+
+	return (assoc_funcs);
 }

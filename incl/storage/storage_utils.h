@@ -21,7 +21,7 @@ t_list	*find_node_by_name(t_list *env, const char *var_name);
 int		fill_entry(t_internal_storage *entry, const char *name,
 		const char *value, const size_t size);
 void	remove_storage_node(t_list **alst, t_list **node, t_list *prev);
-int		update_existing_node(t_list *node, const char *name,
-		const char *value, size_t len);
+int		update_existing_node(t_list **hash_table, t_list *node,
+		const char *name, const char *value, size_t len);
 
 #endif

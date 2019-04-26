@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 22:20:30 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 03:12:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,6 +47,7 @@ char				**parse_strsplit(char *str, int len);
 
 t_cmd				*parse_nextfree(t_cmd *cmd);
 void				free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd);
+void				free_cmds(t_cmd *acmd);
 
 /*
 ** EXEC

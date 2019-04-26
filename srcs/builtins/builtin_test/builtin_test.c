@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   builtin_test.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:03:31 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 18:03:33 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:41:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,6 +28,7 @@ static int	check_arg(const char *arg)
 	return (0);
 }
 
+// @TODO remove dprintf2
 int			test_error(char *builtin, char *file,
 					char *msg, unsigned char *status)
 {

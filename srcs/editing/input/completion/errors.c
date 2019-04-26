@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor_basic_moves.h                             .::    .:/ .      .::   */
+/*   errors.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 17:02:03 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:05:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/23 21:34:30 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/23 21:34:31 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_BASIC_MOVES_H
-# define CURSOR_BASIC_MOVES_H
+#include "editing/input/completion/completion.h"
 
-# include "common.h"
-# include "editing/cursor/cursor.h"
-
-int		move_cursor_left(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,
-		size_t *rel_cur_pos);
-int		move_cursor_right(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,
-		size_t *rel_cur_pos);
-
-#endif
+int		free_exit(t_list *files, char *str)
+{
+	lstfree(files);
+	if (str != NULL)
+		free(str);
+	return (1);
+}

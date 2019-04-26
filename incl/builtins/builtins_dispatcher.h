@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   builtins_dispatcher.h                            .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 22:20:48 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 03:12:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,6 +26,7 @@
 # include "builtins/builtin_hash/builtin_hash.h"
 # include "builtins/builtin_test/builtin_test.h"
 # include "builtins/builtin_cd.h"
+# include "builtins/builtin_type.h"
 
 int		builtins_dispatcher(t_sh_state *sh_state,
 		t_cmd *cmd, t_context *context);

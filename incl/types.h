@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   types.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 22:19:08 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 03:12:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <termios.h>
 # include "../libs/Libft/libft.h"
+# include "builtins/builtins_defines.h"
 
 typedef enum	e_job_status
 {
@@ -58,6 +59,8 @@ typedef struct	s_dyn_buf
 	size_t	len;
 	size_t	size;
 	char	*buf;
+	int		sel_start;
+	int		sel_len;
 }				t_dyn_buf;
 
 typedef struct	s_input_data
@@ -66,6 +69,7 @@ typedef struct	s_input_data
 	t_dyn_buf		*build_buf;
 	t_dyn_buf		*stored_buf;
 	t_dyn_buf		*initial_buf;
+	char			*clipboard;
 	t_list			*history_list;
 	size_t			rel_cur_pos;
 	size_t			processed_chars;
@@ -206,5 +210,6 @@ typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
 				t_context *context);
 typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
 				t_builtin_context *context);
-
+typedef int		(*t_assoc_func[BUILTINS_NB + 1])(t_sh_state *, int,
+				const char **, t_builtin_context *);
 #endif

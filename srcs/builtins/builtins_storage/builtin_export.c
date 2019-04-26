@@ -41,7 +41,7 @@ static void	print_export(t_list *internal_storage, int fd)
 	}
 }
 
-static int	handle_export(t_list **internal_storage, const char **av,
+static int	handle_export(t_sh_state *sh_state, const char **av,
 int i, t_builtin_context *context)
 {
 	char	*value;
@@ -51,14 +51,14 @@ int i, t_builtin_context *context)
 	while (av[i] != NULL)
 	{
 		if ((value = ft_strchr(av[i], '=')) == NULL)
-			update_exported_flag(*internal_storage, av[i], 1);
+			update_exported_flag(sh_state->internal_storage, &(sh_state->hash_table), av[i], 1);
 		else
 		{
 			value++;
 			if ((name = ft_strndup(av[i],
 		ft_strlen(av[i]) - ft_strlen(value) - 1)) == NULL)
 				return (1);
-			if ((res = add_entry_storage(internal_storage, name, value, 1)) == -1)
+			if ((res = add_entry_storage(sh_state, name, value, 1)) == -1)
 				return (1);
 			else if (res == 1)
 			{
@@ -98,7 +98,7 @@ t_builtin_context *context)
 			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
 				print_export(sh_state->internal_storage, context->fds.out);
 			else
-				res = handle_export(&sh_state->internal_storage, av, i, context);
+				res = handle_export(sh_state, av, i, context);
 		}
 		ft_strdel(&opts);
 	}

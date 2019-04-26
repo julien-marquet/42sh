@@ -17,7 +17,8 @@
 # include "common.h"
 # include "editing/input/input.h"
 
-int		handle_capabilities(t_input_data *input_data, t_list *hist_copy);
+int		handle_capabilities(t_input_data *input_data,
+		t_list *hist_copy, t_sh_state *sh_state);
 int		handle_sig(t_input_data *input_data, t_sh_state *sh_state);
 int		handle_insertion(t_input_data *input_data);
 

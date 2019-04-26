@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 23:41:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 01:14:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/input_main_process.h"
+#include "editing/input/completion/completion.h"
 
 static int		get_buf(t_dyn_buf *build_buf)
 {
@@ -37,11 +38,13 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 	}
 	else if (is_capability(input_data->build_buf->buf) == 1)
 	{
-		if (handle_capabilities(input_data, hist_copy) == 1)
+		if (handle_capabilities(input_data, hist_copy, sh_state) == 1)
 			return (1);
 	}
 	else
 	{
+		reset_selection(input_data->start_pos, input_data->active_buf,
+	&input_data->rel_cur_pos);
 		if (handle_insertion(input_data) == -1)
 			return (1);
 	}

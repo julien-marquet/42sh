@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/22 01:40:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/25 03:40:06 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,18 +59,14 @@ t_proc_grp	*update_proc_status(t_jobs *jobs, int pid, int stat_loc)
 
 void	revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp)
 {
-	dprintf(2, "proc_grp remaining = %d\n", proc_grp->remaining != NULL);
-	dprintf(2, "startinf from %s\n", proc_grp->remaining->str);
 	exec_cmd_list(sh_state, proc_grp->remaining, proc_grp->name, proc_grp);
 }
 
-void	check_revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp, t_proc *last_proc)
+void	check_revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp,
+t_proc *last_proc)
 {
 	int		to_revive;
 
-	dprintf(2, "checking for revive\n");
-	dprintf(2, "last red = %s\n", proc_grp->last_red);
-	dprintf(2, "status = %d, code = %d\n", last_proc->status, last_proc->code);
 	to_revive = 0;
 	if (last_proc->status == exited && last_proc->code == 0)
 	{
@@ -83,10 +79,7 @@ void	check_revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp, t_pr
 			to_revive = 1;
 	}
 	if (to_revive == 1)
-	{
-		dprintf(2, "revive the process group %s\n", proc_grp->name);
 		revive_process_group(sh_state, proc_grp);
-	}
 }
 
 void	handle_process_update(int wanted)
@@ -103,11 +96,9 @@ void	handle_process_update(int wanted)
 	if (jobs->busy == 0 && active_pid)
 	{
 		jobs->busy = 1;
-		dprintf(2, "waiting for %d\n", wanted);
 		while (1)
 		{
 			pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED);
-			dprintf(2, "PID %d has been updated\n", pid);
 			if (pid <= 0 || wanted == pid || wanted <= 0)
 				jobs->busy = 0;
 			if (pid > 0)
@@ -124,21 +115,10 @@ void	handle_process_update(int wanted)
 				}
 			}
 			if (wanted == pid)
-			{
 				jobs->sh_state->status = retrieve_proc_grp_res(proc_grp);
-				dprintf(2, "status = %d\n", jobs->sh_state->status);
-			}
 			if (pid <= 0 || wanted == pid || wanted <= 0)
 				break ;
 		}
-	}
-	else if (!active_pid)
-	{
-		dprintf(2, "retrieve status\n");
-	}
-	else
-	{
-		dprintf(2, "busy\n");
 	}
 }
 

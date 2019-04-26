@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   cursor_basic_moves.h                             .::    .:/ .      .::   */
+/*   builtin_type.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/04 17:02:03 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:05:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/25 05:04:39 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/25 06:04:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef CURSOR_BASIC_MOVES_H
-# define CURSOR_BASIC_MOVES_H
+#ifndef BUILTIN_TYPE_H
+# define BUILTIN_TYPE_H
 
 # include "common.h"
-# include "editing/cursor/cursor.h"
+# include "builtins/builtins_utils.h"
+# include "aliases/aliases.h"
+# include "editing/input/completion/completion.h"
 
-int		move_cursor_left(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,
-		size_t *rel_cur_pos);
-int		move_cursor_right(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,
-		size_t *rel_cur_pos);
+typedef enum	e_cmd_type
+{
+	cmd_notfound,
+	cmd_alias,
+	cmd_builtin,
+	cmd_executable
+}				t_cmd_type;
+
+int		builtin_type(t_sh_state *sh_state, int ac,
+		const char **av, t_builtin_context *context);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   builtins_dispatcher.c                            .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 22:20:21 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 03:13:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,20 +15,13 @@
 
 static t_builtin_func	get_builtins_func(const char *name)
 {
-	size_t		i;
-	static char	*assoc_name[BUILTINS_NB + 1] = {
-		"set", "env", "setenv", "unsetenv", "unset", "exit", "echo", "export",
-		"alias", "unalias", "jobs", "fg", "bg", "hash", "test", "cd", "fc", NULL
-	};
-	static int	(*assoc_func[BUILTINS_NB + 1])(t_sh_state *, int, const char **, t_builtin_context *) = {
-		builtin_set, builtin_env, builtin_setenv, builtin_unsetenv,
-		builtin_unset, builtin_exit, builtin_echo, builtin_export,
-		builtin_alias, builtin_unalias, builtin_jobs, builtin_fg,
-		builtin_bg, builtin_hash, builtin_test, builtin_cd, builtin_fc,
-		NULL
-	};
+	size_t					i;
+	const char				**assoc_name;
+	const t_builtin_func	*assoc_func;
 
 	i = 0;
+	assoc_name = get_builtins_names();
+	assoc_func = get_builtins_funcs();
 	if (name != NULL)
 	{
 		while (assoc_name[i] != NULL)
@@ -41,7 +34,7 @@ static t_builtin_func	get_builtins_func(const char *name)
 	return (NULL);
 }
 
-t_builtin_context	*init_builtin_context()
+t_builtin_context	*init_builtin_context(void)
 {
 	t_builtin_context *builtin_context;
 
@@ -57,8 +50,6 @@ t_builtin_context	*init_builtin_context()
 
 int			is_valid_as_function(t_cmd *cmd, t_context *context)
 {
-	dprintf(2, "RED = %s, last red = %s, background = %d\n", cmd->red,
-context->proc_grp->last_red, context->background);
 	if (cmd->red == NULL)
 	{
 		if (context->proc_grp->last_red == NULL ||
@@ -86,14 +77,12 @@ t_context *context)
 			return (-1);
 		if (is_valid_as_function(cmd, context))
 		{
-			dprintf(2, "as function\n");
 			sh_state->status = exec_builtin_as_function(sh_state,
 		cmd, f, context);
 			res = 1;
 		}
 		else
 		{
-			dprintf(2, "as process\n");
 			if (exec_builtin_as_process(sh_state, cmd,
 		f, context) == 1)
 				res = -1;
