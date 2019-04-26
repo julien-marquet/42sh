@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 23:54:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 01:21:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,6 +68,7 @@ typedef struct	s_input_data
 	t_dyn_buf		*build_buf;
 	t_dyn_buf		*stored_buf;
 	t_dyn_buf		*initial_buf;
+	char			*clipboard;
 	t_list			*history_list;
 	size_t			rel_cur_pos;
 	size_t			processed_chars;

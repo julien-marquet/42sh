@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:31:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 01:06:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,6 @@ start_pos->row), 1, ft_putchar) != 0)
 	print_prompt(PROMPT_NO_SET);
 	if ((start = get_first_selected_char(active_buf)) != -1)
 	{
-		dprintf(2, "abs start = %d,\n sel_start = %d,\n  sel_len = %d,\n", start, active_buf->sel_start, active_buf->sel_len);
 		write(1, active_buf->buf, start);
 		tputs(tgetstr("so", NULL), 1, ft_putchar);
 		write(1, &(active_buf->buf[start]), ft_abs(active_buf->sel_len));

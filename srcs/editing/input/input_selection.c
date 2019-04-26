@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/25 23:12:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:44:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 01:06:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,6 @@ size_t *rel_cur_pos)
 {
 	if (*rel_cur_pos < active_buf->len)
 	{
-		dprintf(2, "expand right");
 		if (active_buf->sel_start == -1)
 		{
 			active_buf->sel_start = *rel_cur_pos;
@@ -39,7 +38,6 @@ size_t *rel_cur_pos)
 {
 	if (*rel_cur_pos > 0)
 	{
-		dprintf(2, "expand left");
 		if (active_buf->sel_start == -1)
 		{
 			active_buf->sel_start = *rel_cur_pos;

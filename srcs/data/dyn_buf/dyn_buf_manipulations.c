@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 00:12:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 02:07:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -92,6 +92,21 @@ int		del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index)
 			ft_strcpy(&(dyn_buf->buf[index]), &(dyn_buf->buf[index + 1]));
 			dyn_buf->buf[dyn_buf->len - 1] = '\0';
 			dyn_buf->len -= 1;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int		del_n_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index, size_t len)
+{
+	if (index + len <= dyn_buf->len)
+	{
+		if (dyn_buf->len > 0)
+		{
+			ft_strcpy(&(dyn_buf->buf[index]), &(dyn_buf->buf[index + len]));
+			dyn_buf->buf[dyn_buf->len - len] = '\0';
+			dyn_buf->len -= len;
 			return (1);
 		}
 	}
