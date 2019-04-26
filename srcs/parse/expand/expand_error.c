@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   expand_error.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/14 21:12:10 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:15:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/27 00:31:33 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,17 @@ static int	expand_error(void)
 	return (-1);
 }
 
+int			param_check_isspecial(char *str)
+{
+	if (str[0] && str[1] == 0)
+		return (str[0] == '?' ||
+		str[0] == '$' ||
+		str[0] == '-' ||
+		str[0] == '!' ||
+		str[0] == '0');
+	return (0);
+}
+
 static int	expand_check_sub(char *str)
 {
 	int i;
@@ -28,7 +39,7 @@ static int	expand_check_sub(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
+		if (!param_check_isspecial(str) && !ft_isalnum(str[i]) && str[i] != '_')
 		{
 			ft_putstr_fd(NAME, 2);
 			ft_putstr_fd(": ", 2);
