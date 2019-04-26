@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 23:52:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 02:17:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,5 +40,6 @@ void			free_input_data(t_input_data **input_data)
 	free_dyn_buf(&((*input_data)->stored_buf));
 	free_dyn_buf(&((*input_data)->initial_buf));
 	free((*input_data)->start_pos);
+	ft_strdel(&(*input_data)->clipboard);
 	free(*input_data);
 }
