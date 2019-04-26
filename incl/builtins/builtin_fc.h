@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 19:47:30 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 21:36:50 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,8 +27,24 @@ typedef	struct	s_fc_infos
 	int			last;
 }				t_fc_infos;
 
+/*
+** UTILS
+*/
 
-int		builtin_fc(t_sh_state *sh_state, int ac, const char **av,
-		t_builtin_context *context);
+size_t			fc_hist_to_num(t_list *find, t_list *hist);
+size_t			fc_hist_to_num_rev(t_list *find, t_list *hist);
+size_t			fc_get_hist_num(t_sh_state *sh_state, const char *str);
+size_t			get_hist_len(t_list *hist);
+void    		add_valid(t_fc_infos *fc_infos, char new);
+int				fc_options(const char **av, t_fc_infos *fc_infos,
+				t_builtin_context *context);
+
+/*
+**
+*/
+
+int				fc_print(t_list *hist, t_fc_infos *fc_infos);
+int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
+				t_builtin_context *context);
 
 #endif
