@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:48:54 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 04:56:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 05:07:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,7 +55,7 @@ size_t		print_prompt(int mode_modifier)
 	}
 	else
 	{
-		char	*searched;
+		const char	*searched;
 
 		if ((searched = get_searched()) == NULL)
 			display_len = PROMPT_SEARCH_DISPLAY_LEN + 2;

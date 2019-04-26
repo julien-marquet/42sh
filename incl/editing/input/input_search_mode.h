@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 04:06:00 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 04:49:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 05:06:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@
 
 int		get_search_mode(void);
 void	set_search_mode(int	setter);
-char	*get_searched(void);
+const char	*get_searched(void);
 void	set_searched(char *setter);
 
 #endif
