@@ -48,11 +48,12 @@ int			get_vars(t_list **files, t_list *storage, char *needle)
 	char	*name;
 	t_list	*link;
 
+	needle = ft_strncmp(needle, "${", 2) == 0 ? needle + 2 : needle + 1;
 	while (storage != NULL)
 	{
 		name = ((t_internal_storage *)(storage->content))->string;
 		len = get_var_name_length(name);
-		if (ft_strncmp(name, needle + 1, ft_strlen(needle + 1)) == 0)
+		if (ft_strncmp(name, needle, ft_strlen(needle)) == 0)
 		{
 			if ((tmp = malloc(len + 1)) == NULL)
 				return (free_exit(*files, NULL));

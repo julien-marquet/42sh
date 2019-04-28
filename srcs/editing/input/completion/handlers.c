@@ -99,6 +99,7 @@ static char		*handle_quotes(char *word)
 
 char			*handle_expand(char *word, t_sh_state *sh_state)
 {
+	char	last;
 	char	*pointer;
 	char	*current_word;
 
@@ -107,7 +108,11 @@ char			*handle_expand(char *word, t_sh_state *sh_state)
 		free(word);
 		return (ft_strdup(""));
 	}
-	if ((current_word = get_expand_str(word, sh_state)) == NULL)
+	last = word[ft_strlen(word) - 1];
+	if ((ft_strncmp(word, "${", 2) == 0 || last == '$') &&
+		(current_word = ft_strdup(word)) == NULL)
+		return (NULL);
+	else if (ft_strncmp(word, "${", 2) != 0 && last != '$' && (current_word = get_expand_str(word, sh_state)) == NULL)
 		return (NULL);
 	pointer = current_word;
 	while (*pointer == ' ')
