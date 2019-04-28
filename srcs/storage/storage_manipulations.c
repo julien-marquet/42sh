@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 02:48:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 06:17:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,7 +48,6 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 			return (-1);
 		if (exported == 1 || exported == 0)
 			((t_internal_storage *)node->content)->exported = exported;
-		((t_internal_storage *)node->content)->new_entry = 1;
 	}
 	else
 	{
@@ -57,7 +56,6 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 		if (exported != 1 && exported != 0)
 			exported = 0;
 		entry.exported = exported;
-		entry.new_entry = 1;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
 			return (-1);
@@ -121,16 +119,4 @@ int		update_exported_flag(t_list *storage, t_list **hash_table,
 		return (1);
 	}
 	return (0);
-}
-
-void	flush_new_entry_flag(t_list *storage)
-{
-	t_list	*tmp;
-
-	tmp = storage;
-	while (tmp != NULL)
-	{
-		((t_internal_storage *)tmp->content)->new_entry = 0;
-		tmp = tmp->next;
-	}
 }

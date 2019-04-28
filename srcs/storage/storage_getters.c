@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 18:06:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 01:32:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 06:17:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,7 +64,6 @@ t_list	*duplicate_storage(t_list *storage)
 		if ((entry = ft_memalloc(sizeof(t_internal_storage))) == NULL)
 			return (new);
 			entry->exported = old_entry->exported;
-			entry->new_entry = old_entry->new_entry;
 		if ((entry->string = ft_strdup(old_entry->string)) == NULL)
 		{
 			free(entry);
