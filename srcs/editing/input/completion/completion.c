@@ -14,16 +14,36 @@
 #include "editing/input/completion/completion.h"
 #include "editing/input/input_action_handlers.h"
 
+static int	add_brace(char **completed)
+{
+	size_t	len;
+	char	*tmp;
+
+	tmp = *completed;
+	len = ft_strlen(tmp);
+	if ((*completed = malloc(len + 2)) == NULL)
+		return (-1);
+	ft_strncpy(*completed, tmp, len);
+	free(tmp);
+	(*completed)[len] = '}';
+	(*completed)[len + 1] = '\0';
+	return (0);
+}
+
 // TODO free `completed` on error
 int			complete_word(t_input_data *input,
 char *completed, size_t add_slash)
 {
+	int		ret;
 	char	*path;
 
 	if (completed == NULL)
 		return (1);
-	if (delete_completed(input) == 1)
+	if ((ret = delete_completed(input)) == 1)
 		return (1);
+	if (ret == 2)
+		if (add_brace(&completed) == -1)
+			return (1);
 	if (insertn_dyn_buf(completed, input->active_buf,
 		input->rel_cur_pos, ft_strlen(completed)) == 1)
 		return (1);
