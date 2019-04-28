@@ -133,7 +133,19 @@ int start)
 char	*get_dir_operand(t_sh_state *sh_state, int ac, const char **av,
 int start)
 {
-	if (ac <= 1)
+	int		i;
+	char	**pointer;
+
+	i = 0;
+	pointer = (char **)(av + 1);
+	while (*pointer)
+	{
+		if (**pointer != '-')
+			break ;
+		i += 1;
+		pointer += 1;
+	}
+	if (ac <= 1 || ac - 1 == i)
 		return (ft_strdup(get_env_value(sh_state->internal_storage, "HOME")));
 	else
 		return (ft_strdup(av[start]));
