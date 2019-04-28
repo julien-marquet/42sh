@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 14:57:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 15:32:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -172,10 +172,13 @@ int		create_redir_file(t_cmd *cmd)
 	char	*dir_path;
 	int		fd;
 	t_file	*out;
+	char	*origin;
 
+	origin = NULL;
+	add_origin(&origin, NAME);
 	if (!cmd || !cmd->out || cmd->out->type[C_OUT] != -1 ||
 cmd->out->file == NULL)
-		return (1);
+		return (0);
 	out = cmd->out;
 	if ((err = check_file_write(out->file)) != 0)
 	{
@@ -185,13 +188,18 @@ cmd->out->file == NULL)
 				return (-1);
 			if ((err = check_dir_write(dir_path)) != 0)
 			{
+				err = err == -1 ? err : err - 1;
+				handle_path_exec_error(origin, out->file, err);
 				ft_strdel(&dir_path);
 				return (err);
 			}
 			ft_strdel(&dir_path);
 		}
 		else
+		{
+			handle_path_exec_error(origin, out->file, err);
 			return (err);
+		}
 	}
 	if ((fd = open(out->file, O_CREAT|O_NONBLOCK, 0666)) == -1)
 		return (-1);

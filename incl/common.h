@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 05:26:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 15:35:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,6 +24,7 @@
 # include "../libs/Libft/libft.h"
 # include <sys/stat.h>
 # include "limits.h"
+# include "stdio.h"
 
 # define NAME "42sh"
 
