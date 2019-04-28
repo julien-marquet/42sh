@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 22:59:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 02:52:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -132,11 +132,11 @@ const char **av, t_builtin_context *context)
 	else if (i == 0)
 	{
 		print_error(context->origin, "usage: echo [-ne] [args ... ]",
-	context->fds.err);
+	2);
 		return (1);
 	}
 	else
-		printer(i, context->fds.out, av, opts);
+		printer(i, 1, av, opts);
 	ft_strdel(&opts);
 	return (0);
 }

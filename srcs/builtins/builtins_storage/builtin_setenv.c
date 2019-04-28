@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:39:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/10 00:06:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@ const char **av, t_builtin_context *context)
 	if (ac == 1)
 		res = builtin_env(sh_state, ac, av, context);
 	else if (ac > 3)
-		write(context->fds.err, "setenv:, Too many arguments.\n", 30);
+		write(2, "setenv:, Too many arguments.\n", 30);
 	else
 	{
 		if ((res = add_entry_storage(sh_state, av[1], av[2], 1)) == -1)
@@ -32,7 +32,7 @@ const char **av, t_builtin_context *context)
 		{
 			print_error(context->origin,
 		"Variable name must only contains alphanumerical characters or \'_\'",
-		context->fds.err);
+		2);
 		}
 	}
 	return (res);

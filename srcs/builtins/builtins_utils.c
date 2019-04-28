@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:02:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 06:00:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:56:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,7 @@ t_builtin_context *context)
 			if ((err = ft_construct_str(3, "-", inv_char,
 		": invalid option")) == NULL)
 				return (-1);
-			print_error(context->origin, err, context->fds.err);
+			print_error(context->origin, err, 2);
 			free(err);
 			return (0);
 		}
@@ -120,7 +120,6 @@ t_builtin_context	*duplicate_builtin_context(t_builtin_context *context)
 
 	if ((new_context = ft_memalloc(sizeof(t_builtin_context))) == NULL)
 		return (NULL);
-	new_context->fds = context->fds;
 	if ((new_context->origin = ft_strdup(context->origin)) == NULL)
 	{
 		free(new_context);

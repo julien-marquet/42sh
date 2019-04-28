@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:47:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:34 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -219,7 +219,7 @@ t_builtin_context *context)
 	if (context->is_process && (res = 1))
 		print_error(context->origin, "no job control", 2);
 	else if (ac == 1)
-		print_env(sh_state->internal_storage, context->fds.out);
+		print_env(sh_state->internal_storage, 1);
 	else
 	{
 		if ((start = handle_builtin_options(av, "i", &opts, context)) == -1)

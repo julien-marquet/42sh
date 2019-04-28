@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   builtin_fc.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 20:55:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,7 +45,7 @@ static int		fc_option_e(const char **av, t_fc_infos *fc_infos, int i, t_builtin_
 	}
 	else
 	{
-		print_error(context->origin, "-e: option requires an argument", context->fds.err);
+		print_error(context->origin, "-e: option requires an argument", 2);
 		return (0);
 	}
 	return (i);
@@ -140,7 +140,7 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 	//int last = 0;
 
 	i = 0;
-	print_error(context->origin, "test", context->fds.err);
+	print_error(context->origin, "test", 2);
 	if (av[0])
 	{
 		fc_infos->first = fc_get_hist_num(sh_state, av[0]);
@@ -167,7 +167,7 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 		return (1);
 	else if (args_i == 0)
 	{
-		print_error(context->origin, "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]", context->fds.err);
+		print_error(context->origin, "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]", 2);
 		return (1);
 	}
 	else

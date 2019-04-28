@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:46:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:56:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -103,7 +103,6 @@ typedef struct	s_fds
 typedef struct	s_builtin_context
 {
 	char	*origin;
-	t_fds	fds;
 	int		is_process;
 }				t_builtin_context;
 

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 03:09:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ t_builtin_context *context, int i)
 		if (remove_alias(aliases, av[i]) == 0)
 		{
 			add_origin(&context->origin, av[i]);
-			print_error(context->origin, "not found", context->fds.err);
+			print_error(context->origin, "not found", 2);
 			res = 1;
 		}
 		i++;
@@ -42,7 +42,7 @@ t_builtin_context *context)
 	if (ac <= 1)
 	{
 		print_error(context->origin, "usage: unalias [-a] name [name ...]",
-	context->fds.err);
+	2);
 		return (1);
 	}
 	else
@@ -52,7 +52,7 @@ t_builtin_context *context)
 		else if (i == 0)
 		{
 			print_error(context->origin, "usage: unalias [-a] name [name ...]",
-		context->fds.err);
+		2);
 		ft_strdel(&opts);
 			return (1);
 		}

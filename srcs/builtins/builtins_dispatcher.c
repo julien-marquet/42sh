@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 03:13:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:56:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,9 +42,6 @@ t_builtin_context	*init_builtin_context(void)
 		return (NULL);
 	if (add_origin(&builtin_context->origin, NAME) == 1)
 		return (NULL);
-	builtin_context->fds.err = 2;
-	builtin_context->fds.out = 1;
-	builtin_context->fds.in = 0;
 	return (builtin_context);
 }
 

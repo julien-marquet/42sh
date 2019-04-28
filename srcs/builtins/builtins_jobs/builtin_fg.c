@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/11 21:22:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:51:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,7 +41,7 @@ int			builtin_fg(t_sh_state *sh_state, int ac,
 				if ((err = ft_construct_str(2, av[1], ": no such job")) == NULL)
 					return (1);
 			}
-			print_error(context->origin, err, context->fds.err);
+			print_error(context->origin, err, 2);
 			ft_strdel(&err);
 			return (1);
 		}
@@ -52,7 +52,7 @@ int			builtin_fg(t_sh_state *sh_state, int ac,
 		if (proc_grp == NULL)
 		{
 			print_error(context->origin, "current: no such job",
-		context->fds.err);
+		2);
 			return (1);
 		}
 	}

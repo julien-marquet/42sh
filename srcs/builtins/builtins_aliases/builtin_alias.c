@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 23:12:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,22 +23,22 @@ t_builtin_context *context)
 	if ((node = find_alias_by_name(aliases, name)) == NULL)
 	{
 		add_origin(&context->origin, name);
-		print_error(context->origin, "not found", context->fds.err);
+		print_error(context->origin, "not found", 2);
 		return (1);
 	}
 	else
 	{
-		ft_putstr_fd("alias ", context->fds.out);
+		ft_putstr_fd("alias ", 1);
 		value = ft_strchr((char *)(node->content), '=') + 1;
 		len = ft_strlen(value);
-		write(context->fds.out, (char *)(node->content),
+		write(1, (char *)(node->content),
 	ft_strlen((char *)(node->content)) - len);
 		if (value[0] != '\'')
-			write(context->fds.out, "\'", 1);
-		write(context->fds.out, value, len);
+			write(1, "\'", 1);
+		write(1, value, len);
 		if (value[len - 1] != '\'')
-			write(context->fds.out, "\'", 1);
-		write(context->fds.out, "\n", 1);
+			write(1, "\'", 1);
+		write(1, "\n", 1);
 		return (0);
 	}
 }
@@ -72,7 +72,7 @@ t_builtin_context *context)
 	res = 0;
 	add_origin(&context->origin, "alias");
 	if (ac == 1)
-		print_aliases(sh_state->aliases, context->fds.out);
+		print_aliases(sh_state->aliases, 1);
 	else
 	{
 		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
@@ -80,13 +80,13 @@ t_builtin_context *context)
 		else if (i == 0)
 		{
 			print_error(context->origin, "usage: alias [-p] [name[=value] ... ]",
-		context->fds.err);
+		2);
 			res = 1;
 		}
 		else
 		{
 			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
-				print_aliases(sh_state->aliases, context->fds.out);
+				print_aliases(sh_state->aliases, 1);
 			while (i < ac)
 			{
 				if (ft_strchr(av[i], '=') == NULL)
