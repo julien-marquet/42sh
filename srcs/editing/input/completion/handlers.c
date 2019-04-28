@@ -25,7 +25,17 @@ t_sh_state *sh_state, char *word)
 		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
 		{
 			if (*pointer == ' ')
+			{
+				while (pointer != input->active_buf->buf)
+				{
+					if (*pointer != ' ' && is_stopping(*pointer) && *(pointer - 1) != '\\')
+						return (complete_bin(word, sh_state, input));
+					else if (*pointer != ' ')
+						break ;
+					pointer -= 1;
+				}
 				return (complete_arg(input, word, sh_state));
+			}
 			else
 				return (complete_bin(word, sh_state, input));
 		}
@@ -120,8 +130,6 @@ int				handle_completion(t_input_data *input, t_sh_state *sh_state)
 	pointer = input->active_buf->buf;
 	while (*pointer == ' ')
 		pointer += 1;
-	if (*pointer == '\0')
-		return (0);
 	if ((current_word = get_current_word(input, sh_state)) == NULL)
 		return (1);
 	if (handle_completion_type(input, sh_state, current_word) == 1)
