@@ -6,19 +6,20 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 22:38:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 03:21:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:57:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtin_exit.h"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 int		builtin_exit(t_sh_state *sh_state, int ac, const char **av,
 t_builtin_context *context)
 {
 	if (ac > 2)
 	{
-		write(context->fds.err, "exit:, Too many arguments.\n", 29);
+		write(2, "exit:, Too many arguments.\n", 29);
 		return (1);
 	}
 	sh_state->exit_sig = 1;

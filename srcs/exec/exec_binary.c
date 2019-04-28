@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/20 22:42:46 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:42:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 14:53:40 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,19 +35,21 @@ int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context)
 	pid = fork();
 	if (pid == 0)
 	{
+		reset_signal_handlers();
+		setpgid(0, context->proc_grp->pgid);
 		use_pipes(context, new_pipe);
 		if ((err = handle_redir(cmd, origin)) != 0)
 			exit(err);
 		else
 		{
-			reset_signal_handlers();
-			setpgid(0, context->proc_grp->pgid);
+
 			if (execve(path, cmd->arg, env) == -1)
 				exit(1);
 		}
 	}
 	else
 	{
+		ft_strdel(&origin);
 		if ((proc = new_proc(pid, cmd->arg[0], context->last)) == NULL)
 			return (1);
 		if (register_process(context, proc, new_pipe) == 1)

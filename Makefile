@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/26 21:32:21 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/04/28 16:56:23 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -40,7 +40,7 @@ CFILES = main.c sh.c sh_state.c term_state.c signal_handler.c error_handler.c
 CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
-CFILES += $(addprefix editing/input/, input_search_history.c input_search_mode.c input_selection.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
+CFILES += $(addprefix editing/input/, input_eof.c input_search_history.c input_search_mode.c input_selection.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix editing/input/completion/, utils.c utils2.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
@@ -75,7 +75,7 @@ TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h error_
 TMPFILES += $(addprefix parse/, parse.h utils.h expand.h localvar.h parse_alias.h)
 TMPFILES += $(addprefix editing/, prompt.h)
 TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
-TMPFILES += $(addprefix editing/input/, input.h input_search_history.h input_search_mode.h input_selection.h input_keycodes.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
+TMPFILES += $(addprefix editing/input/, input.h input_eof.h input_search_history.h input_search_mode.h input_selection.h input_keycodes.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
 TMPFILES += $(addprefix editing/input/completion/, completion.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
 TMPFILES += $(addprefix data/, input_data.h)

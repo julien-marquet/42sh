@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:11:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:13:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 08:17:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,17 +15,20 @@
 
 int		handle_user_reset(t_input_data *input_data)
 {
-	if (input_data->sig_call == 1)
+	if (input_data->sig_call == 1 && get_eof() == 0)
 	{
-		if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
+		if (get_eof())
 		{
-			if (add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len + 1) == NULL)
-				return (1);
-		}
-		else if (input_data->stored_buf->len > 0 && input_data->stored_buf->buf[0] != '\n')
-		{
-			if (add_to_history_list(&(input_data->history_list), input_data->stored_buf->buf, input_data->stored_buf->len + 1) == NULL)
-				return (1);
+			if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
+			{
+				if (add_to_history_list(&(input_data->history_list), input_data->active_buf->buf, input_data->active_buf->len + 1) == NULL)
+					return (1);
+			}
+			else if (input_data->stored_buf->len > 0 && input_data->stored_buf->buf[0] != '\n')
+			{
+				if (add_to_history_list(&(input_data->history_list), input_data->stored_buf->buf, input_data->stored_buf->len + 1) == NULL)
+					return (1);
+			}
 		}
 		reset_input(input_data);
 		input_data->sig_call = 0;

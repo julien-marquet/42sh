@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 23:37:38 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/20 03:20:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,7 +64,7 @@ int i, t_builtin_context *context)
 			{
 				print_error(context->origin,
 		"Variable name must only contains alphanumerical characters or \'_\'",
-		context->fds.err);
+		2);
 			}
 		}
 		i++;
@@ -82,7 +82,7 @@ t_builtin_context *context)
 	add_origin(&context->origin, "export");
 	res = 0;
 	if (ac == 1)
-		print_export(sh_state->internal_storage, context->fds.out);
+		print_export(sh_state->internal_storage, 1);
 	else
 	{
 		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
@@ -90,13 +90,13 @@ t_builtin_context *context)
 		else if (i == 0)
 		{
 			print_error(context->origin,
-		"usage: export [-p] [name[=value] ... ]", context->fds.err);
+		"usage: export [-p] [name[=value] ... ]", 2);
 			res = 1;
 		}
 		else
 		{
 			if (opts != NULL && ft_strchr(opts, 'p') != NULL)
-				print_export(sh_state->internal_storage, context->fds.out);
+				print_export(sh_state->internal_storage, 1);
 			else
 				res = handle_export(sh_state, av, i, context);
 		}

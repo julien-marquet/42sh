@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   chev_create.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 18:00:45 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 08:19:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,7 +41,7 @@ void *sh_info[2])
 			return ;
 		if (!(new->here = get_expand_str(
 			((t_input_data*)sh_info[1])->active_buf->buf, sh_info[0])))
-			return ;
+			new->here = ft_strdup("");
 		ft_strdel(&file);
 	}
 	else

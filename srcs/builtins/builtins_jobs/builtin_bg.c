@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 01:20:00 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:47:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,12 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 	char		*err;
 
 	add_origin(&context->origin, "bg");
-	if (ac > 1)
+	if (context->is_process)
+	{
+		print_error(context->origin, "no job control", 2);
+		return (1);
+	}
+	else if (ac > 1)
 	{
 		if ((proc_grp = find_active_proc_grp_by_name(av[1], &nres)) == NULL)
 		{
@@ -37,7 +42,7 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 				if ((err = ft_construct_str(2, av[1], ": no such job")) == NULL)
 					return (1);
 			}
-			print_error(context->origin, err, context->fds.err);
+			print_error(context->origin, err, 2);
 			ft_strdel(&err);
 			return (1);
 		}
@@ -47,7 +52,7 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 		proc_grp = get_first_active_proc_grp();
 		if (proc_grp == NULL)
 		{
-			print_error(context->origin, "current: no such job", context->fds.err);
+			print_error(context->origin, "current: no such job", 2);
 			return (1);
 		}
 	}

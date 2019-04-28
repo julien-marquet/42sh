@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   storage_special_params.h                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/21 02:40:02 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:27:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/26 23:55:30 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,5 +16,7 @@
 
 # include "common.h"
 # include "jobs/jobs.h"
+
+char	*get_special_parameter(t_sh_state *sh_state, char *search);
 
 #endif

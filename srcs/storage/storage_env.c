@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:25:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 19:48:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 06:19:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,8 +56,7 @@ static int	fill_arr_env(char **arr_env, t_list *storage)
 	i = 0;
 	while (tmp != NULL)
 	{
-		if (((t_internal_storage *)tmp->content)->exported == 1 ||
-	((t_internal_storage *)tmp->content)->new_entry == 1)
+		if (((t_internal_storage *)tmp->content)->exported == 1)
 		{
 			if ((arr_env[i] = ft_strdup((const char *)(
 		(t_internal_storage *)tmp->content)->string)) == NULL)
@@ -80,8 +79,7 @@ char	**generate_env(t_list *storage)
 	arr_len = 0;
 	while (tmp != NULL)
 	{
-		if (((t_internal_storage *)tmp->content)->exported == 1 ||
-	((t_internal_storage *)tmp->content)->new_entry == 1)
+		if (((t_internal_storage *)tmp->content)->exported == 1)	
 			arr_len++;
 		tmp = tmp->next;
 	}

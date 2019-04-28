@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 05:43:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 08:17:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,7 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 
 static int		process_entry(t_input_data *input_data, t_sh_state *sh_state, t_list *hist_copy)
 {
-	while (input_data->sig_call == 0 && sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 || input_data->enter == 0))
+	while (get_eof() != 2 && input_data->sig_call == 0 && sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 || input_data->enter == 0))
 	{
 		if (input_data->build_buf->len == 0)
 		{
@@ -89,6 +89,7 @@ char *here_doc)
 	if (dup_history(input_data, &hist_copy) == 1)
 		return (1);
 	valid_here_doc = 0;
+	set_eof(here_doc != NULL);
 	while (valid_here_doc != 2 && input_data->sig_call == 0 &&
 (input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
 	{

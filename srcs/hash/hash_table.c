@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:42:12 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 05:43:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 03:31:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ static char		*check_paths(const char **paths, const char *bin,
 	while (*pointer != NULL)
 	{
 		tmp = create_path(*pointer, bin);
-		if ((ret = test_bin(tmp)) == -1)
+		if ((ret = test_bin((const char *)tmp)) == -1)
 			return (NULL);
 		if (ret == 0)
 			return (add_path(tmp, table, bin, *error != 0));

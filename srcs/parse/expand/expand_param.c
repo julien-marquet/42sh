@@ -6,12 +6,20 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/14 21:48:43 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/27 00:42:51 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/expand.h"
+
+static char		*expand_bytype(t_sh_state *sh_state, char *str)
+{
+	if (param_check_isspecial(str))
+		return (get_special_parameter(sh_state, str));
+	else
+		return (get_stored(sh_state->internal_storage, str));
+}
 
 static int		expand_param_insert(t_cmd *cmd, char *new, size_t i, size_t end)
 {
@@ -50,7 +58,7 @@ t_sh_state *sh_state)
 		return (1);
 	if (expand_error_handler(1, tmp) == -1)
 		return (-1);
-	if (!(new = get_stored(sh_state->internal_storage, tmp)))
+	if (!(new = expand_bytype(sh_state, tmp)))
 	{
 		ft_strdel(&tmp);
 		return (1);
@@ -61,6 +69,12 @@ t_sh_state *sh_state)
 
 static int		param_len(char *str, int i, int type)
 {
+	if (type == '?' ||
+	type == '$' ||
+	type == '-' ||
+	type == '!' ||
+	type == '0')
+		return (i + 1);
 	if (type == '{')
 	{
 		while (str[i] && str[i - 1] != '}')
@@ -68,7 +82,7 @@ static int		param_len(char *str, int i, int type)
 	}
 	else
 	{
-		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '?'))
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 			i++;
 	}
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 04:05:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 06:03:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -63,7 +63,7 @@ t_context *context)
 				return (2);
 		}
 	}
-	return (0);
+	return (found);
 }
 
 int			exec_end_flag(t_sh_state *sh_state, t_cmd *cmd, t_context *context)

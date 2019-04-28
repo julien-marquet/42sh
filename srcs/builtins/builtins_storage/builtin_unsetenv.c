@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 21:00:21 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 18:28:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:58:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_storage/builtin_unsetenv.h"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 int		builtin_unsetenv(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
@@ -20,7 +21,7 @@ const char **av, t_builtin_context *context)
 
 	if (ac == 1)
 	{
-		write(context->fds.err, "unsetenv: Too few arguments.\n", 30);
+		write(2, "unsetenv: Too few arguments.\n", 30);
 		return (1);
 	}
 	else

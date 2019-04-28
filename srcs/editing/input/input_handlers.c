@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:51:47 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 06:28:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 08:18:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -66,7 +66,9 @@ int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) &&
 (input_data->processed_chars = 1))
 	{
-		if (input_data->active_buf->len == 0 &&
+		if (get_eof() == 1 && input_data->active_buf->len == 0)
+			set_eof(2);
+		else if (input_data->active_buf->len == 0 &&
 	input_data->stored_buf->len == 0)
 			exit_sh(sh_state, input_data);
 		else

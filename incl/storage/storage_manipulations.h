@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:33:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 02:34:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 06:17:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,6 +25,6 @@ int		remove_entry_storage(t_sh_state *sh_state, t_list **storage,
 		const char *name);
 int		update_exported_flag(t_list *storage, t_list **hash_table,
 		const char *name, int exported);
-void	flush_new_entry_flag(t_list *storage);
+int		is_valid_var_name(const char *name);
 
 #endif
