@@ -31,15 +31,32 @@ int		check_file_exec(const char *path)
 	return (0);
 }
 
+static int	remove_origin(char **origin, const char *name)
+{
+	size_t	len;
+	char	*new;
+
+	len = ft_strlen(*origin) - ft_strlen(name) - 2;
+	if ((new = malloc(len + 1)) == NULL)
+		return (-1);
+	ft_strncpy(new, *origin, len);
+	new[len] = '\0';
+	free(*origin);
+	*origin = new;
+	return (0);
+}
+
 int		print_type(char **origin, const char *name, char **value,
 t_cmd_type type)
 {
 	char	*str;
 
-	add_origin(origin, name);
 	if (type == cmd_notfound)
 	{
+		add_origin(origin, name);
 		print_error(*origin, "not found", 2);
+		if (remove_origin(origin, name) == -1)
+			return (1);
 		return (1);
 	}
 	if (type == cmd_alias)
@@ -87,14 +104,33 @@ char **value, t_cmd_type *type)
 	return (0);
 }
 
-int		builtin_type(t_sh_state *sh_state, int ac,
-const char **av, t_builtin_context *context)
+static int	loop_args(t_builtin_context *context, t_sh_state *state,
+			int ac, const char **av)
 {
+	int			i;
 	t_cmd_type	type;
 	char		*value;
 
-	type = cmd_notfound;
-	value = NULL;
+	i = 1;
+	while (i < ac)
+	{
+		type = cmd_notfound;
+		if ((value = get_alias(state->aliases, av[i])) != NULL)
+			type = cmd_alias;
+		else
+		{
+			if (assign_cmd_type(state, av[i], &value, &type) == 1)
+				return (1);
+		}
+		print_type(&context->origin, av[i], &value, type);
+		i += 1;
+	}
+	return (0);
+}
+
+int		builtin_type(t_sh_state *sh_state, int ac,
+const char **av, t_builtin_context *context)
+{
 	add_origin(&context->origin, "type");
 	if (ac < 2)
 	{
@@ -102,14 +138,6 @@ const char **av, t_builtin_context *context)
 		return (1);
 	}
 	else
-	{
-		if ((value = get_alias(sh_state->aliases, av[1])) != NULL)
-			type = cmd_alias;
-		else
-		{
-			if (assign_cmd_type(sh_state, av[1], &value, &type) == 1)
-				return (1);
-		}
-	}
-	return (print_type(&context->origin, av[1], &value, type));
+		return (loop_args(context, sh_state, ac, av));
+	return (0);
 }
