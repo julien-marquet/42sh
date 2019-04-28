@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:27:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:47:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -84,6 +84,8 @@ t_builtin_context *context)
 	}
 	else
 	{
+		if (av[0] == NULL)
+			return (NULL);
 		if ((path = get_bin_path(av, &sh_state->hash_table,
 	sh_state->internal_storage, &err)) == NULL)
 			res = err;
@@ -195,7 +197,7 @@ int start, t_builtin_context *context)
 		sp_context.av = (char *const *)&av[new_start];
 		if ((sp_context.path = find_utility(sh_state,
 	&av[new_start], context)) == NULL)
-			res = 1;
+			res = &av[new_start] != NULL;
 		else
 			res = execute_binary(sh_state, &sp_context, av);
 		free_arr(sp_context.env);
@@ -210,9 +212,11 @@ t_builtin_context *context)
 	char	*opts;
 	int		res;
 
+	signal(SIGTTIN, SIG_IGN);
+	signal(SIGTTOU, SIG_IGN);
 	add_origin(&context->origin, "env");
 	res = 0;
-	if (context->background && (res = 1))
+	if (context->is_process && (res = 1))
 		print_error(context->origin, "no job control", 2);
 	else if (ac == 1)
 		print_env(sh_state->internal_storage, context->fds.out);

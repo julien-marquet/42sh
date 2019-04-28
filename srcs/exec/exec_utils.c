@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/20 23:16:59 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 03:27:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:30:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,5 +45,5 @@ void			reset_signal_handlers(void)
 
 int	is_absolute_path(const char *path)
 {
-	return (ft_strchr(path, '/') != NULL);
+	return (path && ft_strchr(path, '/') != NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 18:10:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:18:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:42:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,9 @@ void	handle_path_exec_error(const char *origin, const char *path, int err)
 {
 	char	*str;
 
-	if (err == 0)
+	if (path == NULL)
+		return ;
+	else if (err == 0)
 		str = ft_construct_str(2, path, ": no such file or directory");
 	else if (err == 1)
 		str = ft_construct_str(2, path, ": permission denied");
@@ -36,7 +38,6 @@ void	handle_path_exec_error(const char *origin, const char *path, int err)
 void	handle_path_error(const char *origin, const char *path, int err)
 {
 	char	*str;
-
 
 	if (err == 0)
 		str = ft_construct_str(2, path, ": command not found");
