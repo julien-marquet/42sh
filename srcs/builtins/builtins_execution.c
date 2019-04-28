@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:42:16 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:47:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,6 +29,7 @@ t_builtin_func builtin, t_context *context)
 
 	new_pipe[0] = 0;
 	builtin_context = context->builtin_context;
+	builtin_context->is_process = 1;
 	arg = (const char **)cmd->arg;
 	if (cmd->red && ft_strcmp(cmd->red, "|") == 0)
 	{
@@ -72,6 +73,7 @@ t_builtin_func builtin, t_context *context)
 	std_state[2] = dup(2);
 	if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
 		exit(err);
+	context->builtin_context->is_process = 0;
 	err = builtin(sh_state, ft_arraylen((const void **)cmd->arg),
 (const char **)cmd->arg, context->builtin_context);
 	dup2(std_state[0], 0);

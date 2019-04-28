@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 01:20:00 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:47:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 05:52:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,12 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 	char		*err;
 
 	add_origin(&context->origin, "bg");
-	if (ac > 1)
+	if (context->is_process)
+	{
+		print_error(context->origin, "no job control", 2);
+		return (1);
+	}
+	else if (ac > 1)
 	{
 		if ((proc_grp = find_active_proc_grp_by_name(av[1], &nres)) == NULL)
 		{

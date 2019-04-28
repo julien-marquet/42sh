@@ -6,14 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 02:35:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 02:48:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_manipulations.h"
 
-static int	is_valid_name(const char *name)
+int	is_valid_var_name(const char *name)
 {
 	if (!name)
 		return (0);
@@ -40,7 +40,7 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 	if (value)
 		len = ft_strlen(value);
 	len += ft_strlen(name) + 1;
-	if (is_valid_name(name) == 0)
+	if (is_valid_var_name(name) == 0)
 		return (1);
 	if ((node = find_node_by_name(sh_state->internal_storage, name)) != NULL)
 	{
