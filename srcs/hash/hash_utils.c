@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:15:24 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 05:43:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 03:30:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #include "hash/hash_utils.h"
 #include "builtins/builtins_utils.h"
 
-int			test_bin(char *bin_path)
+int			test_bin(const char *bin_path)
 {
 	struct stat	f_stat;
 

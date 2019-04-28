@@ -6,17 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 05:40:00 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 03:30:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "exec/exec_dispatcher.h"
-
-static int	is_absolute_path(const char *path)
-{
-	return (ft_strchr(path, '/') != NULL);
-}
 
 /*
 **	return -1 critical, 0 = success, 1 = notfound,
@@ -39,7 +34,7 @@ t_context *context)
 	add_origin(&origin, NAME);
 	if (cmd->arg && is_absolute_path(cmd->arg[0]))
 	{
-		if ((res = test_bin(cmd->arg[0])) == 0)
+		if ((res = test_bin((const char *)cmd->arg[0])) == 0)
 			path = ft_strdup(cmd->arg[0]);
 		else if (res != -1)
 			res--;
