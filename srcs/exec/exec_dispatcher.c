@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 03:30:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 10:33:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,7 +31,6 @@ t_context *context)
 	res = 0;
 	path = NULL;
 	origin = NULL;
-	add_origin(&origin, NAME);
 	if (cmd->arg && is_absolute_path(cmd->arg[0]))
 	{
 		if ((res = test_bin((const char *)cmd->arg[0])) == 0)
@@ -39,8 +38,8 @@ t_context *context)
 		else if (res != -1)
 			res--;
 	}
-	else if ((path = get_bin_path((const char **)cmd->arg, &sh_state->hash_table,
-sh_state->internal_storage, &err)) == NULL)
+	else if ((path = ft_strdup(get_bin_path((const char **)cmd->arg, &sh_state->hash_table,
+sh_state->internal_storage, &err))) == NULL)
 		res = err;
 	if (path != NULL)
 	{
@@ -49,10 +48,14 @@ sh_state->internal_storage, &err)) == NULL)
 			res = -1;
 		else
 			res = 1;
+		free_arr(env);
+		ft_strdel(&path);
 	}
 	else
 	{
+		add_origin(&origin, NAME);
 		handle_path_error(origin, cmd->arg[0], res);
+		ft_strdel(&origin);
 		res = 0 - res;
 	}
 	return (res);

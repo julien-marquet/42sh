@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:47:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 15:00:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,13 +40,13 @@ t_builtin_func builtin, t_context *context)
 	pid = fork();
 	if (pid == 0)
 	{
+		reset_signal_handlers();
+		setpgid(0, context->proc_grp->pgid);
 		use_pipes(context, new_pipe);
 		if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
 			exit(err);
 		else
 		{
-			reset_signal_handlers();
-			setpgid(0, context->proc_grp->pgid);
 			res = builtin(sh_state,
 		ft_arraylen((const void **)arg), arg, builtin_context);
 			exit(res);

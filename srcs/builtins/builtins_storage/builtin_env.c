@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:55:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 12:39:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -212,13 +212,10 @@ t_builtin_context *context)
 	char	*opts;
 	int		res;
 
-	signal(SIGTTIN, SIG_IGN);
-	signal(SIGTTOU, SIG_IGN);
 	add_origin(&context->origin, "env");
 	res = 0;
-	if (context->is_process && (res = 1))
-		print_error(context->origin, "no job control", 2);
-	else if (ac == 1)
+
+	if (ac == 1)
 		print_env(sh_state->internal_storage, 1);
 	else
 	{
@@ -227,11 +224,16 @@ t_builtin_context *context)
 		else if (start == 0)
 		{
 			print_error(context->origin,
-		"env [-i] [name=value]... [utility [argument...]]", 2);
+		"usage: env [-i] [name=value]... [utility [argument...]]", 2);
 			res = 1;
 		}
 		else
-			res = handle_env_exec(sh_state, av, start, context);
+		{
+			if (context->is_process && (res = 1))
+				print_error(context->origin, "no job control", 2);
+			else
+				res = handle_env_exec(sh_state, av, start, context);
+		}
 		ft_strdel(&opts);
 	}
 	return (res);
