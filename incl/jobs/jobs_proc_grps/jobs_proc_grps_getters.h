@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:52:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 12:30:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 16:04:37 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,5 +29,6 @@ int				count_true_procs(t_proc_grp *proc_grp);
 t_proc_grp		*find_active_proc_grp_by_num(int num);
 int				get_active_proc_grp_nb(void);
 int				get_displayable_proc_grp_nb(void);
+unsigned char	get_proc_return(t_proc *proc);
 
 #endif

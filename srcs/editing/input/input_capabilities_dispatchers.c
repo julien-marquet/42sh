@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:46:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 02:10:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 17:01:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -167,8 +167,8 @@ int		capabilities_dispatcher_selection(t_input_data *input_data)
 		if (input_data->clipboard != NULL)
 		{
 			len = ft_strlen(input_data->clipboard);
-			insertn_dyn_buf(input_data->clipboard, input_data->active_buf,
-		input_data->rel_cur_pos, len);
+			insert_dyn_buf(input_data->clipboard, input_data->active_buf,
+		input_data->rel_cur_pos);
 			insertn_chars(input_data, input_data->clipboard, len, 0);
 		}
 		reset_selection(input_data->start_pos, input_data->active_buf,

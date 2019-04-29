@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   completion.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 22:11:38 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 22:11:38 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 16:48:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,8 +44,8 @@ char *completed, size_t add_slash)
 	if (ret == 2)
 		if (add_brace(&completed) == -1)
 			return (1);
-	if (insertn_dyn_buf(completed, input->active_buf,
-		input->rel_cur_pos, ft_strlen(completed)) == 1)
+	if (insert_dyn_buf(completed, input->active_buf,
+		input->rel_cur_pos) == 1)
 		return (1);
 	if (insertn_chars(input, completed, ft_strlen(completed), 0) == 1)
 		return (1);

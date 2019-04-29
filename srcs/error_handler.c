@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 18:10:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 15:18:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 15:43:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,9 @@ int		print_error(const char *origin, const char *err, int fd)
 		return (-1);
 	if (write(fd, err, (elen = ft_strlen(err))) == -1)
 		return (-1);
-	return (olen + elen);
+	if (write(fd, "\n", 1) == -1)
+		return (-1);
+	return (olen + elen + 1);
 }
 
 void	handle_path_exec_error(const char *origin, const char *path, int err)
