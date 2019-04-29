@@ -159,6 +159,7 @@ typedef struct		s_cmd {
 	t_file			*out;
 	struct s_cmd	*next;
 	int				assign;
+	t_list			*env;
 }					t_cmd;
 
 typedef struct	s_proc
