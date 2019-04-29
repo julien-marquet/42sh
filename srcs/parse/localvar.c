@@ -33,6 +33,66 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state)
 	return (1);
 }
 
+static void	forward(char *str, size_t *i)
+{
+	if (str[*i] == '"' && stresc(str, str, *i) != NULL)
+	{
+		*i += 1;
+		while (str[*i] != '"')
+			*i += 1;
+	}
+	if (str[*i] == '\'' && stresc(str, str, *i) != NULL)
+	{
+		*i += 1;
+		while (str[*i] != '\'')
+			*i += 1;
+	}
+}
+
+static int	is_var(char *str)
+{
+	char	**arr;
+
+	if ((arr = ft_strsplit(str, '=')) == NULL)
+		return (-1);
+	if (*arr == NULL)
+	{
+		ft_freetab(&arr);
+		return (0);
+	}
+	if (ft_strchr(*arr, '"') == NULL && ft_strchr(*arr, '\'') == NULL)
+	{
+		ft_freetab(&arr);
+		return (1);
+	}
+	return (0);
+}
+
+static int	is_tmp(char *str)
+{
+	size_t	i;
+	int		ret;
+	size_t	is_tmp;
+
+	i = 0;
+	is_tmp = 0;
+	while (str[i])
+	{
+		forward(str, &i);
+		if (is_stopping(str[i]) && str[i] != ' ' &&
+	(i == 0 || (i > 0 && stresc(str, str, i) != NULL)))
+			return (is_tmp);
+		if (str[i] != ' ')
+		{
+			if ((ret = is_var(&(str[i]) + 1)) == -1)
+				return (-1);
+			is_tmp = !ret;
+		}
+		i += 1;
+	}
+	return (is_tmp);
+}
+
 static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
 {
 	int i;
@@ -43,6 +103,7 @@ static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
 		if (stresc("=", str, i))
 		{
 			cmd->assign = 1;
+			dprintf(2, "Is %s tmp ? |%i|\n\n\n", str, is_tmp(str + len));
 			if (store_localvar(str, i, len, sh_state) == 1)
 				return (1);
 			return (-1);
