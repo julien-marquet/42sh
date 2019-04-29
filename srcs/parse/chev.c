@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   chev.c                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/18 20:14:58 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 16:15:13 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 09:59:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -75,12 +75,13 @@ void *sh_info[2])
 		i++;
 	if (!(file = strndup_qr(str + tmp, i - tmp)))
 		exit_sh(sh_info[0], sh_info[1]);
-	parse_chevcreate(file, cmd, type, sh_info);
+	if (parse_chevcreate(file, cmd, type, sh_info) == 1)
+		return (-1);
 	ft_memset(str + len, ' ', i - len);
 	return (i);
 }
 
-void			parse_chev(t_cmd *cmd, t_sh_state *sh_state,
+int			parse_chev(t_cmd *cmd, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	void	*sh_info[2];
@@ -96,8 +97,12 @@ t_input_data *input_data)
 		while (str[i] && is_quoted(str, i))
 			i++;
 		if (str[i] && stresc("<>", str, i))
-			i = parse_chev_handle(str, i, cmd, sh_info);
+		{
+			if ((i = parse_chev_handle(str, i, cmd, sh_info)) == -1)
+				return (1);
+		}
 		else
 			str[i] ? i++ : 0;
 	}
+	return (0);
 }
