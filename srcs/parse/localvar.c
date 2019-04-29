@@ -35,7 +35,7 @@ static int	is_var(char *str)
 
 	if ((arr = ft_strsplit(str, '=')) == NULL)
 		return (-1);
-	if (*arr == NULL)
+	if (*arr == NULL || *(arr + 1) == NULL)
 	{
 		ft_freetab(&arr);
 		return (0);
@@ -45,6 +45,7 @@ static int	is_var(char *str)
 		ft_freetab(&arr);
 		return (1);
 	}
+	ft_freetab(&arr);
 	return (0);
 }
 
@@ -64,9 +65,9 @@ static int	is_tmp(char *str)
 			return (is_tmp);
 		if (str[i] != ' ')
 		{
-			if ((ret = is_var(&(str[i]) + 1)) == -1)
+			if ((ret = is_var(&(str[i]))) == -1)
 				return (-1);
-			is_tmp = !ret;
+			return (!ret);
 		}
 		i += 1;
 	}
@@ -121,6 +122,7 @@ static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
 	{
 		if (stresc("=", str, i))
 		{
+			cmd->env = NULL;
 			cmd->assign = 1;
 			if (store_localvar(str, i, len, sh_state, cmd) == 1)
 				return (1);
