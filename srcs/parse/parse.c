@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 15:15:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:10:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,8 @@ t_input_data *input_data)
 	i = 0;
 	if (parse_expansion(cmd, sh_state))
 		return (1);
-	parse_chev(cmd, sh_state, input_data);
+	if (parse_chev(cmd, sh_state, input_data) == 1)
+		return (1);
 	len = parse_tokenlen(cmd);
 	while (i < len && ft_isspace(cmd->str[i]))
 		i++;
