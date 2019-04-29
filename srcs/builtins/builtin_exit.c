@@ -6,27 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 22:38:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 09:33:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:15:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtin_exit.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
-
-int		str_is_digit(const char *av)
-{
-	int		i;
-
-	i = 0;
-	while (av[i] != '\0')
-	{
-		if (!ft_isdigit(av[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int		builtin_exit(t_sh_state *sh_state, int ac, const char **av,
 t_builtin_context *context)
