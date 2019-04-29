@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:26:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 13:12:34 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 13:21:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -137,7 +137,7 @@ void	print_job_bpid(t_pos_info p_info, int bpid)
 {
 	write(1, "[", 1);
 	ft_putnbr(p_info.index);
-	write(1, "] [", 3);
+	write(1, "] ", 2);
 	ft_putnbr(bpid);
-	write(1, "]\n", 2);
+	write(1, "\n", 1);
 }
