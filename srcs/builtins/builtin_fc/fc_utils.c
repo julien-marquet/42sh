@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:40:51 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 20:48:05 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 05:15:15 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,9 +58,14 @@ size_t			fc_get_hist_num(t_sh_state *sh_state, const char *str)
 	if (!is_alpha)
 	{
 		if (neg == 0)
+		{
+			// find = get_history_index_rev(sh_state->history, ft_atoi(str));
+			// return (fc_hist_to_num(find, sh_state->history));
 			return (ft_atoi(str));
+		}
 		else
 		{
+			// return (ft_atoi(str + 1));
 			find = get_history_index_rev(sh_state->history, ft_atoi(str + 1));
 			return (fc_hist_to_num(find, sh_state->history));
 		}

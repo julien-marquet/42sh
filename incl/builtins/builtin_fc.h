@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 21:36:50 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:01:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,12 +19,14 @@
 # include "editing/history/history.h"
 # include "error_handler.h"
 
+# define EDITOR "ed"
+
 typedef	struct	s_fc_infos
 {
 	char		*opts;
 	char		*editor;
-	int			first;
-	int			last;
+	t_list		*first;
+	t_list		*last;
 }				t_fc_infos;
 
 /*
@@ -43,7 +45,7 @@ int				fc_options(const char **av, t_fc_infos *fc_infos,
 **
 */
 
-int				fc_print(t_list *hist, t_fc_infos *fc_infos);
+int				fc_print(t_list *hist, t_fc_infos *fc_infos, int fd);
 int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
 				t_builtin_context *context);
 

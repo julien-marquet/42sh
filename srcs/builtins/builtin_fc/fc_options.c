@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   options.c                                        .::    .:/ .      .::   */
+/*   fc_options.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 20:26:08 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 17:09:36 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,7 +36,7 @@ static int	fc_option_e(const char **av, t_fc_infos *fc_infos, int i, t_builtin_c
 	}
 	else
 	{
-		print_error(context->origin, "-e: option requires an argument", context->fds.err);
+		print_error(context->origin, "-e: option requires an argument", 2);
 		return (0);
 	}
 	return (i);
