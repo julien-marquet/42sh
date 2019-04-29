@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 17:48:39 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 18:06:44 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -89,23 +89,21 @@ void	handle_process_update(int wanted)
 	t_jobs		*jobs;
 	t_proc_grp	*proc_grp;
 	t_proc		*proc;
-	int			active_pid;
-	int			sigcpt;
+	static int			sigcpt = 0;
 
-	sigcpt = 0;
 	if (wanted == -1)
 		sigcpt--;
 	jobs = jobs_super_get(NULL);
 	proc = NULL;
-	active_pid = wanted > 0 ? pid_is_active(wanted) : 1;
-	if (sigcpt <= 0 && jobs->busy == 0 && active_pid)
+	if ((wanted != -1 || sigcpt < 0) && jobs->busy == 0)
 	{
 		jobs->busy = 1;
 		while (1)
 		{
-			if (wanted != -1)
-				sigcpt++;
+			sigcpt++;
 			pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED);
+			if (pid <= 0 || wanted == pid || wanted <= 0)
+				jobs->busy = 0;
 			if (pid > 0)
 			{
 				if ((proc_grp = update_proc_status(jobs, pid,
@@ -128,7 +126,6 @@ void	handle_process_update(int wanted)
 			if (pid <= 0 || wanted == pid || wanted <= 0)
 				break ;
 		}
-		jobs->busy = 0;
 	}
 }
 
