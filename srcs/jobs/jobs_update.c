@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:40:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 17:48:39 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -90,35 +90,45 @@ void	handle_process_update(int wanted)
 	t_proc_grp	*proc_grp;
 	t_proc		*proc;
 	int			active_pid;
+	int			sigcpt;
 
+	sigcpt = 0;
+	if (wanted == -1)
+		sigcpt--;
 	jobs = jobs_super_get(NULL);
+	proc = NULL;
 	active_pid = wanted > 0 ? pid_is_active(wanted) : 1;
-	if (jobs->busy == 0 && active_pid)
+	if (sigcpt <= 0 && jobs->busy == 0 && active_pid)
 	{
 		jobs->busy = 1;
 		while (1)
 		{
+			if (wanted != -1)
+				sigcpt++;
 			pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED);
-			if (pid <= 0 || wanted == pid || wanted <= 0)
-				jobs->busy = 0;
 			if (pid > 0)
 			{
 				if ((proc_grp = update_proc_status(jobs, pid,
 			stat_loc)) != NULL)
 				{
-					if ((proc = get_last_proc(proc_grp)) != NULL &&
-				proc->pid == pid && proc_grp->remaining != NULL)
+					if ((proc = get_last_proc(proc_grp)) != NULL)
 					{
-						check_revive_process_group(jobs->sh_state,
-					proc_grp, proc);
+						if (wanted == pid)
+							jobs->sh_state->status = get_proc_return(proc);
+						if (proc->status != stopped && proc->pid == pid && proc_grp->remaining != NULL)
+						{
+							check_revive_process_group(jobs->sh_state,
+							proc_grp, proc);
+						}
 					}
 				}
+				if (wanted == pid && proc == NULL)
+					jobs->sh_state->status = retrieve_proc_grp_res(proc_grp);
 			}
-			if (wanted == pid)
-				jobs->sh_state->status = retrieve_proc_grp_res(proc_grp);
 			if (pid <= 0 || wanted == pid || wanted <= 0)
 				break ;
 		}
+		jobs->busy = 0;
 	}
 }
 
