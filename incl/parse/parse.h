@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 03:12:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 12:28:29 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,6 +31,14 @@
 int					parse_check(char *str);
 
 /*
+** SPLIT
+*/
+
+t_arg				*parse_split_create(char *str, int len);
+int					parse_split_count(t_arg *split);
+char			    *create_job_name(t_cmd *acmd);
+
+/*
 ** PARSE
 */
 
@@ -48,12 +56,5 @@ char				**parse_strsplit(char *str, int len);
 t_cmd				*parse_nextfree(t_cmd *cmd);
 void				free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd);
 void				free_cmds(t_cmd *acmd);
-
-/*
-** EXEC
-*/
-
-int					exec_chevout(t_file *out);
-int					exec_chevin(t_file *in);
 
 #endif

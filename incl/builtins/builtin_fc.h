@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 10:01:21 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 11:54:49 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,7 @@
 # include "error_handler.h"
 
 # define EDITOR "ed"
+# define HIST_PERM CHEV_PERM
 
 typedef	struct	s_fc_infos
 {
@@ -40,6 +41,7 @@ size_t			get_hist_len(t_list *hist);
 void    		add_valid(t_fc_infos *fc_infos, char new);
 int				fc_options(const char **av, t_fc_infos *fc_infos,
 				t_builtin_context *context);
+int				fc_exit(t_fc_infos *fc_infos, int ret);
 
 /*
 **

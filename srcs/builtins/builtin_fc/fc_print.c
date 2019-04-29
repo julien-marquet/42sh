@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 21:30:39 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 10:28:14 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:56:48 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -62,7 +62,7 @@ int				fc_print(t_list *hist, t_fc_infos *fc_infos, int fd)
 	if (fc_infos->first == NULL)
 	{
 		fc_infos->first = hist;
-		fc_infos->last = get_history_index(hist, fd ? 1 : 16);
+		fc_infos->last = get_history_index(hist, fd == 1 ? 16 : 1);
 		if (ft_strchr(fc_infos->opts, 'r'))
 			hist_print(fc_infos, len, flag_n, fd);
 		else
@@ -79,5 +79,5 @@ int				fc_print(t_list *hist, t_fc_infos *fc_infos, int fd)
 		else
 			hist_print_rev(fc_infos, len,flag_n, fd);
 	}
-	return (0);
+	return (fd == 1 ? fc_exit(fc_infos, 0) : 0);
 }
