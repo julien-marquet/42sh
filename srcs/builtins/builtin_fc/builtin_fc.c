@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 13:03:19 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 15:20:48 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,21 +47,26 @@ static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 		if (!(args = parse_split_create(fc_infos->editor, ft_strlen(fc_infos->editor))))
 			return (-1);
 		len = parse_split_count(args);
+		if (!(cmd->arg = ft_memalloc(sizeof(char*) * (len + 2))))
+			return (-1);
+		while (args)
+		{
+			dprintf(1, "%i = '%s'\n", i, args->arg);
+			cmd->arg[i++] = args->arg;
+			args = args->next;
+		}
+		if (!(cmd->arg[i] = tmp_file(sh_state)))
+			return (-1);
 	}
-	if (!(cmd->arg = ft_memalloc(sizeof(char*) * (len + 2))))
-		return (-1);
-		dprintf(1, "len %i\n", len);
-	while (len && args)
+	else
 	{
-		dprintf(1, "%i = '%s'\n", i, args->arg);
-		cmd->arg[i] = args->arg;
-		args = args->next;
-		len--;
-		i++;
+		if (!(cmd->arg = ft_memalloc(sizeof(char*) * 3)))
+			return (-1);
+		if (!(cmd->arg[0] = ft_strdup(fc_infos->editor ? fc_infos->editor : EDITOR)))
+			return (-1);
+		if (!(cmd->arg[1] = tmp_file(sh_state)))
+			return (-1);
 	}
-	//cmd->arg[0] = ft_strdup(fc_infos->editor ? fc_infos->editor : EDITOR);
-	if (!(cmd->arg[i] = tmp_file(sh_state)))
-		return (-1);
 	return (0);
 }
 
