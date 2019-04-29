@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:26:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 11:54:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 12:29:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ static int	print_pos(t_pos_info p_info, char **str)
 	(*str)[1 + ft_strlen(tmp)] = ']';
 	if (p_info.attribute != 0)
 		(*str)[2 + ft_strlen(tmp)] = p_info.attribute == 1 ? '+' : '-';
-	return (ft_numlen_i(p_info.index) + 2);
+	return (ft_numlen_i(p_info.index) + 2 + (p_info.attribute != 0));
 }
 
 static int		print_status(t_job_status status, int code, char **str)
@@ -115,7 +115,7 @@ t_proc *proc, char **job_status)
 
 	str = NULL;
 	printed = print_pos(p_info, &str);
-	print_spaces(printed != 0, 4, &str);
+	print_spaces(printed, 8, &str);
 	printed = print_status(proc->status, proc->code, &str);
 	print_spaces(printed, 25, &str);
 	print_name(name, &str);

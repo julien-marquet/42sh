@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:37:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 10:49:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 12:30:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,25 @@ t_proc_grp	*find_by_gpid(int pgid)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int			get_displayable_proc_grp_nb(void)
+{
+	t_list		*tmp;
+	t_jobs		*jobs;
+	int			cpt;
+	t_proc		*proc;
+
+	cpt = 0;
+	jobs = jobs_super_get(NULL);
+	tmp = jobs->proc_grps;
+	while (tmp != NULL)
+	{
+		if ((proc = get_last_proc(((t_proc_grp *)tmp->content))) != NULL)
+			cpt++;
+		tmp = tmp->next;
+	}
+	return (cpt);
 }
 
 int			get_active_proc_grp_nb(void)
@@ -73,6 +92,31 @@ t_proc_grp	*find_active_proc_grp_by_num(int num)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+t_proc_grp	*find_active_proc_grp_by_needle(const char *name, int *nres)
+{
+	t_list		*tmp;
+	t_jobs		*jobs;
+	t_proc_grp	*proc_grp;
+	t_proc		*proc;
+
+	*nres = 0;
+	proc_grp = NULL;
+	jobs = jobs_super_get(NULL);
+	tmp = jobs->proc_grps;
+	while (tmp != NULL)
+	{
+		if (ft_strstr(((t_proc_grp *)tmp->content)->name, name) != NULL &&
+	(proc = get_last_proc(((t_proc_grp *)tmp->content))) != NULL &&
+	proc->status != exited)
+		{
+			(*nres)++;
+			proc_grp = (t_proc_grp *)tmp->content;
+		}
+		tmp = tmp->next;
+	}
+	return (*nres > 1 ? NULL : proc_grp);
 }
 
 t_proc_grp	*find_active_proc_grp_by_name(const char *name, int *nres)
