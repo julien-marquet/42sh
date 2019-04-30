@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:37:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 12:30:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 16:04:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -200,7 +200,7 @@ t_proc_grp	*get_first_active_proc_grp()
 	return (NULL);
 }
 
-static unsigned char	get_proc_return(t_proc *proc)
+unsigned char	get_proc_return(t_proc *proc)
 {
 	unsigned char res;
 
