@@ -106,7 +106,7 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state, t_cmd
 		if (is_tmp(str + len))
 			add_tmp_entry(cmd, name, value);
 		else
-			add_entry_storage(sh_state, name, value, 2);
+			add_entry_storage(sh_state, name, value, 0);
 	}
 	ft_strdel(&name);
 	ft_strdel(&value);

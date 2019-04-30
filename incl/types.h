@@ -87,6 +87,7 @@ typedef struct	s_win_data
 
 typedef struct	s_internal_storage
 {
+	int		tmp;
 	char	*string;
 	int		exported;
 }				t_internal_storage;

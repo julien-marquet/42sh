@@ -78,3 +78,66 @@ char			**update_env(char **env, t_list *tmp)
 	new[i] = NULL;
 	return (new);
 }
+
+void			remove_tmp_env(t_list **storage)
+{
+	t_list	*pointer;
+	t_list	*previous;
+
+	previous = NULL;
+	pointer = *storage;
+	while (pointer != NULL)
+	{
+		if (((t_internal_storage *)(pointer->content))->tmp)
+		{
+			if (previous == NULL)
+			{
+				*storage = (*storage)->next;
+				free(((t_internal_storage *)pointer->content)->string);
+				free(pointer->content);
+				pointer = *storage;
+				continue ;
+			}
+			else
+			{
+				free(((t_internal_storage *)pointer->content)->string);
+				free(pointer->content);
+				previous->next = pointer->next;
+				pointer = previous->next;
+				continue ;
+			}
+		}
+		previous = pointer;
+		pointer = pointer->next;
+	}
+}
+
+int				update_builtin_env(t_list **storage, t_list *vars)
+{
+	t_list				*tmp;
+	t_internal_storage	new;
+	t_list				*pointer;
+
+	pointer = *storage;
+	while (pointer != NULL && pointer->next != NULL)
+		pointer = pointer->next;
+	while (vars != NULL)
+	{
+		if ((new.string =
+	ft_strdup(((t_internal_storage *)(vars->content))->string)) == NULL)
+			return (-1);
+		new.exported = 1;
+		new.tmp = 1;
+		if ((tmp = ft_lstnew(&new, sizeof(t_internal_storage))) == NULL)
+			return (-1);
+		if (pointer == NULL)
+			*storage = tmp;
+		else
+		{
+			pointer->next = tmp;
+			pointer = pointer->next;
+		}
+		vars = vars->next;
+	}
+	return (0);
+}

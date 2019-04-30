@@ -16,6 +16,8 @@
 
 # include "common.h"
 
+void		remove_tmp_env(t_list **storage);
 char		**update_env(char **env, t_list *tmp);
+int			update_builtin_env(t_list **storage, t_list *vars);
 
 #endif

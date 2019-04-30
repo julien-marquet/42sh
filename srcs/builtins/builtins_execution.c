@@ -11,6 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
+#include "storage/storage_tmp.h"
 #include "builtins/builtins_execution.h"
 
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -68,14 +69,18 @@ t_builtin_func builtin, t_context *context)
 	int		err;
 	int		std_state[3];
 
+	dprintf(2, "Builtin function\n");
 	std_state[0] = dup(0);
 	std_state[1] = dup(1);
 	std_state[2] = dup(2);
 	if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
 		exit(err);
 	context->builtin_context->is_process = 0;
+	if (update_builtin_env(&(sh_state->internal_storage), cmd->env) == -1)
+		return (1);
 	err = builtin(sh_state, ft_arraylen((const void **)cmd->arg),
 (const char **)cmd->arg, context->builtin_context);
+	remove_tmp_env(&(sh_state->internal_storage));
 	dup2(std_state[0], 0);
 	close(std_state[0]);
 	dup2(std_state[1], 1);
