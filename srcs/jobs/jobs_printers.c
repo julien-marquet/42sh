@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:26:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 13:21:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 13:46:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,8 +44,15 @@ static int		print_status(t_job_status status, int code, char **str)
 		return (0);
 	if (status == running || status == continued)
 		tmp = ft_strdup("Running");
-	else if (status == exited)
+	else if (status == exited && code == 0)
 		tmp = ft_strdup("Done");
+	else if (status == exited)
+	{
+		if ((tmpcode = ft_itoa(code)) == NULL)
+			return (0);
+		tmp = ft_strjoin("Exited: ", tmpcode);
+		ft_strdel(&tmpcode);
+	}
 	else if (status == stopped)
 		tmp = ft_strdup("Stopped");
 	else if (status == signaled)
@@ -117,7 +124,7 @@ t_proc *proc, char **job_status)
 	printed = print_pos(p_info, &str);
 	print_spaces(printed, 8, &str);
 	printed = print_status(proc->status, proc->code, &str);
-	print_spaces(printed, 25, &str);
+	print_spaces(printed, 20, &str);
 	print_name(name, &str);
 	if (*job_status == NULL)
 		*job_status = str;

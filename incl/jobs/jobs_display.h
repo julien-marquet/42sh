@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:56:41 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 13:02:41 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 13:23:18 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@
 # include "jobs/jobs_printers.h"
 
 void	display_last_bpgid(int bpid, t_proc_grp *proc_grp);
-void	display_jobs_alert();
+void	display_job_alert(t_proc_grp *proc_grp, t_proc *last_proc);
 void	list_jobs();
 
 #endif
