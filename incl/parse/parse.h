@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 03:12:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 09:59:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,8 +38,8 @@ char				*parse_event(char *str, t_list *hist);
 char				*parse_alias(char *str, t_list *aliases, t_list *skip);
 int					parse_exec(char *str, t_sh_state *sh_state, t_input_data *input_data);
 t_cmd				*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type);
-void				parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
-void				parse_chevcreate(char *file, t_cmd *cmd, int *type, void *sh_info[2]);
+int					parse_chev(t_cmd *cmd, t_sh_state *sh_state, t_input_data *input_data);
+int					parse_chevcreate(char *file, t_cmd *cmd, int *type, void *sh_info[2]);
 int					parse_tokenize(char *str, t_cmd **cmd);
 int					parse_expansion(t_cmd *cmd, t_sh_state *sh_state);
 char				*get_expand_str(char *str, t_sh_state *sh_state);

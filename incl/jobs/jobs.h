@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 17:29:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 03:27:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 12:59:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,6 +25,5 @@
 
 void	list_jobs();
 void	update_jobs_status();
-void	display_jobs_alert();
 
 #endif

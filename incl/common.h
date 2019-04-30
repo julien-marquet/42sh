@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:35:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 15:35:18 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 16:08:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,5 +27,9 @@
 # include "stdio.h"
 
 # define NAME "42sh"
+
+# define QUOTE_NONE 0
+# define QUOTE_SIMPLE 1
+# define QUOTE_DOUBLE 2
 
 #endif

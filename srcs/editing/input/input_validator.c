@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:07:32 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 23:38:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 15:33:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,10 @@
 static void	search_for_quote(size_t i, int *opened, int *quote_type, t_dyn_buf *dyn_buf)
 {
 
-	if (dyn_buf->buf[i] == '\'' && ((*quote_type == QUOTE_SIMPLE && *opened == 1) || ((*quote_type == QUOTE_SIMPLE || *quote_type == QUOTE_NONE) && *opened == 0 && !is_escaped(dyn_buf->buf, i))))
+	if (dyn_buf->buf[i] == '\'' &&
+((*quote_type == QUOTE_SIMPLE && *opened == 1) ||
+((*quote_type == QUOTE_SIMPLE || *quote_type == QUOTE_NONE) &&
+*opened == 0 && !is_escaped(dyn_buf->buf, i))))
 	{
 		if ((*opened = !(*opened)) == 0)
 			*quote_type = QUOTE_NONE;

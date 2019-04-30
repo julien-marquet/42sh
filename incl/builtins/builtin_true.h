@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   dyn_buf_defines.h                                .::    .:/ .      .::   */
+/*   builtin_true.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 17:51:13 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 17:00:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/30 09:57:17 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/30 09:58:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef DYN_BUF_DEFINES_H
-# define DYN_BUF_DEFINES_H
+#ifndef BUILTIN_TRUE_H
+# define BUILTIN_TRUE_H
 
-# define DEFAULT_DYN_BUF_SIZE 128
+# include "common.h"
+
+int		builtin_true(t_sh_state *sh_state, int ac,
+		const char **av, t_builtin_context *context);
 
 #endif

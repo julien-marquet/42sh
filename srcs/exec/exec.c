@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:41:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 11:27:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -80,14 +80,15 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 			}
 		}
 		if (is_end_flag((const char *)cmd_list->red))
-			exec_res = exec_end_flag(sh_state, cmd_list, context);
+			exec_res = exec_end_flag(sh_state, &cmd_list, context);
 		else if (is_pipe_flag((const char *)cmd_list->red))
-			exec_res = exec_pipe_flag(sh_state, cmd_list, context);
+			exec_res = exec_pipe_flag(sh_state, &cmd_list, context);
 		else if (is_conditionned_flag((const char *)cmd_list->red))
-			exec_res = exec_conditioned_flag(sh_state, cmd_list, context);
+			exec_res = exec_conditioned_flag(sh_state, &cmd_list, context);
 		else
 			return (-1);
-		cmd_list = (cmd_list)->next;
+		if (cmd_list)
+			cmd_list = (cmd_list)->next;
 		if (exec_res == -1 || exec_res == 1 ||
 	(context->proc_grp->last_red != NULL &&
 	ft_strcmp(context->proc_grp->last_red, ";") == 0))
@@ -96,7 +97,11 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 	if (exec_res != -1 && context->background == 1)
 	{
 		if ((last_proc = get_last_proc(context->proc_grp)) != NULL)
+		{
 			update_last_bpid(last_proc->pid);
+			if (context->proc_grp->revived == 0)
+				display_last_bpgid(last_proc->pid, context->proc_grp);
+		}
 	}
 	free_executed_cmds(acmd, context->proc_grp->remaining, cmd_list);
 	free_context(&context);

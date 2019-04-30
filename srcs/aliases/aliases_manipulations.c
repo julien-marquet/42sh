@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 20:18:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 22:23:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 15:13:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,14 +17,17 @@ int		add_alias(t_list **aliases, const char *name, const char *value)
 {
 	t_list		*node;
 	size_t		len;
+	size_t		name_len;
 	char		*entry;
 
 	if (name == NULL)
 		return (1);
-	len = value ? ft_strlen(value) : 0;
-	len += ft_strlen(name) + 1;
-	if (ft_strlen(name) == 0)
+	if (ft_strcspn(name, "/=") != (name_len = ft_strlen(name)))
+		return (1);
+	if (name_len == 0)
 		return (0);
+	len = value ? ft_strlen(value) : 0;
+	len += name_len + 1;
 	if ((node = find_alias_by_name(*aliases, name)) != NULL)
 	{
 		if (update_existing_alias(node, name, value, len) == 1)

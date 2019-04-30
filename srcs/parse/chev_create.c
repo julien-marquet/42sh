@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/08 16:44:52 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 08:19:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:00:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,7 @@ static void		parse_chevpush(t_file **file, t_file *new)
 	}
 }
 
-void			parse_chevcreate(char *file, t_cmd *cmd, int *type,
+int			parse_chevcreate(char *file, t_cmd *cmd, int *type,
 void *sh_info[2])
 {
 	t_file	*new;
@@ -38,7 +38,12 @@ void *sh_info[2])
 	{
 		reset_dyn_buf(((t_input_data*)sh_info[1])->active_buf);
 		if (handle_input(sh_info[0], ((t_input_data*)sh_info[1]), file))
-			return ;
+			exit_sh(sh_info[0], sh_info[1]);
+		if (((t_input_data*)sh_info[1])->sig_call == 1)
+		{
+			ft_strdel(&file);
+			return (1);
+		}
 		if (!(new->here = get_expand_str(
 			((t_input_data*)sh_info[1])->active_buf->buf, sh_info[0])))
 			new->here = ft_strdup("");
@@ -51,4 +56,5 @@ void *sh_info[2])
 		!cmd->out ? cmd->out = new : parse_chevpush(&cmd->out, new);
 	else if (type[C_TYPE] == '<')
 		!cmd->in ? cmd->in = new : parse_chevpush(&cmd->in, new);
+	return (0);
 }

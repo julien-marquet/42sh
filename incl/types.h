@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 06:17:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 11:47:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -206,6 +206,12 @@ typedef struct	s_context
 	int					last;
 	int					last_pipe_read;
 }				t_context;
+
+typedef struct	s_pos_info
+{
+	int		index;
+	int		attribute;
+}				t_pos_info;
 
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
 				t_context *context);

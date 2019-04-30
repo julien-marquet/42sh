@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 03:01:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 06:00:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:16:11 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,6 +25,7 @@ void					free_builtin_context(t_builtin_context **builtin_context);
 t_builtin_context		*duplicate_builtin_context(t_builtin_context *context);
 const t_builtin_func	*get_builtins_funcs(void);
 const char				**get_builtins_names(void);
+int						str_is_digit(const char *av);
 int						builtin_exist(const char *name);
 
 #endif

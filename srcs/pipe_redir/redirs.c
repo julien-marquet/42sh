@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 15:32:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/28 16:09:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -191,6 +191,7 @@ cmd->out->file == NULL)
 				err = err == -1 ? err : err - 1;
 				handle_path_exec_error(origin, out->file, err);
 				ft_strdel(&dir_path);
+				ft_strdel(&origin);
 				return (err);
 			}
 			ft_strdel(&dir_path);
@@ -198,9 +199,11 @@ cmd->out->file == NULL)
 		else
 		{
 			handle_path_exec_error(origin, out->file, err);
+			ft_strdel(&origin);
 			return (err);
 		}
 	}
+	ft_strdel(&origin);
 	if ((fd = open(out->file, O_CREAT|O_NONBLOCK, 0666)) == -1)
 		return (-1);
 	close(fd);

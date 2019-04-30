@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:11:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 08:17:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 10:31:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,9 +15,9 @@
 
 int		handle_user_reset(t_input_data *input_data)
 {
-	if (input_data->sig_call == 1 && get_eof() == 0)
+	if (input_data->sig_call == 1)
 	{
-		if (get_eof())
+		if (get_eof() == 0)
 		{
 			if (input_data->active_buf->len > 0 && input_data->active_buf->buf[0] != '\n')
 			{
@@ -31,7 +31,6 @@ int		handle_user_reset(t_input_data *input_data)
 			}
 		}
 		reset_input(input_data);
-		input_data->sig_call = 0;
 	}
 	return (0);
 }

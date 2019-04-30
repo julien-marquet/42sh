@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 12:39:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 12:56:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -147,7 +147,7 @@ int		send_special_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp)
 	set_term_state_backup(sh_state);
 	tcsetpgrp(0, proc_grp->pgid);
 	wake_all_processes(proc_grp);
-	handle_process_update(proc_grp->pgid);
+	wait_for_grp(sh_state, proc_grp);
 	tcsetpgrp(0, getpid());
 	set_term_state(sh_state);
 	return (0);
