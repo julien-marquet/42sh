@@ -6,17 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:09:34 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 18:32:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 16:08:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #ifndef INPUT_VALIDATOR_H
 # define INPUT_VALIDATOR_H
-
-# define QUOTE_NONE 0
-# define QUOTE_SIMPLE 1
-# define QUOTE_DOUBLE 2
 
 # include "common.h"
 # include "editing/input/input.h"
