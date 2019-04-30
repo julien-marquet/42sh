@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 02:07:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 17:00:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,30 +36,7 @@ int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index)
 	len = ft_strlen(str);
 	if (len + dyn_buf->len >= dyn_buf->size)
 	{
-		new_size = len + dyn_buf->len > dyn_buf->size * 2 ?
-	len + dyn_buf->len + DEFAULT_DYN_BUF_SIZE : dyn_buf->size * 2;
-		dyn_buf->buf = ft_realloc(dyn_buf->buf,
-	dyn_buf->size, new_size);
-		if (dyn_buf == NULL)
-			return (1);
-		dyn_buf->size = new_size;
-	}
-	ft_memmove(&(dyn_buf->buf[index + len]), &(dyn_buf->buf[index]),
-dyn_buf->len - index);
-	ft_memcpy(&(dyn_buf->buf[index]), str, len);
-	dyn_buf->len += len;
-	dyn_buf->buf[dyn_buf->len] = '\0';
-	return (0);
-}
-
-int			insertn_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index, size_t len)
-{
-	size_t	new_size;
-
-	if (len + dyn_buf->len >= dyn_buf->size)
-	{
-		new_size = len + dyn_buf->len > dyn_buf->size * 2 ?
-	len + dyn_buf->len + DEFAULT_DYN_BUF_SIZE : dyn_buf->size * 2;
+		new_size = (len + dyn_buf->len) * 2;
 		dyn_buf->buf = ft_realloc(dyn_buf->buf,
 	dyn_buf->size, new_size);
 		if (dyn_buf == NULL)

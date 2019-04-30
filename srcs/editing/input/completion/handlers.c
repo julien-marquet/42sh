@@ -25,7 +25,17 @@ t_sh_state *sh_state, char *word)
 		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
 		{
 			if (*pointer == ' ')
+			{
+				while (pointer != input->active_buf->buf)
+				{
+					if (*pointer != ' ' && is_stopping(*pointer) && *(pointer - 1) != '\\')
+						return (complete_bin(word, sh_state, input));
+					else if (*pointer != ' ')
+						break ;
+					pointer -= 1;
+				}
 				return (complete_arg(input, word, sh_state));
+			}
 			else
 				return (complete_bin(word, sh_state, input));
 		}
@@ -89,6 +99,7 @@ static char		*handle_quotes(char *word)
 
 char			*handle_expand(char *word, t_sh_state *sh_state)
 {
+	char	last;
 	char	*pointer;
 	char	*current_word;
 
@@ -97,7 +108,11 @@ char			*handle_expand(char *word, t_sh_state *sh_state)
 		free(word);
 		return (ft_strdup(""));
 	}
-	if ((current_word = get_expand_str(word, sh_state)) == NULL)
+	last = word[ft_strlen(word) - 1];
+	if ((ft_strncmp(word, "${", 2) == 0 || last == '$') &&
+		(current_word = ft_strdup(word)) == NULL)
+		return (NULL);
+	else if (ft_strncmp(word, "${", 2) != 0 && last != '$' && (current_word = get_expand_str(word, sh_state)) == NULL)
 		return (NULL);
 	pointer = current_word;
 	while (*pointer == ' ')
@@ -120,8 +135,6 @@ int				handle_completion(t_input_data *input, t_sh_state *sh_state)
 	pointer = input->active_buf->buf;
 	while (*pointer == ' ')
 		pointer += 1;
-	if (*pointer == '\0')
-		return (0);
 	if ((current_word = get_current_word(input, sh_state)) == NULL)
 		return (1);
 	if (handle_completion_type(input, sh_state, current_word) == 1)

@@ -6,17 +6,27 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 18:10:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:42:26 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 15:43:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "error_handler.h"
 
-void	print_error(const char *origin, const char *err, int fd)
+int		print_error(const char *origin, const char *err, int fd)
 {
-	ft_putstr_fd(origin, fd);
-	ft_putendl_fd(err, fd);
+	int		olen;
+	int		elen;
+
+	if (!origin || !err)
+		return (-1);
+	if (write(fd, origin, (olen = ft_strlen(origin))) == -1)
+		return (-1);
+	if (write(fd, err, (elen = ft_strlen(err))) == -1)
+		return (-1);
+	if (write(fd, "\n", 1) == -1)
+		return (-1);
+	return (olen + elen + 1);
 }
 
 void	handle_path_exec_error(const char *origin, const char *path, int err)

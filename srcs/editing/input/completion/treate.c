@@ -81,7 +81,11 @@ static int	half_complete(t_list *files, t_input_data *input, char *needle)
 
 	if ((tmp = get_completion(files)) == NULL)
 		return (1);
-	if (ft_strcmp(needle[0] == '$' ? needle + 1 : needle, tmp) != 0)
+	if (ft_strncmp(needle, "${", 2) == 0)
+		needle += 2;
+	else if (ft_strncmp(needle, "$", 1) == 0)
+		needle += 1;
+	if (ft_strcmp(needle, tmp) != 0)
 	{
 		if (complete_word(input, tmp, 0) == 1)
 		{

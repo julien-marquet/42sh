@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 01:20:00 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 12:34:12 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,7 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 	t_proc		*last_proc;
 	char		*err;
 
+	proc_grp = NULL;
 	add_origin(&context->origin, "bg");
 	if (context->is_process)
 	{
@@ -30,11 +31,19 @@ int			builtin_bg(t_sh_state *sh_state, int ac,
 	}
 	else if (ac > 1)
 	{
-		if ((proc_grp = find_active_proc_grp_by_name(av[1], &nres)) == NULL)
+		if (str_is_digit(av[1]) == 1)
+			proc_grp = find_active_proc_grp_by_num(ft_atoi(av[1]));
+		if (proc_grp == NULL)
+		{
+			if ((proc_grp = find_active_proc_grp_by_needle(av[1],
+		&nres)) != NULL)
+				ft_putendl(proc_grp->name);
+		}
+		if (proc_grp == NULL)
 		{
 			if (nres > 1)
 			{
-				if ((err = ft_construct_str(2, av[1], "ambiguous job")) == NULL)
+				if ((err = ft_construct_str(2, av[1], ": ambiguous job")) == NULL)
 					return (1);
 			}
 			else

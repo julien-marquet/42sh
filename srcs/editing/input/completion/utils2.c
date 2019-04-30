@@ -24,8 +24,9 @@ int		delete_completed(t_input_data *input)
 		if ((*pointer == '/') ||
 			(is_stopping(*pointer) && *(pointer - 1) != '\\'))
 			break ;
-		if ((*pointer == '$' &&
-			(is_stopping(*(pointer - 1)) && *(pointer - 2) != '\\')))
+		if (((*pointer == '{' && *(pointer - 1) == '$' &&
+			(is_stopping(*(pointer - 2)) && *(pointer - 3) != '\\'))) ||
+(*pointer == '$' && (is_stopping(*(pointer - 1)) && *(pointer - 2) != '\\')))
 			break ;
 		if (delete_prev_char(input) == 1)
 			return (1);
@@ -35,6 +36,8 @@ int		delete_completed(t_input_data *input)
 	}
 	if (pointer == input->active_buf->buf && *pointer != '/')
 		return (delete_prev_char(input));
+	if (*pointer == '{' && *(pointer - 1) == '$')
+		return (2);
 	return (0);
 }
 

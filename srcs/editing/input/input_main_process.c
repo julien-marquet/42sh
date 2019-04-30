@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 08:17:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 11:01:50 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,6 +86,7 @@ char *here_doc)
 	t_list	*hist_copy;
 	int		valid_here_doc;
 
+	input_data->sig_call = 0;
 	if (dup_history(input_data, &hist_copy) == 1)
 		return (1);
 	valid_here_doc = 0;
