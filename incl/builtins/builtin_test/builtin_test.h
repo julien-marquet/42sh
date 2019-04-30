@@ -26,14 +26,11 @@ typedef struct	s_test_infos
 
 int				is_unary_op(const char *arg);
 int				is_binary_op(const char *arg);
-int				test_error(char *builtin, char *file,
-			char *msg, unsigned char *status);
-int				make_test(t_test_infos *infos, const char **av,
-			int ac, t_sh_state *sh_state);
+int				test_error(char *builtin, char *file, char *msg);
+int				make_test(t_test_infos *infos, const char **av, int ac);
 int				make_unary_test(char op, const char *arg);
-int				check_args(const char *arg1, const char *arg2);
-int				make_binary_test(const char *arg1,
-			const char *op, const char *arg2);
+int				check_args(const char **av);
+int				make_binary_test(const char **av);
 int				builtin_test(t_sh_state *sh_state, int ac,
 			const char **av, t_builtin_context *context);
 

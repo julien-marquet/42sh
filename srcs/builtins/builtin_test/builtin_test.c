@@ -29,29 +29,26 @@ static int	check_arg(const char *arg)
 }
 
 // @TODO remove dprintf2
-int			test_error(char *builtin, char *file,
-					char *msg, unsigned char *status)
+int			test_error(char *builtin, char *file, char *msg)
 {
-	if (status != NULL)
-		*status = 2;
 	if (file != NULL)
 		dprintf(2, "-%s: %s: %s: %s\n", NAME, builtin, file, msg);
 	else
 		dprintf(2, "-%s: %s: %s\n", NAME, builtin, msg);
-	return (1);
+	return (2);
 }
 
-int			check_args(const char *arg1, const char *arg2)
+int			check_args(const char **av)
 {
-	if (check_arg(arg1) == 1)
+	if (check_arg(av[0]) == 1)
 	{
-		return (test_error("test", (char *)arg1,
-				"integer expression expected", NULL));
+		return (test_error(((char *)(*(av - 1))), (char *)(av[0]),
+				"integer expression expected"));
 	}
-	if (check_arg(arg2) == 1)
+	if (check_arg(av[2]) == 1)
 	{
-		return (test_error("test", (char *)arg2,
-				"integer expression expected", NULL));
+		return (test_error(((char *)(*(av - 1))), (char *)(av[2]),
+				"integer expression expected"));
 	}
 	return (0);
 }
@@ -59,23 +56,25 @@ int			check_args(const char *arg1, const char *arg2)
 int			builtin_test(t_sh_state *sh_state, int ac,
 					const char **av, t_builtin_context *context)
 {
+	int				ret;
 	t_test_infos	infos;
 
 	infos.negate = 0;
 	infos.base_ac = ac - 1;
 	infos.is_last_builtin = ft_strcmp(av[ac - 1], "]") == 0 ? 1 : 0;
-	sh_state->status = 1;
 	if (ft_strcmp("[", av[0]) == 0)
 	{
 		if (ft_strcmp("]", av[ac - 1]) != 0)
-			return (test_error((char *)av[0], NULL, "missing `]`", NULL));
+			return (test_error((char *)av[0], NULL, "missing `]`"));
 		ac -= 1;
 	}
 	if (ac == 1)
-		return (0);
-	if (make_test(&infos, av + 1, ac - 1, sh_state) == 1)
 		return (1);
+	if ((ret = make_test(&infos, av + 1, ac - 1)) == -1)
+		return (-1);
+	if (ret == 2)
+		return (ret);
 	if (infos.negate)
-		sh_state->status = !sh_state->status;
-	return (0);
+		ret = !ret;
+	return (ret);
 }
