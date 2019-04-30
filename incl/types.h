@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   types.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 11:47:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 18:37:39 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,19 +41,6 @@ typedef struct	s_cur_abs_pos
 	int		col;
 }				t_cur_abs_pos;
 
-typedef struct	s_sh_state
-{
-	struct termios	term_state;
-	struct termios	term_state_backup;
-	unsigned char	status;
-	size_t			exit_sig;
-	t_list			*internal_storage;
-	t_list			*aliases;
-	int				shell_pid;
-	t_list			*hash_table;
-	t_list			*history;
-}				t_sh_state;
-
 typedef struct	s_dyn_buf
 {
 	size_t	len;
@@ -77,6 +64,20 @@ typedef struct	s_input_data
 	int				enter;
 	size_t			sig_call;
 }				t_input_data;
+
+typedef struct	s_sh_state
+{
+	struct termios	term_state;
+	struct termios	term_state_backup;
+	unsigned char	status;
+	size_t			exit_sig;
+	t_list			*internal_storage;
+	t_list			*aliases;
+	int				shell_pid;
+	t_list			*hash_table;
+	t_input_data	*input_data;
+	t_list			*history;
+}				t_sh_state;
 
 typedef struct	s_win_data
 {
