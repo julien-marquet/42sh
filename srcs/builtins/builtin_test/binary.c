@@ -19,7 +19,7 @@ int	make_binary_test(const char **av)
 	int nbr2;
 
 	if (check_args(av) != 0)
-		return (1);
+		return (2);
 	if (ft_strcmp("=", av[1]) == 0)
 		return (!(ft_strcmp(av[0], av[2]) == 0));
 	else if (ft_strcmp("!=", av[1]) == 0)
