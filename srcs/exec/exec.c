@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 10:23:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 11:27:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -99,7 +99,8 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 		if ((last_proc = get_last_proc(context->proc_grp)) != NULL)
 		{
 			update_last_bpid(last_proc->pid);
-			display_last_bpgid(last_proc->pid, context->proc_grp);
+			if (context->proc_grp->revived == 0)
+				display_last_bpgid(last_proc->pid, context->proc_grp);
 		}
 	}
 	free_executed_cmds(acmd, context->proc_grp->remaining, cmd_list);
