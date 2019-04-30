@@ -69,7 +69,6 @@ t_builtin_func builtin, t_context *context)
 	int		err;
 	int		std_state[3];
 
-	dprintf(2, "Builtin function\n");
 	std_state[0] = dup(0);
 	std_state[1] = dup(1);
 	std_state[2] = dup(2);
