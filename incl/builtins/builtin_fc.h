@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 11:54:49 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 16:31:57 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,7 @@ typedef	struct	s_fc_infos
 ** UTILS
 */
 
+char			*tmp_file(t_sh_state *sh_state);
 size_t			fc_hist_to_num(t_list *find, t_list *hist);
 size_t			fc_hist_to_num_rev(t_list *find, t_list *hist);
 size_t			fc_get_hist_num(t_sh_state *sh_state, const char *str);
@@ -47,6 +48,7 @@ int				fc_exit(t_fc_infos *fc_infos, int ret);
 **
 */
 
+int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos);
 int				fc_print(t_list *hist, t_fc_infos *fc_infos, int fd);
 int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
 				t_builtin_context *context);

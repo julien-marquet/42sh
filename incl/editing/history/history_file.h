@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   history.h                                        .::    .:/ .      .::   */
+/*   history_file.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/02/12 10:51:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 15:53:13 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/02 15:53:49 by mmoya        #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/02 16:06:31 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
+#ifndef HISTORY_FILE_H
+# define HISTORY_FILE_H
 
-# define HIST_NEXT 0
-# define HIST_PREV 1
-# define HIST_RESET 2
+# include "common.h"
+# include "builtins/builtins_utils.h"
+# include "history.h"
 
-# include "editing/history/history_edition.h"
-# include "editing/history/history_navigation.h"
-# include "editing/history/history_utils.h"
-# include "editing/history/history_file.h"
+t_list		*hist_list_add(t_list *args, char *str, size_t len);
+t_list		*hist_str2list(char *str);
 
 #endif
+
