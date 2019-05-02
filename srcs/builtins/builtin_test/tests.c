@@ -38,10 +38,12 @@ static int	handle_negate(t_test_infos *infos, const char **av, int ac)
 
 static int	check_2args(t_test_infos *infos, const char **av, int ac)
 {
+	int		ret;
+
 	if (ft_strcmp("!", av[0]) == 0)
 	{
-		if (handle_negate(infos, av, ac) == 1)
-			return (1);
+		if ((ret = handle_negate(infos, av, ac)) != 0)
+			return (ret);
 	}
 	else if (is_unary_op(av[0]))
 		return (make_unary_test(av[0][1], av[1]));
