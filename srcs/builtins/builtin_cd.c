@@ -486,11 +486,13 @@ const char **av, t_builtin_context *context)
 			return (1);
 		else if (i == 0)
 		{
+			free(opts);
 			print_error(context->origin, "usage: cd [-L|[-P]] [dir]", 2);
 			return (1);
 		}
 		else
 			curpath = get_curpath(sh_state, ac, av, &i);
+		free(opts);
 	}
 	formatted = format_path(sh_state, curpath, check_links(av, i < 0 ? 0 : i - 1));
 	if (verify_path(context->origin, curpath, formatted) != 0)
