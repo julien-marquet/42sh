@@ -14,10 +14,12 @@ size_t	is_stopping(char str);
 size_t	is_path(const char *word);
 size_t	is_closed(char *str, char *base);
 int		delete_completed(t_input_data *input);
+size_t	vars_match(t_list *storage, char *needle);
 
 int		lstfree(t_list *files);
 void	lstmerge(t_list **list1, t_list *list2);
 
+char	*handle_quotes(char *word);
 char	*handle_expand(char *word, t_sh_state *sh_state);
 int		handle_completion(t_input_data *input, t_sh_state *sh_state);
 

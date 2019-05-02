@@ -111,5 +111,7 @@ char			*get_current_word(t_input_data *input, t_sh_state *sh_state)
 		return (NULL);
 	ft_strncpy(word, input->active_buf->buf + input->rel_cur_pos - i, i);
 	word[i] = '\0';
+	if (vars_match(sh_state->internal_storage, word) > 1)
+		return (handle_quotes(word));
 	return (handle_expand(word, sh_state));
 }

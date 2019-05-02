@@ -70,7 +70,7 @@ static size_t	is_quoting(char **tmp, size_t *quoting, char *trimmed)
 	return (0);
 }
 
-static char		*handle_quotes(char *word)
+char			*handle_quotes(char *word)
 {
 	char	*tmp;
 	char	*final;
