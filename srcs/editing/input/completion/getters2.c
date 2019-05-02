@@ -61,6 +61,7 @@ int			get_vars(t_list **files, t_list *storage, char *needle)
 			tmp[len] = '\0';
 			if ((link = ft_lstnew(tmp, len + 1)) == NULL)
 				return (free_exit(*files, tmp));
+			free(tmp);
 			if (*files == NULL)
 				*files = link;
 			else

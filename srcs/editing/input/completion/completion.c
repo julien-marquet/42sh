@@ -55,6 +55,7 @@ char *completed, size_t add_slash)
 			return (1);
 		if (is_dir(path))
 		{
+			free(path);
 			path = ft_strjoin(completed, "/");
 			free(completed);
 			return (complete_word(input, path, 0));
