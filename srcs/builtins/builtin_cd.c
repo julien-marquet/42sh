@@ -494,6 +494,9 @@ const char **av, t_builtin_context *context)
 	}
 	formatted = format_path(sh_state, curpath, check_links(av, i < 0 ? 0 : i - 1));
 	if (verify_path(context->origin, curpath, formatted) != 0)
+	{
+		free(formatted);
 		return (1);
+	}
 	return (change_dir(sh_state, formatted, i == -2));
 }
