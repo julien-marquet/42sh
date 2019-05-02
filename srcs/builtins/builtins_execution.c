@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 14:46:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 21:18:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,11 +68,12 @@ t_builtin_func builtin, t_context *context)
 	std_state[0] = dup(0);
 	std_state[1] = dup(1);
 	std_state[2] = dup(2);
-	if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
-		exit(err);
-	context->builtin_context->is_process = 0;
-	err = builtin(sh_state, ft_arraylen((const void **)cmd->arg),
-(const char **)cmd->arg, context->builtin_context);
+	if ((err = handle_redir(cmd, context->builtin_context->origin)) == 0)
+	{
+		context->builtin_context->is_process = 0;
+		err = builtin(sh_state, ft_arraylen((const void **)cmd->arg),
+	(const char **)cmd->arg, context->builtin_context);
+	}
 	dup2(std_state[0], 0);
 	close(std_state[0]);
 	dup2(std_state[1], 1);

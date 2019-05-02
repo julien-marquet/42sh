@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:01:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 21:21:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -130,10 +130,7 @@ void			cut_cmd(t_cmd *acmd, t_cmd *next_cmd)
 	while (acmd && acmd->next != next_cmd)
 		acmd = acmd->next;
 	if (acmd)
-	{
-	//	dprintf(2, "last node = %s\n", acmd->str);
 		acmd->next = NULL;
-	}
 }
 
 int				parse_exec(char *line, t_sh_state *sh_state,
