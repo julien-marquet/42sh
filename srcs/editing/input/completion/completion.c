@@ -81,7 +81,7 @@ t_sh_state *state, char *word, size_t len)
 			if ((tmp = get_path(input, 0)) == NULL)
 				return (1);
 			if (find_in_dir(get_files(tmp, word + 1,
-				CHK_NONE, state->internal_storage), input, word + 1) == 1)
+				CHK_NONE, state->internal_storage, NULL), input, word + 1) == 1)
 				return (1);
 			free(tmp);
 			return (0);
@@ -91,7 +91,7 @@ t_sh_state *state, char *word, size_t len)
 			word -= 1;
 	}
 	return (find_in_dir(get_files(".", word,
-*word == '$' ? CHK_VARS : CHK_NONE, state->internal_storage), input, word));
+*word == '$' ? CHK_VARS : CHK_NONE, state->internal_storage, NULL), input, word));
 }
 
 // TODO Free files on error
@@ -103,13 +103,13 @@ int			complete_arg(t_input_data *input, char *word, t_sh_state *state)
 	len = ft_strlen(word);
 	if (len == 0)
 		return (find_in_dir(get_files(".", "",
-		CHK_NONE, state->internal_storage), input, ""));
+		CHK_NONE, state->internal_storage, NULL), input, ""));
 	else if (word[len - 1] == '/')
 	{
 		if ((tmp = get_path(input, 0)) == NULL)
 			return (1);
 		if (find_in_dir(get_files(tmp, "",
-			CHK_NONE, state->internal_storage), input, "") == 1)
+			CHK_NONE, state->internal_storage, NULL), input, "") == 1)
 			return (1);
 		free(tmp);
 	}
@@ -136,11 +136,11 @@ int			complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 	while (*pointer != NULL)
 	{
 		lstmerge(&files, get_files(*pointer, word,
-		CHK_NONE, sh_state->internal_storage));
+		CHK_NONE, sh_state->internal_storage, files));
 		pointer += 1;
 	}
 	lstmerge(&files, get_files(NULL, word, *word == '$' ?
-	CHK_BUILTINS & CHK_VARS : CHK_BUILTINS, sh_state->internal_storage));
+	CHK_BUILTINS & CHK_VARS : CHK_BUILTINS, sh_state->internal_storage, files));
 	find_in_dir(files, input, word);
 	ft_freetab(&paths);
 	return (0);

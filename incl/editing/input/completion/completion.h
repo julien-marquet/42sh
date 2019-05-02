@@ -22,9 +22,8 @@ char	*handle_expand(char *word, t_sh_state *sh_state);
 int		handle_completion(t_input_data *input, t_sh_state *sh_state);
 
 size_t	get_var_name_length(char *str);
-int		get_builtins(t_list **files, char *needle);
 char	*get_path(t_input_data *input, size_t get_all);
-t_list	*get_files(char *path, char *needle, int flags, t_list *internal_storage);
+t_list	*get_files(char *path, char *needle, int flags, t_list *internal_storage, t_list *files_list);
 int		get_vars(t_list **files, t_list *storage, char *needle);
 char	*get_current_word(t_input_data *input, t_sh_state *sh_state);
 
