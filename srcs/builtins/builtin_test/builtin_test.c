@@ -28,13 +28,28 @@ static int	check_arg(const char *arg)
 	return (0);
 }
 
-// @TODO remove dprintf2
 int			test_error(char *builtin, char *file, char *msg)
 {
 	if (file != NULL)
-		dprintf(2, "-%s: %s: %s: %s\n", NAME, builtin, file, msg);
+	{
+		write(2, NAME, ft_strlen(NAME));
+		write(2, ": ", 2);
+		write(2, builtin, ft_strlen(builtin));
+		write(2, ": ", 2);
+		write(2, file, ft_strlen(file));
+		write(2, ": ", 2);
+		write(2, msg, ft_strlen(msg));
+		write(2, "\n", 1);
+	}
 	else
-		dprintf(2, "-%s: %s: %s\n", NAME, builtin, msg);
+	{
+		write(2, NAME, ft_strlen(NAME));
+		write(2, ": ", 2);
+		write(2, builtin, ft_strlen(builtin));
+		write(2, ": ", 2);
+		write(2, msg, ft_strlen(msg));
+		write(2, "\n", 1);
+	}
 	return (2);
 }
 
