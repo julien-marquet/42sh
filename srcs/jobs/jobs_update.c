@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 18:22:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 19:06:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,6 @@ t_proc_grp	*update_proc_status(t_jobs *jobs, int pid, int stat_loc)
 
 void	revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp)
 {
-//	dprintf(2, "revive process group %d\n", proc_grp == NULL);
 	exec_cmd_list(sh_state, proc_grp->remaining, proc_grp->name, proc_grp);
 }
 
@@ -99,7 +98,6 @@ t_proc *last_proc)
 	int		to_revive;
 	t_cmd	*acmd;
 
-	//dprintf(2, "check revive\n");
 	acmd = proc_grp->remaining;
 	to_revive = 0;
 	if (proc_grp->last_red && ft_strcmp(proc_grp->last_red, "&&") == 0)
@@ -123,7 +121,7 @@ t_proc *last_proc)
 	{
 		if (proc_grp->background == 1)
 			display_job_alert(proc_grp, last_proc);
-		free_cmds(proc_grp->remaining);
+		free_cmds(acmd);
 	}
 }
 
@@ -135,16 +133,12 @@ void	wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
 	jobs = jobs_super_get(NULL);
 	while (1)
 	{
-	//	dprintf(2, "paused\n");
 		pause();
-		//dprintf(2, "unpaused\n");
 		if ((last_proc = get_last_proc_all(proc_grp)) != NULL)
 		{
-		//	dprintf(2, "last_proc = %s\n", last_proc->name);
 			if (last_proc->updated == 1)
 			{
-			//	dprintf(2, "last_proc->updated %d\n", last_proc->updated);
-					sh_state->status = get_proc_return(last_proc);
+				sh_state->status = get_proc_return(last_proc);
 				last_proc->updated = 0;
 				if (last_proc->status != stopped && proc_grp->background == 0 &&
 			proc_grp->remaining != NULL)
@@ -156,10 +150,7 @@ void	wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
 			}
 		}
 		else
-		{
-		//	dprintf(2, "group revived\n");
 			break ;
-		}
 	}
 }
 
@@ -177,7 +168,6 @@ void	handle_process_update(void)
 		if ((proc_grp = update_proc_status(jobs, pid,
 	stat_loc)) != NULL && (proc = get_last_proc_all(proc_grp)) != NULL)
 		{
-			//dprintf(2, "update = updated = %d, remaining = NULL ? = %d, background = %d\n", proc->updated, proc_grp->remaining == NULL, proc_grp->background);
 			if (proc->updated && proc_grp->remaining == NULL &&
 		proc_grp->background == 1)
 				display_job_alert(proc_grp, proc);
