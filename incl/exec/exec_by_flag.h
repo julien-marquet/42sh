@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:33 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 10:27:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 17:36:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@
 # include "builtins/builtins.h"
 # include "exec/exec_dispatcher.h"
 # include "exec/exec_cmd_checkers.h"
-# include "jobs/jobs_procs/jobs_procs.h"
+# include "jobs/jobs.h"
 
 int		exec_end_flag(t_sh_state *sh_state, t_cmd **cmd,
 		t_context *context);

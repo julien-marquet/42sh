@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:37:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 16:04:52 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 16:55:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -205,16 +205,7 @@ unsigned char	get_proc_return(t_proc *proc)
 	unsigned char res;
 
 	res = 0;
-	if (proc->null)
-	{
-		if (proc->not_found == 1)
-			res = 127;
-		else if (proc->no_permission == 1)
-			res = 126;
-		else if (proc->assign == 1)
-			res = 0;
-	}
-	else if (proc->status == exited)
+	if (proc->status == exited)
 		res = proc->code;
 	else if (proc->status == stopped)
 		res = 146;

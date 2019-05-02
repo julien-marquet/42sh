@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:05:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 17:40:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,22 +32,32 @@ t_proc_grp *proc_grp, int err)
 {
 	char	*cmd_str;
 	int		is_null;
+	t_proc	*last_proc;
 
 	cmd_str = (*cmd) && (*cmd)->arg ? (*cmd)->arg[0] : NULL;
 	is_null = cmd_is_null((*cmd));
-	if (add_null_proc(proc_grp, (*cmd)->str, (*cmd)))
+	if (add_null_proc(proc_grp, (*cmd)->str, (*cmd), err))
 		return (-1);
 	if (is_last((*cmd)))
 	{
-		sh_state->status = 126;
-		if (err == 0)
-			sh_state->status = is_null && (*cmd)->assign == 1 ? 0 : 127;
-		if ((!is_null && (*cmd)->red &&
-	ft_strcmp((*cmd)->red, "&&") == 0))
-			return (move_to_next_valid_condition("||", cmd));
-		else if (is_null && (*cmd)->assign && (*cmd)->red &&
-	ft_strcmp((*cmd)->red, "||") == 0)
-			return (move_to_next_valid_condition("&&", cmd));
+		if ((last_proc = get_last_proc_all(proc_grp)) == NULL)
+			return (-1);
+		if (proc_grp->background == 0)
+		{
+			sh_state->status = last_proc->code;
+			if ((last_proc->code != 0 && (*cmd)->red &&
+		ft_strcmp((*cmd)->red, "&&") == 0))
+				return (move_to_next_valid_condition("||", cmd));
+			else if (last_proc->code == 0 && (*cmd)->red &&
+		ft_strcmp((*cmd)->red, "||") == 0)
+				return (move_to_next_valid_condition("&&", cmd));
+			return (0);
+		}
+		else
+		{
+			(*cmd)->next = NULL;
+			check_revive_process_group(sh_state, proc_grp, last_proc);
+		}
 	}
 	return (0);
 }
