@@ -6,15 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 15:00:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 14:46:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_execution.h"
-
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 int				exec_builtin_as_process(t_sh_state *sh_state, t_cmd *cmd,
 t_builtin_func builtin, t_context *context)
