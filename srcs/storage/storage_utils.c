@@ -59,6 +59,7 @@ const char *value, size_t len)
 	if (ft_strcmp("PATH", name) == 0)
 		delete_table(hash_table);
 	free(((t_internal_storage *)node->content)->string);
+	((t_internal_storage *)(node->content))->tmp = 0;
 	node->content_size = sizeof(t_internal_storage);
 	if ((((t_internal_storage *)node->content)->string =
 merge_name_value(name, value,

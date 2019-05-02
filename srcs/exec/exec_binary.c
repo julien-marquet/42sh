@@ -6,12 +6,13 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/20 22:42:46 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 18:24:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 22:08:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "exec/exec_binary.h" 
+#include "storage/storage_tmp.h"
 
 int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context)
 {
@@ -21,6 +22,7 @@ int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context)
 	int		new_pipe[3];
 	int		err;
 	char	*origin;
+	char	**updated_env;
 
 	origin = NULL;
 	new_pipe[0] = 0;
@@ -46,8 +48,14 @@ int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context)
 		else
 		{
 			ft_strdel(&origin);
-			if (execve(path, cmd->arg, env) == -1)
+			if (cmd->env == NULL)
+				updated_env = env;
+			else if ((updated_env = update_env(env, cmd->env)) == NULL)
 				exit(1);
+			if (execve(path, cmd->arg, updated_env) == -1)
+				exit(1);
+			if (cmd->env != NULL)
+				free(updated_env);
 		}
 	}
 	else

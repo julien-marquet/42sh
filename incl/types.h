@@ -87,6 +87,7 @@ typedef struct	s_win_data
 
 typedef struct	s_internal_storage
 {
+	int		tmp;
 	char	*string;
 	int		exported;
 }				t_internal_storage;
@@ -159,6 +160,7 @@ typedef struct		s_cmd {
 	t_file			*out;
 	struct s_cmd	*next;
 	int				assign;
+	t_list			*env;
 }					t_cmd;
 
 typedef struct	s_proc

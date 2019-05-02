@@ -56,6 +56,7 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 		if (exported != 1 && exported != 0)
 			exported = 0;
 		entry.exported = exported;
+		entry.tmp = 0;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
 			return (-1);
