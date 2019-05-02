@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:37:54 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 21:16:03 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -92,19 +92,16 @@ int				fc_file_exec(t_sh_state *sh_state, char *tmp_file)
 	return (0);
 }
 
-int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
+static int		fc_editor_exec(char *tmp ,t_sh_state *sh_state, t_fc_infos *fc_infos)
 {
-	char	*tmp;
-	char	*job;
 	t_cmd	*cmd;
-	int		i;
+	char	*job;
 	int		fd;
+	int		i;
 
 	if (!(cmd = ft_memalloc(sizeof(t_cmd))))
 		return (-1);
 	if (init_exec(sh_state, cmd, fc_infos) == -1)
-		return (-1);
-	if (!(tmp = tmp_file(sh_state)))
 		return (-1);
 	if ((fd = open(tmp, O_CREAT | O_WRONLY, HIST_PERM)) == -1)
 		return (-1);
@@ -114,10 +111,21 @@ int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 	i = exec_cmd_list(sh_state, cmd, job, NULL);
 	ft_strdel(&job);
 	close(fd);
+	return (0);
+}
+
+int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
+{
+	char	*tmp;
+
+	if (!(tmp = tmp_file(sh_state)))
+		return (-1);
+	if (!(fc_editor_exec(tmp, sh_state, fc_infos)))
+		return (-1);
 	fc_file_exec(sh_state, tmp);
 	unlink(tmp);
 	ft_strdel(&tmp);
-	if (i == -1 || sh_state->status != 0)
+	if (sh_state->status != 0)
 		return (-1);
 	return (fc_exit(fc_infos, 0));
 }

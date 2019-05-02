@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:31:23 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 21:52:39 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,7 +41,6 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 				fc_infos->last = get_history_index_rev(sh_state->history, fc_get_hist_num(sh_state, av[1]));
 		}
 	}
-	// TODO CHECK IF MORE THAN HISTSIZE
 	if (!sh_state->history || !sh_state->history->next)
 	{
 		free(fc_infos);
@@ -61,9 +60,16 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 	int			args_i;
 
 	(void)ac;
+	// TODO HISTORY CREATION LESS THAN $HISTSIZE
+	// TODO HISTORY IN SH_STATE
 	// FIX DE MERDE
 	sh_state->history = sh_state->input_data->history_list;
 	add_origin(&context->origin, "fc");
+	if (context->is_process)
+	{
+		print_error(context->origin, "no job control", 2);
+		return (1);
+	}
 	fc_infos = ft_memalloc(sizeof(t_fc_infos));
 	if (!(fc_infos->opts = ft_strnew(5)))
 		return (-1);
