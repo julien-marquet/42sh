@@ -13,7 +13,7 @@
 
 #include "builtins/builtin_test/builtin_test.h"
 
-int	make_binary_test(const char **av)
+int	make_binary_test(char **av)
 {
 	int	nbr1;
 	int nbr2;

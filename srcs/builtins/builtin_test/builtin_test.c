@@ -38,7 +38,7 @@ int			test_error(char *builtin, char *file, char *msg)
 	return (2);
 }
 
-int			check_args(const char **av)
+int			check_args(char **av)
 {
 	if (check_arg(av[0]) == 1)
 	{
@@ -53,15 +53,36 @@ int			check_args(const char **av)
 	return (0);
 }
 
+char		**arrdup(const char **av, int ac)
+{
+	size_t	i;
+	char	**args;
+
+	if ((args = malloc(sizeof(char *) * (ac + 1))) == NULL)
+		return (NULL);
+	i = 0;
+	while (ac > 0)
+	{
+		if ((*(args + i) = ft_strdup(*(av + i))) == NULL)
+			return (NULL);
+		i += 1;
+		ac -= 1;
+	}
+	*(args + i) = NULL;
+	return (args);
+}
+
 int			builtin_test(t_sh_state *sh_state, int ac,
 					const char **av, t_builtin_context *context)
 {
 	int				ret;
 	t_test_infos	infos;
+	char			**args;
 
 	infos.negate = 0;
-	infos.base_ac = av[0][0] == '[' ? ac - 1 : ac;
-	infos.is_last_builtin = ft_strcmp(av[ac - 1], "]") == 0 ? 1 : 0;
+	if ((args = arrdup(av, ac)) == NULL)
+		return (-1);
+	infos.base_ac = ft_strcmp(av[0], "[") == 0 ? ac - 1 : ac;
 	if (ft_strcmp("[", av[0]) == 0)
 	{
 		if (ft_strcmp("]", av[ac - 1]) != 0)
@@ -70,11 +91,12 @@ int			builtin_test(t_sh_state *sh_state, int ac,
 	}
 	if (ac == 1)
 		return (1);
-	if ((ret = make_test(&infos, av + 1, ac - 1)) == -1)
+	if ((ret = make_test(&infos, args + 1, ac - 1)) == -1)
 		return (-1);
 	if (ret == 2)
 		return (ret);
 	if (infos.negate)
 		ret = !ret;
+	ft_freetab(&args);
 	return (ret);
 }

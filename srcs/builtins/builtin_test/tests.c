@@ -14,21 +14,14 @@
 #include "builtins/builtin_test/builtin_test.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-static int	handle_negate(t_test_infos *infos, const char **av, int ac)
+static int	handle_negate(t_test_infos *infos, char **av, int ac)
 {
-	if (!infos->is_last_builtin)
-		ac -= 1;
-	if (((infos->base_ac == 3 || infos->base_ac == 4) &&
-		!infos->is_last_builtin) ||
-((infos->base_ac == 4 || infos->base_ac == 5) && infos->is_last_builtin))
+	if (infos->base_ac == 4 || infos->base_ac == 5)
 	{
 		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
 		NULL, "too many arguments"));
 	}
-	if (((infos->base_ac > 4 && ft_strcmp(av[1], "!") == 0) &&
-			infos->is_last_builtin) ||
-		((infos->base_ac > 3 && ft_strcmp(av[1], "!") == 0) &&
-			!infos->is_last_builtin))
+	if ((infos->base_ac > 4 && ft_strcmp(av[1], "!") == 0))
 	{
 		return (test_error((char *)((av - (infos->base_ac - ac))[0]),
 			NULL, "argument expected"));
@@ -36,7 +29,7 @@ static int	handle_negate(t_test_infos *infos, const char **av, int ac)
 	return (!(av[1][0] == '\0'));
 }
 
-static int	check_2args(t_test_infos *infos, const char **av, int ac)
+static int	check_2args(t_test_infos *infos, char **av, int ac)
 {
 	int		ret;
 
@@ -49,8 +42,7 @@ static int	check_2args(t_test_infos *infos, const char **av, int ac)
 		return (make_unary_test(av[0][1], av[1]));
 	else
 	{
-		if ((infos->base_ac > 3 && !infos->is_last_builtin) ||
-			(infos->base_ac > 4 && infos->is_last_builtin))
+		if (infos->base_ac > 4)
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
 							NULL, "too many arguments"));
 		else
@@ -60,7 +52,7 @@ static int	check_2args(t_test_infos *infos, const char **av, int ac)
 	return (0);
 }
 
-static int	check_3args(t_test_infos *infos, const char **av, int ac)
+static int	check_3args(t_test_infos *infos, char **av, int ac)
 {
 	if (is_binary_op(av[1]))
 		return (make_binary_test(av));
@@ -73,8 +65,7 @@ static int	check_3args(t_test_infos *infos, const char **av, int ac)
 		return (av[1][0] == '\0');
 	else
 	{
-		if ((infos->is_last_builtin && infos->base_ac > 5) ||
-			(!infos->is_last_builtin && infos->base_ac > 4))
+		if (infos->base_ac > 5)
 			return (test_error((char *)((av - (infos->base_ac - ac))[0]),
 			(char *)av[1], "too many arguments"));
 		else
@@ -84,11 +75,31 @@ static int	check_3args(t_test_infos *infos, const char **av, int ac)
 	return (0);
 }
 
-static int	check_more_args(t_test_infos *infos, const char **av, int ac)
+static char	**remove_negate(char **av)
 {
-	if (ft_strcmp("!", av[0]) == 0)
+	size_t	i;
+
+	free(av[1]);
+	i = 1;
+	while (av[i])
+	{
+		av[i] = av[i + 1];
+		i += 1;
+	}
+	return (av);
+}
+
+static int	check_more_args(t_test_infos *infos, char **av, int ac)
+{
+	if (ft_strcmp("!", av[0]) == 0 ||
+		(ft_strcmp("(", av[0]) == 0 && ft_strcmp("!", av[1]) == 0))
 	{
 		infos->negate = !infos->negate;
+		if (ft_strcmp("(", av[0]) == 0 && ft_strcmp("!", av[1]) == 0)
+		{
+			infos->base_ac -= 1;
+			return (make_test(infos, remove_negate(av), ac - 1));
+		}
 		return (make_test(infos, av + 1, ac - 1));
 	}
 	else
@@ -96,7 +107,7 @@ static int	check_more_args(t_test_infos *infos, const char **av, int ac)
 			NULL, "too many arguments"));
 }
 
-int			make_test(t_test_infos *infos, const char **av, int ac)
+int			make_test(t_test_infos *infos, char **av, int ac)
 {
 	int		ret;
 
