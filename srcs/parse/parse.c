@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 18:49:44 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 17:53:57 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -125,11 +125,21 @@ int				is_processable(t_cmd *cmd)
 	return (res);
 }
 
+void			cut_cmd(t_cmd *acmd, t_cmd *next_cmd)
+{
+	while (acmd && acmd->next != next_cmd)
+		acmd = acmd->next;
+	if (acmd)
+	{
+	//	dprintf(2, "last node = %s\n", acmd->str);
+		acmd->next = NULL;
+	}
+}
+
 int				parse_exec(char *line, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	t_cmd	*cmd;
-	t_cmd	*tmp;
 	char	*str;
 	int		i;
 	char	*job_name;
@@ -152,14 +162,8 @@ t_input_data *input_data)
 		i += parse_tokenize(str + i, &cmd);
 	ft_strdel(&str);
 	acmd = cmd;
-	while (cmd)
+	while (cmd && sh_state->exit_sig == 0)
 	{
-		if (sh_state->exit_sig != 0)
-		{
-			free_executed_cmds(acmd, tmp, NULL);
-			break ;
-		}
-		tmp = NULL;
 		if (parse_tokenparse(cmd, sh_state, input_data))
 		{
 			free_cmds(acmd);
@@ -168,22 +172,18 @@ t_input_data *input_data)
 		if (cmd->red == NULL || ft_strcmp(cmd->red, ";") == 0 ||
 	ft_strcmp(cmd->red, "&") == 0)
 		{
-			tmp = cmd->next;
-			if (create_redir_file(cmd) == 0)
-			{
-				job_name = create_job_name(acmd);
-				i = exec_cmd_list(sh_state, acmd, job_name, NULL);
-				ft_strdel(&job_name);
-				if (i == -1)
-					return (-1);
-			}
-			else
-				free_executed_cmds(acmd, tmp, NULL);
-			cmd = tmp;
+			cmd = cmd->next;
+			cut_cmd(acmd, cmd);
+			job_name = create_job_name(acmd);
+			i = exec_cmd_list(sh_state, acmd, job_name, NULL);
+			ft_strdel(&job_name);
+			if (i == -1)
+				return (-1);
 			acmd = cmd;
 		}
 		else
 			cmd = cmd->next;
 	}
+	free_cmds(acmd);
 	return (0);
 }

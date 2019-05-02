@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 16:09:54 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 15:27:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -166,7 +166,7 @@ int		handle_in(t_file *in, char *origin)
 	return (0);
 }
 
-int		create_redir_file(t_cmd *cmd)
+int		create_redir_files(t_cmd *acmd)
 {
 	int		err;
 	char	*dir_path;
@@ -175,38 +175,46 @@ int		create_redir_file(t_cmd *cmd)
 	char	*origin;
 
 	origin = NULL;
-	add_origin(&origin, NAME);
-	if (!cmd || !cmd->out || cmd->out->type[C_OUT] != -1 ||
-cmd->out->file == NULL)
-		return (0);
-	out = cmd->out;
-	if ((err = check_file_write(out->file)) != 0)
+	while (acmd != NULL)
 	{
-		if (err == 1)
+		if (acmd->out != NULL && acmd->out->type[C_OUT] == -1 &&
+	acmd->out->file != NULL)
 		{
-			if ((dir_path = get_parent_dir_path(out->file)) == NULL)
-				return (-1);
-			if ((err = check_dir_write(dir_path)) != 0)
+			out = acmd->out;
+			err = 0;
+			if ((err = check_file_write(out->file)) != 0)
 			{
-				err = err == -1 ? err : err - 1;
-				handle_path_exec_error(origin, out->file, err);
-				ft_strdel(&dir_path);
-				ft_strdel(&origin);
-				return (err);
+				if (err == 1)
+				{
+					if ((dir_path = get_parent_dir_path(out->file)) == NULL)
+						return (-1);
+					if ((err = check_dir_write(dir_path)) != 0)
+					{
+						err = err == -1 ? err : err - 1;
+						add_origin(&origin, NAME);
+						handle_path_exec_error(origin, out->file, err);
+						ft_strdel(&origin);
+					}
+					ft_strdel(&dir_path);
+				}
+				else
+				{
+					add_origin(&origin, NAME);
+					handle_path_exec_error(origin, out->file, err);
+					ft_strdel(&origin);
+				}
 			}
-			ft_strdel(&dir_path);
+			if (err == 0)
+			{
+				if ((fd = open(out->file, O_CREAT|O_NONBLOCK, 0666)) != -1)
+					close(fd);
+			}
 		}
-		else
-		{
-			handle_path_exec_error(origin, out->file, err);
-			ft_strdel(&origin);
-			return (err);
-		}
+		if (acmd->red != NULL && (ft_strcmp(acmd->red, "&&") == 0 ||
+	ft_strcmp(acmd->red, "||") == 0))
+			break ;
+		acmd = acmd->next;
 	}
-	ft_strdel(&origin);
-	if ((fd = open(out->file, O_CREAT|O_NONBLOCK, 0666)) == -1)
-		return (-1);
-	close(fd);
 	return (0);
 }
 

@@ -303,13 +303,16 @@ static char	*resolve(t_sh_state *state, char *path)
 		return (NULL);
 	if ((len = readlink(path, buf, _POSIX_PATH_MAX - 1)) == -1)
 		return (NULL);
-	free(path);
+	tmp = ft_strrchr(path, '/');
+	tmp[1] = '\0';
+	tmp = path;
 	buf[len] = '\0';
-	if ((tmp = ft_strdup(buf)) == NULL)
+	if ((path = ft_construct_str(3, path, buf, "/")) == NULL)
 		return (NULL);
-	if (make_path_absolute(state, &tmp) != 0)
+	free(tmp);
+	if (make_path_absolute(state, &path) != 0)
 		return (NULL);
-	return (tmp);
+	return (path);
 }
 
 static char	*rejoin_path(char **arr)

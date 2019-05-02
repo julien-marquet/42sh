@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:08 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 10:27:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 16:05:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,23 +37,17 @@ t_proc_grp *proc_grp, int err)
 	is_null = cmd_is_null((*cmd));
 	if (add_null_proc(proc_grp, (*cmd)->str, (*cmd)))
 		return (-1);
-	if (is_last((*cmd)) && proc_grp->background == 0)
+	if (is_last((*cmd)))
 	{
 		sh_state->status = 126;
 		if (err == 0)
 			sh_state->status = is_null && (*cmd)->assign == 1 ? 0 : 127;
-		if (count_true_procs(proc_grp) == 0)
-		{
-			if ((!is_null && (*cmd)->red &&
-		ft_strcmp((*cmd)->red, "&&") == 0))
-				return (move_to_next_valid_condition("||", cmd));
-			else if (is_null && (*cmd)->assign && (*cmd)->red &&
-		ft_strcmp((*cmd)->red, "||") == 0)
-				return (move_to_next_valid_condition("&&", cmd));
-			return (0);
-		}
-		send_to_fg(sh_state, proc_grp);
-		return (1);
+		if ((!is_null && (*cmd)->red &&
+	ft_strcmp((*cmd)->red, "&&") == 0))
+			return (move_to_next_valid_condition("||", cmd));
+		else if (is_null && (*cmd)->assign && (*cmd)->red &&
+	ft_strcmp((*cmd)->red, "||") == 0)
+			return (move_to_next_valid_condition("&&", cmd));
 	}
 	return (0);
 }
@@ -135,6 +129,8 @@ t_context *context)
 		return (handle_null_cmd(sh_state, cmd, context->proc_grp,
 	process_type));
 	}
+	else if (process_type == 2)
+		(*cmd)->next = NULL;
 	if (context->background == 0)
 	{
 		if (process_type == 2)

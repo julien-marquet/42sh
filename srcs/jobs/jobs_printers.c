@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:26:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 13:46:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 12:19:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,6 +29,7 @@ static int	print_pos(t_pos_info p_info, char **str)
 	(*str)[1 + ft_strlen(tmp)] = ']';
 	if (p_info.attribute != 0)
 		(*str)[2 + ft_strlen(tmp)] = p_info.attribute == 1 ? '+' : '-';
+	ft_strdel(&tmp);
 	return (ft_numlen_i(p_info.index) + 2 + (p_info.attribute != 0));
 }
 

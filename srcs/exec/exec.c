@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 11:27:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 16:01:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,19 +29,17 @@ t_cmd *cmd_list)
 	if (prec_grp == NULL)
 		context->background = is_background(cmd_list);
 	else
-	{
 		context->background = prec_grp->background;
-		prec_grp->revived = 1;
-	}
 	return (context);
 }
 
-t_proc_grp	*init_proc_grp(const char *name, int background)
+t_proc_grp	*init_proc_grp(const char *name, int background, int revived)
 {
 	t_proc_grp	*proc_grp;
 
 	if ((proc_grp = new_proc_grp(background, name)) == NULL)
 		return (NULL);
+	proc_grp->revived = revived;
 	add_proc_grp(proc_grp);
 	return (proc_grp);
 }
@@ -50,6 +48,13 @@ void	free_context(t_context **context)
 {
 	free(*context);
 	*context = NULL;
+}
+
+int		is_new_proc_grp(t_context *context)
+{
+	if (context->proc_grp != NULL && context->proc_grp->last_red != NULL)
+		return (0);
+	return (1);
 }
 
 /*
@@ -70,10 +75,15 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 	acmd = cmd_list;
 	while (cmd_list != NULL)
 	{
+		if (is_new_proc_grp(context))
+		{
+			if (create_redir_files(acmd) == -1)
+				return (-1);
+		}
 		if (context->proc_grp == NULL)
 		{
 			if ((context->proc_grp = init_proc_grp(job_name,
-		context->background)) == NULL)
+		context->background, !(prec_grp == NULL))) == NULL)
 			{
 				exec_res = -1;
 				break ;
@@ -103,7 +113,7 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 				display_last_bpgid(last_proc->pid, context->proc_grp);
 		}
 	}
-	free_executed_cmds(acmd, context->proc_grp->remaining, cmd_list);
+	free_cmds(acmd);
 	free_context(&context);
 	return (exec_res);
 }

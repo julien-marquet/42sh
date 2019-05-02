@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 06:04:50 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 16:05:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,7 +47,8 @@ t_builtin_context	*init_builtin_context(void)
 
 int			is_valid_as_function(t_cmd *cmd, t_context *context)
 {
-	if (cmd->red == NULL)
+	if (cmd->red == NULL || ft_strcmp("&&", cmd->red) == 0 ||
+ft_strcmp("||", cmd->red) == 0)
 	{
 		if (context->proc_grp->last_red == NULL ||
 	ft_strcmp(context->proc_grp->last_red, "|") != 0)

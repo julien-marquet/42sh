@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 07:48:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 15:53:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,6 +28,12 @@ int		prepare_input(t_input_data *input_data, const char *here_doc)
 PROMPT_MULTI : PROMPT_SIMPLE);
 	input_data->rel_cur_pos = 0;
 	return (0);
+}
+
+void	remove_escaped(t_dyn_buf *dyn_buf)
+{
+	dyn_buf->buf[dyn_buf->len - 2] = '\0';
+	dyn_buf->len -= 2;
 }
 
 int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
@@ -55,6 +61,10 @@ int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
 	}
 	if (output_is_ready(input_data->active_buf, valid_here_doc) == false)
 	{
+		if (input_data->active_buf->len > 0 &&
+	is_escaped(input_data->active_buf->buf,
+	input_data->active_buf->len - 1))
+			remove_escaped(input_data->active_buf);
 		ft_swap((void **)(&(input_data->active_buf)),
 	(void **)(&(input_data->stored_buf)));
 		if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)

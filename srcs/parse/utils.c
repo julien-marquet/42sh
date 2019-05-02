@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   utils.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/04 19:40:53 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/13 16:43:58 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 16:24:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,21 +15,29 @@
 
 char	*strndup_qr(char *str, size_t len)
 {
-	int	i;
+	int		i;
+	int		state;
 
 	i = 0;
+	state = QUOTE_NONE;
 	str = ft_strndup(str, len);
 	while (str[i])
 	{
 		if (str[i] == '\\')
+			ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
+		else if (str[i] == '\"' && state != QUOTE_SIMPLE)
 		{
+			state = state == QUOTE_NONE ? QUOTE_DOUBLE : QUOTE_NONE;
 			ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
-			i++;
+			continue ;
 		}
-		else if (str[i] == '"' || str[i] == '\'')
+		else if (str[i] == '\'' && state != QUOTE_DOUBLE)
+		{
+			state = state == QUOTE_NONE ? QUOTE_SIMPLE : QUOTE_NONE;
 			ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
-		else
-			i++;
+			continue ;
+		}
+		i++;
 	}
 	return (str);
 }

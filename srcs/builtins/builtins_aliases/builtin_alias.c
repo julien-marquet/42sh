@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:13:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:55:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/30 15:18:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,7 @@ t_builtin_context *context)
 	}
 }
 
-static int	assign_alias(t_list **aliases, const char *str)
+static int	assign_alias(t_list **aliases, const char *str, char **origin)
 {
 	char	*name;
 	char	*value;
@@ -56,7 +56,11 @@ static int	assign_alias(t_list **aliases, const char *str)
 ft_strlen(str) - ft_strlen(value) - 1)) == NULL)
 		return (1);
 	if (add_alias(aliases, name, value) == 1)
+	{
+		add_origin(origin, name);
+		print_error(*origin, "invalid alias name", 2);
 		return (1);
+	}
 	free(value);
 	free(name);
 	return (0);
@@ -79,8 +83,8 @@ t_builtin_context *context)
 			res = 1;
 		else if (i == 0)
 		{
-			print_error(context->origin, "usage: alias [-p] [name[=value] ... ]",
-		2);
+			print_error(context->origin,
+		"usage: alias [-p] [name[=value] ... ]", 2);
 			res = 1;
 		}
 		else
@@ -89,12 +93,14 @@ t_builtin_context *context)
 				print_aliases(sh_state->aliases, 1);
 			while (i < ac)
 			{
-				if (ft_strchr(av[i], '=') == NULL)
+				if (ft_strchr(av[i], '=') == av[i] ||
+			ft_strchr(av[i], '=') == NULL)
 					res |= print_alias(sh_state->aliases, av[i], context);
 				else
 				{
-					if (assign_alias(&sh_state->aliases, av[i]) == 1)
-						return (1);
+					if (assign_alias(&sh_state->aliases, av[i],
+				&context->origin) == 1)
+						res = 1;
 				}
 				i++;
 			}
