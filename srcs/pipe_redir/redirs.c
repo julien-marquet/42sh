@@ -254,8 +254,7 @@ int		handle_file_out(t_file *out, char *origin)
 		}
 	}
 	open_flags = O_WRONLY;
-	if (out->type[C_LEN] == 2)
-		open_flags |= O_APPEND;
+	open_flags |= out->type[C_LEN] == 2 ? O_APPEND : O_TRUNC;
 	if ((fd = open(out->file, open_flags)) == -1)
 		return (-1);
 	dup2(fd, out->type[C_IN]);
