@@ -140,7 +140,7 @@ int			complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 		pointer += 1;
 	}
 	lstmerge(&files, get_files(NULL, word, *word == '$' ?
-	CHK_BUILTINS & CHK_VARS : CHK_BUILTINS, sh_state->internal_storage, files));
+	CHK_BUILTINS | CHK_VARS : CHK_BUILTINS, sh_state->internal_storage, files));
 	find_in_dir(files, input, word, sh_state);
 	ft_freetab(&paths);
 	return (0);
