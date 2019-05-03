@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 21:53:13 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 14:10:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -257,7 +257,8 @@ int		handle_file_out(t_file *out, char *origin)
 	open_flags |= out->type[C_LEN] == 2 ? O_APPEND : O_TRUNC;
 	if ((fd = open(out->file, open_flags)) == -1)
 		return (-1);
-	dup2(fd, out->type[C_IN]);
+	if (out->type[C_IN] <= 2)
+		dup2(fd, out->type[C_IN]);
 	close(fd);
 	return (0);
 }

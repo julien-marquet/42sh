@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 22:05:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 14:13:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,7 +70,7 @@ t_builtin_func builtin, t_context *context)
 	std_state[1] = dup(1);
 	std_state[2] = dup(2);
 	if ((err = handle_redir(cmd, context->builtin_context->origin)) != 0)
-		exit(err);
+		return (err);
 	context->builtin_context->is_process = 0;
 	if (update_builtin_env(&(sh_state->internal_storage), cmd->env) == -1)
 		return (1);
