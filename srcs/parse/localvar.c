@@ -63,7 +63,7 @@ static int	is_tmp(char *str)
 		if (is_stopping(str[i]) && str[i] != ' ' &&
 	(i == 0 || (i > 0 && stresc(str, str, i) != NULL)))
 			return (is_tmp);
-		if (str[i] != ' ')
+		if (str[i] != ' ' && str[i] != '\n')
 		{
 			if ((ret = is_var(&(str[i]))) == -1)
 				return (-1);
