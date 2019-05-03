@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 21:52:39 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 00:40:47 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,14 +21,12 @@ int				fc_exit(t_fc_infos *fc_infos, int ret)
 	return (ret);
 }
 
-static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos, t_builtin_context *context)
+static void		fc_range(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos)
 {
-	int i;
-
-	i = 0;
 	if (av[0])
 	{
 		fc_infos->first = get_history_index_rev(sh_state->history, fc_get_hist_num(sh_state, av[0]));
+		fc_infos->is_set++;
 		if (av[1])
 		{
 			if (fc_get_hist_num(sh_state, av[0]) > fc_get_hist_num(sh_state, av[1]))
@@ -39,8 +37,17 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 			}
 			else
 				fc_infos->last = get_history_index_rev(sh_state->history, fc_get_hist_num(sh_state, av[1]));
+			fc_infos->is_set++;
 		}
 	}
+}
+
+static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos, t_builtin_context *context)
+{
+	int i;
+
+	i = 0;
+	fc_range(sh_state, av, fc_infos);
 	if (!sh_state->history || !sh_state->history->next)
 	{
 		free(fc_infos);
@@ -60,6 +67,8 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 	int			args_i;
 
 	(void)ac;
+	// TODO HANDLE -s REPLACE AND EXEC
+	// TODO REMOVE FC FROM HISTORY AND ADD NEW TO IT
 	// TODO HISTORY CREATION LESS THAN $HISTSIZE
 	// TODO HISTORY IN SH_STATE
 	// FIX DE MERDE

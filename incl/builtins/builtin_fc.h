@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 21:52:44 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 00:30:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,6 +28,7 @@ typedef	struct	s_fc_infos
 	char		*editor;
 	t_list		*first;
 	t_list		*last;
+	int			is_set;
 }				t_fc_infos;
 
 /*
