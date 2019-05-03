@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 17:01:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 17:14:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -177,7 +177,7 @@ void	handle_process_update(void)
 			if (proc->status == stopped)
 				proc_grp->background = 1;
 			if (proc->updated && proc_grp->remaining == NULL &&
-		proc_grp->background == 1)
+		proc_grp->background == 1 && (proc->pid == pid || proc->null == 1))
 				display_job_alert(proc_grp, proc);
 			if (proc->status != stopped && proc->pid == pid &&
 		proc_grp->remaining != NULL && proc_grp->background == 1)
