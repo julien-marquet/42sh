@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 15:17:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 17:01:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,8 @@ void	convert_stat_loc(int stat_loc, t_proc *proc)
 		proc->status = exited;
 		proc->code = WEXITSTATUS(stat_loc);
 	}
+	else if (WIFCONTINUED(stat_loc))
+		proc->status = running;
 	else if (WIFSTOPPED(stat_loc))
 		proc->status = stopped;
 	else if (WIFSIGNALED(stat_loc))
@@ -27,8 +29,7 @@ void	convert_stat_loc(int stat_loc, t_proc *proc)
 		proc->status = signaled;
 		proc->code = WTERMSIG(stat_loc);
 	}
-	else if (WIFCONTINUED(stat_loc))
-		proc->status = running;
+
 }
 
 t_proc_grp	*update_proc_status(t_jobs *jobs, int pid, int stat_loc)
@@ -47,8 +48,6 @@ t_proc_grp	*update_proc_status(t_jobs *jobs, int pid, int stat_loc)
 			if (proc->pid == pid)
 			{
 				convert_stat_loc(stat_loc, proc);
-				if (proc->status == stopped)
-					((t_proc_grp *)tmp->content)->background = 1;
 				proc->updated = 1;
 				return ((t_proc_grp *)tmp->content);
 			}
@@ -135,10 +134,8 @@ void	wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
 	while (1)
 	{
 		if (*child_updated == 0)
-		{
-			pause();
-		}
-		*child_updated = 1;
+			sleep(2);
+		*child_updated = 0;
 		if ((last_proc = get_last_proc_all(proc_grp)) != NULL)
 		{
 			if (last_proc->updated == 1)
@@ -166,13 +163,19 @@ void	handle_process_update(void)
 	t_jobs		*jobs;
 	t_proc_grp	*proc_grp;
 	t_proc		*proc;
+	int			background_init;
+	int		*child_updated;
 
+	child_updated = super_get_sigchld_flag();
 	jobs = jobs_super_get(NULL);
 	if ((pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED)) > 0)
 	{
 		if ((proc_grp = update_proc_status(jobs, pid,
 	stat_loc)) != NULL && (proc = get_last_proc_all(proc_grp)) != NULL)
 		{
+			background_init = proc_grp->background;
+			if (proc->status == stopped)
+				proc_grp->background = 1;
 			if (proc->updated && proc_grp->remaining == NULL &&
 		proc_grp->background == 1)
 				display_job_alert(proc_grp, proc);
@@ -182,6 +185,8 @@ void	handle_process_update(void)
 				check_revive_process_group(jobs->sh_state,
 				proc_grp, proc);
 			}
+			if (background_init == 0)
+				*child_updated = 1;
 		}
 	}
 }
