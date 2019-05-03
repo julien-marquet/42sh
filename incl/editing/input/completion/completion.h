@@ -24,16 +24,16 @@ char	*handle_expand(char *word, t_sh_state *sh_state);
 int		handle_completion(t_input_data *input, t_sh_state *sh_state);
 
 size_t	get_var_name_length(char *str);
-char	*get_path(t_input_data *input, size_t get_all);
+char	*get_path(t_input_data *input, size_t get_all, t_sh_state *state);
 t_list	*get_files(char *path, char *needle, int flags, t_list *internal_storage, t_list *files_list);
 int		get_vars(t_list **files, t_list *storage, char *needle);
 char	*get_current_word(t_input_data *input, t_sh_state *sh_state);
 
 int		complete_arg(t_input_data *input, char *word, t_sh_state *state);
 int		complete_bin(char *word, t_sh_state *sh_state, t_input_data *input);
-int		complete_word(t_input_data *input, char *completed, size_t add_slash);
+int		complete_word(t_input_data *input, char *completed, size_t add_slash, t_sh_state *state);
 
-int		find_in_dir(t_list *files, t_input_data *input, char *needle);
+int		find_in_dir(t_list *files, t_input_data *input, char *needle, t_sh_state *state);
 
 int		free_exit(t_list *files, char *str);
 #endif

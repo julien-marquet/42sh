@@ -65,7 +65,7 @@ char			*dup_path(t_input_data *input,
 	return (tmp);
 }
 
-char			*get_path(t_input_data *input, size_t get_all)
+char			*get_path(t_input_data *input, size_t get_all, t_sh_state *state)
 {
 	char	old;
 	char	old2;
@@ -89,7 +89,9 @@ char			*get_path(t_input_data *input, size_t get_all)
 		}
 		pointer -= 1;
 	}
-	return (dup_path(input, pointer, old, old2));
+	if ((pointer = dup_path(input, pointer, old, old2)) == NULL)
+		return (NULL);
+	return (handle_expand(pointer, state));
 }
 
 char			*get_current_word(t_input_data *input, t_sh_state *sh_state)
