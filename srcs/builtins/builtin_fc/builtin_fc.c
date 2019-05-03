@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 05:05:33 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 17:36:27 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,7 +70,6 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 
 	(void)ac;
 	// TODO `fc -e exit`
-	// TODO HANDLE -s REPLACE AND EXEC
 	// TODO REMOVE FC FROM HISTORY AND ADD NEW TO IT
 	// TODO HISTORY CREATION LESS THAN $HISTSIZE
 	// TODO HISTORY IN SH_STATE
