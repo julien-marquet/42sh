@@ -42,6 +42,8 @@ void *sh_info[2])
 		if (((t_input_data*)sh_info[1])->sig_call == 1)
 		{
 			ft_strdel(&file);
+			free(new);
+			free(type);
 			return (1);
 		}
 		if (!(new->here = get_expand_str(
