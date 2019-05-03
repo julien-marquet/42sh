@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 20:32:20 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 23:25:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -202,7 +202,10 @@ int start, t_builtin_context *context)
 	&av[new_start], context)) == NULL)
 			res = &av[new_start] != NULL;
 		else
+		{
 			res = execute_binary(sh_state, &sp_context, av);
+			ft_strdel(&sp_context.path);
+		}
 		free_arr(sp_context.env);
 	}
 	return (res);
