@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   input_call_history.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:01:37 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 07:39:08 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 23:29:58 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,11 +47,11 @@ int		free_hist_copy(t_list **hist_copy, int res)
 	return (res);
 }
 
-int		dup_history(t_input_data *input_data, t_list **hist_copy)
+int		dup_history(t_sh_state *sh_state, t_list **hist_copy)
 {
-	if (input_data->history_list != NULL)
+	if (sh_state->history != NULL)
 	{
-		if ((*hist_copy = ft_lstdup(input_data->history_list)) == NULL)
+		if ((*hist_copy = ft_lstdup(sh_state->history)) == NULL)
 			return (1);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 18:37:39 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 23:55:38 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,7 +57,6 @@ typedef struct	s_input_data
 	t_dyn_buf		*stored_buf;
 	t_dyn_buf		*initial_buf;
 	char			*clipboard;
-	t_list			*history_list;
 	size_t			rel_cur_pos;
 	size_t			processed_chars;
 	t_cur_abs_pos	*start_pos;
