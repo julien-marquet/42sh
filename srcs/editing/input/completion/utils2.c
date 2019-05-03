@@ -61,6 +61,8 @@ size_t	vars_match(t_list *storage, char *needle)
 	size_t	i;
 
 	i = 0;
+	if (ft_strlen(needle) == 0)
+		return (0);
 	needle = ft_strncmp(needle, "${", 2) == 0 ? needle + 2 : needle + 1;
 	while (storage != NULL)
 	{
