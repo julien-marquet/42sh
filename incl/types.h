@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 11:47:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 13:28:38 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -75,6 +75,7 @@ typedef struct	s_input_data
 	size_t			processed_chars;
 	t_cur_abs_pos	*start_pos;
 	int				enter;
+	char			*here_doc;
 	size_t			sig_call;
 }				t_input_data;
 
