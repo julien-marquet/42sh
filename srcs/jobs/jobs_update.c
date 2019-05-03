@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 19:06:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 15:17:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -129,11 +129,16 @@ void	wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
 {
 	t_proc	*last_proc;
 	t_jobs	*jobs;
-
+	int		*child_updated;
 	jobs = jobs_super_get(NULL);
+	child_updated = super_get_sigchld_flag();
 	while (1)
 	{
-		pause();
+		if (*child_updated == 0)
+		{
+			pause();
+		}
+		*child_updated = 1;
 		if ((last_proc = get_last_proc_all(proc_grp)) != NULL)
 		{
 			if (last_proc->updated == 1)

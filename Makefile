@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/04/30 10:02:56 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/03 15:03:48 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -57,7 +57,7 @@ CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
 CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
-CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
+CFILES += $(addprefix jobs/, child_updated_flag.c jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
 CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_setters.c)
 CFILES += $(addprefix exec/, exec.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c )
@@ -89,7 +89,7 @@ TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_a
 TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
 TMPFILES += $(addprefix builtins/builtins_jobs/, builtin_bg.h builtin_fg.h builtins_jobs.h builtin_jobs.h)
 TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
-TMPFILES += $(addprefix jobs/, jobs_printers.h jobs.h jobs_controls.h jobs_display.h jobs_flush.h jobs_super.h jobs_update.h)
+TMPFILES += $(addprefix jobs/, child_updated_flag.h jobs_printers.h jobs.h jobs_controls.h jobs_display.h jobs_flush.h jobs_super.h jobs_update.h)
 TMPFILES += $(addprefix jobs/jobs_procs/, jobs_procs.h jobs_procs_getters.h jobs_procs_setters.h)
 TMPFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps.h jobs_proc_grps_getters.h jobs_proc_grps_setters.h)
 TMPFILES += $(addprefix exec/, exec.h exec_utils.h exec_binary.h exec_dispatcher.h exec_by_flag.h exec_cmd_checkers.h)
@@ -105,7 +105,7 @@ LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
 CC := $(shell whereis gcc)
 AR := $(shell whereis ar)
 RM := $(shell whereis rm)
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 P_FLAGS = -lcurses
 
 export CC
