@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 03:39:42 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 23:17:46 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,7 +85,8 @@ int				fc_file_exec(t_sh_state *sh_state, char *tmp_file)
 		if (insert_dyn_buf(buf, dyn, dyn->len) != 0)
 			return (-1);
 	}
-	cmd = hist_str2list(dyn->buf);
+	if (!(cmd = hist_str2list(dyn->buf)))
+		return (0);
 	fc_exec_cmd(sh_state, cmd);
 	free_dyn_buf(&dyn);
 	return (0);

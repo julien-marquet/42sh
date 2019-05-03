@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:52:11 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 18:22:34 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 17:43:07 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,7 +50,8 @@ t_list		*hist_str2list(char *str)
 		is_quoted(str, i)))
 			str[i] ? i++ : 0;
 		if (str[i] == '\n' || str[i] == 0)
-			args = hist_list_add(args, str + start, i - start);
+			if (!(args = hist_list_add(args, str + start, i - start)))
+				return (NULL);
 		str[i] ? i++ : 0;
 	}
 	return (args);
