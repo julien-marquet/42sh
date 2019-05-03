@@ -1,0 +1,42 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+add_brace	completion.c	/^static int	add_brace(char **completed)$/;"	f	file:
+complete_arg	completion.c	/^int			complete_arg(t_input_data *input, char *word, t_sh_state *state)$/;"	f
+complete_arg_word	completion.c	/^static int	complete_arg_word(t_input_data *input,$/;"	f	file:
+complete_bin	completion.c	/^int			complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)$/;"	f
+complete_word	completion.c	/^int			complete_word(t_input_data *input,$/;"	f
+delete_completed	utils2.c	/^int		delete_completed(t_input_data *input)$/;"	f
+dup_path	getters.c	/^char			*dup_path(t_input_data *input,$/;"	f
+fill_list	getters2.c	/^static int	fill_list(t_list **files, DIR *dir, char *needle, t_list *files_list)$/;"	f	file:
+find_in_dir	treate.c	/^int			find_in_dir(t_list *files, t_input_data *input, char *needle)$/;"	f
+free_exit	errors.c	/^int		free_exit(t_list *files, char *str)$/;"	f
+get_builtins	getters2.c	/^static int			get_builtins(t_list **files, char *needle, t_list *files_list)$/;"	f	file:
+get_completion	treate.c	/^static char	*get_completion(t_list *files)$/;"	f	file:
+get_current_word	getters.c	/^char			*get_current_word(t_input_data *input, t_sh_state *sh_state)$/;"	f
+get_files	getters2.c	/^t_list		*get_files(char *path, char *needle,$/;"	f
+get_path	getters.c	/^char			*get_path(t_input_data *input, size_t get_all)$/;"	f
+get_var_name_length	getters.c	/^size_t			get_var_name_length(char *str)$/;"	f
+get_vars	getters2.c	/^int			get_vars(t_list **files, t_list *storage, char *needle)$/;"	f
+half_complete	treate.c	/^static int	half_complete(t_list *files, t_input_data *input, char *needle)$/;"	f	file:
+handle_completion	handlers.c	/^int				handle_completion(t_input_data *input, t_sh_state *sh_state)$/;"	f
+handle_completion_type	handlers.c	/^static int		handle_completion_type(t_input_data *input,$/;"	f	file:
+handle_expand	handlers.c	/^char			*handle_expand(char *word, t_sh_state *sh_state)$/;"	f
+handle_quotes	handlers.c	/^char			*handle_quotes(char *word)$/;"	f
+is_closed	utils.c	/^size_t			is_closed(char *str, char *base)$/;"	f
+is_dir	utils.c	/^size_t			is_dir(char *path)$/;"	f
+is_dup	getters2.c	/^static int	is_dup(t_list *files, const char *name)$/;"	f	file:
+is_path	utils2.c	/^size_t	is_path(const char *word)$/;"	f
+is_quoting	handlers.c	/^static size_t	is_quoting(char **tmp, size_t *quoting, char *trimmed)$/;"	f	file:
+is_reversed_closed	utils.c	/^static size_t	is_reversed_closed(char *str, char *base)$/;"	f	file:
+is_stopping	utils.c	/^size_t			is_stopping(char str)$/;"	f
+lstfree	lst_utils.c	/^int		lstfree(t_list *list)$/;"	f
+lstmerge	lst_utils.c	/^void	lstmerge(t_list **list1, t_list *list2)$/;"	f
+print_files	treate.c	/^static int	print_files(t_list *files, t_input_data *input)$/;"	f	file:
+should_stop	getters.c	/^static size_t	should_stop(t_input_data *input, char **pointer, size_t *i)$/;"	f	file:
+trim	utils.c	/^char			*trim(char *str)$/;"	f
+vars_match	utils2.c	/^size_t	vars_match(t_list *storage, char *needle)$/;"	f
+write_file	treate.c	/^static void	write_file(char *file)$/;"	f	file:

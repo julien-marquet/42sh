@@ -75,7 +75,7 @@ static int	print_files(t_list *files, t_input_data *input)
 	return (0);
 }
 
-static int	half_complete(t_list *files, t_input_data *input, char *needle)
+static int	half_complete(t_list *files, t_input_data *input, char *needle, t_sh_state *state)
 {
 	char			*tmp;
 
@@ -87,7 +87,7 @@ static int	half_complete(t_list *files, t_input_data *input, char *needle)
 		needle += 1;
 	if (ft_strcmp(needle, tmp) != 0)
 	{
-		if (complete_word(input, tmp, 0) == 1)
+		if (complete_word(input, tmp, 0, state) == 1)
 		{
 			free(tmp);
 			return (1);
@@ -102,18 +102,33 @@ static int	half_complete(t_list *files, t_input_data *input, char *needle)
 	return (0);
 }
 
-int			find_in_dir(t_list *files, t_input_data *input, char *needle)
+int			find_in_dir(t_list *files, t_input_data *input, char *needle, t_sh_state *state)
 {
+	char	*path;
+
 	if (files == NULL)
+	{
+		if ((path = get_path(input, 1, state)) == NULL)
+			return (1);
+		if (is_dir(path))
+		{
+			if (insert_dyn_buf("/", input->active_buf,
+				input->rel_cur_pos) == 1)
+				return (1);
+			if (insertn_chars(input, "/", 1, 0) == 1)
+				return (1);
+		}
+		free(path);
 		return (0);
+	}
 	if (files->next == NULL)
 	{
-		if (complete_word(input, ft_strdup(files->content), 1) == 1)
+		if (complete_word(input, ft_strdup(files->content), 1, state) == 1)
 			return (1);
 	}
 	else
 	{
-		if (half_complete(files, input, needle) == -1)
+		if (half_complete(files, input, needle, state) == -1)
 			return (1);
 	}
 	lstfree(files);

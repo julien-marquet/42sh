@@ -14,7 +14,18 @@
 #include "editing/input/completion/completion.h"
 #include "editing/input/input_action_handlers.h"
 
-int			get_builtins(t_list **files, char *needle)
+static int	is_dup(t_list *files, const char *name)
+{
+	while (files != NULL)
+	{
+		if (ft_strcmp(files->content, name) == 0)
+			return (1);
+		files = files->next;
+	}
+	return (0);
+}
+
+static int			get_builtins(t_list **files, char *needle, t_list *files_list)
 {
 	size_t		i;
 	size_t		len;
@@ -26,7 +37,8 @@ int			get_builtins(t_list **files, char *needle)
 	len = ft_strlen(needle);
 	while (i < BUILTINS_NB)
 	{
-		if (ft_strncmp(builtins[i], needle, len) == 0)
+		if (ft_strncmp(builtins[i], needle, len) == 0 &&
+			!is_dup(files_list, builtins[i]))
 		{
 			if ((link =
 		ft_lstnew(builtins[i], ft_strlen(builtins[i]) + 1)) == NULL)
@@ -72,7 +84,7 @@ int			get_vars(t_list **files, t_list *storage, char *needle)
 	return (0);
 }
 
-static int	fill_list(t_list **files, DIR *dir, char *needle)
+static int	fill_list(t_list **files, DIR *dir, char *needle, t_list *files_list)
 {
 	size_t			len;
 	t_list			*link;
@@ -83,8 +95,8 @@ static int	fill_list(t_list **files, DIR *dir, char *needle)
 	{
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
-			if ((ft_strcmp(entry->d_name, ".") == 0 ||
-			ft_strcmp(entry->d_name, "..") == 0) && ft_strcmp(needle, ".") != 0)
+			if (is_dup(files_list, entry->d_name) || ((ft_strcmp(entry->d_name, ".") == 0 ||
+			ft_strcmp(entry->d_name, "..") == 0) && ft_strcmp(needle, ".") != 0))
 				continue ;
 			if ((link =
 				ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
@@ -99,13 +111,13 @@ static int	fill_list(t_list **files, DIR *dir, char *needle)
 }
 
 t_list		*get_files(char *path, char *needle,
-	int flags, t_list *internal_storage)
+	int flags, t_list *internal_storage, t_list *files_list)
 {
 	DIR		*dir;
 	t_list	*files;
 
 	files = NULL;
-	if (flags & CHK_BUILTINS && get_builtins(&files, needle) == 1)
+	if (flags & CHK_BUILTINS && get_builtins(&files, needle, files_list) == 1)
 		return (NULL);
 	if (flags & CHK_VARS && get_vars(&files, internal_storage, needle) == 1)
 		return (NULL);
@@ -113,7 +125,7 @@ t_list		*get_files(char *path, char *needle,
 		return (files);
 	if ((dir = opendir(path)) == NULL)
 		return (NULL);
-	if (fill_list(&files, dir, needle) == 1)
+	if (fill_list(&files, dir, needle, files_list) == 1)
 		return (NULL);
 	closedir(dir);
 	return (files);
