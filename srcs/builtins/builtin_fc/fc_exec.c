@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 02:04:40 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 03:39:42 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -106,7 +106,8 @@ static int		fc_editor_exec(char *tmp, t_sh_state *sh_state, t_fc_infos *fc_infos
 		return (1);
 	if (fc_print(sh_state->history, fc_infos, fd))
 		return (1);
-	job = ft_strdup("fc -e");
+	if (!(job = ft_strdup("fc -e")))
+		return (1);
 	i = exec_cmd_list(sh_state, cmd, job, NULL);
 	ft_strdel(&job);
 	close(fd);

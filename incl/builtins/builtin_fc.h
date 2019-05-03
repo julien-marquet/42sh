@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 00:30:21 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 05:04:48 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,10 +25,13 @@
 typedef	struct	s_fc_infos
 {
 	char		*opts;
+	char		*pat;
+	char		*rep;
 	char		*editor;
 	t_list		*first;
 	t_list		*last;
 	int			is_set;
+	int			replace;
 }				t_fc_infos;
 
 /*
@@ -50,6 +53,7 @@ int				fc_exit(t_fc_infos *fc_infos, int ret);
 */
 
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos);
+int				fc_replace_exec(t_sh_state *sh_state, t_fc_infos *fc_infos);
 int				fc_print(t_list *hist, t_fc_infos *fc_infos, int fd);
 int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
 				t_builtin_context *context);

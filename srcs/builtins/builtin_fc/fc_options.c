@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 17:09:36 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 05:05:20 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,12 +25,31 @@ static int	is_builtin_option(const char *str)
 	return (str && str[0] == '-' && str[1] != '\0' && digit == 0);
 }
 
+static int	fc_option_s(const char **av, t_fc_infos *fc_infos, int i)
+{
+	size_t	len;
+
+	len = 0;
+	fc_infos->replace = 1;
+	if (av[i] != NULL && ft_strchr(av[i], '='))
+	{
+		ft_strdel(&fc_infos->pat);
+		ft_strdel(&fc_infos->rep);
+		while (av[i][len] && av[i][len] != '=')
+			len++;
+		if (!(fc_infos->pat = ft_strndup(av[i], len)))
+			return (-1);
+		if (!(fc_infos->rep = ft_strdup(av[i] + len + 1)))
+			return (-1);
+	}
+	return (i);
+}
+
 static int	fc_option_e(const char **av, t_fc_infos *fc_infos, int i, t_builtin_context *context)
 {
-	if (av[++i] != NULL)
+	if (av[i] != NULL)
 	{
-		if (fc_infos->editor != NULL)
-			ft_strdel(&fc_infos->editor);
+		ft_strdel(&fc_infos->editor);
 		if (!(fc_infos->editor = ft_strdup(av[i])))
 			return (-1);
 	}
@@ -61,7 +80,12 @@ int         fc_options(const char **av, t_fc_infos *fc_infos, t_builtin_context 
 	{
 		if (ft_strcmp("-e", av[i]) == 0)
 		{
-			if ((i = fc_option_e(av, fc_infos, i, context)) <= 0)
+			if ((i = fc_option_e(av, fc_infos, i + 1, context)) <= 0)
+				return (i);
+		}
+		else if (ft_strcmp("-s", av[i]) == 0)
+		{
+			if ((i = fc_option_s(av, fc_infos, i + 1)) <= 0)
 				return (i);
 		}
 		else
@@ -69,7 +93,7 @@ int         fc_options(const char **av, t_fc_infos *fc_infos, t_builtin_context 
 			j = 1;
 			while (av[i][j])
 			{
-				if (ft_strchr("lnrs", av[i][j]))
+				if (ft_strchr("lnr", av[i][j]))
 					add_valid(fc_infos, av[i][j++]);
 				else
 					return (0);

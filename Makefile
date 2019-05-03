@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/02 17:56:14 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/03 04:55:31 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -57,7 +57,7 @@ CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalia
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
 CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c)
-CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_print.c fc_options.c fc_utils.c fc_exec.c)
+CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_print.c fc_options.c fc_utils.c fc_exec.c fc_replace_exec.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
 CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)
