@@ -127,7 +127,7 @@ int			complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 
 	if (is_path(word))
 		return (complete_arg(input, word, sh_state));
-	if ((tmp = get_env_value(sh_state->internal_storage, "PATH")) == NULL)
+	if ((tmp = get_var(sh_state->internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (1);

@@ -79,7 +79,7 @@ char			*append_bin(const char *bin, t_list **table,
 	char	**paths;
 
 	*error = 4;
-	if ((tmp = get_env_value(internal_storage, "PATH")) == NULL)
+	if ((tmp = get_var(internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
@@ -115,7 +115,6 @@ char			*get_bin_path(const char **av, t_list **table,
 			if (*error == 0)
 				return (path);
 		}
-		dprintf(2, "Error: %i\n", *error);
 		return (NULL);
 	}
 	((t_hash_table *)pointer->content)->hits += 1;
