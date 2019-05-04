@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 14:13:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:16:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,8 +45,11 @@ t_builtin_func builtin, t_context *context)
 			exit(err);
 		else
 		{
+			if (update_builtin_env(&(sh_state->internal_storage), cmd->env) == -1)
+				return (1);
 			res = builtin(sh_state,
 		ft_arraylen((const void **)arg), arg, builtin_context);
+			remove_tmp_env(&(sh_state->internal_storage));
 			exit(res);
 		}
 	}
