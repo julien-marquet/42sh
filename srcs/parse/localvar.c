@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:43:22 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/21 02:27:09 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 15:44:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -120,7 +120,7 @@ static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
 	i = 0;
 	while ((ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=') && i < len)
 	{
-		if (stresc("=", str, i))
+		if (stresc("=", str, i) && str[0] != '=')
 		{
 			cmd->env = NULL;
 			cmd->assign = 1;

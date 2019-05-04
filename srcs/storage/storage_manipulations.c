@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 06:17:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 15:36:49 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 int	is_valid_var_name(const char *name)
 {
-	if (!name)
+	if (!name || ft_strlen(name) == 0)
 		return (0);
 	while (*name != '\0')
 	{
