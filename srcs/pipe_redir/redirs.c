@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 14:10:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 19:49:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -122,10 +122,9 @@ void	handle_fd_error(t_file *in, char *origin)
 
 int		handle_signal(t_file *file)
 {
-
 	if (file->type[C_OUT] >= 0)
 	{
-		if (file->type[C_IN] > 2)
+		if (file->type[C_OUT] > 2)
 			return (1);
 		if (dup2(file->type[C_OUT], file->type[C_IN]) == -1)
 			return (1);
