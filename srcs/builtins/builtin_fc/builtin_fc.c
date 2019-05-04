@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:37:32 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 20:19:47 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,7 +54,7 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 	{
 		free(fc_infos);
 		print_error(context->origin, "history specification out of range", 2);
-		return (1);
+		return (fc_exit(fc_infos, ret));
 	}
 	if (fc_infos->replace)
 		ret = fc_replace_exec(sh_state, fc_infos);
@@ -62,7 +62,7 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 		ret = fc_print(sh_state->history, fc_infos, 1);
 	else
 		ret = fc_exec(sh_state, fc_infos);
-	return (ret);
+	return (fc_exit(fc_infos, ret));
 }
 
 int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context)
@@ -71,7 +71,6 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 	int			args_i;
 
 	(void)ac;
-	// TODO `fc -e exit`
 	// TODO HISTORY CREATION LESS THAN $HISTSIZE
 	add_origin(&context->origin, "fc");
 	if (context->is_process)

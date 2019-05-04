@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:46:10 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 20:28:39 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -146,8 +146,6 @@ t_input_data *input_data)
 	cmd = NULL;
 	if (!(str = parse_event(line, sh_state->history)))
 		return (1);
-	else
-		str = ft_strdup(line);
 	if (!(str = parse_alias(str, sh_state->aliases, NULL)))
 		exit_sh(sh_state, input_data);
 	if (parse_check(str))

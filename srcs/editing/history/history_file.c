@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:52:11 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 17:43:07 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 20:28:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,7 @@ t_list		*hist_list_add(t_list *args, char *str, size_t len)
 		return (NULL);
 	if (!(new = ft_lstnew(tmp, ft_strlen(tmp) + 1)))
 		return (NULL);
+	ft_strdel(&tmp);
 	if (args == NULL)
 		return (new);
 	args = ft_lstappend(&args, new);
@@ -50,8 +51,11 @@ t_list		*hist_str2list(char *str)
 		is_quoted(str, i)))
 			str[i] ? i++ : 0;
 		if (str[i] == '\n' || str[i] == 0)
+		{
 			if (!(args = hist_list_add(args, str + start, i - start)))
 				return (NULL);
+			dprintf(1, "%.*s\n", (int)(i - start), str + start);
+		}
 		str[i] ? i++ : 0;
 	}
 	return (args);

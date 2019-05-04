@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/03 04:53:12 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:35:33 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 20:13:56 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,6 +36,8 @@ static char	*fc_replace(t_fc_infos *fc_infos)
 		ft_strcat(out, fc_infos->rep);
 		ft_strcat(out, pat);
 	}
+	ft_strdel(&fc_infos->pat);
+	ft_strdel(&fc_infos->rep);
 	return (out);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 05:09:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 23:55:29 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 17:50:22 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,8 +32,6 @@ t_input_data	*init_input_data(void)
 
 void			free_input_data(t_input_data **input_data)
 {
-	void (*del)(void *, size_t);
-	del = free_lstnode;
 	free_dyn_buf(&((*input_data)->active_buf));
 	free_dyn_buf(&((*input_data)->build_buf));
 	free_dyn_buf(&((*input_data)->stored_buf));

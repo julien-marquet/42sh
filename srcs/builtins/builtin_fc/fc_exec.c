@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:40:31 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 20:29:57 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,6 +16,7 @@
 static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 {
 	t_arg	*args;
+	t_arg	*tmp;
 	int		len;
 	int		i;
 
@@ -24,6 +25,7 @@ static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 	{
 		if (!(args = parse_split_create(fc_infos->editor, ft_strlen(fc_infos->editor))))
 			return (-1);
+		tmp = args;
 		len = parse_split_count(args);
 		if (!(cmd->arg = ft_memalloc(sizeof(char*) * (len + 2))))
 			return (-1);
@@ -32,6 +34,7 @@ static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 			cmd->arg[i++] = args->arg;
 			args = args->next;
 		}
+		free(tmp);
 		if (!(cmd->arg[i] = tmp_file(sh_state)))
 			return (-1);
 	}
@@ -47,38 +50,35 @@ static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 	return (0);
 }
 
-static int		fc_exec_cmd(t_sh_state *sh_state, t_list *cmd)
+static int		fc_exec_cmd(t_sh_state *sh_state, t_list *list)
 {
 	t_list	*tmp;
 	int		ret;
 
-	tmp = cmd;
-	while (cmd)
+	tmp = list;
+	while (list)
 	{
-		ft_putendl(cmd->content);
-		if (add_to_history_list(&(sh_state->history), cmd->content, ft_strlen(cmd->content) + 1) == NULL)
+		ft_putendl(list->content);
+		if (add_to_history_list(&(sh_state->history), list->content, ft_strlen(list->content) + 1) == NULL)
 		{
-
-			return (-1);// FREE CMD ON ERROR
+			free_list(tmp);
+			return (-1);
 		}
-		ret = parse_exec(cmd->content, sh_state, sh_state->input_data);
-		cmd = cmd->next;
+		ret = parse_exec(list->content, sh_state, sh_state->input_data);
+		list = list->next;
 	}
-	
-	//TODO FREE CMD
+	free_list(tmp);
 	return (ret);
 }
 
 int				fc_file_exec(t_sh_state *sh_state, char *tmp_file)
 {
 	t_dyn_buf	*dyn;
-	char 		*buf;
+	char 		buf[READ_SIZE + 1];
 	int			r;
 	int			fd;
-	t_list		*cmd;
+	t_list		*args;
 
-	if (!(buf = ft_strnew(READ_SIZE + 1)))
-		return (-1);
 	if ((dyn = init_dyn_buf()) == NULL)
 		return (-1);
 	if ((fd = open(tmp_file, O_RDONLY)) == -1)
@@ -89,11 +89,11 @@ int				fc_file_exec(t_sh_state *sh_state, char *tmp_file)
 		if (insert_dyn_buf(buf, dyn, dyn->len) != 0)
 			return (-1);
 	}
-	if (!(cmd = hist_str2list(dyn->buf)))
+	if (!(args = hist_str2list(dyn->buf)))
 		return (0);
-	if (fc_exec_cmd(sh_state, cmd) == -1)
-		return (-1);
 	free_dyn_buf(&dyn);
+	if (fc_exec_cmd(sh_state, args) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -105,15 +105,15 @@ static int		fc_editor_exec(char *tmp, t_sh_state *sh_state, t_fc_infos *fc_infos
 	int		i;
 
 	if (!(cmd = ft_memalloc(sizeof(t_cmd))))
-		return (1);
+		return (-1);
 	if (init_exec(sh_state, cmd, fc_infos) == -1)
-		return (1);
+		return (-1);
 	if ((fd = open(tmp, O_CREAT | O_TRUNC | O_WRONLY, HIST_PERM)) == -1)
-		return (1);
+		return (-1);
 	if (fc_print(sh_state->history, fc_infos, fd))
-		return (1);
+		return (-1);
 	if (!(job = ft_strdup("fc -e")))
-		return (1);
+		return (-1);
 	i = exec_cmd_list(sh_state, cmd, job, NULL);
 	ft_strdel(&job);
 	close(fd);
@@ -122,21 +122,23 @@ static int		fc_editor_exec(char *tmp, t_sh_state *sh_state, t_fc_infos *fc_infos
 
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 {
+	int		ret;
 	char	*tmp;
 	t_list	*old;
 
 	if (!(tmp = tmp_file(sh_state)))
 		return (-1);
-	if (fc_editor_exec(tmp, sh_state, fc_infos))
+	if ((ret = fc_editor_exec(tmp, sh_state, fc_infos)) == -1)
 		return (-1);
 	old = sh_state->history;
 	sh_state->history = sh_state->history->next;
 	free(old->content);
 	free(old);
-	fc_file_exec(sh_state, tmp);
+	if (sh_state->status == 0)
+		fc_file_exec(sh_state, tmp);
 	unlink(tmp);
 	ft_strdel(&tmp);
 	if (sh_state->status != 0)
 		return (-1);
-	return (fc_exit(fc_infos, 0));
+	return (0);
 }
