@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   storage_tmp.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/29 08:48:27 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 08:48:28 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 15:02:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -83,6 +83,7 @@ void			remove_tmp_env(t_list **storage)
 {
 	t_list	*pointer;
 	t_list	*previous;
+	t_list	*tmp;
 
 	previous = NULL;
 	pointer = *storage;
@@ -95,15 +96,19 @@ void			remove_tmp_env(t_list **storage)
 				*storage = (*storage)->next;
 				free(((t_internal_storage *)pointer->content)->string);
 				free(pointer->content);
+				tmp = pointer;
 				pointer = *storage;
+				free(tmp);
 				continue ;
 			}
 			else
 			{
 				free(((t_internal_storage *)pointer->content)->string);
 				free(pointer->content);
+				tmp = pointer;
 				previous->next = pointer->next;
 				pointer = previous->next;
+				free(tmp);
 				continue ;
 			}
 		}
