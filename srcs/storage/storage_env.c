@@ -26,6 +26,7 @@ t_list	*init_env(const char **env)
 	{
 		tmp.string = ft_strdup(env[i]);
 		tmp.exported = 1;
+		tmp.tmp = 0;
 		if ((node = ft_lstnew(&tmp, sizeof(tmp))) == NULL)
 			return (NULL);
 		ft_lstprepend(&alst, node);

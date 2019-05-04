@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:32:49 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 10:33:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:19:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,10 @@ sh_state->internal_storage, &err))) == NULL)
 		res = err;
 	if (path != NULL)
 	{
+		if (update_builtin_env(&(sh_state->internal_storage), cmd->env) == -1)
+			return (1);
 		env = generate_env(sh_state->internal_storage);
+		remove_tmp_env(&(sh_state->internal_storage));
 		if (exec_binary(cmd, env, path, context) == 1)
 			res = -1;
 		else

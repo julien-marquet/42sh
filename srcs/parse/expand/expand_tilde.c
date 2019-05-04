@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   expand_tilde.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/17 23:59:23 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 15:15:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,7 +57,7 @@ static char	*expand_gethome(t_sh_state *sh_state, int *nfr)
 		nfr--;
 		if (!(user = getpwuid(getuid())))
 			return (NULL);
-		new = user->pw_dir;
+		new = ft_strdup(user->pw_dir);
 	}
 	return (new);
 }

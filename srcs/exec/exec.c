@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:01:21 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 20:27:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,7 +77,7 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 	{
 		if (is_new_proc_grp(context))
 		{
-			if (create_redir_files(acmd) == -1)
+			if (create_redir_files(cmd_list) == -1)
 				return (-1);
 		}
 		if (context->proc_grp == NULL)

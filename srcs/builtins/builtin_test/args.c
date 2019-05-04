@@ -13,14 +13,14 @@
 
 #include "builtins/builtin_test/builtin_test.h"
 
-int			is_unary_op(const char *arg)
+int			is_unary_op(char *arg)
 {
 	return (ft_strlen(arg) == 2 &&
 		arg[0] == '-' &&
 		ft_strchr("bcdefgLprSsuwxz", arg[1]) != NULL);
 }
 
-int			is_binary_op(const char *arg)
+int			is_binary_op(char *arg)
 {
 	return (ft_strcmp("-eq", arg) == 0 ||
 		ft_strcmp("-ne", arg) == 0 ||

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/22 23:15:36 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 15:27:52 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 14:10:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -122,8 +122,11 @@ void	handle_fd_error(t_file *in, char *origin)
 
 int		handle_signal(t_file *file)
 {
+
 	if (file->type[C_OUT] >= 0)
 	{
+		if (file->type[C_IN] > 2)
+			return (1);
 		if (dup2(file->type[C_OUT], file->type[C_IN]) == -1)
 			return (1);
 	}
@@ -177,41 +180,45 @@ int		create_redir_files(t_cmd *acmd)
 	origin = NULL;
 	while (acmd != NULL)
 	{
-		if (acmd->out != NULL && acmd->out->type[C_OUT] == -1 &&
-	acmd->out->file != NULL)
+		out = acmd->out;
+		while (out != NULL)
 		{
-			out = acmd->out;
-			err = 0;
-			if ((err = check_file_write(out->file)) != 0)
+			if (acmd->out->type[C_OUT] == -1 &&
+		acmd->out->file != NULL)
 			{
-				if (err == 1)
+				err = 0;
+				if ((err = check_file_write(out->file)) != 0)
 				{
-					if ((dir_path = get_parent_dir_path(out->file)) == NULL)
-						return (-1);
-					if ((err = check_dir_write(dir_path)) != 0)
+					if (err == 1)
 					{
-						err = err == -1 ? err : err - 1;
+						if ((dir_path = get_parent_dir_path(out->file)) == NULL)
+							return (-1);
+						if ((err = check_dir_write(dir_path)) != 0)
+						{
+							err = err == -1 ? err : err - 1;
+							add_origin(&origin, NAME);
+							handle_path_exec_error(origin, out->file, err);
+							ft_strdel(&origin);
+						}
+						ft_strdel(&dir_path);
+					}
+					else
+					{
 						add_origin(&origin, NAME);
 						handle_path_exec_error(origin, out->file, err);
 						ft_strdel(&origin);
 					}
-					ft_strdel(&dir_path);
 				}
-				else
+				if (err == 0)
 				{
-					add_origin(&origin, NAME);
-					handle_path_exec_error(origin, out->file, err);
-					ft_strdel(&origin);
+					if ((fd = open(out->file, O_CREAT|O_NONBLOCK, 0666)) != -1)
+						close(fd);
 				}
 			}
-			if (err == 0)
-			{
-				if ((fd = open(out->file, O_CREAT|O_NONBLOCK, 0666)) != -1)
-					close(fd);
-			}
+			out = out->next;
 		}
 		if (acmd->red != NULL && (ft_strcmp(acmd->red, "&&") == 0 ||
-	ft_strcmp(acmd->red, "||") == 0))
+		ft_strcmp(acmd->red, "||") == 0))
 			break ;
 		acmd = acmd->next;
 	}
@@ -247,11 +254,11 @@ int		handle_file_out(t_file *out, char *origin)
 		}
 	}
 	open_flags = O_WRONLY;
-	if (out->type[C_LEN] == 2)
-		open_flags |= O_APPEND;
+	open_flags |= out->type[C_LEN] == 2 ? O_APPEND : O_TRUNC;
 	if ((fd = open(out->file, open_flags)) == -1)
 		return (-1);
-	dup2(fd, out->type[C_IN]);
+	if (out->type[C_IN] <= 2)
+		dup2(fd, out->type[C_IN]);
 	close(fd);
 	return (0);
 }

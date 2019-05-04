@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/04 19:40:53 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 16:24:46 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:02:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@ char	*strndup_qr(char *str, size_t len)
 	str = ft_strndup(str, len);
 	while (str[i])
 	{
-		if (str[i] == '\\')
+		if (str[i] == '\\' && state == QUOTE_NONE)
 			ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
 		else if (str[i] == '\"' && state != QUOTE_SIMPLE)
 		{

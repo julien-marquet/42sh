@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 18:11:59 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:45:31 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -82,9 +82,19 @@ int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action)
 	{
 		old_i = index;
 		if (action == HIST_NEXT)
+		{
 			index++;
+			if (input_data->here_doc != NULL &&
+		input_data->stored_buf->len > 0 && index == 1)
+				index++;
+		}
 		else
+		{
 			index--;
+			if (input_data->here_doc != NULL &&
+		input_data->stored_buf->len > 0 && index == 1)
+				index--;
+		}
 		if (index < 0)
 			return ((index = 0));
 		if ((index = navigate(input_data, hist_copy, index, old_i)) == -1)

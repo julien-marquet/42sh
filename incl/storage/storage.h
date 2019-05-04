@@ -14,6 +14,7 @@
 #ifndef STORAGE_H
 # define STORAGE_H
 
+# include "storage/storage_tmp.h"
 # include "storage/storage_env.h"
 # include "storage/storage_manipulations.h"
 # include "storage/storage_getters.h"

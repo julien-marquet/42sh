@@ -62,7 +62,7 @@ static int	check_op(char op, struct stat stats, const char *path)
 	return (0);
 }
 
-int			make_unary_test(char op, const char *arg)
+int			make_unary_test(char op, char *arg)
 {
 	struct stat	stats;
 

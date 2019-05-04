@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 06:17:30 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:28:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 int	is_valid_var_name(const char *name)
 {
-	if (!name)
+	if (!name || ft_strlen(name) == 0)
 		return (0);
 	while (*name != '\0')
 	{
@@ -44,7 +44,8 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 		return (1);
 	if ((node = find_node_by_name(sh_state->internal_storage, name)) != NULL)
 	{
-		if (update_existing_node(&(sh_state->hash_table), node, name, value, len) == 1)
+		if (update_existing_node(&(sh_state->hash_table),
+	node, name, value, len) == 1)
 			return (-1);
 		if (exported == 1 || exported == 0)
 			((t_internal_storage *)node->content)->exported = exported;
@@ -56,6 +57,7 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 		if (exported != 1 && exported != 0)
 			exported = 0;
 		entry.exported = exported;
+		entry.tmp = 0;
 		if ((node = ft_lstnew((const void *)&entry,
 	sizeof(t_internal_storage))) == NULL)
 			return (-1);

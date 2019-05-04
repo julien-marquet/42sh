@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 22:37:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 12:56:28 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 23:25:57 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -108,7 +108,7 @@ char	*create_job_name_from_arr(const char **av)
 	strs_len = 0;
 	while (i < arr_len)
 		strs_len += ft_strlen(av[i++]);
-	if ((name = ft_memalloc(strs_len + 1)) == NULL)
+	if ((name = ft_memalloc(strs_len + i + 1)) == NULL)
 		return (NULL);
 	i = 0;
 	name_pos = 0;
@@ -116,6 +116,8 @@ char	*create_job_name_from_arr(const char **av)
 	{
 		ft_strcpy(&name[name_pos], av[i]);
 		name_pos += ft_strlen(av[i++]);
+		name[name_pos] = ' ';
+		name_pos++;
 	}
 	return (name);
 }
@@ -136,6 +138,7 @@ t_proc_grp	*register_special_job(int pid, const char **av)
 		ft_strdel(&job_name);
 		return (NULL);
 	}
+	ft_strdel(&job_name);
 	proc_grp->pgid = pid;
 	add_proc(proc, proc_grp);
 	add_proc_grp(proc_grp);
@@ -199,7 +202,10 @@ int start, t_builtin_context *context)
 	&av[new_start], context)) == NULL)
 			res = &av[new_start] != NULL;
 		else
+		{
 			res = execute_binary(sh_state, &sp_context, av);
+			ft_strdel(&sp_context.path);
+		}
 		free_arr(sp_context.env);
 	}
 	return (res);

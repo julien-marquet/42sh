@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/20 16:00:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 01:01:44 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 15:02:33 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,6 +44,22 @@ static void		free_arg(char **arg)
 	free(arg);
 }
 
+void			free_cmd_env(t_list **env)
+{
+	t_internal_storage	*is;
+	t_list				*tmp;
+
+	while (*env != NULL)
+	{
+		tmp = *env;
+		is = (t_internal_storage *)(*env)->content;
+		ft_strdel(&is->string);
+		free(is);
+		*env = (*env)->next;
+		free(tmp);
+	}
+}
+
 t_cmd			*parse_nextfree(t_cmd *cmd)
 {
 	t_cmd	*next;
@@ -54,6 +70,7 @@ t_cmd			*parse_nextfree(t_cmd *cmd)
 	free_arg(cmd->arg);
 	free_file(cmd->out);
 	free_file(cmd->in);
+	free_cmd_env(&cmd->env);
 	free(cmd);
 	return (next);
 }
@@ -74,6 +91,7 @@ void	free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
 		free_arg(acmd->arg);
 		free_file(acmd->out);
 		free_file(acmd->in);
+		free_cmd_env(&acmd->env);
 		prev = acmd;
 		acmd = acmd->next;
 		free(prev);
@@ -91,6 +109,7 @@ void	free_cmds(t_cmd *acmd)
 		free_arg(acmd->arg);
 		free_file(acmd->out);
 		free_file(acmd->in);
+		free_cmd_env(&acmd->env);
 		prev = acmd;
 		acmd = acmd->next;
 		free(prev);

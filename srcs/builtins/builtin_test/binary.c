@@ -13,28 +13,28 @@
 
 #include "builtins/builtin_test/builtin_test.h"
 
-int	make_binary_test(const char *arg1, const char *op, const char *arg2)
+int	make_binary_test(char **av)
 {
 	int	nbr1;
 	int nbr2;
 
-	if (check_args(arg1, arg2) != 0)
-		return (1);
-	if (ft_strcmp("=", op) == 0)
-		return (!(ft_strcmp(arg1, arg2) == 0));
-	else if (ft_strcmp("!=", op) == 0)
-		return (!(ft_strcmp(arg1, arg2) != 0));
-	nbr1 = ft_atoi(arg1);
-	nbr2 = ft_atoi(arg2);
-	if (ft_strcmp("-eq", op) == 0)
+	if (ft_strcmp("=", av[1]) == 0)
+		return (!(ft_strcmp(av[0], av[2]) == 0));
+	else if (ft_strcmp("!=", av[1]) == 0)
+		return (!(ft_strcmp(av[0], av[2]) != 0));
+	if (check_args(av) != 0)
+		return (2);
+	nbr1 = ft_atoi(av[0]);
+	nbr2 = ft_atoi(av[2]);
+	if (ft_strcmp("-eq", av[1]) == 0)
 		return (!(nbr1 == nbr2));
-	else if (ft_strcmp("-ne", op) == 0)
+	else if (ft_strcmp("-ne", av[1]) == 0)
 		return (!(nbr1 != nbr2));
-	else if (ft_strcmp("-ge", op) == 0)
+	else if (ft_strcmp("-ge", av[1]) == 0)
 		return (!(nbr1 >= nbr2));
-	else if (ft_strcmp("-lt", op) == 0)
+	else if (ft_strcmp("-lt", av[1]) == 0)
 		return (!(nbr1 < nbr2));
-	else if (ft_strcmp("-le", op) == 0)
+	else if (ft_strcmp("-le", av[1]) == 0)
 		return (!(nbr1 <= nbr2));
 	return (1);
 }

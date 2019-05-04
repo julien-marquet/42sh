@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 23:55:38 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:45:06 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,6 +61,7 @@ typedef struct	s_input_data
 	size_t			processed_chars;
 	t_cur_abs_pos	*start_pos;
 	int				enter;
+	char			*here_doc;
 	size_t			sig_call;
 }				t_input_data;
 
@@ -87,6 +88,7 @@ typedef struct	s_win_data
 
 typedef struct	s_internal_storage
 {
+	int		tmp;
 	char	*string;
 	int		exported;
 }				t_internal_storage;
@@ -159,6 +161,7 @@ typedef struct		s_cmd {
 	t_file			*out;
 	struct s_cmd	*next;
 	int				assign;
+	t_list			*env;
 }					t_cmd;
 
 typedef struct	s_proc

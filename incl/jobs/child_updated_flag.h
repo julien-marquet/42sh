@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_procs_setters.h                             .::    .:/ .      .::   */
+/*   child_updated_flag.h                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/12 21:55:02 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:50:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/03 14:59:10 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/03 15:17:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_PROCS_SETTERS_H
-# define JOBS_PROCS_SETTERS_H
+#ifndef CHILD_UPDATED_FLAG_H
+# define CHILD_UPDATED_FLAG_H
 
 # include "common.h"
-# include "exec/exec_cmd_checkers.h"
 
-t_proc		*new_proc(int pid, const char *name, int last);
-int			add_proc(t_proc *proc, t_proc_grp *proc_grp);
-int			add_null_proc(t_proc_grp *proc_grp, const char *name,
-t_cmd *cmd, int err);
+int		*super_get_sigchld_flag(void);
 
 #endif

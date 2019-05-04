@@ -107,14 +107,17 @@ static int	handle_args(const char **av,
 int			builtin_hash(t_sh_state *sh_state, int ac,
 			const char **av, t_builtin_context *context)
 {
+	int		ret;
+
+	ret = 0;
 	if (ac == 1)
 		print_table(sh_state->hash_table);
 	else if (ac > 1 && av[1][0] == '-')
-		sh_state->status = handle_options(av, &(sh_state->hash_table));
-	if (sh_state->status == 2)
-		return (0);
-	if ((sh_state->status = handle_args(av,
+		ret = handle_options(av, &(sh_state->hash_table));
+	if (ret == 2)
+		return (2);
+	if ((ret = handle_args(av,
 		&(sh_state->hash_table), sh_state->internal_storage)) > 2)
 		return (-1);
-	return (0);
+	return (ret);
 }

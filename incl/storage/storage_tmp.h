@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   jobs_procs_setters.h                             .::    .:/ .      .::   */
+/*   storage_utils.h                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/12 21:55:02 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:50:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/04/05 17:27:34 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/04/09 03:00:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef JOBS_PROCS_SETTERS_H
-# define JOBS_PROCS_SETTERS_H
+#ifndef STORAGE_TMP_H
+# define STORAGE_TMP_H
 
 # include "common.h"
-# include "exec/exec_cmd_checkers.h"
 
-t_proc		*new_proc(int pid, const char *name, int last);
-int			add_proc(t_proc *proc, t_proc_grp *proc_grp);
-int			add_null_proc(t_proc_grp *proc_grp, const char *name,
-t_cmd *cmd, int err);
+void		remove_tmp_env(t_list **storage);
+char		**update_env(char **env, t_list *tmp);
+int			update_builtin_env(t_list **storage, t_list *vars);
 
 #endif

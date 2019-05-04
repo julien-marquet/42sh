@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/03 04:55:31 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/04 16:44:49 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -49,7 +49,7 @@ CFILES += $(addprefix data/, input_data.c)
 CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_utils_arr.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
-CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c)
+CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c storage_tmp.c)
 CFILES += $(addprefix builtins/, builtin_true.c builtin_false.c builtin_type.c builtin_cd.c builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
 CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c)
@@ -59,7 +59,7 @@ CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c built
 CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c)
 CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_print.c fc_options.c fc_utils.c fc_exec.c fc_replace_exec.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
-CFILES += $(addprefix jobs/, jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
+CFILES += $(addprefix jobs/, child_updated_flag.c jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)
 CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.c)
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_setters.c)
 CFILES += $(addprefix exec/, exec.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c )
@@ -82,7 +82,7 @@ TMPFILES += $(addprefix data/, input_data.h)
 TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h data_utils_arr.h)
 TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
-TMPFILES += $(addprefix storage/, storage_special_params.h storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h)
+TMPFILES += $(addprefix storage/, storage_special_params.h storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h storage_tmp.h)
 TMPFILES += $(addprefix builtins/, builtin_true.h builtin_false.h builtin_fc.h builtin_type.h builtin_cd.h builtins_utils.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_unset.h builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
 TMPFILES += $(addprefix builtins/builtin_test/, builtin_test.h)
@@ -91,7 +91,7 @@ TMPFILES += $(addprefix builtins/builtins_aliases/, builtins_aliases.h builtin_a
 TMPFILES += $(addprefix builtins/builtin_echo/, builtin_echo.h builtin_echo_utils.h)
 TMPFILES += $(addprefix builtins/builtins_jobs/, builtin_bg.h builtin_fg.h builtins_jobs.h builtin_jobs.h)
 TMPFILES += $(addprefix aliases/, aliases.h aliases_getters.h aliases_manipulations.h aliases_utils.h)
-TMPFILES += $(addprefix jobs/, jobs_printers.h jobs.h jobs_controls.h jobs_display.h jobs_flush.h jobs_super.h jobs_update.h)
+TMPFILES += $(addprefix jobs/, child_updated_flag.h jobs_printers.h jobs.h jobs_controls.h jobs_display.h jobs_flush.h jobs_super.h jobs_update.h)
 TMPFILES += $(addprefix jobs/jobs_procs/, jobs_procs.h jobs_procs_getters.h jobs_procs_setters.h)
 TMPFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps.h jobs_proc_grps_getters.h jobs_proc_grps_setters.h)
 TMPFILES += $(addprefix exec/, exec.h exec_utils.h exec_binary.h exec_dispatcher.h exec_by_flag.h exec_cmd_checkers.h)
@@ -107,7 +107,7 @@ LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
 CC := $(shell whereis gcc)
 AR := $(shell whereis ar)
 RM := $(shell whereis rm)
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 P_FLAGS = -lcurses
 
 export CC

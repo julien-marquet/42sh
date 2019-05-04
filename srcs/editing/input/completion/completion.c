@@ -32,7 +32,7 @@ static int	add_brace(char **completed)
 
 // TODO free `completed` on error
 int			complete_word(t_input_data *input,
-char *completed, size_t add_slash)
+char *completed, size_t add_slash, t_sh_state *state)
 {
 	int		ret;
 	char	*path;
@@ -51,13 +51,14 @@ char *completed, size_t add_slash)
 		return (1);
 	if (add_slash)
 	{
-		if ((path = get_path(input, 1)) == NULL)
+		if ((path = get_path(input, 1, state)) == NULL)
 			return (1);
 		if (is_dir(path))
 		{
+			free(path);
 			path = ft_strjoin(completed, "/");
 			free(completed);
-			return (complete_word(input, path, 0));
+			return (complete_word(input, path, 0, state));
 		}
 		free(path);
 	}
@@ -77,10 +78,10 @@ t_sh_state *state, char *word, size_t len)
 	{
 		if (*word == '/' || (*word == '\\' && *(word - 1) != '\\'))
 		{
-			if ((tmp = get_path(input, 0)) == NULL)
+			if ((tmp = get_path(input, 0, state)) == NULL)
 				return (1);
 			if (find_in_dir(get_files(tmp, word + 1,
-				CHK_NONE, state->internal_storage), input, word + 1) == 1)
+				CHK_NONE, state->internal_storage, NULL), input, word + 1, state) == 1)
 				return (1);
 			free(tmp);
 			return (0);
@@ -90,7 +91,7 @@ t_sh_state *state, char *word, size_t len)
 			word -= 1;
 	}
 	return (find_in_dir(get_files(".", word,
-*word == '$' ? CHK_VARS : CHK_NONE, state->internal_storage), input, word));
+*word == '$' ? CHK_VARS : CHK_NONE, state->internal_storage, NULL), input, word, state));
 }
 
 // TODO Free files on error
@@ -102,13 +103,13 @@ int			complete_arg(t_input_data *input, char *word, t_sh_state *state)
 	len = ft_strlen(word);
 	if (len == 0)
 		return (find_in_dir(get_files(".", "",
-		CHK_NONE, state->internal_storage), input, ""));
+		CHK_NONE, state->internal_storage, NULL), input, "", state));
 	else if (word[len - 1] == '/')
 	{
-		if ((tmp = get_path(input, 0)) == NULL)
+		if ((tmp = get_path(input, 0, state)) == NULL)
 			return (1);
 		if (find_in_dir(get_files(tmp, "",
-			CHK_NONE, state->internal_storage), input, "") == 1)
+			CHK_NONE, state->internal_storage, NULL), input, "", state) == 1)
 			return (1);
 		free(tmp);
 	}
@@ -135,12 +136,12 @@ int			complete_bin(char *word, t_sh_state *sh_state, t_input_data *input)
 	while (*pointer != NULL)
 	{
 		lstmerge(&files, get_files(*pointer, word,
-		CHK_NONE, sh_state->internal_storage));
+		CHK_NONE, sh_state->internal_storage, files));
 		pointer += 1;
 	}
 	lstmerge(&files, get_files(NULL, word, *word == '$' ?
-	CHK_BUILTINS & CHK_VARS : CHK_BUILTINS, sh_state->internal_storage));
-	find_in_dir(files, input, word);
+	CHK_BUILTINS | CHK_VARS : CHK_BUILTINS, sh_state->internal_storage, files));
+	find_in_dir(files, input, word, sh_state);
 	ft_freetab(&paths);
 	return (0);
 }

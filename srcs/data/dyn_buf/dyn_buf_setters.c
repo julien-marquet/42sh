@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:44:58 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 17:57:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/03 13:21:36 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ int			set_dyn_buf(t_dyn_buf *dyn_buf, char *buf)
 	dyn_buf->len = ft_strlen(buf);
 	if (dyn_buf->len >= dyn_buf->size)
 	{
-		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
+		dyn_buf->size = (dyn_buf->len * 2);
 		ft_strdel(&(dyn_buf->buf));
 		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
 			return (1);
@@ -40,7 +40,7 @@ int			set_n_dyn_buf(t_dyn_buf *dyn_buf, char *buf, size_t n)
 		dyn_buf->len = n;
 	if (dyn_buf->len >= dyn_buf->size)
 	{
-		dyn_buf->size = dyn_buf->len + DEFAULT_DYN_BUF_SIZE;
+		dyn_buf->size = (dyn_buf->len + n) * 2;
 		ft_strdel(&(dyn_buf->buf));
 		if ((dyn_buf->buf = (char *)malloc(dyn_buf->size)) == NULL)
 			return (1);
