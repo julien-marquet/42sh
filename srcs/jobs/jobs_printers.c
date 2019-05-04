@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:26:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 23:55:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 00:04:56 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,6 +57,55 @@ static int		print_status(t_job_status status, int code, char **str)
 	}
 	else if (status == stopped)
 		tmp = ft_strdup("Stopped");
+	else if (status == signaled)
+	{
+		if ((tmpcode = ft_itoa(code)) == NULL)
+			return (0);
+		tmp = ft_strjoin("Terminated: ", tmpcode);
+		ft_strdel(&tmpcode);
+	}
+	if (tmp == NULL)
+		return (0);
+	if ((joined = ft_strjoin(*str, tmp)) != NULL)
+	{
+		ft_strdel(str);
+		len = ft_strlen(tmp);
+		*str = joined;
+	}
+	else
+		len = 0;
+	ft_strdel(&tmp);
+	return (len);
+}
+
+static int		print_detailed_status(t_job_status status, int code, char **str)
+{
+	char	*joined;
+	char	*tmp;
+	char	*tmpcode;
+	int		len;
+
+	tmp = NULL;
+	if (*str == NULL)
+		return (0);
+	if (status == running || status == continued)
+		tmp = ft_strdup("Running");
+	else if (status == exited && code == 0)
+		tmp = ft_strdup("Done");
+	else if (status == exited)
+	{
+		if ((tmpcode = ft_itoa(code)) == NULL)
+			return (0);
+		tmp = ft_strjoin("Exit ", tmpcode);
+		ft_strdel(&tmpcode);
+	}
+	else if (status == stopped)
+	{
+		if ((tmpcode = ft_itoa(code)) == NULL)
+			return (0);
+		tmp = ft_strjoin("Stopped: ", tmpcode);
+		ft_strdel(&tmpcode);
+	}
 	else if (status == signaled)
 	{
 		if ((tmpcode = ft_itoa(code)) == NULL)
@@ -208,7 +257,8 @@ void	print_detailed(t_pos_info p_info, char **display)
 		print_spaces(printed, 8, &str);
 		printed = print_pid(p_info.proc->pid, &str);
 		print_spaces(printed, 8, &str);
-		printed = print_status(p_info.proc->status, p_info.proc->code, &str);
+		printed = print_detailed_status(p_info.proc->status,
+	p_info.proc->code, &str);
 		print_spaces(printed, 20, &str);
 		print_name(p_info.proc->name, &str);
 		i++;
