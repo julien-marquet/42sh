@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/04 19:40:53 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:02:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 18:50:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,8 +23,15 @@ char	*strndup_qr(char *str, size_t len)
 	str = ft_strndup(str, len);
 	while (str[i])
 	{
-		if (str[i] == '\\' && state == QUOTE_NONE)
-			ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
+		if (str[i] == '\\')
+		{
+			if (state == QUOTE_DOUBLE && str[i + 1] &&
+		(str[i + 1] == '$' || str[i + 1] == '`' ||
+		str[i + 1] == '\"' || str[i + 1] == '\\'))
+				ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
+			else if (state == QUOTE_NONE)
+				ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
+		}
 		else if (str[i] == '\"' && state != QUOTE_SIMPLE)
 		{
 			state = state == QUOTE_NONE ? QUOTE_DOUBLE : QUOTE_NONE;

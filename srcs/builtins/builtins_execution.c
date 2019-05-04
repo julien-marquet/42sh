@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 19:16:23 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:16:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 19:01:52 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,7 +49,7 @@ t_builtin_func builtin, t_context *context)
 				return (1);
 			res = builtin(sh_state,
 		ft_arraylen((const void **)arg), arg, builtin_context);
-			remove_tmp_env(&(sh_state->internal_storage));
+			ft_lstdel(&((sh_state)->internal_storage), free_lstinternal_storage_node);
 			exit(res);
 		}
 	}
