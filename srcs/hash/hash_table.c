@@ -24,7 +24,9 @@ static char		*check_paths(const char **paths, const char *bin,
 	while (*pointer != NULL)
 	{
 		tmp = create_path(*pointer, bin);
-		if ((ret = test_bin((const char *)tmp)) == -1)
+		if (bin[0] == '\0')
+			ret = 1;
+		else if ((ret = test_bin((const char *)tmp)) == -1)
 			return (NULL);
 		if (ret == 0)
 			return (add_path(tmp, table, bin, *error != 0));
@@ -113,6 +115,7 @@ char			*get_bin_path(const char **av, t_list **table,
 			if (*error == 0)
 				return (path);
 		}
+		dprintf(2, "Error: %i\n", *error);
 		return (NULL);
 	}
 	((t_hash_table *)pointer->content)->hits += 1;
