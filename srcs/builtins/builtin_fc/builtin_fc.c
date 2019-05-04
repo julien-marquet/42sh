@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 23:49:59 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:37:32 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,9 +44,11 @@ static void		fc_range(t_sh_state *sh_state, const char **av, t_fc_infos *fc_info
 
 static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos, t_builtin_context *context)
 {
-	int i;
+	int		i;
+	int		ret;
 
 	i = 0;
+	ret = 0;
 	fc_range(sh_state, av, fc_infos);
 	if (!sh_state->history || !sh_state->history->next)
 	{
@@ -55,12 +57,12 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 		return (1);
 	}
 	if (fc_infos->replace)
-		return (fc_replace_exec(sh_state, fc_infos));
+		ret = fc_replace_exec(sh_state, fc_infos);
 	else if (fc_infos->opts != NULL && ft_strchr(fc_infos->opts, 'l') != NULL)
-		return (fc_print(sh_state->history, fc_infos, 1));
+		ret = fc_print(sh_state->history, fc_infos, 1);
 	else
-		return (fc_exec(sh_state, fc_infos));
-	return (0);
+		ret = fc_exec(sh_state, fc_infos);
+	return (ret);
 }
 
 int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context)
@@ -70,7 +72,6 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 
 	(void)ac;
 	// TODO `fc -e exit`
-	// TODO REMOVE FC FROM HISTORY AND ADD NEW TO IT
 	// TODO HISTORY CREATION LESS THAN $HISTSIZE
 	add_origin(&context->origin, "fc");
 	if (context->is_process)
@@ -88,6 +89,5 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 		print_error(context->origin, "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]", 2);
 		return (1);
 	}
-	dprintf(1, "%s %s\n", fc_infos->pat, fc_infos->rep);
 	return (fc_dispatch(sh_state, av + args_i, fc_infos, context));
 }

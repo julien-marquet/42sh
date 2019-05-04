@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 23:17:46 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:40:31 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,12 +55,16 @@ static int		fc_exec_cmd(t_sh_state *sh_state, t_list *cmd)
 	tmp = cmd;
 	while (cmd)
 	{
-		dprintf(1, "%s\n", cmd->content);
-		dprintf(1, "EXEC:\n");
+		ft_putendl(cmd->content);
+		if (add_to_history_list(&(sh_state->history), cmd->content, ft_strlen(cmd->content) + 1) == NULL)
+		{
+
+			return (-1);// FREE CMD ON ERROR
+		}
 		ret = parse_exec(cmd->content, sh_state, sh_state->input_data);
-		dprintf(1, "ret = %i\n", ret);
 		cmd = cmd->next;
 	}
+	
 	//TODO FREE CMD
 	return (ret);
 }
@@ -87,7 +91,8 @@ int				fc_file_exec(t_sh_state *sh_state, char *tmp_file)
 	}
 	if (!(cmd = hist_str2list(dyn->buf)))
 		return (0);
-	fc_exec_cmd(sh_state, cmd);
+	if (fc_exec_cmd(sh_state, cmd) == -1)
+		return (-1);
 	free_dyn_buf(&dyn);
 	return (0);
 }
@@ -118,11 +123,16 @@ static int		fc_editor_exec(char *tmp, t_sh_state *sh_state, t_fc_infos *fc_infos
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 {
 	char	*tmp;
+	t_list	*old;
 
 	if (!(tmp = tmp_file(sh_state)))
 		return (-1);
 	if (fc_editor_exec(tmp, sh_state, fc_infos))
 		return (-1);
+	old = sh_state->history;
+	sh_state->history = sh_state->history->next;
+	free(old->content);
+	free(old);
 	fc_file_exec(sh_state, tmp);
 	unlink(tmp);
 	ft_strdel(&tmp);

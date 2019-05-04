@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/03 04:53:12 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 17:37:50 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 16:35:33 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,13 +41,20 @@ static char	*fc_replace(t_fc_infos *fc_infos)
 
 int			fc_replace_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 {
+	t_list	*old;
 	char	*str;
 	int		ret;
 	
+	old = sh_state->history;
+	sh_state->history = sh_state->history->next;
+	free(old->content);
+	free(old);
 	if (fc_infos->first == NULL)
-		fc_infos->first = sh_state->history->next;
+		fc_infos->first = sh_state->history;
 	str = fc_replace(fc_infos);
 	ft_putendl(str);
+	if (add_to_history_list(&(sh_state->history), str, ft_strlen(str) + 1) == NULL)
+		return (-1);
 	ret = parse_exec(str, sh_state, sh_state->input_data);
 	ft_strdel(&str);
 	return (0);
