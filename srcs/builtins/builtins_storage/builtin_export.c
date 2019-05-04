@@ -59,13 +59,17 @@ int i, t_builtin_context *context)
 		ft_strlen(av[i]) - ft_strlen(value) - 1)) == NULL)
 				return (1);
 			if ((res = add_entry_storage(sh_state, name, value, 1)) == -1)
+			{
+				free(name);
 				return (1);
+			}
 			else if (res == 1)
 			{
 				print_error(context->origin,
 		"Variable name must only contains alphanumerical characters or \'_\'",
 		2);
 			}
+			free(name);
 		}
 		i++;
 	}
