@@ -55,10 +55,12 @@ static int	assign_alias(t_list **aliases, const char *str, char **origin)
 	if ((name = ft_strndup(str,
 ft_strlen(str) - ft_strlen(value) - 1)) == NULL)
 		return (1);
-	if (add_alias(aliases, name, value) == 1)
+	if (add_alias(aliases, name, value) == 0)
 	{
 		add_origin(origin, name);
 		print_error(*origin, "invalid alias name", 2);
+		free(value);
+		free(name);
 		return (1);
 	}
 	free(value);
