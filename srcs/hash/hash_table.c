@@ -82,9 +82,9 @@ char			*append_bin(const char *bin, t_list **table,
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
 	tmp = check_paths((const char **)paths, bin, table, error);
+	ft_freetab(&paths);
 	if (*error != 4)
 		return (NULL);
-	ft_freetab(&paths);
 	if (tmp == NULL)
 	{
 		*error = -1;
