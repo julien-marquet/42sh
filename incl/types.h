@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 13:28:38 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 22:47:45 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -210,8 +210,10 @@ typedef struct	s_context
 
 typedef struct	s_pos_info
 {
-	int		index;
-	int		attribute;
+	int			index;
+	int			attribute;
+	t_proc		*proc;
+	t_proc_grp	*proc_grp;
 }				t_pos_info;
 
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
