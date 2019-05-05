@@ -19,6 +19,7 @@
 # include "exec/exec_utils.h"
 # include "pipe_redir/pipe_redir.h"
 
-int		exec_binary(t_cmd *cmd, char **env, const char *path, t_context *context);
+int		exec_binary(t_cmd *cmd, char **env,
+const char *path, t_context *context);
 
 #endif
