@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:29:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 23:32:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,19 +47,45 @@ t_fc_infos *fc_infos)
 	}
 }
 
+static int		check_editor(t_fc_infos *fc_infos)
+{
+	char	**nul;
+	int		valid;
+	int		i;
+
+	valid = 1;
+	i = 0;
+	if (fc_infos->editor)
+	{
+		if (!(nul = ft_strsplit(fc_infos->editor, ' ')))
+			return (0);
+		while (nul[i])
+		{
+			if (ft_strstr(nul[i], "fc") && ft_strlen(nul[i]) == 2)
+				valid = 0;
+			i++;
+		}
+		i = 0;
+		while (nul[i])
+			ft_strdel(&nul[i++]);
+		free(nul);
+	}
+	return (valid);
+}
+
 static int		fc_dispatch(t_sh_state *sh_state, const char **av,
 t_fc_infos *fc_infos, t_builtin_context *context)
 {
-	int		i;
+	int		valid_editor;
 	int		ret;
 
-	i = 0;
+	valid_editor = check_editor(fc_infos);
 	ret = 0;
 	fc_range(sh_state, av, fc_infos);
-	if (!sh_state->history || !sh_state->history->next)
+	if (!sh_state->history || !sh_state->history->next || valid_editor == 0)
 	{
 		print_error(context->origin, "history specification out of range", 2);
-		return (fc_exit(fc_infos, ret));
+		return (fc_exit(fc_infos, 0));
 	}
 	if (fc_infos->replace)
 		ret = fc_replace_exec(sh_state, fc_infos);
@@ -85,7 +111,8 @@ t_builtin_context *context)
 		print_error(context->origin, "no job control", 2);
 		return (1);
 	}
-	fc_infos = ft_memalloc(sizeof(t_fc_infos));
+	if (!(fc_infos = ft_memalloc(sizeof(t_fc_infos))))
+		return (1);
 	if (!(fc_infos->opts = ft_strnew(5)))
 		return (fc_exit(fc_infos, 1));
 	if ((args_i = fc_options(av, fc_infos, context)) == -1)
