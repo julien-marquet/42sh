@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/05 15:16:32 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 15:17:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 21:36:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,8 +60,7 @@ int	remove_dot_dot(char **path, int *i)
 ((*path)[*i + 3] == '\0' || (*path)[*i + 3] == '/'))
 	{
 		j = get_prec_slash_pos(*path, *i);
-		ft_strcpy(&(*path)[j],
-	&(*path)[*i + 3]);
+		ft_strcpy(&(*path)[j + 1], &(*path)[*i + 3]);
 		*i = j - 1;
 		return (1);
 	}
