@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/17 23:50:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 01:45:18 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 02:22:35 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -95,7 +95,6 @@ char		*parse_event(char *str, t_sh_state *sh_state)
 	change = 0;
 	if (!(str = ft_strdup(str)))
 		return (NULL);
-	dprintf(1, "%s\n", str);
 	while (str[i])
 	{
 		while (str[i] && is_quoted(str, i) == 1)
@@ -113,6 +112,5 @@ char		*parse_event(char *str, t_sh_state *sh_state)
 		}
 		str[i] ? i++ : 0;
 	}
-	dprintf(1, "AFTER %s\n", str);
 	return (add_event_history(sh_state, str, change));
 }
