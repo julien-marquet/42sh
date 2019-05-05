@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input_search_mode.c                              .::    .:/ .      .::   */
+/*   input_active_search.c                            .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/26 04:03:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:08:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 19:02:52 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 19:14:15 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "editing/input/input_search_mode.h"
+#include "editing/input/input_active_search.h"
 
-int		*search_mode_super_get(void)
+t_list	**active_search_node_super_get(void)
 {
-	static int search_mode = 0;
+	static t_list	*active_search_node = NULL;
 
-	return (&search_mode);
+	return (&active_search_node);
 }
 
-int		get_search_mode(void)
+void	set_active_search_node(t_list *node)
 {
-	return (*search_mode_super_get());
+	t_list	**active_node;
+	t_list	*tmp;
+
+	active_node = active_search_node_super_get();
+	tmp = *active_node;
+	*active_node = node;
 }
 
-void	set_search_mode(int setter)
+t_list	*get_active_search_node(void)
 {
-	int		*tmp;
-
-	tmp = search_mode_super_get();
-	if (setter == 0)
-	{
-		set_searched(NULL);
-		set_active_search_node(NULL);
-	}
-	*tmp = setter;
+	return (*active_search_node_super_get());
 }

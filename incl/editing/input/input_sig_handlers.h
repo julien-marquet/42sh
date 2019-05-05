@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input_search_mode.c                              .::    .:/ .      .::   */
+/*   input_sig_handlers.h                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/26 04:03:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:08:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 18:34:42 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 18:45:21 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "editing/input/input_search_mode.h"
+#ifndef INPUT_SIG_HANDLERS_H
+# define INPUT_SIG_HANDLERS_H
 
-int		*search_mode_super_get(void)
-{
-	static int search_mode = 0;
+# include "common.h"
+# include "input.h"
 
-	return (&search_mode);
-}
+int		ctrl_c_handler(t_input_data *input_data);
+int		ctrl_d_handler(t_sh_state *sh_state, t_input_data *input_data);
+int		ctrl_r_handler(t_sh_state *sh_state, t_input_data *input_data);
 
-int		get_search_mode(void)
-{
-	return (*search_mode_super_get());
-}
-
-void	set_search_mode(int setter)
-{
-	int		*tmp;
-
-	tmp = search_mode_super_get();
-	if (setter == 0)
-	{
-		set_searched(NULL);
-		set_active_search_node(NULL);
-	}
-	*tmp = setter;
-}
+#endif

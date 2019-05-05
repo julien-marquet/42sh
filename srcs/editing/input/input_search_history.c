@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 04:24:25 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 06:27:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:59:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,7 +39,7 @@ active_search_node->next == NULL)
 char	*handle_actions(t_input_data *input_data)
 {
 	const char	*tmp;
-	size_t	len;
+	size_t		len;
 
 	if (ft_strncmp(input_data->build_buf->buf, KEY_BS, 1) == 0 ||
 	ft_strncmp(input_data->build_buf->buf, KEY_BS2, 1) == 0)
@@ -60,8 +60,8 @@ char	*handle_actions(t_input_data *input_data)
 char	*append_to_searched(t_input_data *input_data)
 {
 	const char	*tmp;
-	size_t	len;
-	char	*searched;
+	size_t		len;
+	char		*searched;
 
 	tmp = get_searched();
 	len = tmp == NULL ? 0 : ft_strlen(tmp);
@@ -73,7 +73,8 @@ char	*append_to_searched(t_input_data *input_data)
 	return (searched);
 }
 
-int		find_in_history(t_sh_state *sh_state, t_input_data *input_data, char *searched, int next)
+int		find_in_history(t_sh_state *sh_state, t_input_data *input_data,
+char *searched, int next)
 {
 	char	*result;
 

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 13:29:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:57:22 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,8 @@ static int		get_buf(t_dyn_buf *build_buf)
 	return (0);
 }
 
-static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *hist_copy)
+static int		process_buf(t_input_data *input_data,
+t_sh_state *sh_state, t_list *hist_copy)
 {
 	if (is_sig(input_data->build_buf->buf) == 1)
 	{
@@ -48,20 +49,19 @@ static int		process_buf(t_input_data *input_data, t_sh_state *sh_state, t_list *
 			if (handle_capabilities(input_data, hist_copy, sh_state) == 1)
 				return (1);
 		}
-		else
-		{
-			reset_selection(input_data->start_pos, input_data->active_buf,
-		&input_data->rel_cur_pos);
-			if (handle_insertion(input_data) == -1)
-				return (1);
-		}
+		else if (reset_selection(input_data->start_pos, input_data->active_buf,
+		&input_data->rel_cur_pos) == 1 || handle_insertion(input_data) == -1)
+			return (1);
 	}
 	return (0);
 }
 
-static int		process_entry(t_input_data *input_data, t_sh_state *sh_state, t_list *hist_copy)
+static int		process_entry(t_input_data *input_data,
+t_sh_state *sh_state, t_list *hist_copy)
 {
-	while (get_eof() != 2 && input_data->sig_call == 0 && sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 || input_data->enter == 0))
+	while (get_eof() != 2 && input_data->sig_call == 0 &&
+sh_state->exit_sig == 0 && (input_data->active_buf->len == 0 ||
+input_data->enter == 0))
 	{
 		if (input_data->build_buf->len == 0)
 		{
@@ -80,7 +80,24 @@ static int		process_entry(t_input_data *input_data, t_sh_state *sh_state, t_list
 	return (0);
 }
 
-int		handle_input(t_sh_state *sh_state, t_input_data *input_data,
+static int		process_until_valid(int *valid_here_doc,
+t_input_data *input_data, t_sh_state *sh_state, t_list *hist_copy)
+{
+	while (*valid_here_doc != 2 && input_data->sig_call == 0 &&
+(input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
+	{
+		if (prepare_input(input_data, (const char *)input_data->here_doc) == 1)
+			return (1);
+		if (process_entry(input_data, sh_state, hist_copy) == 1)
+			return (1);
+		if ((*valid_here_doc = merge_bufs(input_data, hist_copy,
+	input_data->here_doc)) == 1)
+			return (1);
+	}
+	return (0);
+}
+
+int				handle_input(t_sh_state *sh_state, t_input_data *input_data,
 char *here_doc)
 {
 	t_list	*hist_copy;
@@ -92,16 +109,9 @@ char *here_doc)
 	valid_here_doc = 0;
 	input_data->here_doc = here_doc;
 	set_eof(here_doc != NULL);
-	while (valid_here_doc != 2 && input_data->sig_call == 0 &&
-(input_data->active_buf->len == 0 || input_data->stored_buf->len > 0))
-	{
-		if (prepare_input(input_data, (const char *)here_doc) == 1)
-			return (free_hist_copy(&hist_copy, 1));
-		if (process_entry(input_data, sh_state, hist_copy) == 1)
-			return (free_hist_copy(&hist_copy, 1));
-		if ((valid_here_doc = merge_bufs(input_data, hist_copy, here_doc)) == 1)
-			return (free_hist_copy(&hist_copy, 1));
-	}
+	if (process_until_valid(&valid_here_doc, input_data,
+sh_state, hist_copy) == 1)
+		return (free_hist_copy(&hist_copy, 1));
 	if (here_doc == NULL && input_data->active_buf->len > 0 &&
 input_data->active_buf->buf[0] != '\n')
 	{
