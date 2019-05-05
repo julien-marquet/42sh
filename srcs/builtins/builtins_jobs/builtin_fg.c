@@ -14,16 +14,40 @@
 #include "builtins/builtins_jobs/builtin_fg.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
+static int	check_arg(const char *arg, t_proc_grp **proc_grp, char *origin)
+{
+	int			nres;
+	char		*err;
+
+	nres = 0;
+	if (str_is_digit(arg) == 1)
+		*proc_grp = find_active_proc_grp_by_num(ft_atoi(arg));
+	if (*proc_grp == NULL)
+	{
+		if ((*proc_grp = find_active_proc_grp_by_needle(arg,
+	&nres)) != NULL)
+			ft_putendl((*proc_grp)->name);
+	}
+	if (*proc_grp == NULL)
+	{
+		if (nres > 1)
+			err = ft_construct_str(2, arg, ": ambiguous job");
+		else
+			err = ft_construct_str(2, arg, ": no such job");
+		print_error(origin, err, 2);
+		ft_strdel(&err);
+		return (1);
+	}
+	return (0);
+}
+
 int			builtin_fg(t_sh_state *sh_state, int ac,
 			const char **av, t_builtin_context *context)
 {
-	int			nres;
 	t_proc_grp	*proc_grp;
-	char		*err;
 
 	add_origin(&context->origin, "fg");
 	proc_grp = NULL;
-	nres = 0;
 	if (context->is_process)
 	{
 		print_error(context->origin, "no job control", 2);
@@ -31,30 +55,8 @@ int			builtin_fg(t_sh_state *sh_state, int ac,
 	}
 	else if (ac > 1)
 	{
-		if (str_is_digit(av[1]) == 1)
-			proc_grp = find_active_proc_grp_by_num(ft_atoi(av[1]));
-		if (proc_grp == NULL)
-		{
-			if ((proc_grp = find_active_proc_grp_by_needle(av[1],
-		&nres)) != NULL)
-				ft_putendl(proc_grp->name);
-		}
-		if (proc_grp == NULL)
-		{
-			if (nres > 1)
-			{
-				if ((err = ft_construct_str(2, av[1], ": ambiguous job")) == NULL)
-					return (1);
-			}
-			else
-			{
-				if ((err = ft_construct_str(2, av[1], ": no such job")) == NULL)
-					return (1);
-			}
-			print_error(context->origin, err, 2);
-			ft_strdel(&err);
+		if (check_arg(av[1], &proc_grp, context->origin) == 1)
 			return (1);
-		}
 	}
 	else
 	{
