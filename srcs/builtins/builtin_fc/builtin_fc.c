@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 20:19:47 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 05:46:04 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,7 +52,6 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 	fc_range(sh_state, av, fc_infos);
 	if (!sh_state->history || !sh_state->history->next)
 	{
-		free(fc_infos);
 		print_error(context->origin, "history specification out of range", 2);
 		return (fc_exit(fc_infos, ret));
 	}
@@ -71,7 +70,7 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 	int			args_i;
 
 	(void)ac;
-	// TODO HISTORY CREATION LESS THAN $HISTSIZE
+	// TODO MAYBE DELETE `fc -e` AS FIRST CMD IN HISTORY
 	add_origin(&context->origin, "fc");
 	if (context->is_process)
 	{
