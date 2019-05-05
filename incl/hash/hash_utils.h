@@ -19,7 +19,8 @@
 void		handle_bin_error(int error, char *path);
 int			test_bin(const char *bin_path);
 char		*create_path(const char *path, const char *bin);
-char		*add_path(char *path, t_list **table, const char *bin, size_t inc_hits);
+char		*add_path(char *path, t_list **table,
+const char *bin, size_t inc_hits);
 int			not_found(char *bin);
 
 #endif
