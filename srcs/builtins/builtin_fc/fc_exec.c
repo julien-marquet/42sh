@@ -6,26 +6,22 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:02:25 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:20:33 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtin_fc.h"
 
-static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
+static int		init_exec(t_sh_state *sh_state, char *tmp, t_cmd *cmd,
+t_fc_infos *fc_infos)
 {
 	char	*tmp_cmd;
-	char	*tmp;
-	int		i;
 
-	i = 0;
 	if (fc_infos->editor)
 	{
-		tmp = tmp_file(sh_state);
 		if (!(tmp_cmd = ft_construct_str(3, fc_infos->editor, " ", tmp)))
 			return (-1);
-		ft_strdel(&tmp);
 		if (!(cmd->arg = parse_strsplit(tmp_cmd, ft_strlen(tmp_cmd))))
 			return (-1);
 		ft_strdel(&tmp_cmd);
@@ -34,7 +30,7 @@ static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 	{
 		if (!(cmd->arg = ft_memalloc(sizeof(char*) * 3)))
 			return (-1);
-		if (!(cmd->arg[0] = ft_strdup(fc_infos->editor ? fc_infos->editor : EDITOR)))
+		if (!(cmd->arg[0] = ft_strdup(EDITOR)))
 			return (-1);
 		if (!(cmd->arg[1] = tmp_file(sh_state)))
 			return (-1);
@@ -98,7 +94,7 @@ static int		fc_editor_exec(char *tmp, t_sh_state *sh_state, t_fc_infos *fc_infos
 
 	if (!(cmd = ft_memalloc(sizeof(t_cmd))))
 		return (-1);
-	if (init_exec(sh_state, cmd, fc_infos) == -1)
+	if (init_exec(sh_state, tmp, cmd, fc_infos) == -1)
 		return (-1);
 	if ((fd = open(tmp, O_CREAT | O_TRUNC | O_WRONLY, HIST_PERM)) == -1)
 		return (-1);
