@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 22:47:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:38:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -215,10 +215,17 @@ typedef struct	s_pos_info
 	t_proc_grp	*proc_grp;
 }				t_pos_info;
 
+
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
 				t_context *context);
 typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
 				t_builtin_context *context);
 typedef int		(*t_assoc_func[BUILTINS_NB + 1])(t_sh_state *, int,
 				const char **, t_builtin_context *);
+
+typedef struct	s_child_data
+{
+	int				new_pipe[3];
+	t_builtin_func	builtin;
+}				t_child_data;
 #endif
