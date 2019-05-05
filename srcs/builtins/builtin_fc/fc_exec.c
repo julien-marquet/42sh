@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:14:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:17:44 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -83,7 +83,7 @@ int				fc_tmpfile_exec(t_sh_state *sh_state, char *tmp_file)
 	free_dyn_buf(&dyn);
 	if (fc_exec_cmd(sh_state, args) == -1)
 		return (-1);
-	return (0);
+	return (close(fd));
 }
 
 static int		fc_editor_exec(char *tmp, t_sh_state *sh_state,
@@ -106,8 +106,7 @@ t_fc_infos *fc_infos)
 		return (-1);
 	i = exec_cmd_list(sh_state, cmd, job, NULL);
 	ft_strdel(&job);
-	close(fd);
-	return (0);
+	return (close(fd));
 }
 
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
