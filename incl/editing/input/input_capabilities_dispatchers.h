@@ -11,8 +11,8 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef INPUT_CAPABILITIES_DISPATCHER_H
-# define INPUT_CAPABILITIES_DISPATCHER_H
+#ifndef INPUT_CAPABILITIES_DISPATCHERS_H
+# define INPUT_CAPABILITIES_DISPATCHERS_H
 
 # include "common.h"
 # include "editing/input/input.h"
