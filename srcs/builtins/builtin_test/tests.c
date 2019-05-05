@@ -75,20 +75,6 @@ static int	check_3args(t_test_infos *infos, char **av, int ac)
 	return (0);
 }
 
-static char	**remove_negate(char **av)
-{
-	size_t	i;
-
-	free(av[1]);
-	i = 1;
-	while (av[i])
-	{
-		av[i] = av[i + 1];
-		i += 1;
-	}
-	return (av);
-}
-
 static int	check_more_args(t_test_infos *infos, char **av, int ac)
 {
 	if (ft_strcmp("!", av[0]) == 0 ||

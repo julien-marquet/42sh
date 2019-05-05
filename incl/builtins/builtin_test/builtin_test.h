@@ -23,8 +23,10 @@ typedef struct	s_test_infos
 	int			base_ac;
 }				t_test_infos;
 
-int				is_unary_op(char *arg);
 int				xit(char **ar, int ret);
+char			**remove_negate(char **av);
+
+int				is_unary_op(char *arg);
 int				is_binary_op(char *arg);
 int				test_error(char *builtin, char *file, char *msg);
 int				make_test(t_test_infos *infos, char **av, int ac);
