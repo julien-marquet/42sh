@@ -11,8 +11,8 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef ALIAS_H
-# define ALIAS_H
+#ifndef ALIASES_H
+# define ALIASES_H
 
 # include "aliases/aliases_manipulations.h"
 # include "aliases/aliases_getters.h"
