@@ -24,8 +24,7 @@ char	*get_alias(t_list *aliases, const char *var_name)
 	return (ft_strdup(&(((char *)node->content)[ft_strlen(var_name) + 1])));
 }
 
-
-t_list			*duplicate_aliases(t_list *aliases)
+t_list	*duplicate_aliases(t_list *aliases)
 {
 	t_list	*new;
 	t_list	*node;

@@ -24,7 +24,9 @@ static char		*check_paths(const char **paths, const char *bin,
 	while (*pointer != NULL)
 	{
 		tmp = create_path(*pointer, bin);
-		if ((ret = test_bin((const char *)tmp)) == -1)
+		if (bin[0] == '\0')
+			ret = 1;
+		else if ((ret = test_bin((const char *)tmp)) == -1)
 			return (NULL);
 		if (ret == 0)
 			return (add_path(tmp, table, bin, *error != 0));
@@ -77,14 +79,14 @@ char			*append_bin(const char *bin, t_list **table,
 	char	**paths;
 
 	*error = 4;
-	if ((tmp = get_env_value(internal_storage, "PATH")) == NULL)
+	if ((tmp = get_var(internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
 	tmp = check_paths((const char **)paths, bin, table, error);
+	ft_freetab(&paths);
 	if (*error != 4)
 		return (NULL);
-	ft_freetab(&paths);
 	if (tmp == NULL)
 	{
 		*error = -1;

@@ -101,15 +101,15 @@ int			builtin_test(t_sh_state *sh_state, int ac,
 	if (ft_strcmp("[", av[0]) == 0)
 	{
 		if (ft_strcmp("]", av[ac - 1]) != 0)
-			return (test_error((char *)av[0], NULL, "missing `]`"));
+			return (xit(args, test_error((char *)av[0], NULL, "missing `]`")));
 		ac -= 1;
 	}
 	if (ac == 1)
-		return (1);
+		return (xit(args, 1));
 	if ((ret = make_test(&infos, args + 1, ac - 1)) == -1)
 		return (-1);
 	if (ret == 2)
-		return (ret);
+		return (xit(args, ret));
 	if (infos.negate)
 		ret = !ret;
 	ft_freetab(&args);

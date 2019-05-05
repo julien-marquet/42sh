@@ -11,8 +11,8 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef PIPE_DEFINE_H
-# define PIPE_DEFINE_H
+#ifndef PIPE_DEFINES_H
+# define PIPE_DEFINES_H
 
 # define READ_END 1
 # define WRITE_END 2

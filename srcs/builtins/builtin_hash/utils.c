@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_set.h                                    .::    .:/ .      .::   */
+/*   utils.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:49:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:59:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 03:54:31 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 03:54:31 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_SET_H
-# define BUILTIN_SET_H
+#include "builtins/builtin_hash/builtin_hash.h"
 
-# include "common.h"
-# include "storage/storage_manipulations.h"
+int		check_not_found(t_hash_table *link, size_t found,
+const char *av, size_t *i)
+{
+	int		ret;
 
-int		builtin_set(t_sh_state *sh_state, int ac,
-const char **av, t_builtin_context *context);
-
-#endif
+	ret = 0;
+	if (link != NULL)
+		link->hits = 0;
+	if (!found)
+		ret = not_found((char *)av);
+	*i += 1;
+	return (ret);
+}

@@ -17,6 +17,8 @@
 # include "common.h"
 # include "hash/hash.h"
 
+int				check_not_found(t_hash_table *link, size_t found,
+const char *av, size_t *i);
 int				builtin_hash(t_sh_state *sh_state, int ac,
 			const char **av, t_builtin_context *context);
 

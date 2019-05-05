@@ -17,7 +17,6 @@
 # include "common.h"
 # include "editing/input/input.h"
 
-
 int		expand_selection_right(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,
 		size_t *rel_cur_pos);
 int		expand_selection_left(t_cur_abs_pos *start_pos, t_dyn_buf *active_buf,

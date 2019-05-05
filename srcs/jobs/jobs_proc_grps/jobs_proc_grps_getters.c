@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:37:51 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:55:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 17:00:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,7 @@ int			get_active_proc_grp_nb(void)
 	while (tmp != NULL)
 	{
 		if ((proc = get_last_proc(((t_proc_grp *)tmp->content))) != NULL &&
-	proc->status != exited)
+	proc->status != exited && proc->status != signaled)
 			cpt++;
 		tmp = tmp->next;
 	}
@@ -80,14 +80,16 @@ t_proc_grp	*find_active_proc_grp_by_num(int num)
 	jobs = jobs_super_get(NULL);
 	tmp = jobs->proc_grps;
 	total = get_active_proc_grp_nb();
-	while (tmp != NULL && index <= num)
+	while (tmp != NULL)
 	{
-		if ((proc = get_last_proc(((t_proc_grp *)tmp->content))) != NULL &&
-	proc->status != exited)
+		if ((proc = get_last_proc_all(((t_proc_grp *)tmp->content))) != NULL)
 		{
-			if (total - index == num)
-				return ((t_proc_grp *)tmp->content);
-			index++;
+			if (proc->status != exited && proc->status != signaled)
+			{
+				if (total - index == num)
+					return ((t_proc_grp *)tmp->content);
+				index++;
+			}
 		}
 		tmp = tmp->next;
 	}

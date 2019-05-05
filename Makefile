@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/05 01:48:26 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/05 04:59:10 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -52,11 +52,11 @@ CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.
 CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c storage_tmp.c)
 CFILES += $(addprefix builtins/, builtin_true.c builtin_false.c builtin_type.c builtin_cd.c builtins_utils.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_setenv.c)
-CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c)
+CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c utils.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
-CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c)
+CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c utils.c)
 CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_free.c fc_print.c fc_options.c fc_utils.c fc_exec.c fc_replace_exec.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 CFILES += $(addprefix jobs/, child_updated_flag.c jobs_printers.c jobs_controls.c jobs_display.c jobs_flush.c jobs_super.c jobs_update.c)

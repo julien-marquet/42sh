@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:27:11 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 13:08:43 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 22:24:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,8 +16,7 @@
 
 # include "common.h"
 
-int		add_job_status(t_pos_info p_info, const char *name,
-		t_proc *proc, char **job_status);
 void	print_job_bpid(t_pos_info p_info, int bpid);
+void	add_job_status(t_pos_info p_info, int mode, char **display);
 
 #endif

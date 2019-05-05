@@ -11,7 +11,6 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-
 #ifndef CURSOR_SIMULATION_H
 # define CURSOR_SIMULATION_H
 

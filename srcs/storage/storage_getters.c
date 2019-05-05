@@ -34,6 +34,26 @@ char    *get_env_value(t_list *list, const char *key)
     return (NULL);
 }
 
+char	*get_var(t_list *list, const char *var)
+{
+	size_t				len;
+	char				*value;
+    t_internal_storage  *storage;
+
+	if ((value = get_env_value(list, var)) != NULL)
+		return (value);
+	len = ft_strlen(var);
+	while (list != NULL)
+	{
+        storage = list->content;
+        if (ft_strncmp(storage->string, var, len) == 0 &&
+			*(storage->string + len) == '=')
+            return (storage->string + len + 1);
+		list = list->next;
+	}
+	return (NULL);
+}
+
 /*
 **	Need to be freed
 */

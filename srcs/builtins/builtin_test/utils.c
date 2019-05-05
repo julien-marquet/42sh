@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_set.h                                    .::    .:/ .      .::   */
+/*   utils.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/05 18:49:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 17:59:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 04:01:41 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 04:01:42 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_SET_H
-# define BUILTIN_SET_H
+#include "builtins/builtin_test/builtin_test.h"
 
-# include "common.h"
-# include "storage/storage_manipulations.h"
+int		xit(char **arr, int ret)
+{
+	ft_freetab(&arr);
+	return (ret);
+}
 
-int		builtin_set(t_sh_state *sh_state, int ac,
-const char **av, t_builtin_context *context);
+char	**remove_negate(char **av)
+{
+	size_t	i;
 
-#endif
+	free(av[1]);
+	i = 1;
+	while (av[i])
+	{
+		av[i] = av[i + 1];
+		i += 1;
+	}
+	return (av);
+}

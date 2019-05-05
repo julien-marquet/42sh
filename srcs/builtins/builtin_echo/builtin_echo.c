@@ -41,7 +41,6 @@ static int	print_octal(const char *str, int *err)
 
 static int	print_extended(const char *str, int fd, int *err)
 {
-
 	if (*str == '0')
 		return (print_octal(str, err));
 	else if (*str == 'a' && write(fd, "\a", 1))
@@ -110,10 +109,9 @@ static int	printer(int i, int fd, const char **av, const char *opts)
 	no_nl_opt = opts && ft_strchr(opts, 'n') != NULL;
 	while (av[i] != NULL)
 	{
-		if (first)
-			first = 0;
-		else if (write(fd, " ", 1) == -1)
+		if (!first && write(fd, " ", 1) == -1)
 			return (1);
+		first = 0;
 		if (ext_opt == 1)
 			no_nl_opt |= handle_ext(av[i], fd, &err);
 		else if (write(fd, av[i], ft_strlen(av[i])) == -1)

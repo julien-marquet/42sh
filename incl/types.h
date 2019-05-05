@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:45:06 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 04:59:20 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -100,7 +100,6 @@ typedef struct	s_fds
 	int		err;
 }				t_fds;
 
-
 typedef struct	s_builtin_context
 {
 	char	*origin;
@@ -111,22 +110,22 @@ typedef struct	s_builtin_context
 ** t_arg	t_cmd->arg constructor
 */
 
-typedef struct		s_arg {
+typedef struct	s_arg {
 	char			*arg;
 	int				type;
 	struct s_arg	*next;
-}					t_arg;
+}				t_arg;
 
 /*
 ** t_ctype	Chevron redirection type
 */
 
-typedef enum		e_ctype {
+typedef enum	e_ctype {
 	C_IN = 0,
 	C_LEN,
 	C_OUT,
 	C_TYPE
-}					t_ctype;
+}				t_ctype;
 
 /*
 ** t_file	Parsed redirections
@@ -136,12 +135,12 @@ typedef enum		e_ctype {
 ** int		*type = Redirection type (t_ctype)
 */
 
-typedef struct		s_file {
+typedef struct	s_file {
 	char			*file;
 	char			*here;
 	int				*type;
 	struct s_file	*next;
-}					t_file;
+}				t_file;
 
 /*
 ** t_cmd	Parsed command
@@ -152,7 +151,7 @@ typedef struct		s_file {
 ** t_file	*out = Outputs
 */
 
-typedef struct		s_cmd {
+typedef struct	s_cmd {
 	char			*str;
 	char			**arg;
 	char			type;
@@ -162,7 +161,7 @@ typedef struct		s_cmd {
 	struct s_cmd	*next;
 	int				assign;
 	t_list			*env;
-}					t_cmd;
+}				t_cmd;
 
 typedef struct	s_proc
 {
@@ -210,8 +209,10 @@ typedef struct	s_context
 
 typedef struct	s_pos_info
 {
-	int		index;
-	int		attribute;
+	int			index;
+	int			attribute;
+	t_proc		*proc;
+	t_proc_grp	*proc_grp;
 }				t_pos_info;
 
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,

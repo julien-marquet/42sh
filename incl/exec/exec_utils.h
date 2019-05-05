@@ -19,6 +19,6 @@
 
 int		register_process(t_context *context, t_proc *proc, int new_pipe[3]);
 void	reset_signal_handlers(void);
-int	is_absolute_path(const char *path);
+int		is_absolute_path(const char *path);
 
 #endif

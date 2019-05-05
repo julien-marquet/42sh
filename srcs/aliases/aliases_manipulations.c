@@ -20,9 +20,7 @@ int		add_alias(t_list **aliases, const char *name, const char *value)
 	size_t		name_len;
 	char		*entry;
 
-	if (name == NULL)
-		return (1);
-	if (ft_strcspn(name, "/=") != (name_len = ft_strlen(name)))
+	if (name == NULL || ft_strcspn(name, "/=") != (name_len = ft_strlen(name)))
 		return (1);
 	if (name_len == 0)
 		return (0);
@@ -35,9 +33,8 @@ int		add_alias(t_list **aliases, const char *name, const char *value)
 	}
 	else
 	{
-		if ((entry = merge_name_value(name, value, len)) == NULL)
-			return (1);
-		if ((node = ft_lstnew((const void *)entry, len + 1)) == NULL)
+		if ((entry = merge_name_value(name, value, len)) == NULL ||
+			(node = ft_lstnew((const void *)entry, len + 1)) == NULL)
 			return (1);
 		free(entry);
 		ft_lstprepend(aliases, node);

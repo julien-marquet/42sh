@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:39:53 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 13:47:02 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 00:00:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,13 +23,15 @@ void	convert_stat_loc(int stat_loc, t_proc *proc)
 	else if (WIFCONTINUED(stat_loc))
 		proc->status = running;
 	else if (WIFSTOPPED(stat_loc))
+	{
 		proc->status = stopped;
+		proc->code = WSTOPSIG(stat_loc);
+	}
 	else if (WIFSIGNALED(stat_loc))
 	{
 		proc->status = signaled;
 		proc->code = WTERMSIG(stat_loc);
 	}
-
 }
 
 t_proc_grp	*update_proc_status(t_jobs *jobs, int pid, int stat_loc)
@@ -176,9 +178,22 @@ void	handle_process_update(void)
 			background_init = proc_grp->background;
 			if (proc->status == stopped)
 				proc_grp->background = 1;
-			if (proc->updated && proc_grp->remaining == NULL &&
-		proc_grp->background == 1 && (proc->pid == pid || proc->null == 1))
-				display_job_alert(proc_grp, proc);
+			if (proc->updated)
+			{
+				if (proc_grp->background == 1)
+				{
+					if (proc_grp->remaining == NULL &&
+				(proc->pid == pid || proc->null == 1))
+						display_job_alert(proc_grp, proc);
+				}
+				else if (proc->pid == pid && proc->status == signaled &&
+			proc->code != 2)
+				{
+					ft_putstr("Signaled: ");
+					ft_putnbr(proc->code);
+					ft_putstr("\n");
+				}
+			}
 			if (proc->status != stopped && proc->pid == pid &&
 		proc_grp->remaining != NULL && proc_grp->background == 1)
 			{

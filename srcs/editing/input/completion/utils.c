@@ -74,11 +74,7 @@ size_t			is_stopping(char str)
 	return (str == ' ' ||
 		str == ';' ||
 		str == '|' ||
-		str == '&' ||
-		str == '>' ||
-		str == '<' ||
-		str == ':' ||
-		str == '+');
+		str == '&');
 }
 
 size_t			is_dir(char *path)

@@ -18,6 +18,6 @@
 # include "aliases/aliases_utils.h"
 
 char	*get_alias(t_list *aliases, const char *var_name);
-t_list			*duplicate_aliases(t_list *aliases);
+t_list	*duplicate_aliases(t_list *aliases);
 
 #endif
