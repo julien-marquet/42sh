@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/05 19:57:46 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 20:00:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 23:05:09 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,4 +35,11 @@ int		is_last(t_cmd *cmd_list)
 ft_strcmp(cmd_list->red, "||") == 0)
 		return (1);
 	return (0);
+}
+
+int		is_new_proc_grp(t_context *context)
+{
+	if (context->proc_grp != NULL && context->proc_grp->last_red != NULL)
+		return (0);
+	return (1);
 }
