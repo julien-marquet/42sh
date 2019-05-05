@@ -46,7 +46,8 @@ char			*dup_path(t_input_data *input,
 {
 	char	*tmp;
 
-	if ((ft_strrchr(input->active_buf->buf, '/') ==
+	if (*(pointer + 1) == '\0' ||
+		(ft_strrchr(input->active_buf->buf, '/') ==
 		input->active_buf->buf && old2 == 0))
 		tmp = ft_strdup("/");
 	else
