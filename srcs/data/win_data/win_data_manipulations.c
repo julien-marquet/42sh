@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 22:05:05 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:25:12 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:47:46 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,24 +21,24 @@ int		init_win_data(void)
 	return (g_win_data.err = 0);
 }
 
-void	update_win_data(int signo)
+void	update_win_data(void)
 {
-	struct	winsize old_size;
+	struct winsize	old_size;
 
-	signo += 0;
 	old_size.ws_col = g_win_data.ws.ws_col;
 	old_size.ws_row = g_win_data.ws.ws_row;
 	g_win_data.err = ioctl(0, TIOCGWINSZ, (&g_win_data.ws));
-	if (old_size.ws_col != g_win_data.ws.ws_col || old_size.ws_row != g_win_data.ws.ws_row)
+	if (old_size.ws_col != g_win_data.ws.ws_col ||
+old_size.ws_row != g_win_data.ws.ws_row)
 		g_win_data.resized = 1;
 }
 
-void	reset_win_resized_value()
+void	reset_win_resized_value(void)
 {
 	g_win_data.resized = 0;
 }
 
-int		win_has_been_resized()
+int		win_has_been_resized(void)
 {
 	return (g_win_data.resized);
 }

@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 21:41:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:42:24 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:45:20 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,8 @@ char	**duplicate_array(char **array)
 	if (array != NULL)
 	{
 		arr_len = ft_arraylen((const void **)array);
-		if ((new_arr = (char **)ft_memalloc(sizeof(char *) * (arr_len + 1))) == NULL)
+		if ((new_arr = (char **)ft_memalloc(
+	sizeof(char *) * (arr_len + 1))) == NULL)
 			return (NULL);
 		i = 0;
 		while (array[i] != NULL)

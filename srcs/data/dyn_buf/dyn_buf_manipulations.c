@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 17:00:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:46:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -51,7 +51,7 @@ dyn_buf->len - index);
 	return (0);
 }
 
-int		shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift)
+int			shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift)
 {
 	ft_memmove(dyn_buf->buf, &(dyn_buf->buf[shift]), dyn_buf->len - shift);
 	dyn_buf->len -= shift;
@@ -60,7 +60,7 @@ int		shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift)
 	return (0);
 }
 
-int		del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index)
+int			del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index)
 {
 	if (index < dyn_buf->len)
 	{
@@ -75,7 +75,7 @@ int		del_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index)
 	return (0);
 }
 
-int		del_n_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index, size_t len)
+int			del_n_at_dyn_buf(t_dyn_buf *dyn_buf, size_t index, size_t len)
 {
 	if (index + len <= dyn_buf->len)
 	{
