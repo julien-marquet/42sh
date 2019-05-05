@@ -89,11 +89,7 @@ char *needle, t_sh_state *state)
 	if (ft_strcmp(needle, tmp) != 0)
 	{
 		if (complete_word(input, tmp, 0, state) == 1)
-		{
-			free(tmp);
 			return (1);
-		}
-		free(tmp);
 	}
 	else
 	{
@@ -114,8 +110,8 @@ char *needle, t_sh_state *state)
 	{
 		if ((path = get_path(input, 1, state)) == NULL)
 			res = 1;
-		else if (is_dir(path) && (insert_dyn_buf("/", input->active_buf,
-	input->rel_cur_pos) == 1 || insertn_chars(input, "/", 1, 0) == 1))
+		else if (is_dir(path) && path[ft_strlen(path) - 1] != '/' &&
+(insert_dyn_buf("/", input->active_buf, input->rel_cur_pos) == 1 || insertn_chars(input, "/", 1, 0) == 1))
 			res = 1;
 		ft_strdel(&path);
 		return (res);
