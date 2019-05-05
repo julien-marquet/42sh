@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/04 20:22:25 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/05 01:48:26 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -107,7 +107,7 @@ LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
 CC := $(shell whereis gcc)
 AR := $(shell whereis ar)
 RM := $(shell whereis rm)
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 P_FLAGS = -lcurses
 
 export CC

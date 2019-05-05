@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 14:47:45 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 22:27:39 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,7 +42,7 @@ char			    *create_job_name(t_cmd *acmd);
 ** PARSE
 */
 
-char				*parse_event(char *str, t_list *hist);
+char				*parse_event(char *str, t_sh_state *sh_state);
 char				*parse_alias(char *str, t_list *aliases, t_list *skip);
 int					parse_exec(char *str, t_sh_state *sh_state, t_input_data *input_data);
 t_cmd				*parse_cmdcreate(char *str, int len, t_cmd *cmd, int type);
