@@ -29,7 +29,7 @@ static char		*check_paths(const char **paths, const char *bin,
 		else if ((ret = test_bin((const char *)tmp)) == -1)
 			return (NULL);
 		if (ret == 0)
-			return (add_path(tmp, table, bin, *error != 0));
+			return (add_path(tmp, table, bin, *error != 4));
 		else if (ret == 2 && *error == 4)
 			*error = 1;
 		else if (ret == 3 && *error == 4)
