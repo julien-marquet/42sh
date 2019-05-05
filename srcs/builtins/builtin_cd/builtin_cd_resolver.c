@@ -67,7 +67,6 @@ static char	*rejoin_path(char **arr)
 
 char	*resolve_links(t_sh_state *state, char *base, char **path)
 {
-	int		ret;
 	char	*tmp;
 	char	**dirs;
 	char	**pointer;
@@ -76,9 +75,7 @@ char	*resolve_links(t_sh_state *state, char *base, char **path)
 		return (NULL);
 	while (*pointer)
 	{
-		if ((ret = verify_new(&base, *pointer, &tmp, &dirs)) == -1)
-			return (NULL);
-		if (ret == 1)
+		if (verify_new(&base, *pointer, &tmp, &dirs) == 1)
 		{
 			ft_strdel(path);
 			*path = rejoin_path(pointer + 1);

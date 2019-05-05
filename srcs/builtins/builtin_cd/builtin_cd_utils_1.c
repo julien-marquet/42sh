@@ -83,9 +83,6 @@ int	verify_new(char **base, char *pointer, char **tmp, char ***dirs)
 	}
 	ft_strdel(base);
 	if ((res = is_symbolic_link(*tmp)) == -1)
-	{
-		ft_strdel(tmp);
 		ft_freetab(dirs);
-	}
 	return (res);
 }
