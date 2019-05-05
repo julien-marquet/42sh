@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 17:10:58 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:43:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -227,6 +227,8 @@ typedef struct	s_child_data
 {
 	int				new_pipe[3];
 	t_builtin_func	builtin;
+	char			**env;
+	const char			*path;
 }				t_child_data;
 
 typedef struct	s_gf_data
