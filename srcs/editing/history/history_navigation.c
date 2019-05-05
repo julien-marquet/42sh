@@ -6,14 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 13:41:45 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 16:26:35 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/history/history.h"
 
-t_list	*get_history_search(t_list *hist, char *find)
+t_list		*get_history_search(t_list *hist, char *find)
 {
 	if (hist)
 		hist = hist->next;
@@ -26,7 +26,7 @@ t_list	*get_history_search(t_list *hist, char *find)
 	return (NULL);
 }
 
-t_list	*get_history_index_rev(t_list *history, size_t index)
+t_list		*get_history_index_rev(t_list *history, size_t index)
 {
 	size_t	i;
 	t_list	*cur;
@@ -53,7 +53,7 @@ t_list	*get_history_index_rev(t_list *history, size_t index)
 	return (behind);
 }
 
-t_list	*get_history_index(t_list *history, size_t index)
+t_list		*get_history_index(t_list *history, size_t index)
 {
 	size_t	i;
 	t_list	*tmp_hist;
@@ -68,30 +68,36 @@ t_list	*get_history_index(t_list *history, size_t index)
 	return (tmp_hist);
 }
 
-int		history_navigate(t_input_data *input_data, t_list *hist_copy, int action)
+static void	update_index(int action, int *index, t_input_data *input_data)
+{
+	if (action == HIST_NEXT)
+	{
+		(*index)++;
+		if (input_data->here_doc != NULL &&
+	input_data->stored_buf->len > 0 && *index == 1)
+			(*index)++;
+	}
+	else
+	{
+		(*index)--;
+		if (input_data->here_doc != NULL &&
+	input_data->stored_buf->len > 0 && *index == 1)
+			(*index)--;
+	}
+}
+
+int			history_navigate(t_input_data *input_data,
+t_list *hist_copy, int action)
 {
 	static int	index = 0;
-	int	old_i;
+	int			old_i;
 
 	if (action == HIST_RESET)
 		index = 0;
 	else
 	{
 		old_i = index;
-		if (action == HIST_NEXT)
-		{
-			index++;
-			if (input_data->here_doc != NULL &&
-		input_data->stored_buf->len > 0 && index == 1)
-				index++;
-		}
-		else
-		{
-			index--;
-			if (input_data->here_doc != NULL &&
-		input_data->stored_buf->len > 0 && index == 1)
-				index--;
-		}
+		update_index(action, &index, input_data);
 		if (index < 0)
 			return ((index = 0));
 		if ((index = navigate(input_data, hist_copy, index, old_i)) == -1)
