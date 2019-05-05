@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/03 19:05:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:51:17 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,8 @@ static void	sim_break(t_cur_abs_pos *pos)
 	pos->col = 0;
 }
 
-static int	update_wanted_pos(t_cur_abs_pos *pos, t_dyn_buf *active_buf, size_t i, size_t rel_cur_pos)
+static int	update_wanted_pos(t_cur_abs_pos *pos,
+t_dyn_buf *active_buf, size_t i, size_t rel_cur_pos)
 {
 	int				win_col;
 
@@ -75,7 +76,8 @@ t_dyn_buf *active_buf, size_t rel_cur_pos)
 	return (0);
 }
 
-int		sim_cursor_movement_light(t_dyn_buf *active_buf, size_t rel_cur_pos, t_cur_abs_pos *pos, int win_col)
+int			sim_cursor_movement_light(t_dyn_buf *active_buf,
+size_t rel_cur_pos, t_cur_abs_pos *pos, int win_col)
 {
 	size_t	i;
 
