@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:38:05 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:14:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,7 +60,7 @@ static int		fc_exec_cmd(t_sh_state *sh_state, t_list *list)
 	return (ret);
 }
 
-int				fc_tmpfile_edit(t_sh_state *sh_state, char *tmp_file)
+int				fc_tmpfile_exec(t_sh_state *sh_state, char *tmp_file)
 {
 	t_dyn_buf	*dyn;
 	char		buf[READ_SIZE + 1];
@@ -121,10 +121,8 @@ int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 		return (-1);
 	free_current_cmd(sh_state);
 	if (sh_state->status == 0)
-		fc_tmpfile_edit(sh_state, tmp);
+		fc_tmpfile_exec(sh_state, tmp);
 	unlink(tmp);
 	ft_strdel(&tmp);
-	if (sh_state->status != 0)
-		return (-1);
-	return (0);
+	return (sh_state->status != 0 ? sh_state->status : 0);
 }
