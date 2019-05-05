@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   input_search_mode.c                              .::    .:/ .      .::   */
+/*   input_searched.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/26 04:03:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:08:10 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 19:00:00 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 19:14:08 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "editing/input/input_search_mode.h"
+#include "editing/input/input_searched.h"
 
-int		*search_mode_super_get(void)
+char		**searched_super_get(void)
 {
-	static int search_mode = 0;
+	static char	*searched = NULL;
 
-	return (&search_mode);
+	return (&searched);
 }
 
-int		get_search_mode(void)
+const char	*get_searched(void)
 {
-	return (*search_mode_super_get());
+	return (*searched_super_get());
 }
 
-void	set_search_mode(int setter)
+void		set_searched(char *setter)
 {
-	int		*tmp;
+	char	**searched;
+	char	*tmp;
 
-	tmp = search_mode_super_get();
-	if (setter == 0)
-	{
-		set_searched(NULL);
-		set_active_search_node(NULL);
-	}
-	*tmp = setter;
+	searched = searched_super_get();
+	tmp = *searched;
+	ft_strdel(&tmp);
+	*searched = setter;
 }

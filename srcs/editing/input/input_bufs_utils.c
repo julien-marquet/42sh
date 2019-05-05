@@ -6,21 +6,21 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 15:53:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 17:50:07 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/input_bufs_utils.h"
 
-void	reset_input(t_input_data *input_data)
+void		reset_input(t_input_data *input_data)
 {
 	reset_dyn_buf(input_data->stored_buf);
 	reset_dyn_buf(input_data->active_buf);
 	input_data->rel_cur_pos = 0;
 }
 
-int		prepare_input(t_input_data *input_data, const char *here_doc)
+int			prepare_input(t_input_data *input_data, const char *here_doc)
 {
 	if (ask_start_position(input_data->start_pos) == 1)
 		return (1);
@@ -30,29 +30,42 @@ PROMPT_MULTI : PROMPT_SIMPLE);
 	return (0);
 }
 
-void	remove_escaped(t_dyn_buf *dyn_buf)
+void		remove_escaped(t_dyn_buf *dyn_buf)
 {
 	dyn_buf->buf[dyn_buf->len - 2] = '\0';
 	dyn_buf->len -= 2;
 }
 
-int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
+static int	handle_here_doc_merge(t_input_data *input_data,
+char *here_doc, int *valid_here_doc)
 {
-	int		valid_here_doc;
+	int		res;
 
-	valid_here_doc = -1;
+	res = 0;
 	if (here_doc != NULL)
 	{
-		valid_here_doc = get_eof() == 2 ||
+		*valid_here_doc = get_eof() == 2 ||
 	here_doc_is_closed(input_data->active_buf, here_doc);
 	}
-	if (valid_here_doc == 1 && get_eof() != 2)
+	if (*valid_here_doc == 1 && get_eof() != 2)
 	{
+		res = 1;
 		ft_swap((void **)(&(input_data->active_buf)),
 	(void **)(&(input_data->stored_buf)));
 		reset_dyn_buf(input_data->stored_buf);
 	}
-	else if (input_data->stored_buf->len > 0)
+	return (res);
+}
+
+int			merge_bufs(t_input_data *input_data, t_list *hist_copy,
+char *here_doc)
+{
+	int		valid_here_doc;
+
+	valid_here_doc = -1;
+
+	if (handle_here_doc_merge(input_data, here_doc,
+&valid_here_doc) != 1 && input_data->stored_buf->len > 0)
 	{
 		if (insert_dyn_buf(input_data->stored_buf->buf,
 	input_data->active_buf, 0) == 1)
@@ -72,6 +85,3 @@ int		merge_bufs(t_input_data *input_data, t_list *hist_copy, char *here_doc)
 	}
 	return (valid_here_doc ? 2 : 0);
 }
-
-
-
