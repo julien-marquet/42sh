@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   exec_utils.h                                     .::    .:/ .      .::   */
+/*   exec_cmd_checkers2.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/20 23:17:29 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:53:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 19:57:46 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 20:00:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef EXEC_UTILS_H
-# define EXEC_UTILS_H
+#include "exec/exec_cmd_checkers.h"
 
-# include "common.h"
-# include "jobs/jobs.h"
+int		is_background(t_cmd *cmd_list)
+{
+	while (!cmd_is_empty(cmd_list))
+	{
+		if (cmd_is_empty(cmd_list->next))
+		{
+			return (cmd_list->red != NULL &&
+		ft_strcmp(cmd_list->red, "&") == 0);
+		}
+		cmd_list = cmd_list->next;
+	}
+	return (0);
+}
 
-int		register_process(t_context *context, t_proc *proc, int new_pipe[3]);
-void	reset_signal_handlers(void);
-int		is_absolute_path(const char *path);
-int		move_to_next_valid_condition(const char *condition, t_cmd **cmd);
-
-#endif
+int		is_last(t_cmd *cmd_list)
+{
+	if (cmd_is_empty(cmd_list->next))
+		return (1);
+	else if (ft_strcmp(cmd_list->red, "&&") == 0 ||
+ft_strcmp(cmd_list->red, "||") == 0)
+		return (1);
+	return (0);
+}

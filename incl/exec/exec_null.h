@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   exec_utils.h                                     .::    .:/ .      .::   */
+/*   exec_null.h                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/20 23:17:29 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:53:27 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 19:51:26 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 19:55:30 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef EXEC_UTILS_H
-# define EXEC_UTILS_H
+#ifndef EXEC_NULL_H
+# define EXEC_NULL_H
 
 # include "common.h"
+# include "exec/exec_dispatcher.h"
+# include "exec/exec_cmd_checkers.h"
 # include "jobs/jobs.h"
 
-int		register_process(t_context *context, t_proc *proc, int new_pipe[3]);
-void	reset_signal_handlers(void);
-int		is_absolute_path(const char *path);
-int		move_to_next_valid_condition(const char *condition, t_cmd **cmd);
+int		handle_null_cmd(t_sh_state *sh_state, t_cmd **cmd,
+		t_context *context, int err);
 
 #endif
