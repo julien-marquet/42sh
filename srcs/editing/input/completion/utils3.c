@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   errors.c                                         .::    .:/ .      .::   */
+/*   utils3.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/23 21:34:30 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 17:26:23 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 17:38:24 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 17:39:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/completion/completion.h"
 
-int		free_exit(t_list *files, char *str)
+void			swap_words(char **pointer, char **current_word, char **word)
 {
-	lstfree(files);
-	if (str != NULL)
-		free(str);
-	return (1);
+	if (**pointer == '\0')
+	{
+		ft_strdel(current_word);
+		*current_word = *word;
+	}
+	else
+		ft_strdel(word);
 }

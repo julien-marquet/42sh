@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   getters.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 20:46:24 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 20:46:25 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 17:26:26 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,7 +64,8 @@ char			*dup_path(t_input_data *input,
 	return (tmp);
 }
 
-char			*get_path(t_input_data *input, size_t get_all, t_sh_state *state)
+char			*get_path(t_input_data *input,
+size_t get_all, t_sh_state *state)
 {
 	char	old;
 	char	old2;

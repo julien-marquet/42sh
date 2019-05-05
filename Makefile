@@ -6,7 +6,7 @@
 #    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/05 15:21:35 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/05 17:39:17 by jmarquet    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -40,7 +40,7 @@ CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
 CFILES += $(addprefix editing/input/, input_eof.c input_search_history.c input_search_mode.c input_selection.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
-CFILES += $(addprefix editing/input/completion/, utils.c utils2.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
+CFILES += $(addprefix editing/input/completion/, utils.c utils2.c utils3.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
 CFILES += $(addprefix parse/expand/, expand_history.c expand_tilde.c expand_param.c expand_error.c expand.c)

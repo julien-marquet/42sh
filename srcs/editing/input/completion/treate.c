@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   treate.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 20:19:25 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 20:19:26 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 17:42:54 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -75,7 +75,8 @@ static int	print_files(t_list *files, t_input_data *input)
 	return (0);
 }
 
-static int	half_complete(t_list *files, t_input_data *input, char *needle, t_sh_state *state)
+static int	half_complete(t_list *files, t_input_data *input,
+char *needle, t_sh_state *state)
 {
 	char			*tmp;
 
@@ -92,45 +93,40 @@ static int	half_complete(t_list *files, t_input_data *input, char *needle, t_sh_
 			free(tmp);
 			return (1);
 		}
+		free(tmp);
 	}
 	else
 	{
 		free(tmp);
 		return (print_files(files, input));
 	}
-	/* free(tmp); */
 	return (0);
 }
 
-int			find_in_dir(t_list *files, t_input_data *input, char *needle, t_sh_state *state)
+int			find_in_dir(t_list *files, t_input_data *input,
+char *needle, t_sh_state *state)
 {
 	char	*path;
+	int		res;
 
+	res = 0;
 	if (files == NULL)
 	{
 		if ((path = get_path(input, 1, state)) == NULL)
-			return (1);
-		if (is_dir(path))
-		{
-			if (insert_dyn_buf("/", input->active_buf,
-				input->rel_cur_pos) == 1)
-				return (1);
-			if (insertn_chars(input, "/", 1, 0) == 1)
-				return (1);
-		}
-		free(path);
-		return (0);
+			res = 1;
+		else if (is_dir(path) && (insert_dyn_buf("/", input->active_buf,
+	input->rel_cur_pos) == 1 || insertn_chars(input, "/", 1, 0) == 1))
+			res = 1;
+		ft_strdel(&path);
+		return (res);
 	}
 	if (files->next == NULL)
 	{
 		if (complete_word(input, ft_strdup(files->content), 1, state) == 1)
-			return (1);
+			res = 1;
 	}
-	else
-	{
-		if (half_complete(files, input, needle, state) == -1)
-			return (1);
-	}
+	else if (half_complete(files, input, needle, state) == -1)
+		res = 1;
 	lstfree(files);
-	return (0);
+	return (res);
 }
