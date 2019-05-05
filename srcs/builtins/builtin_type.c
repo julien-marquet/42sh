@@ -14,7 +14,7 @@
 #include "builtins/builtin_type.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-int		check_file_exec(const char *path)
+int			check_file_exec(const char *path)
 {
 	struct stat	f_stat;
 
@@ -46,7 +46,7 @@ static int	remove_origin(char **origin, const char *name)
 	return (0);
 }
 
-int		print_type(char **origin, const char *name, char **value,
+int			print_type(char **origin, const char *name, char **value,
 t_cmd_type type)
 {
 	char	*str;
@@ -74,7 +74,7 @@ t_cmd_type type)
 	return (0);
 }
 
-int		assign_cmd_type(t_sh_state *sh_state, const char *name,
+int			assign_cmd_type(t_sh_state *sh_state, const char *name,
 char **value, t_cmd_type *type)
 {
 	int			err;
@@ -128,7 +128,7 @@ static int	loop_args(t_builtin_context *context, t_sh_state *state,
 	return (0);
 }
 
-int		builtin_type(t_sh_state *sh_state, int ac,
+int			builtin_type(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
 {
 	add_origin(&context->origin, "type");
