@@ -17,6 +17,7 @@
 # include "common.h"
 # include "storage/storage_manipulations.h"
 
-int		builtin_set(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context);
+int		builtin_set(t_sh_state *sh_state, int ac,
+const char **av, t_builtin_context *context);
 
 #endif

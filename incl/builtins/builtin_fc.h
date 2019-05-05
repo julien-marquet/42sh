@@ -27,8 +27,7 @@ typedef	struct	s_fc_infos
 	int			last;
 }				t_fc_infos;
 
-
-int		builtin_fc(t_sh_state *sh_state, int ac, const char **av,
+int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
 		t_builtin_context *context);
 
 #endif
