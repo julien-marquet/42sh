@@ -13,59 +13,7 @@
 
 #include "jobs/jobs_update.h"
 
-void	convert_stat_loc(int stat_loc, t_proc *proc)
-{
-	if (WIFEXITED(stat_loc))
-	{
-		proc->status = exited;
-		proc->code = WEXITSTATUS(stat_loc);
-	}
-	else if (WIFCONTINUED(stat_loc))
-		proc->status = running;
-	else if (WIFSTOPPED(stat_loc))
-	{
-		proc->status = stopped;
-		proc->code = WSTOPSIG(stat_loc);
-	}
-	else if (WIFSIGNALED(stat_loc))
-	{
-		proc->status = signaled;
-		proc->code = WTERMSIG(stat_loc);
-	}
-}
-
-t_proc_grp	*update_proc_status(t_jobs *jobs, int pid, int stat_loc)
-{
-	t_list		*tmp;
-	t_list		*procs_list;
-	t_proc		*proc;
-
-	tmp = jobs->proc_grps;
-	while (tmp != NULL)
-	{
-		procs_list = ((t_proc_grp *)tmp->content)->procs;
-		while (procs_list != NULL)
-		{
-			proc = (t_proc *)procs_list->content;
-			if (proc->pid == pid)
-			{
-				convert_stat_loc(stat_loc, proc);
-				proc->updated = 1;
-				return ((t_proc_grp *)tmp->content);
-			}
-			procs_list = procs_list->next;
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-void	revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp)
-{
-	exec_cmd_list(sh_state, proc_grp->remaining, proc_grp->name, proc_grp);
-}
-
-int		search_for_valid_condition(const char *condition, t_cmd **cmd)
+int			search_for_valid_condition(const char *condition, t_cmd **cmd)
 {
 	t_cmd	*acmd;
 	int		found;
@@ -93,31 +41,34 @@ int		search_for_valid_condition(const char *condition, t_cmd **cmd)
 	return (0);
 }
 
-void	check_revive_process_group(t_sh_state *sh_state, t_proc_grp *proc_grp,
-t_proc *last_proc)
+static int	get_revive_process_group(t_proc_grp *proc_grp, t_proc *last_proc)
 {
-	int		to_revive;
-	t_cmd	*acmd;
-
-	acmd = proc_grp->remaining;
-	to_revive = 0;
 	if (proc_grp->last_red && ft_strcmp(proc_grp->last_red, "&&") == 0)
 	{
 		if (last_proc->status == exited && last_proc->code == 0)
-			to_revive = 1;
+			return (1);
 		else if (search_for_valid_condition("||", &proc_grp->remaining))
-			to_revive = 1;
+			return (1);
 	}
 	else if (proc_grp->last_red && ft_strcmp(proc_grp->last_red, "||") == 0)
 	{
 		if (last_proc->status == signaled ||
 	(last_proc->status == exited && last_proc->code != 0))
-			to_revive = 1;
+			return (1);
 		else if (search_for_valid_condition("&&", &proc_grp->remaining))
-			to_revive = 1;
+			return (1);
 	}
-	if (to_revive == 1)
-		revive_process_group(sh_state, proc_grp);
+	return (0);
+}
+
+void		check_revive_process_group(t_sh_state *sh_state,
+t_proc_grp *proc_grp, t_proc *last_proc)
+{
+	t_cmd	*acmd;
+
+	acmd = proc_grp->remaining;
+	if (get_revive_process_group(proc_grp, last_proc) == 1)
+		exec_cmd_list(sh_state, proc_grp->remaining, proc_grp->name, proc_grp);
 	else
 	{
 		if (proc_grp->background == 1)
@@ -126,18 +77,24 @@ t_proc *last_proc)
 	}
 }
 
-void	wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
+static void	check_child_updated(int *child_updated)
+{
+	if (*child_updated == 0)
+		pause();
+	*child_updated = 0;
+}
+
+void		wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
 {
 	t_proc	*last_proc;
 	t_jobs	*jobs;
 	int		*child_updated;
+
 	jobs = jobs_super_get(NULL);
 	child_updated = super_get_sigchld_flag();
 	while (1)
 	{
-		if (*child_updated == 0)
-			pause();
-		*child_updated = 0;
+		check_child_updated(child_updated);
 		if ((last_proc = get_last_proc_all(proc_grp)) != NULL)
 		{
 			if (last_proc->updated == 1)
@@ -146,69 +103,12 @@ void	wait_for_grp(t_sh_state *sh_state, t_proc_grp *proc_grp)
 				last_proc->updated = 0;
 				if (last_proc->status != stopped && proc_grp->background == 0 &&
 			proc_grp->remaining != NULL)
-				{
 					check_revive_process_group(jobs->sh_state,
 					proc_grp, last_proc);
-				}
 				break ;
 			}
 		}
 		else
 			break ;
 	}
-}
-
-void	handle_process_update(void)
-{
-	int			pid;
-	int			stat_loc;
-	t_jobs		*jobs;
-	t_proc_grp	*proc_grp;
-	t_proc		*proc;
-	int			background_init;
-	int		*child_updated;
-
-	child_updated = super_get_sigchld_flag();
-	jobs = jobs_super_get(NULL);
-	if ((pid = waitpid(WAIT_ANY, &stat_loc, WUNTRACED)) > 0)
-	{
-		if ((proc_grp = update_proc_status(jobs, pid,
-	stat_loc)) != NULL && (proc = get_last_proc_all(proc_grp)) != NULL)
-		{
-			background_init = proc_grp->background;
-			if (proc->status == stopped)
-				proc_grp->background = 1;
-			if (proc->updated)
-			{
-				if (proc_grp->background == 1)
-				{
-					if (proc_grp->remaining == NULL &&
-				(proc->pid == pid || proc->null == 1))
-						display_job_alert(proc_grp, proc);
-				}
-				else if (proc->pid == pid && proc->status == signaled &&
-			proc->code != 2)
-				{
-					ft_putstr("Signaled: ");
-					ft_putnbr(proc->code);
-					ft_putstr("\n");
-				}
-			}
-			if (proc->status != stopped && proc->pid == pid &&
-		proc_grp->remaining != NULL && proc_grp->background == 1)
-			{
-				check_revive_process_group(jobs->sh_state,
-				proc_grp, proc);
-			}
-			if (background_init == 0)
-				*child_updated = 1;
-		}
-	}
-}
-
-void	jobs_set_sh_state(t_sh_state *sh_state)
-{
-	t_jobs	*jobs;
-
-	jobs = jobs_super_get(sh_state);
 }

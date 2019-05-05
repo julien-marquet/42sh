@@ -47,6 +47,7 @@ int			add_proc_grp(t_proc_grp *proc_grp)
 void		update_last_bpid(int pid)
 {
 	t_jobs	*jobs;
+
 	jobs = jobs_super_get(NULL);
 	jobs->last_bpid = pid;
 }

@@ -49,7 +49,7 @@ int		main(int ac, char **av, char **env)
 	signal(SIGCHLD, handle_sigchld);
 
 	sh_state->shell_pid = getpgid(0);
-	jobs_set_sh_state(sh_state);
+	jobs_super_get(sh_state);
 	while (sh_state->exit_sig == 0)
 	{
 		if (handle_input(sh_state, input_data, NULL) == 1)

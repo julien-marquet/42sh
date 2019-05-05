@@ -13,7 +13,7 @@
 
 #include "jobs/jobs_procs/jobs_procs_getters.h"
 
-t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
+t_proc	*find_by_pid(t_proc_grp *proc_grp, int pid)
 {
 	t_list	*tmp;
 
@@ -27,7 +27,7 @@ t_proc		*find_by_pid(t_proc_grp *proc_grp, int pid)
 	return (NULL);
 }
 
-t_proc *get_last_proc(t_proc_grp *proc_grp)
+t_proc	*get_last_proc(t_proc_grp *proc_grp)
 {
 	t_list	*tmp;
 	t_proc	*proc;
@@ -49,7 +49,7 @@ t_proc *get_last_proc(t_proc_grp *proc_grp)
 		return (last_full_proc);
 }
 
-t_proc *get_last_proc_all(t_proc_grp *proc_grp)
+t_proc	*get_last_proc_all(t_proc_grp *proc_grp)
 {
 	t_list	*tmp;
 	t_proc	*proc;
