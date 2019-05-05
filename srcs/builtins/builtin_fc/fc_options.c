@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/03 05:05:20 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 17:20:39 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,8 +31,9 @@ static int	fc_option_s(const char **av, t_fc_infos *fc_infos, int i)
 
 	len = 0;
 	fc_infos->replace = 1;
-	if (av[i] != NULL && ft_strchr(av[i], '='))
+	if (av[i] && av[i + 1] && ft_strchr(av[i + 1], '='))
 	{
+		i++;
 		ft_strdel(&fc_infos->pat);
 		ft_strdel(&fc_infos->rep);
 		while (av[i][len] && av[i][len] != '=')
@@ -85,7 +86,7 @@ int         fc_options(const char **av, t_fc_infos *fc_infos, t_builtin_context 
 		}
 		else if (ft_strcmp("-s", av[i]) == 0)
 		{
-			if ((i = fc_option_s(av, fc_infos, i + 1)) <= 0)
+			if ((i = fc_option_s(av, fc_infos, i)) <= 0)
 				return (i);
 		}
 		else
@@ -99,6 +100,8 @@ int         fc_options(const char **av, t_fc_infos *fc_infos, t_builtin_context 
 					return (0);
 			}
 		}
+		if (i == -1)
+			return (-1);
 		av[i] ? i++ : 0;
 	}
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 05:46:04 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 16:30:22 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -79,13 +79,13 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 	}
 	fc_infos = ft_memalloc(sizeof(t_fc_infos));
 	if (!(fc_infos->opts = ft_strnew(5)))
-		return (-1);
+		return (fc_exit(fc_infos, 1));
 	if ((args_i = fc_options(av, fc_infos, context)) == -1)
-		return (1);
+		return (fc_exit(fc_infos, 1));
 	else if (args_i == 0)
 	{
 		print_error(context->origin, "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]", 2);
-		return (1);
+		return (fc_exit(fc_infos, 1));
 	}
 	return (fc_dispatch(sh_state, av + args_i, fc_infos, context));
 }

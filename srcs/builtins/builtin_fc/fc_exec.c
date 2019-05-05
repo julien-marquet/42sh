@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 03:28:24 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:02:25 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,28 +15,20 @@
 
 static int		init_exec(t_sh_state *sh_state, t_cmd *cmd, t_fc_infos *fc_infos)
 {
-	t_arg	*args;
-	t_arg	*tmp;
-	int		len;
+	char	*tmp_cmd;
+	char	*tmp;
 	int		i;
 
 	i = 0;
 	if (fc_infos->editor)
 	{
-		if (!(args = parse_split_create(fc_infos->editor, ft_strlen(fc_infos->editor))))
+		tmp = tmp_file(sh_state);
+		if (!(tmp_cmd = ft_construct_str(3, fc_infos->editor, " ", tmp)))
 			return (-1);
-		tmp = args;
-		len = parse_split_count(args);
-		if (!(cmd->arg = ft_memalloc(sizeof(char*) * (len + 2))))
+		ft_strdel(&tmp);
+		if (!(cmd->arg = parse_strsplit(tmp_cmd, ft_strlen(tmp_cmd))))
 			return (-1);
-		while (args)
-		{
-			cmd->arg[i++] = args->arg;
-			args = args->next;
-		}
-		free(tmp);
-		if (!(cmd->arg[i] = tmp_file(sh_state)))
-			return (-1);
+		ft_strdel(&tmp_cmd);
 	}
 	else
 	{
@@ -71,7 +63,7 @@ static int		fc_exec_cmd(t_sh_state *sh_state, t_list *list)
 	return (ret);
 }
 
-int				fc_file_exec(t_sh_state *sh_state, char *tmp_file)
+int				fc_tmpfile_edit(t_sh_state *sh_state, char *tmp_file)
 {
 	t_dyn_buf	*dyn;
 	char 		buf[READ_SIZE + 1];
@@ -135,7 +127,7 @@ int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 	free(old->content);
 	free(old);
 	if (sh_state->status == 0)
-		fc_file_exec(sh_state, tmp);
+		fc_tmpfile_edit(sh_state, tmp);
 	unlink(tmp);
 	ft_strdel(&tmp);
 	if (sh_state->status != 0)
