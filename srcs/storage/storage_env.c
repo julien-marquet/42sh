@@ -3,17 +3,17 @@
 /*                                                              /             */
 /*   storage_env.c                                    .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:25:57 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 06:19:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:28:15 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_env.h"
 
-t_list	*init_env(const char **env)
+t_list		*init_env(const char **env)
 {
 	t_list				*alst;
 	t_list				*node;
@@ -35,7 +35,7 @@ t_list	*init_env(const char **env)
 	return (alst);
 }
 
-void	print_env(t_list *internal_storage, int fd)
+void		print_env(t_list *internal_storage, int fd)
 {
 	t_list	*tmp;
 
@@ -70,21 +70,21 @@ static int	fill_arr_env(char **arr_env, t_list *storage)
 	return (0);
 }
 
-char	**generate_env(t_list *storage)
+char		**generate_env(t_list *storage)
 {
 	t_list	*tmp;
-	size_t	arr_len;
+	size_t	len;
 	char	**arr_env;
 
 	tmp = storage;
-	arr_len = 0;
+	len = 0;
 	while (tmp != NULL)
 	{
-		if (((t_internal_storage *)tmp->content)->exported == 1)	
-			arr_len++;
+		if (((t_internal_storage *)tmp->content)->exported == 1)
+			len++;
 		tmp = tmp->next;
 	}
-	if ((arr_env = (char **)ft_memalloc(sizeof(char *) * (arr_len + 1))) == NULL)
+	if ((arr_env = (char **)ft_memalloc(sizeof(char *) * (len + 1))) == NULL)
 		return (NULL);
 	if (fill_arr_env(arr_env, storage) == 1)
 		return (NULL);
