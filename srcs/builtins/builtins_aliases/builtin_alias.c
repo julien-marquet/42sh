@@ -19,11 +19,15 @@ t_builtin_context *context)
 	t_list	*node;
 	size_t	len;
 	char	*value;
+	char	*origin;
 
 	if ((node = find_alias_by_name(aliases, name)) == NULL)
 	{
-		add_origin(&context->origin, name);
-		print_error(context->origin, "not found", 2);
+		if ((origin = ft_strdup(context->origin)) == NULL)
+			return (1);
+		add_origin(&origin, name);
+		print_error(origin, "not found", 2);
+		free(origin);
 		return (1);
 	}
 	else
