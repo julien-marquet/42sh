@@ -21,7 +21,7 @@
 
 # define ERR_EOF1 "unexpected EOF while looking for matching `}'"
 
-int     parse_tilde(t_cmd *cmd, t_sh_state *sh_state);
+int		parse_tilde(t_cmd *cmd, t_sh_state *sh_state);
 int		parse_param(t_cmd *cmd, t_sh_state *sh_state);
 int		param_check_isspecial(char *str);
 int		expand_error_handler(int type, char *str);
