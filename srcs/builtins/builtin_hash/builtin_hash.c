@@ -95,11 +95,7 @@ static int	handle_args(const char **av,
 				if (error == -1)
 					return (-1);
 			}
-		if (link != NULL)
-			link->hits = 0;
-		if (!found)
-			ret = not_found((char *)(av[i]));
-		i += 1;
+		ret = check_not_found(link, found, av[i], &i);
 	}
 	return (ret);
 }
