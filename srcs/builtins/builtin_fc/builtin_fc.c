@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/19 22:10:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 16:30:22 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:29:52 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,28 +21,34 @@ int				fc_exit(t_fc_infos *fc_infos, int ret)
 	return (ret);
 }
 
-static void		fc_range(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos)
+static void		fc_range(t_sh_state *sh_state, const char **av,
+t_fc_infos *fc_infos)
 {
 	if (av[0])
 	{
-		fc_infos->first = get_history_index_rev(sh_state->history, fc_get_hist_num(sh_state, av[0]));
+		fc_infos->first = get_history_index_rev(sh_state->history,
+		fc_get_hist_num(sh_state, av[0]));
 		fc_infos->is_set++;
 		if (av[1])
 		{
-			if (fc_get_hist_num(sh_state, av[0]) > fc_get_hist_num(sh_state, av[1]))
+			if (fc_get_hist_num(sh_state, av[0]) >
+			fc_get_hist_num(sh_state, av[1]))
 			{
 				add_valid(fc_infos, 'r');
 				fc_infos->last = fc_infos->first;
-				fc_infos->first = get_history_index_rev(sh_state->history, fc_get_hist_num(sh_state, av[1]));
+				fc_infos->first = get_history_index_rev(sh_state->history,
+				fc_get_hist_num(sh_state, av[1]));
 			}
 			else
-				fc_infos->last = get_history_index_rev(sh_state->history, fc_get_hist_num(sh_state, av[1]));
+				fc_infos->last = get_history_index_rev(sh_state->history,
+				fc_get_hist_num(sh_state, av[1]));
 			fc_infos->is_set++;
 		}
 	}
 }
 
-static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_infos, t_builtin_context *context)
+static int		fc_dispatch(t_sh_state *sh_state, const char **av,
+t_fc_infos *fc_infos, t_builtin_context *context)
 {
 	int		i;
 	int		ret;
@@ -64,13 +70,15 @@ static int		fc_dispatch(t_sh_state *sh_state, const char **av, t_fc_infos *fc_in
 	return (fc_exit(fc_infos, ret));
 }
 
-int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context)
+// TODO MAYBE DELETE `fc -e` AS FIRST CMD IN HISTORY
+
+int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
+t_builtin_context *context)
 {
 	t_fc_infos	*fc_infos;
 	int			args_i;
 
 	(void)ac;
-	// TODO MAYBE DELETE `fc -e` AS FIRST CMD IN HISTORY
 	add_origin(&context->origin, "fc");
 	if (context->is_process)
 	{
@@ -84,7 +92,7 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av, t_builtin_conte
 		return (fc_exit(fc_infos, 1));
 	else if (args_i == 0)
 	{
-		print_error(context->origin, "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]", 2);
+		print_error(context->origin, FC_USAGE, 2);
 		return (fc_exit(fc_infos, 1));
 	}
 	return (fc_dispatch(sh_state, av + args_i, fc_infos, context));

@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 05:00:00 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:46:37 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,7 @@
 # include "editing/history/history.h"
 # include "error_handler.h"
 
+# define FC_USAGE "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]"
 # define EDITOR "ed"
 # define HIST_PERM CHEV_PERM
 
@@ -63,5 +64,6 @@ int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
 */
 
 int				free_list(t_list *list);
+void			free_current_cmd(t_sh_state *sh_state);
 
 #endif

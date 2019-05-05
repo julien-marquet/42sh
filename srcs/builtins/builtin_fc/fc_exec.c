@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 16:22:42 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:20:33 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:38:05 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,7 +47,8 @@ static int		fc_exec_cmd(t_sh_state *sh_state, t_list *list)
 	while (list)
 	{
 		ft_putendl(list->content);
-		if (add_to_history_list(&(sh_state->history), list->content, ft_strlen(list->content) + 1) == NULL)
+		if (add_to_history_list(&(sh_state->history), list->content,
+		ft_strlen(list->content) + 1) == NULL)
 		{
 			free_list(tmp);
 			return (-1);
@@ -62,7 +63,7 @@ static int		fc_exec_cmd(t_sh_state *sh_state, t_list *list)
 int				fc_tmpfile_edit(t_sh_state *sh_state, char *tmp_file)
 {
 	t_dyn_buf	*dyn;
-	char 		buf[READ_SIZE + 1];
+	char		buf[READ_SIZE + 1];
 	int			r;
 	int			fd;
 	t_list		*args;
@@ -85,7 +86,8 @@ int				fc_tmpfile_edit(t_sh_state *sh_state, char *tmp_file)
 	return (0);
 }
 
-static int		fc_editor_exec(char *tmp, t_sh_state *sh_state, t_fc_infos *fc_infos)
+static int		fc_editor_exec(char *tmp, t_sh_state *sh_state,
+t_fc_infos *fc_infos)
 {
 	t_cmd	*cmd;
 	char	*job;
@@ -112,16 +114,12 @@ int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 {
 	int		ret;
 	char	*tmp;
-	t_list	*old;
 
 	if (!(tmp = tmp_file(sh_state)))
 		return (-1);
 	if ((ret = fc_editor_exec(tmp, sh_state, fc_infos)) == -1)
 		return (-1);
-	old = sh_state->history;
-	sh_state->history = sh_state->history->next;
-	free(old->content);
-	free(old);
+	free_current_cmd(sh_state);
 	if (sh_state->status == 0)
 		fc_tmpfile_edit(sh_state, tmp);
 	unlink(tmp);

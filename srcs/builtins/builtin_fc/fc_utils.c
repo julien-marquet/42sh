@@ -6,14 +6,14 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:40:51 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:27:34 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:32:49 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtin_fc.h"
 
-char		*tmp_file(t_sh_state *sh_state)
+char			*tmp_file(t_sh_state *sh_state)
 {
 	char	*tmp;
 	char	*ret;
@@ -24,7 +24,6 @@ char		*tmp_file(t_sh_state *sh_state)
 	ret = ft_construct_str(2, tmp, "/42sh-fc");
 	free(tmp);
 	return (ret);
-
 }
 
 size_t			fc_hist_to_num(t_list *find, t_list *hist)

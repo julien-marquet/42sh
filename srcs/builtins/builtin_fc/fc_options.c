@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 17:20:39 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:34:03 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,7 +46,8 @@ static int	fc_option_s(const char **av, t_fc_infos *fc_infos, int i)
 	return (i);
 }
 
-static int	fc_option_e(const char **av, t_fc_infos *fc_infos, int i, t_builtin_context *context)
+static int	fc_option_e(const char **av, t_fc_infos *fc_infos, int i,
+t_builtin_context *context)
 {
 	if (av[i] != NULL)
 	{
@@ -62,16 +63,17 @@ static int	fc_option_e(const char **av, t_fc_infos *fc_infos, int i, t_builtin_c
 	return (i);
 }
 
-void	    add_valid(t_fc_infos *fc_infos, char new)
+void		add_valid(t_fc_infos *fc_infos, char new)
 {
 	size_t len;
-	
+
 	len = ft_strlen(fc_infos->opts);
 	if (!ft_strchr(fc_infos->opts, new))
 		fc_infos->opts[len] = new;
 }
 
-int         fc_options(const char **av, t_fc_infos *fc_infos, t_builtin_context *context)
+int			fc_options(const char **av, t_fc_infos *fc_infos,
+t_builtin_context *context)
 {
 	int i;
 	int j;
