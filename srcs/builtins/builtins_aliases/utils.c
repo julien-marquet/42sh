@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtins_aliases.h                               .::    .:/ .      .::   */
+/*   utils.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/09 00:10:28 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 00:11:51 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 05:04:45 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 05:04:46 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_ALIASES_H
-# define BUILTINS_ALIASES_H
+#include "builtins/builtins_aliases/builtin_alias.h"
 
-# include "builtins/builtins_aliases/builtin_alias.h"
-# include "builtins/builtins_aliases/builtin_unalias.h"
-
-void		alias_error(char *origin, char *msg, int *res);
-
-#endif
+void	alias_error(char *origin, char *msg, int *res)
+{
+	print_error(origin, msg, 2);
+	*res = 1;
+}
