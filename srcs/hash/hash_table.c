@@ -16,8 +16,8 @@
 static char		*check_paths(const char **paths, const char *bin,
 			t_list **table, int *error)
 {
-	int		ret;
-	char	*tmp;
+	int			ret;
+	char		*tmp;
 	const char	**pointer;
 
 	pointer = paths;
