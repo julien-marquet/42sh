@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/10 23:14:18 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 23:09:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 18:46:41 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,14 +65,14 @@ t_proc_grp *prec_grp, const char *job_name)
 }
 
 int					exec_by_flag(t_sh_state *sh_state,
-t_cmd *cmd_list, t_context *context)
+t_cmd **cmd_list, t_context *context)
 {
-	if (is_end_flag((const char *)cmd_list->red))
-		return (exec_end_flag(sh_state, &cmd_list, context));
-	else if (is_pipe_flag((const char *)cmd_list->red))
-		return (exec_pipe_flag(sh_state, &cmd_list, context));
+	if (is_end_flag((const char *)(*cmd_list)->red))
+		return (exec_end_flag(sh_state, cmd_list, context));
+	else if (is_pipe_flag((const char *)(*cmd_list)->red))
+		return (exec_pipe_flag(sh_state, cmd_list, context));
 	else
-		return (exec_conditioned_flag(sh_state, &cmd_list, context));
+		return (exec_conditioned_flag(sh_state, cmd_list, context));
 }
 
 int					exec_cmd_list(t_sh_state *sh_state,
@@ -90,7 +90,7 @@ t_cmd *cmd_list, const char *job_name, t_proc_grp *prec_grp)
 		if (proc_grp_initialization(context, cmd_list,
 	prec_grp, job_name) == -1 && (exec_res = -1))
 			break ;
-		exec_res = exec_by_flag(sh_state, cmd_list, context);
+		exec_res = exec_by_flag(sh_state, &cmd_list, context);
 		if (cmd_list)
 			cmd_list = (cmd_list)->next;
 		if (exec_res == -1 || exec_res == 1 ||
