@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   sh.h                                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 03:39:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 15:35:28 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@
 # include "editing/input/input.h"
 # include "parse/expand.h"
 
-t_sh_state	*init_sh(void);
+t_sh_state	*init_sh(char **env);
 void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
 
 #endif

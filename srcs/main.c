@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   main.c                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 04:19:23 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 15:35:04 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,7 +40,7 @@ static void	catch_signals(void)
 
 static int	init(t_sh_state **sh_state, t_input_data **input_data, char **env)
 {
-	if ((*sh_state = init_sh()) == NULL)
+	if ((*sh_state = init_sh(env)) == NULL)
 		return (1);
 	if ((*input_data = init_input_data()) == NULL)
 		return (1);

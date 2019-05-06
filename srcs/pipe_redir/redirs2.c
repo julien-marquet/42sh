@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   redirs2.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/06 05:41:44 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 05:41:45 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 15:32:24 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -83,7 +83,7 @@ char	*get_parent_dir_path(const char *path)
 	char	*last_slash;
 	size_t	i;
 
-	if ((last_slash = strrchr(path, '/')) == NULL)
+	if ((last_slash = ft_strrchr(path, '/')) == NULL)
 		return (ft_strdup("."));
 	else
 	{

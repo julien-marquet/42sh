@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   fc_options.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 06:44:01 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 15:30:48 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,6 +47,7 @@ t_builtin_context *context)
 		if ((i = fc_option_s(av, fc_infos, i)) <= 0)
 			return (i);
 	}
+	return (1);
 }
 
 int			fc_options(const char **av, t_fc_infos *fc_infos,

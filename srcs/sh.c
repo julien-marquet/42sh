@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   sh.c                                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 22:59:25 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 05:32:57 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 15:35:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,13 +54,13 @@ static int	init_history(t_sh_state *sh_state)
 	return (close(fd));
 }
 
-t_sh_state	*init_sh(void)
+t_sh_state	*init_sh(char **env)
 {
 	t_sh_state	*sh_state;
 
 	if ((sh_state = init_sh_state()) == NULL)
 		return (NULL);
-	if (init_term_state(sh_state) != 0)
+	if (init_term_state(sh_state, env) != 0)
 		return (NULL);
 	if (init_win_data() != 0)
 		return (NULL);
