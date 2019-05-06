@@ -39,29 +39,17 @@ char *completed, size_t add_slash, t_sh_state *state)
 	if (completed == NULL)
 		return (1);
 	if ((ret = delete_completed(input)) == 1)
-	{
-		free(completed);
-		return (1);
-	}
+		return (completion_exit(&completed, 1));
 	if (ret == 2)
 	{
 		if (add_brace(&completed) == -1)
-		{
-			free(completed);
-			return (1);
-		}
+			return (completion_exit(&completed, 1));
 	}
 	if (insert_dyn_buf(completed, input->active_buf,
 		input->rel_cur_pos) == 1)
-	{
-		ft_strdel(&completed);
-		return (1);
-	}
+		return (completion_exit(&completed, 1));
 	if (insertn_chars(input, completed, ft_strlen(completed), 0) == 1)
-	{
-		ft_strdel(&completed);
-		return (1);
-	}
+		return (completion_exit(&completed, 1));
 	if (add_slash)
 		return (f_add_slash(&path, input, &completed, state));
 	ft_strdel(&completed);

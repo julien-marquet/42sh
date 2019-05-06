@@ -16,7 +16,6 @@
 static void	search_for_quote(size_t i, int *opened,
 int *quote_type, t_dyn_buf *dyn_buf)
 {
-
 	if (dyn_buf->buf[i] == '\'' &&
 ((*quote_type == QUOTE_SIMPLE && *opened == 1) ||
 ((*quote_type == QUOTE_SIMPLE || *quote_type == QUOTE_NONE) &&

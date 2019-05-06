@@ -52,6 +52,7 @@ int			find_in_dir(t_list *files, t_input_data *input,
 			char *needle, t_sh_state *state);
 
 int			free_exit(t_list *files, char *str);
+int			completion_exit(char **str, int ret);
 
 int			f_add_slash(char **path, t_input_data *input,
 			char **completed, t_sh_state *state);

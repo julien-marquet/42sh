@@ -23,3 +23,9 @@ void			swap_words(char **pointer, char **current_word, char **word)
 	else
 		ft_strdel(word);
 }
+
+int				completion_exit(char **str, int ret)
+{
+	ft_strdel(str);
+	return (ret);
+}

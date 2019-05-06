@@ -26,5 +26,5 @@ const char *value, const size_t size)
 	res[name_len] = '=';
 	if (value != NULL)
 		ft_strcpy(&(res[name_len + 1]), value);
-	return res;
+	return (res);
 }

@@ -47,9 +47,9 @@ t_cur_abs_pos *start_pos)
 int			get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
 size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 {
-	int				win_col;
-	size_t			i;
-	int	 			resize;
+	int		win_col;
+	size_t	i;
+	int		resize;
 
 	if ((resize = win_has_been_resized()))
 	{

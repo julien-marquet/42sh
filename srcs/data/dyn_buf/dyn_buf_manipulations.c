@@ -56,7 +56,6 @@ int			shift_dyn_buf(t_dyn_buf *dyn_buf, size_t shift)
 	ft_memmove(dyn_buf->buf, &(dyn_buf->buf[shift]), dyn_buf->len - shift);
 	dyn_buf->len -= shift;
 	ft_bzero(&(dyn_buf->buf[dyn_buf->len]), dyn_buf->size - dyn_buf->len);
-
 	return (0);
 }
 

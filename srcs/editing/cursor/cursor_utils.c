@@ -56,7 +56,7 @@ int			get_next_move_num(t_input_data *input_data)
 		return (0);
 	i = 1;
 	in_word = !ft_isspace(input_data->active_buf->buf[input_data->rel_cur_pos]);
-	while (i  + input_data->rel_cur_pos < input_data->active_buf->len)
+	while (i + input_data->rel_cur_pos < input_data->active_buf->len)
 	{
 		if (ft_isspace(
 	input_data->active_buf->buf[input_data->rel_cur_pos + i]) == in_word)

@@ -63,7 +63,6 @@ char *here_doc)
 	int		valid_here_doc;
 
 	valid_here_doc = -1;
-
 	if (handle_here_doc_merge(input_data, here_doc,
 &valid_here_doc) != 1 && input_data->stored_buf->len > 0)
 	{
