@@ -3,17 +3,17 @@
 /*                                                              /             */
 /*   storage_manipulations.c                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:28:01 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 16:28:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 06:23:09 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "storage/storage_manipulations.h"
 
-int	is_valid_var_name(const char *name)
+int				is_valid_var_name(const char *name)
 {
 	if (!name || ft_strlen(name) == 0)
 		return (0);
@@ -26,15 +26,29 @@ int	is_valid_var_name(const char *name)
 	return (1);
 }
 
+static t_list	*storage_init_node(const char *name, const char *value,
+size_t len, int exported)
+{
+	t_internal_storage	entry;
+
+	if ((fill_entry(&entry, name, value, len)) == 1)
+		return (NULL);
+	if (exported != 1 && exported != 0)
+		exported = 0;
+	entry.exported = exported;
+	entry.tmp = 0;
+	return (ft_lstnew((const void *)&entry, sizeof(t_internal_storage)));
+}
+
 /*
 **	Return 0 on success 1 on parse error and -1 on critical error
 */
 
-int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value, int exported)
+int				add_entry_storage(t_sh_state *sh_state, const char *name,
+const char *value, int exported)
 {
 	t_list				*node;
 	size_t				len;
-	t_internal_storage	entry;
 
 	len = 0;
 	if (value)
@@ -44,29 +58,23 @@ int		add_entry_storage(t_sh_state *sh_state, const char *name, const char *value
 		return (1);
 	if ((node = find_node_by_name(sh_state->internal_storage, name)) != NULL)
 	{
-		if (update_existing_node(&(sh_state->hash_table),
-	node, name, value, len) == 1)
+		update_table(&(sh_state->hash_table), name);
+		if (update_existing_node(node, name, value, len) == 1)
 			return (-1);
 		if (exported == 1 || exported == 0)
 			((t_internal_storage *)node->content)->exported = exported;
 	}
 	else
 	{
-		if ((fill_entry(&entry, name, value, len)) == 1)
-			return (-1);
-		if (exported != 1 && exported != 0)
-			exported = 0;
-		entry.exported = exported;
-		entry.tmp = 0;
-		if ((node = ft_lstnew((const void *)&entry,
-	sizeof(t_internal_storage))) == NULL)
+		if ((node = storage_init_node(name, value, len, exported)) == NULL)
 			return (-1);
 		ft_lstprepend(&(sh_state->internal_storage), node);
 	}
 	return (0);
 }
 
-int		remove_entry_storage(t_sh_state *sh_state, t_list **storage, const char *name)
+int				remove_entry_storage(t_sh_state *sh_state, t_list **storage,
+const char *name)
 {
 	t_list	*tmp;
 	t_list	*prev;
@@ -81,8 +89,8 @@ int		remove_entry_storage(t_sh_state *sh_state, t_list **storage, const char *na
 		return (0);
 	while (tmp != NULL)
 	{
-		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len) == 0 &&
-		((t_internal_storage *)tmp->content)->string[len] == '=')
+		if (ft_strncmp(name, ((t_internal_storage *)tmp->content)->string, len)
+		== 0 && ((t_internal_storage *)tmp->content)->string[len] == '=')
 		{
 			if (ft_strcmp("PATH", name) == 0)
 				delete_table(&sh_state->hash_table);
@@ -95,18 +103,8 @@ int		remove_entry_storage(t_sh_state *sh_state, t_list **storage, const char *na
 	return (0);
 }
 
-void	print_storage_content(t_list *storage, int fd)
-{
-	while (storage != NULL)
-	{
-		ft_putendl_fd(((t_internal_storage *)(storage->content))->string,
-	fd);
-		storage = storage->next;
-	}
-}
-
-int		update_exported_flag(t_list *storage, t_list **hash_table,
-		const char *name, int exported)
+int				update_exported_flag(t_list *storage, t_list **hash_table,
+const char *name, int exported)
 {
 	t_list	*node;
 

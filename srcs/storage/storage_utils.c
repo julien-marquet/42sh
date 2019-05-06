@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   storage_utils.c                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 17:28:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/08 22:43:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 06:20:47 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,17 +53,20 @@ void	remove_storage_node(t_list **alst, t_list **node, t_list *prev)
 	free(*node);
 }
 
-int		update_existing_node(t_list **hash_table, t_list *node, const char *name,
-const char *value, size_t len)
+void	update_table(t_list **hash_table, const char *name)
 {
 	if (ft_strcmp("PATH", name) == 0)
 		delete_table(hash_table);
+}
+
+int		update_existing_node(t_list *node, const char *name,
+const char *value, size_t len)
+{
 	free(((t_internal_storage *)node->content)->string);
 	((t_internal_storage *)(node->content))->tmp = 0;
 	node->content_size = sizeof(t_internal_storage);
 	if ((((t_internal_storage *)node->content)->string =
-merge_name_value(name, value,
-len)) == NULL)
+	merge_name_value(name, value, len)) == NULL)
 		return (1);
 	return (0);
 }
