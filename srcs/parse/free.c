@@ -29,21 +29,6 @@ static void		free_file(t_file *file)
 	free(file);
 }
 
-static void		free_arg(char **arg)
-{
-	int i;
-
-	i = 0;
-	if (arg == NULL)
-		return ;
-	while (arg[i])
-	{
-		ft_strdel(&arg[i]);
-		i++;
-	}
-	free(arg);
-}
-
 void			free_cmd_env(t_list **env)
 {
 	t_internal_storage	*is;
@@ -75,7 +60,7 @@ t_cmd			*parse_nextfree(t_cmd *cmd)
 	return (next);
 }
 
-void	free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
+void			free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
 {
 	t_cmd	*prev;
 	t_cmd	*end;
@@ -98,7 +83,7 @@ void	free_executed_cmds(t_cmd *acmd, t_cmd *remaining, t_cmd *cmd)
 	}
 }
 
-void	free_cmds(t_cmd *acmd)
+void			free_cmds(t_cmd *acmd)
 {
 	t_cmd	*prev;
 

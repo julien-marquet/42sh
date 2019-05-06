@@ -34,11 +34,13 @@ static int	expand_error_sub(char *str)
 int			param_check_isspecial(char *str)
 {
 	if (str[0] && str[1] == 0)
+	{
 		return (str[0] == '?' ||
-		str[0] == '$' ||
-		str[0] == '-' ||
-		str[0] == '!' ||
-		str[0] == '0');
+			str[0] == '$' ||
+			str[0] == '-' ||
+			str[0] == '!' ||
+			str[0] == '0');
+	}
 	return (0);
 }
 

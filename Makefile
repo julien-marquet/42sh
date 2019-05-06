@@ -42,7 +42,7 @@ CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c curso
 CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c history_file.c)
 CFILES += $(addprefix editing/input/, input_sig_handlers.c input_pasteboard.c input_eof.c input_search_history.c input_search_mode.c input_searched.c input_active_search.c input_selection.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix editing/input/completion/, utils.c utils2.c utils3.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
-CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
+CFILES += $(addprefix parse/, check.c chev.c chev_create.c free2.c free.c split.c token.c parse.c utils.c localvarutils.c localvar.c utils2.c)
 CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
 CFILES += $(addprefix parse/expand/, expand_history.c expand_tilde.c expand_param.c expand_error.c expand.c)
 CFILES += $(addprefix data/, input_data.c)
@@ -65,7 +65,7 @@ CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_getters2.c jobs_proc_grps_getters3.c jobs_proc_grps_setters.c)
 CFILES += $(addprefix exec/, exec.c exec_null.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c exec_cmd_checkers2.c)
 CFILES += $(addprefix hash/, hash_table.c hash_utils.c)
-CFILES += $(addprefix pipe_redir/, redirs.c pipes.c)
+CFILES += $(addprefix pipe_redir/, redirs.c redirs2.c redirs3.c redirs4.c pipes.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
@@ -109,7 +109,7 @@ LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
 CC := $(shell whereis gcc)
 AR := $(shell whereis ar)
 RM := $(shell whereis rm)
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 P_FLAGS = -lcurses
 
 export CC

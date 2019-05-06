@@ -36,12 +36,10 @@ static int	init_history(t_sh_state *sh_state)
 
 	if (!(hist_file = get_hist_file(sh_state)))
 		return (1);
-	if ((fd = open(hist_file, O_RDONLY)) == -1)
-	{
-		ft_strdel(&hist_file);
-		return (0);
-	}
+	fd = open(hist_file, O_RDONLY);
 	ft_strdel(&hist_file);
+	if (fd == -1)
+		return (0);
 	if ((dyn = init_dyn_buf()) == NULL)
 		return (1);
 	while ((r = read(fd, buf, READ_SIZE)) != 0)

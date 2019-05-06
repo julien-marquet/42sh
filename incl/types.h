@@ -215,7 +215,6 @@ typedef struct	s_pos_info
 	t_proc_grp	*proc_grp;
 }				t_pos_info;
 
-
 typedef int		(*t_exec_func)(t_sh_state *, const char **parsed,
 				t_context *context);
 typedef int		(*t_builtin_func)(t_sh_state *, int ac, const char **av,
@@ -228,7 +227,7 @@ typedef struct	s_child_data
 	int				new_pipe[3];
 	t_builtin_func	builtin;
 	char			**env;
-	const char			*path;
+	const char		*path;
 }				t_child_data;
 
 typedef struct	s_gf_data

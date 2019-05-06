@@ -33,13 +33,15 @@ static char	*add_event_history(t_sh_state *sh_state, char *str, int change)
 		sh_state->history = sh_state->history->next;
 		free(old->content);
 		free(old);
-		if (add_to_history_list(&(sh_state->history), str, ft_strlen(str)) == NULL)
+		if (add_to_history_list(&(sh_state->history),
+			str, ft_strlen(str)) == NULL)
 			return (NULL);
 	}
 	return (str);
 }
 
-static char	*expand_event(char *str, size_t start, size_t i, t_sh_state *sh_state)
+static char	*expand_event(char *str, size_t start,
+size_t i, t_sh_state *sh_state)
 {
 	t_list	*new;
 	char	*tmp;
@@ -102,8 +104,7 @@ char		*parse_event(char *str, t_sh_state *sh_state)
 		if (stresc("!", str, i) && !ft_strchr(" \n}=", str[i + 1]))
 		{
 			change = 1;
-			tmp = event_hanlder(str, &i, sh_state);
-			if (tmp == NULL)
+			if ((tmp = event_hanlder(str, &i, sh_state)) == NULL)
 			{
 				ft_strdel(&str);
 				return (NULL);

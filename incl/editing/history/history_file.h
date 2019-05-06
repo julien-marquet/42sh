@@ -22,4 +22,3 @@ t_list		*hist_list_add(t_list *args, char *str, size_t len);
 t_list		*hist_str2list(char *str);
 
 #endif
-
