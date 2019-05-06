@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   input_action_handlers.c                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:11:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 16:45:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:56:45 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,7 +48,7 @@ input_data->rel_cur_pos) == 1)
 	return (0);
 }
 
-int			save_history_before_ctrl_c(t_input_data *input_data,
+int		save_history_before_ctrl_c(t_input_data *input_data,
 t_sh_state *sh_state)
 {
 	if (input_data->sig_call == 1 && get_eof() == 0)
