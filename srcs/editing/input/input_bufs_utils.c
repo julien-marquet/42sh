@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 17:50:07 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 16:45:42 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,12 +57,14 @@ char *here_doc, int *valid_here_doc)
 	return (res);
 }
 
-int			merge_bufs(t_input_data *input_data, t_list *hist_copy,
-char *here_doc)
+int			merge_bufs(t_sh_state *sh_state, t_input_data *input_data,
+t_list *hist_copy, char *here_doc)
 {
 	int		valid_here_doc;
 
 	valid_here_doc = -1;
+	if (save_history_before_ctrl_c(input_data, sh_state) == 1)
+		return (1);
 	if (handle_here_doc_merge(input_data, here_doc,
 &valid_here_doc) != 1 && input_data->stored_buf->len > 0)
 	{
