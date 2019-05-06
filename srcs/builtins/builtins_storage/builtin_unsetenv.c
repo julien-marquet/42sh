@@ -6,13 +6,21 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/07 21:00:21 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 05:58:03 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 19:22:13 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_storage/builtin_unsetenv.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
+
+int		unset_var(t_sh_state *sh_state, t_list **table, const char *arg)
+{
+	if (get_env_value(sh_state->internal_storage, arg) == NULL)
+		return (0);
+	remove_entry_storage(sh_state, &sh_state->internal_storage, arg);
+	return (0);
+}
 
 int		builtin_unsetenv(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
@@ -28,8 +36,10 @@ const char **av, t_builtin_context *context)
 	{
 		i = 1;
 		while (i < ac)
-			update_exported_flag(sh_state->internal_storage,
-			&(sh_state->hash_table), av[i++], 0);
+		{
+			unset_var(sh_state,
+		&(sh_state->hash_table), av[i++]);
+		}
 		return (0);
 	}
 }
