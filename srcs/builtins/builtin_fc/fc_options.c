@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   fc_options.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 15:30:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 16:57:03 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,6 +47,8 @@ t_builtin_context *context)
 		if ((i = fc_option_s(av, fc_infos, i)) <= 0)
 			return (i);
 	}
+	else if (ft_strcmp("--", av[i]) == 0)
+		return (i + 1);
 	return (1);
 }
 
@@ -59,14 +61,15 @@ t_builtin_context *context)
 	i = 1;
 	while (av[i] && is_builtin_option(av[i]))
 	{
-		if (ft_strcmp("-e", av[i]) == 0 || ft_strcmp("-s", av[i]) == 0)
+		if (ft_strcmp("-e", av[i]) == 0 || ft_strcmp("-s", av[i]) == 0 ||
+		ft_strcmp("--", av[i]) == 0)
 			i = fc_options_spec(av, i, fc_infos, context);
 		else
 		{
 			j = 1;
 			while (av[i][j])
 			{
-				if (ft_strchr("lnr-", av[i][j]))
+				if (ft_strchr("lnr", av[i][j]))
 					add_valid(fc_infos, av[i][j++]);
 				else
 					return (0);
