@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/03 04:53:12 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:21:09 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 21:57:02 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,7 +57,7 @@ int			fc_replace_exec(t_sh_state *sh_state, t_fc_infos *fc_infos)
 		fc_infos->first = sh_state->history;
 	if (!(str = fc_replace(fc_infos)))
 		return (-1);
-	ft_putendl(str);
+	ft_putendl_fd(str, 2);
 	if (add_to_history_list(&(sh_state->history), str,
 	ft_strlen(str) + 1) == NULL)
 		return (-1);

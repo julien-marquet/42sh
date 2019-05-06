@@ -20,6 +20,8 @@ t_sh_state *sh_state, char *word)
 	char	*pointer;
 
 	pointer = input->active_buf->buf + input->rel_cur_pos;
+	if (only_spaces(input->active_buf->buf))
+		return (complete_bin(word, sh_state, input));
 	while (pointer != input->active_buf->buf)
 	{
 		if (is_stopping(*pointer) && *(pointer - 1) != '\\')

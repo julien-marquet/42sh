@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 16:57:03 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 22:41:12 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,7 +49,7 @@ t_builtin_context *context)
 	}
 	else if (ft_strcmp("--", av[i]) == 0)
 		return (i + 1);
-	return (1);
+	return (i);
 }
 
 int			fc_options(const char **av, t_fc_infos *fc_infos,

@@ -14,13 +14,34 @@
 #include "builtins/builtin_exit.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-int		builtin_exit(t_sh_state *sh_state, int ac, const char **av,
+static int	check_arg(const char *str)
+{
+	char	*pointer;
+
+	pointer = (char *)str;
+	while (*pointer)
+	{
+		if (*pointer < 48 || *pointer > 57)
+		{
+			if ((*pointer == '-' || *pointer == '+') && pointer != str)
+				return (0);
+			else if (*pointer != '-' && *pointer != '+')
+				return (0);
+		}
+		pointer += 1;
+	}
+	if ((*str == '-' || *str == '+') && *(str + 1) == '\0')
+		return (0);
+	return (1);
+}
+
+int			builtin_exit(t_sh_state *sh_state, int ac, const char **av,
 t_builtin_context *context)
 {
 	add_origin(&context->origin, "exit");
 	if (ac == 2)
 	{
-		if (str_is_digit(av[1]) == 0)
+		if (check_arg(av[1]) == 0)
 		{
 			add_origin(&context->origin, av[1]);
 			print_error(context->origin, "numeric argument required", 2);

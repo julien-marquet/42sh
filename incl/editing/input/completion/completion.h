@@ -51,6 +51,7 @@ int			complete_word(t_input_data *input, char *completed,
 int			find_in_dir(t_list *files, t_input_data *input,
 			char *needle, t_sh_state *state);
 
+int			only_spaces(char *str);
 int			free_exit(t_list *files, char *str);
 int			completion_exit(char **str, int ret);
 

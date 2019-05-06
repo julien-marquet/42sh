@@ -29,3 +29,14 @@ int				completion_exit(char **str, int ret)
 	ft_strdel(str);
 	return (ret);
 }
+
+int				only_spaces(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str += 1;
+	}
+	return (1);
+}
