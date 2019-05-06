@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/15 22:42:12 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 16:17:29 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 18:53:03 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -79,7 +79,7 @@ char			*append_bin(const char *bin, t_list **table,
 	char	**paths;
 
 	*error = 4;
-	if ((tmp = get_env_value(internal_storage, "PATH")) == NULL)
+	if ((tmp = get_var(internal_storage, "PATH")) == NULL)
 		tmp = "";
 	if ((paths = ft_strsplit(tmp, ':')) == NULL)
 		return (NULL);
