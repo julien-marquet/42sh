@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/02 15:52:11 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 05:31:56 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:31:48 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,6 +44,8 @@ t_list		*hist_str2list(char *str)
 
 	i = 0;
 	args = NULL;
+	if (str[0] == '\0')
+		return (NULL);
 	while (str[i])
 	{
 		start = i;
