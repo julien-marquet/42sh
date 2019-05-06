@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/05 15:13:35 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 23:12:05 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:41:59 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -89,16 +89,19 @@ int start)
 	char	**paths;
 	char	*curpath;
 
-	if ((cdpath = ft_strdup(get_stored(sh_state->internal_storage,
+	if ((cdpath = ft_strdup(get_var(sh_state->internal_storage,
 "CDPATH"))) == NULL)
 		return (NULL);
 	paths = ft_strsplit((const char *)cdpath, ':');
 	if (paths == NULL)
+	{
+		ft_strdel(&cdpath);
 		return (NULL);
+	}
 	if ((curpath = loop_over_cdpath(cdpath, paths, av, start)) == NULL)
 	{
 		free_arr(paths);
-		if (cdpath[ft_strlen(cdpath) - 1] == ':')
+		if (ft_strlen(cdpath) > 0 && cdpath[ft_strlen(cdpath) - 1] == ':')
 		{
 			ft_strdel(&cdpath);
 			curpath = ft_strjoin("./", av[start]);
@@ -107,6 +110,8 @@ int start)
 			ft_strdel(&curpath);
 		}
 	}
+	else
+		free_arr(paths);
 	ft_strdel(&cdpath);
 	return (curpath);
 }
