@@ -3,22 +3,21 @@
 /*                                                              /             */
 /*   expand_tilde.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 03:57:11 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 15:56:31 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "parse/expand.h"
 
-static char	*expand_getdir(t_cmd *cmd, t_sh_state *sh_state, size_t i, int *nfr)
+static char	*expand_getdir(t_cmd *cmd, t_sh_state *sh_state, size_t i)
 {
 	char	*new;
 
 	new = NULL;
-	(*nfr)++;
 	if (cmd->str[i + 1] == '+')
 		new = get_stored(sh_state->internal_storage, "PWD");
 	else if (cmd->str[i + 1] == '-')
@@ -64,14 +63,12 @@ static int	expand_tilde(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 {
 	char			*new;
 	char			*tmp;
-	int				nfr;
 	int				len;
 
-	nfr = 0;
 	if (end - i - 1 == 0)
 		new = expand_gethome(sh_state);
 	else if (end - i - 1 == 1)
-		new = expand_getdir(cmd, sh_state, i, &nfr);
+		new = expand_getdir(cmd, sh_state, i);
 	else
 		new = expand_getuhome(cmd->str + i + 1, end - i - 1);
 	if (new)
@@ -79,10 +76,10 @@ static int	expand_tilde(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 		len = ft_strlen(new);
 		if (!(tmp = strinsert(cmd->str, new, i, end)))
 		{
-			nfr ? ft_strdel(&new) : 0;
+			ft_strdel(&new);
 			return (0);
 		}
-		nfr ? ft_strdel(&new) : 0;
+		ft_strdel(&new);
 		cmd->str = tmp;
 		return (len);
 	}
