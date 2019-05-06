@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 04:24:25 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:59:14 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 17:25:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -88,6 +88,9 @@ char *searched, int next)
 				return (-1);
 			input_data->rel_cur_pos = 0;
 			set_searched(searched);
+			if (update_start_position(input_data->active_buf,
+		input_data->start_pos) == 1)
+				return (1);
 			if (print_anew(input_data->start_pos, input_data->active_buf,
 		input_data->rel_cur_pos) == 1)
 				return (-1);
