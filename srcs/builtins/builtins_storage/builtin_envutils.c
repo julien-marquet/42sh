@@ -107,5 +107,5 @@ void		env_error(char *origin, int *res)
 {
 	*res = 1;
 	print_error(origin,
-"usage: env [-i] [name=value]... [utility [argument...]]", 2);
+"usage: env [name=value]... [utility [argument...]]", 2);
 }
