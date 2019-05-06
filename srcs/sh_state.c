@@ -28,7 +28,6 @@ void		free_sh_state(t_sh_state **state)
 {
 	if (state == NULL || *state == NULL)
 		return ;
-
 	remove_all_aliases(&(*state)->aliases);
 	ft_lstdel(&((*state)->internal_storage), free_lstinternal_storage_node);
 	delete_table(&((*state)->hash_table));
