@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "builtins/builtin_cd/builtin_cd.h" 
+#include "builtins/builtin_cd/builtin_cd.h"
 
 int		had_null_paths(char *cdpath, int i)
 {
@@ -50,7 +50,7 @@ char	*get_old_pwd(t_sh_state *sh_state, t_builtin_context *context)
 	return (res);
 }
 
-int	is_symbolic_link(char *path)
+int		is_symbolic_link(char *path)
 {
 	struct stat	stats;
 
@@ -71,7 +71,7 @@ char	**get_dirs(char *base, char *path, char ***pointer)
 	return (dirs);
 }
 
-int	verify_new(char **base, char *pointer, char **tmp, char ***dirs)
+int		verify_new(char **base, char *pointer, char **tmp, char ***dirs)
 {
 	int		res;
 

@@ -14,7 +14,7 @@
 #include "builtins/builtin_cd/builtin_cd.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-int		verify_path(char *origin, char *curpath, char *formatted)
+int				verify_path(char *origin, char *curpath, char *formatted)
 {
 	int		err;
 
@@ -55,7 +55,7 @@ static int		change_dir(t_sh_state *sh_state, char *formatted, int print)
 	return (0);
 }
 
-int		builtin_cd(t_sh_state *sh_state, int ac,
+int				builtin_cd(t_sh_state *sh_state, int ac,
 const char **av, t_builtin_context *context)
 {
 	char	*curpath;

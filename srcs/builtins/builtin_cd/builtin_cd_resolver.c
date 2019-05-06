@@ -65,7 +65,7 @@ static char	*rejoin_path(char **arr)
 	return (path);
 }
 
-char	*resolve_links(t_sh_state *state, char *base, char **path)
+char		*resolve_links(t_sh_state *state, char *base, char **path)
 {
 	char	*tmp;
 	char	**dirs;

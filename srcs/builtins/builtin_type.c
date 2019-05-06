@@ -14,23 +14,6 @@
 #include "builtins/builtin_type.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-int			check_file_exec(const char *path)
-{
-	struct stat	f_stat;
-
-	if (path == NULL)
-		return (-1);
-	if (access(path, F_OK) == -1)
-		return (1);
-	if (access(path, X_OK) == -1)
-		return (2);
-	if (stat(path, &f_stat) == -1)
-		return (-1);
-	if (S_ISREG(f_stat.st_mode) == 0)
-		return (3);
-	return (0);
-}
-
 static int	remove_origin(char **origin, const char *name)
 {
 	size_t	len;

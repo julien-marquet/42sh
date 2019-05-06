@@ -13,7 +13,7 @@
 
 #include "builtins/builtin_cd/builtin_cd.h"
 
-char	*get_dir_operand(t_sh_state *sh_state, int ac, const char **av,
+char		*get_dir_operand(t_sh_state *sh_state, int ac, const char **av,
 int start)
 {
 	int		i;
@@ -34,7 +34,7 @@ int start)
 		return (ft_strdup(av[start]));
 }
 
-char	*get_curpath(t_sh_state *sh_state, int ac, const char **av, int *i)
+char		*get_curpath(t_sh_state *sh_state, int ac, const char **av, int *i)
 {
 	char	*directory;
 	char	*curpath;
@@ -82,7 +82,7 @@ int start)
 	return (NULL);
 }
 
-char	*retrieve_cdpath(t_sh_state *sh_state, const char **av,
+char		*retrieve_cdpath(t_sh_state *sh_state, const char **av,
 int start)
 {
 	char	*cdpath;

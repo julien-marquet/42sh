@@ -96,8 +96,6 @@ t_fc_infos *fc_infos, t_builtin_context *context)
 	return (fc_exit(fc_infos, ret));
 }
 
-// TODO MAYBE DELETE `fc -e` AS FIRST CMD IN HISTORY
-
 int				builtin_fc(t_sh_state *sh_state, int ac, const char **av,
 t_builtin_context *context)
 {

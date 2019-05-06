@@ -13,7 +13,7 @@
 
 #include "builtins/builtin_cd/builtin_cd.h"
 
-int		get_prec_slash_pos(char *path, int i)
+int	get_prec_slash_pos(char *path, int i)
 {
 	if (i > 0)
 		i--;
@@ -26,7 +26,7 @@ int		get_prec_slash_pos(char *path, int i)
 	return (i);
 }
 
-int		count_unnecessary_slashes(char *path, int i)
+int	count_unnecessary_slashes(char *path, int i)
 {
 	int		cpt;
 
