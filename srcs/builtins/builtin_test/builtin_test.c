@@ -21,7 +21,7 @@ static int	check_arg(const char *arg)
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] < 48 || arg[i] > 57)
+		if ((arg[i] < 48 || arg[i] > 57) && arg[i] != '-' && arg[i] != '+')
 			return (1);
 		i += 1;
 	}

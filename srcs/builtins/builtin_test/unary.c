@@ -74,7 +74,7 @@ int			make_unary_test(char op, char *arg)
 			return (1);
 		return (2);
 	}
-	if (stat(arg, &stats) == -1)
+	if (lstat(arg, &stats) == -1)
 		return (2);
 	return (check_op(op, stats, arg));
 }
