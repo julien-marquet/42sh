@@ -131,7 +131,7 @@ t_builtin_context *context)
 		print_env(sh_state->internal_storage, 1);
 	else
 	{
-		if ((start = handle_builtin_options(av, "i", &opts, context)) == -1)
+		if ((start = handle_builtin_options(av, "", &opts, context)) == -1)
 			res = 1;
 		else if (start == 0)
 			env_error(context->origin, &res);
