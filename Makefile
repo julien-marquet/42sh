@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/06 06:13:43 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/06 06:35:13 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -57,7 +57,7 @@ CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalia
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
 CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c utils.c)
-CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_free.c fc_print.c fc_options.c fc_utils.c fc_exec.c fc_replace_exec.c)
+CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_free.c fc_print.c fc_options.c fc_options_spec.c fc_utils.c fc_exec.c fc_replace_exec.c)
 CFILES += $(addprefix builtins/builtin_cd/, builtin_cd.c builtin_cd_utils_1.c builtin_cd_utils_2.c builtin_cd_cdpath_utils.c builtin_cd_formatters.c builtin_cd_getters.c builtin_cd_resolver.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 CFILES += $(addprefix jobs/, child_updated_flag.c jobs_printers3.c jobs_printers2.c jobs_printers.c jobs_controls.c jobs_display.c jobs_display2.c jobs_flush.c jobs_utils.c jobs_super.c jobs_update.c jobs_update2.c)

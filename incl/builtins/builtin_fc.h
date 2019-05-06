@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 00:12:30 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:46:37 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 06:34:23 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,6 +49,9 @@ size_t			get_hist_len(t_list *hist);
 void			add_valid(t_fc_infos *fc_infos, char new);
 int				fc_options(const char **av, t_fc_infos *fc_infos,
 				t_builtin_context *context);
+int				fc_option_s(const char **av, t_fc_infos *fc_infos, int i);
+int				fc_option_e(const char **av, t_fc_infos *fc_infos, int i,
+t_builtin_context *context);
 int				fc_exit(t_fc_infos *fc_infos, int ret);
 
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos);
