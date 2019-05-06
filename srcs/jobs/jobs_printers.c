@@ -6,13 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 18:26:07 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 00:04:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:06:14 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "jobs/jobs_printers.h"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 int		print_status(t_job_status status, int code, char **str)
 {

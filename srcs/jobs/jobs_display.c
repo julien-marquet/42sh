@@ -6,13 +6,12 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/12 21:41:11 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 22:59:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:04:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "jobs/jobs_display.h"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 void	list_jobs(int mode, char **display)
 {
@@ -69,7 +68,7 @@ char **display, const char *origin)
 }
 
 void	list_matching_jobs(int mode, const char *search,
-char **display, const char *origin)
+char **display)
 {
 	t_list		*tmp;
 	int			index;
@@ -104,7 +103,7 @@ void	jobs_handle_display(int mode, const char *search, const char *origin)
 		if (str_is_digit(search))
 			display_numed_job(mode, search, &display, origin);
 		else
-			list_matching_jobs(mode, search, &display, origin);
+			list_matching_jobs(mode, search, &display);
 	}
 	else
 		list_jobs(mode, &display);
