@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 17:56:56 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/15 15:30:10 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/04/29 11:23:20 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,7 +42,7 @@ static t_arg	*parse_argcreate(char *str, int len, t_arg *arg)
 	return (arg);
 }
 
-static t_arg	*parse_split_create(char *str, int len)
+t_arg			*parse_split_create(char *str, int len)
 {
 	t_arg	*arg;
 	int		start;
@@ -63,7 +63,7 @@ static t_arg	*parse_split_create(char *str, int len)
 	return (arg);
 }
 
-static int		parse_split_count(t_arg *split)
+int				parse_split_count(t_arg *split)
 {
 	int	len;
 

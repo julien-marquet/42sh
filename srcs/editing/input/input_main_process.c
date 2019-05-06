@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   input_main_process.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:55:56 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:57:22 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 04:19:06 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -104,7 +104,7 @@ char *here_doc)
 	int		valid_here_doc;
 
 	input_data->sig_call = 0;
-	if (dup_history(input_data, &hist_copy) == 1)
+	if (dup_history(sh_state, &hist_copy) == 1)
 		return (1);
 	valid_here_doc = 0;
 	input_data->here_doc = here_doc;
@@ -115,11 +115,11 @@ sh_state, hist_copy) == 1)
 	if (here_doc == NULL && input_data->active_buf->len > 0 &&
 input_data->active_buf->buf[0] != '\n')
 	{
-		if (add_to_history_list(&(input_data->history_list),
+		if (add_to_history_list(&(sh_state->history),
 	input_data->active_buf->buf, input_data->active_buf->len) == NULL)
 			return (free_hist_copy(&hist_copy, 1));
 	}
-	if (handle_user_reset(input_data) == 1)
+	if (handle_user_reset(input_data, sh_state) == 1)
 		return (free_hist_copy(&hist_copy, 1));
 	if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)
 		return (free_hist_copy(&hist_copy, 1));

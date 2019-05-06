@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sh.h                                             .::    .:/ .      .::   */
+/*   history_file.h                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 03:39:52 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/02 15:53:49 by mmoya        #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/02 16:06:31 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef SH_H
-# define SH_H
+#ifndef HISTORY_FILE_H
+# define HISTORY_FILE_H
 
 # include "common.h"
-# include "data/input_data.h"
-# include "data/win_data/win_data.h"
-# include "sh_state.h"
-# include "term_state.h"
-# include "jobs/jobs.h"
-# include "editing/input/input.h"
-# include "parse/expand.h"
+# include "builtins/builtins_utils.h"
+# include "history.h"
 
-t_sh_state	*init_sh(void);
-void		exit_sh(t_sh_state *sh_state, t_input_data *input_data);
+t_list		*hist_list_add(t_list *args, char *str, size_t len);
+t_list		*hist_str2list(char *str);
 
 #endif
+

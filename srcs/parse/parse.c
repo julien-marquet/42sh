@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/05 16:31:21 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 21:21:53 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 22:18:19 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -144,8 +144,7 @@ t_input_data *input_data)
 
 	i = 0;
 	cmd = NULL;
-	sh_state->history = input_data->history_list;
-	if (!(str = parse_event(line, input_data->history_list)))
+	if (!(str = parse_event(line, sh_state)))
 		return (1);
 	if (!(str = parse_alias(str, sh_state->aliases, NULL)))
 		exit_sh(sh_state, input_data);

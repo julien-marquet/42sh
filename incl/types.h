@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   types.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 14:34:12 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 19:43:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 04:19:28 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,19 +41,6 @@ typedef struct	s_cur_abs_pos
 	int		col;
 }				t_cur_abs_pos;
 
-typedef struct	s_sh_state
-{
-	struct termios	term_state;
-	struct termios	term_state_backup;
-	unsigned char	status;
-	size_t			exit_sig;
-	t_list			*internal_storage;
-	t_list			*aliases;
-	int				shell_pid;
-	t_list			*hash_table;
-	t_list			*history;
-}				t_sh_state;
-
 typedef struct	s_dyn_buf
 {
 	size_t	len;
@@ -70,7 +57,6 @@ typedef struct	s_input_data
 	t_dyn_buf		*stored_buf;
 	t_dyn_buf		*initial_buf;
 	char			*clipboard;
-	t_list			*history_list;
 	size_t			rel_cur_pos;
 	size_t			processed_chars;
 	t_cur_abs_pos	*start_pos;
@@ -78,6 +64,20 @@ typedef struct	s_input_data
 	char			*here_doc;
 	size_t			sig_call;
 }				t_input_data;
+
+typedef struct	s_sh_state
+{
+	struct termios	term_state;
+	struct termios	term_state_backup;
+	unsigned char	status;
+	size_t			exit_sig;
+	t_list			*internal_storage;
+	t_list			*aliases;
+	int				shell_pid;
+	t_list			*hash_table;
+	t_input_data	*input_data;
+	t_list			*history;
+}				t_sh_state;
 
 typedef struct	s_win_data
 {

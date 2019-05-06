@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/23 17:46:26 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 09:59:36 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/04 22:27:39 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,10 +31,18 @@
 int					parse_check(char *str);
 
 /*
+** SPLIT
+*/
+
+t_arg				*parse_split_create(char *str, int len);
+int					parse_split_count(t_arg *split);
+char			    *create_job_name(t_cmd *acmd);
+
+/*
 ** PARSE
 */
 
-char				*parse_event(char *str, t_list *hist);
+char				*parse_event(char *str, t_sh_state *sh_state);
 char				*parse_alias(char *str, t_list *aliases, t_list *skip);
 int					parse_exec(char *str, t_sh_state *sh_state,
 t_input_data *input_data);
@@ -52,12 +60,5 @@ t_cmd				*parse_nextfree(t_cmd *cmd);
 void				free_executed_cmds(t_cmd *acmd,
 t_cmd *remaining, t_cmd *cmd);
 void				free_cmds(t_cmd *acmd);
-
-/*
-** EXEC
-*/
-
-int					exec_chevout(t_file *out);
-int					exec_chevin(t_file *in);
 
 #endif

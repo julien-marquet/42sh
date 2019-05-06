@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   expand_tilde.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/04 15:15:31 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 03:57:11 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,17 +44,15 @@ static char	*expand_getuhome(char *str, size_t len)
 	return (new);
 }
 
-static char	*expand_gethome(t_sh_state *sh_state, int *nfr)
+char		*expand_gethome(t_sh_state *sh_state)
 {
 	struct passwd	*user;
 	char			*new;
 
 	user = NULL;
-	(*nfr)++;
 	new = get_stored(sh_state->internal_storage, "HOME");
 	if (!new)
 	{
-		nfr--;
 		if (!(user = getpwuid(getuid())))
 			return (NULL);
 		new = ft_strdup(user->pw_dir);
@@ -71,7 +69,7 @@ static int	expand_tilde(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 
 	nfr = 0;
 	if (end - i - 1 == 0)
-		new = expand_gethome(sh_state, &nfr);
+		new = expand_gethome(sh_state);
 	else if (end - i - 1 == 1)
 		new = expand_getdir(cmd, sh_state, i, &nfr);
 	else

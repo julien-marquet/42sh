@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   history_navigation.c                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:14 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 16:26:35 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 04:18:04 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,11 +15,14 @@
 
 t_list		*get_history_search(t_list *hist, char *find)
 {
+	size_t	len;
+
+	len = ft_strlen(find);
 	if (hist)
 		hist = hist->next;
 	while (hist)
 	{
-		if (ft_strstr(hist->content, find) != NULL)
+		if (ft_strncmp(hist->content, find, len) == 0)
 			return (hist);
 		hist = hist->next;
 	}

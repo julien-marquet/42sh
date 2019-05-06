@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   history.h                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 10:51:17 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/05 18:13:57 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/02 15:53:13 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,5 +21,6 @@
 # include "editing/history/history_edition.h"
 # include "editing/history/history_navigation.h"
 # include "editing/history/history_utils.h"
+# include "editing/history/history_file.h"
 
 #endif

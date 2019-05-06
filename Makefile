@@ -3,10 +3,10 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+      #
+#    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/05 20:00:19 by jmarquet    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/06 04:27:28 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -25,6 +25,7 @@ editing editing/cursor editing/history editing/input editing/input/completion \
 data data/win_data data/dyn_buf data/data_utils \
 builtins builtins/builtins_storage builtins/builtins_aliases \
 builtins/builtin_hash builtins/builtin_echo builtins/builtins_jobs \
+builtins/builtin_fc \
 builtins/builtin_test builtins/builtin_cd \
 jobs jobs/jobs_procs jobs/jobs_proc_grps \
 aliases \
@@ -38,7 +39,7 @@ exec)
 CFILES = main.c sh.c sh_state.c term_state.c signal_handler.c error_handler.c
 CFILES += $(addprefix editing/, prompt.c)
 CFILES += $(addprefix editing/cursor/, cursor_utils.c cursor_basic_moves.c cursor_complex_moves.c cursor_vertical_moves.c cursor_position.c cursor_simulation.c)
-CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c)
+CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c history_utils.c history_file.c)
 CFILES += $(addprefix editing/input/, input_sig_handlers.c input_pasteboard.c input_eof.c input_search_history.c input_search_mode.c input_searched.c input_active_search.c input_selection.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix editing/input/completion/, utils.c utils2.c utils3.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free.c split.c token.c parse.c utils.c localvar.c)
@@ -49,13 +50,14 @@ CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_u
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
 CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c storage_tmp.c)
-CFILES += $(addprefix builtins/, builtin_true.c builtin_false.c builtin_fc.c builtin_type.c builtins_utils.c builtins_utils2.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
+CFILES += $(addprefix builtins/, builtin_true.c builtin_false.c builtin_type.c builtins_utils.c builtins_utils2.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_envutils.c builtin_setenv.c)
 CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c utils.c)
 CFILES += $(addprefix builtins/builtins_aliases/, builtin_alias.c builtin_unalias.c utils.c)
 CFILES += $(addprefix builtins/builtin_echo/, builtin_echo.c builtin_echo_utils.c)
 CFILES += $(addprefix builtins/builtins_jobs/, builtin_fg.c builtin_jobs.c builtin_bg.c)
 CFILES += $(addprefix builtins/builtin_test/, args.c binary.c builtin_test.c tests.c unary.c utils.c)
+CFILES += $(addprefix builtins/builtin_fc/, builtin_fc.c fc_free.c fc_print.c fc_options.c fc_utils.c fc_exec.c fc_replace_exec.c)
 CFILES += $(addprefix builtins/builtin_cd/, builtin_cd.c builtin_cd_utils_1.c builtin_cd_utils_2.c builtin_cd_cdpath_utils.c builtin_cd_formatters.c builtin_cd_getters.c builtin_cd_resolver.c)
 CFILES += $(addprefix aliases/, aliases_getters.c aliases_manipulations.c aliases_utils.c)
 CFILES += $(addprefix jobs/, child_updated_flag.c jobs_printers3.c jobs_printers2.c jobs_printers.c jobs_controls.c jobs_display.c jobs_display2.c jobs_flush.c jobs_utils.c jobs_super.c jobs_update.c jobs_update2.c)
@@ -73,7 +75,7 @@ OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
 TMPFILES = common.h sh.h sh_state.h term_state.h signal_handler.h types.h error_handler.h
 TMPFILES += $(addprefix parse/, parse.h utils.h expand.h localvar.h parse_alias.h)
 TMPFILES += $(addprefix editing/, prompt.h)
-TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h)
+TMPFILES += $(addprefix editing/history/, history.h history_edition.h history_navigation.h history_utils.h history_file.h)
 TMPFILES += $(addprefix editing/input/, input.h input_sig_handlers.h input_pasteboard.h input_eof.h input_search_history.h input_searched.h input_active_search.h input_search_mode.h input_selection.h input_keycodes.h input_control.h input_action_handlers.h input_bufs_utils.h input_call_history.h input_capabilities_dispatchers.h input_handlers.h input_main_process.h input_utils.h input_validator.h)
 TMPFILES += $(addprefix editing/input/completion/, completion.h)
 TMPFILES += $(addprefix editing/cursor/, cursor.h cursor_utils.h cursor_basic_moves.h cursor_complex_moves.h cursor_vertical_moves.h cursor_position.h cursor_simulation.h)
@@ -107,7 +109,7 @@ LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
 CC := $(shell whereis gcc)
 AR := $(shell whereis ar)
 RM := $(shell whereis rm)
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 P_FLAGS = -lcurses
 
 export CC
