@@ -17,4 +17,6 @@
 # include "builtins/builtins_aliases/builtin_alias.h"
 # include "builtins/builtins_aliases/builtin_unalias.h"
 
+void		alias_error(char *origin, char *msg, int *res);
+
 #endif

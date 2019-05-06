@@ -13,9 +13,10 @@
 
 #include "jobs/jobs_procs/jobs_procs_setters.h"
 
-t_proc	*new_proc(int pid, const char *name, int last)
+t_proc		*new_proc(int pid, const char *name, int last)
 {
 	t_proc	*proc;
+
 	if ((proc = ft_memalloc(sizeof(t_proc))) == NULL)
 		return (NULL);
 	proc->pid = pid;
@@ -44,7 +45,7 @@ int			add_proc(t_proc *proc, t_proc_grp *proc_grp)
 		return (1);
 }
 
-int		add_null_proc(t_proc_grp *proc_grp, const char *name,
+int			add_null_proc(t_proc_grp *proc_grp, const char *name,
 t_cmd *cmd, int err)
 {
 	t_proc	*proc;

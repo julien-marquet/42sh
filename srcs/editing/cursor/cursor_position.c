@@ -6,26 +6,27 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/03 19:02:09 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 03:42:32 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:50:53 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/cursor/cursor_position.h"
-#include "errno.h"
+
 /*
 **	return start position (without prompt len)
 **	update start position if scroll detected
 */
 
-int		update_start_position(t_dyn_buf *active_buf,
+int			update_start_position(t_dyn_buf *active_buf,
 t_cur_abs_pos *start_pos)
 {
 	int				win_col;
 	int				win_row;
 	t_cur_abs_pos	last_pos;
 
-	if ((win_col = get_win_col()) == -1 || (win_row = get_win_row()) == -1)
+	if ((win_col = get_win_col()) == -1 ||
+(win_row = get_win_row()) == -1)
 		return (1);
 	last_pos.row = get_prompt_len() / win_col;
 	last_pos.col = get_prompt_len() % win_col + start_pos->col;
@@ -43,12 +44,12 @@ t_cur_abs_pos *start_pos)
 **	Return absolute cursor position
 */
 
-int		get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
+int			get_cursor_position(t_cur_abs_pos *pos, t_dyn_buf *active_buf,
 size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 {
-	int				win_col;
-	size_t			i;
-	int	 			resize;
+	int		win_col;
+	size_t	i;
+	int		resize;
 
 	if ((resize = win_has_been_resized()))
 	{
@@ -65,8 +66,8 @@ size_t rel_cur_pos, t_cur_abs_pos *start_pos)
 	return (0);
 }
 
-
-static void	process_location_termcaps(size_t i, size_t len, unsigned char str[16], t_cur_abs_pos *pos)
+static void	process_location_termcaps(size_t i,
+size_t len, unsigned char str[16], t_cur_abs_pos *pos)
 {
 	while (++i < len)
 	{
@@ -80,14 +81,13 @@ static void	process_location_termcaps(size_t i, size_t len, unsigned char str[16
 	}
 }
 
-
 /*
 **	Get Cursor position by parsing the string returned
 **	after a certain termcaps is sent
 **	artificially converted to origin 0
 */
 
-int		ask_start_position(t_cur_abs_pos *pos)
+int			ask_start_position(t_cur_abs_pos *pos)
 {
 	size_t			len;
 	unsigned char	str[16];

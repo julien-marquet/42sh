@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/31 23:42:55 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/26 06:28:11 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:33:27 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,11 +45,14 @@ start_pos->row), 1, ft_putchar) != 0)
 
 int		delete_prev_char(t_input_data *input_data)
 {
-	if (del_at_dyn_buf(input_data->active_buf, input_data->rel_cur_pos - 1) == 1)
+	if (del_at_dyn_buf(input_data->active_buf,
+input_data->rel_cur_pos - 1) == 1)
 	{
-		if (move_cursor_left(input_data->start_pos, input_data->active_buf, &input_data->rel_cur_pos) != 0)
+		if (move_cursor_left(input_data->start_pos,
+	input_data->active_buf, &input_data->rel_cur_pos) != 0)
 			return (1);
-		if (print_anew(input_data->start_pos, input_data->active_buf, input_data->rel_cur_pos) == 1)
+		if (print_anew(input_data->start_pos, input_data->active_buf,
+	input_data->rel_cur_pos) == 1)
 			return (1);
 	}
 	return (0);
@@ -59,15 +62,18 @@ int		delete_cur_char(t_input_data *input_data)
 {
 	if (del_at_dyn_buf(input_data->active_buf, input_data->rel_cur_pos) == 1)
 	{
-		if (print_anew(input_data->start_pos, input_data->active_buf, input_data->rel_cur_pos) == 1)
+		if (print_anew(input_data->start_pos, input_data->active_buf,
+	input_data->rel_cur_pos) == 1)
 			return (1);
 	}
 	return (0);
 }
 
-int		insertn_chars(t_input_data *input_data, const char *str, size_t n, int force)
+int		insertn_chars(t_input_data *input_data, const char *str,
+size_t n, int force)
 {
-	if (update_start_position(input_data->active_buf, input_data->start_pos) == 1)
+	if (update_start_position(input_data->active_buf,
+input_data->start_pos) == 1)
 		return (1);
 	if (force == 0)
 		input_data->rel_cur_pos += n;
@@ -79,7 +85,8 @@ int		insertn_chars(t_input_data *input_data, const char *str, size_t n, int forc
 	}
 	else
 	{
-		if (print_anew(input_data->start_pos, input_data->active_buf, input_data->rel_cur_pos) == 1)
+		if (print_anew(input_data->start_pos, input_data->active_buf,
+	input_data->rel_cur_pos) == 1)
 			return (1);
 	}
 	return (0);

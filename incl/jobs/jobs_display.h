@@ -19,8 +19,12 @@
 # include "jobs/jobs_super.h"
 # include "jobs/jobs_printers.h"
 
-void	display_last_bpgid(int bpid, t_proc_grp *proc_grp);
-void	display_job_alert(t_proc_grp *proc_grp, t_proc *last_proc);
-void	jobs_handle_display(int mode, const char *search, const char *origin);
+int			get_control_attribute(int pos, t_proc *lasts_proc);
+void		display_last_bpgid(int bpid, t_proc_grp *proc_grp);
+void		display_job_alert(t_proc_grp *proc_grp, t_proc *last_proc);
+void		jobs_handle_display(int mode,
+const char *search, const char *origin);
+t_pos_info	fill_infos(int index, int attribute,
+t_proc *proc, t_proc_grp *proc_grp);
 
 #endif

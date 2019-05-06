@@ -6,14 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 16:42:31 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/04 21:12:55 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:57:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/cursor/cursor_vertical_moves.h"
 
-static int			search_for_prev_line(t_input_data *input_data, size_t *i)
+static int		search_for_prev_line(t_input_data *input_data, size_t *i)
 {
 	int		found;
 
@@ -30,7 +30,7 @@ static int			search_for_prev_line(t_input_data *input_data, size_t *i)
 	return (found);
 }
 
-static int			search_for_next_line(t_input_data *input_data, size_t *i)
+static int		search_for_next_line(t_input_data *input_data, size_t *i)
 {
 	int		found;
 
@@ -49,11 +49,11 @@ static int			search_for_next_line(t_input_data *input_data, size_t *i)
 	return (found);
 }
 
-int			move_up(t_input_data *input_data)
+int				move_up(t_input_data *input_data)
 {
-	size_t	i;
-	int		found;
-	t_cur_abs_pos pos_prev;
+	size_t			i;
+	int				found;
+	t_cur_abs_pos	pos_prev;
 
 	i = 1;
 	if (input_data->rel_cur_pos == 0)
@@ -63,17 +63,18 @@ int			move_up(t_input_data *input_data)
 	{
 		if (get_prev_position(input_data, &pos_prev, i) == 1)
 			return (1);
-		if (tputs(tgoto(tgetstr("cm", NULL), pos_prev.col, pos_prev.row), 1, ft_putchar) != 0)
+		if (tputs(tgoto(tgetstr("cm", NULL),
+	pos_prev.col, pos_prev.row), 1, ft_putchar) != 0)
 			return (1);
 	}
 	return (0);
 }
 
-int			move_down(t_input_data *input_data)
+int				move_down(t_input_data *input_data)
 {
-	size_t	i;
-	t_cur_abs_pos pos_next;
-	int		found;
+	size_t			i;
+	t_cur_abs_pos	pos_next;
+	int				found;
 
 	i = 0;
 	found = search_for_next_line(input_data, &i);
@@ -81,7 +82,8 @@ int			move_down(t_input_data *input_data)
 	{
 		if (get_next_position(input_data, &pos_next, i) == 1)
 			return (1);
-		if (tputs(tgoto(tgetstr("cm", NULL), pos_next.col, pos_next.row), 1, ft_putchar) != 0)
+		if (tputs(tgoto(tgetstr("cm", NULL), pos_next.col,
+	pos_next.row), 1, ft_putchar) != 0)
 			return (1);
 	}
 	return (0);

@@ -6,14 +6,14 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:26 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 16:05:01 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 15:32:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "builtins/builtins_dispatcher.h"
 
-static t_builtin_func	get_builtins_func(const char *name)
+static t_builtin_func		get_builtins_func(const char *name)
 {
 	size_t					i;
 	const char				**assoc_name;
@@ -34,7 +34,7 @@ static t_builtin_func	get_builtins_func(const char *name)
 	return (NULL);
 }
 
-t_builtin_context	*init_builtin_context(void)
+static t_builtin_context	*init_builtin_context(void)
 {
 	t_builtin_context *builtin_context;
 
@@ -45,7 +45,7 @@ t_builtin_context	*init_builtin_context(void)
 	return (builtin_context);
 }
 
-int			is_valid_as_function(t_cmd *cmd, t_context *context)
+static int					is_valid_as_function(t_cmd *cmd, t_context *context)
 {
 	if (cmd->red == NULL || ft_strcmp("&&", cmd->red) == 0 ||
 ft_strcmp("||", cmd->red) == 0)
@@ -62,8 +62,8 @@ ft_strcmp("||", cmd->red) == 0)
 	return (0);
 }
 
-int			builtins_dispatcher(t_sh_state *sh_state, t_cmd *cmd,
-t_context *context)
+int							builtins_dispatcher(t_sh_state *sh_state,
+t_cmd *cmd, t_context *context)
 {
 	t_builtin_func	f;
 	int				res;
@@ -91,5 +91,3 @@ t_context *context)
 	}
 	return (res);
 }
-
-// put a last flag in jobs procs to avoid DONE when grp not fully launched

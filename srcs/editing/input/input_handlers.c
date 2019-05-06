@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 17:51:47 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/29 17:04:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 18:47:29 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,8 +32,6 @@ int		handle_capabilities(t_input_data *input_data,
 			return (res == -1);
 		else if ((res = capabilities_dispatcher_4(input_data, hist_copy)) != 0)
 			return (res == -1);
-		else if ((res = capabilities_dispatcher_selection(input_data)) != 0)
-			return (res == -1);
 		else
 			input_data->processed_chars = count_escape_chars(
 		input_data->build_buf->buf);
@@ -43,59 +41,23 @@ int		handle_capabilities(t_input_data *input_data,
 
 int		handle_sig(t_input_data *input_data, t_sh_state *sh_state)
 {
-	t_cur_abs_pos pos;
-
-	sh_state->exit_sig = sh_state->exit_sig;
 	if ((ft_strncmp(input_data->build_buf->buf, CTRL_C, 1) == 0) &&
 (input_data->processed_chars = 1))
 	{
-		input_data->sig_call = 1;
-		if (get_cursor_position(&pos, input_data->active_buf,
-	input_data->active_buf->len, input_data->start_pos) == 1)
+		if (ctrl_c_handler(input_data) == 1)
 			return (1);
-		if (tputs(tgoto(tgetstr("cm", NULL), pos.col,
-	pos.row), 1, ft_putchar) != 0)
-			return (1);
-		write(1, "\n", 1);
-		if (get_search_mode() == 1)
-		{
-			reset_dyn_buf(input_data->active_buf);
-			set_search_mode(0);
-		}
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_D, 1) == 0) &&
 (input_data->processed_chars = 1))
 	{
-		if (get_eof() == 1 && input_data->active_buf->len == 0)
-			set_eof(2);
-		else if (input_data->active_buf->len == 0 &&
-	input_data->stored_buf->len == 0)
-			exit_sh(sh_state, input_data);
-		else
-			write(1, "\a", 1);
+		if (ctrl_d_handler(sh_state, input_data) == 1)
+			return (1);
 	}
 	else if ((ft_strncmp(input_data->build_buf->buf, CTRL_R, 1) == 0) &&
 (input_data->processed_chars = 1))
 	{
-		char	*searched;
-		int		result;
-
-		if (get_search_mode() == 0)
-		{
-			set_search_mode(1);
-			print_anew(input_data->start_pos, input_data->active_buf,
-		input_data->rel_cur_pos);
-		}
-		else
-		{
-			searched = ft_strdup(get_searched());
-			if ((result = find_in_history(sh_state, input_data,
-		searched, 1)) <= 0)
-			{
-				ft_strdel(&searched);
-				return (result == -1 ? 1 : 0);
-			}
-		}
+		if (ctrl_r_handler(sh_state, input_data) == 1)
+			return (1);
 	}
 	return (0);
 }
@@ -104,6 +66,7 @@ int		handle_insertion(t_input_data *input_data)
 {
 	size_t		i;
 	char		*str;
+
 	i = 0;
 	while (i < input_data->build_buf->len &&
 !is_capability(&(input_data->build_buf->buf[i])))

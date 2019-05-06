@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 21:34:17 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/25 05:51:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 17:29:51 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,7 @@ static int	is_dup(t_list *files, const char *name)
 	return (0);
 }
 
-static int			get_builtins(t_list **files, char *needle, t_list *files_list)
+static int	get_builtins(t_list **files, char *needle, t_list *files_list)
 {
 	size_t		i;
 	size_t		len;
@@ -67,16 +67,13 @@ int			get_vars(t_list **files, t_list *storage, char *needle)
 		len = get_var_name_length(name);
 		if (ft_strncmp(name, needle, ft_strlen(needle)) == 0)
 		{
-			if ((tmp = malloc(len + 1)) == NULL)
+			if ((tmp = ft_memalloc(len + 1)) == NULL)
 				return (free_exit(*files, NULL));
 			ft_strncpy(tmp, name, len);
-			tmp[len] = '\0';
 			if ((link = ft_lstnew(tmp, len + 1)) == NULL)
 				return (free_exit(*files, tmp));
-			free(tmp);
-			if (*files == NULL)
-				*files = link;
-			else
+			ft_strdel(&tmp);
+			if (!(*files == NULL && (*files = link)))
 				ft_lstadd(files, link);
 		}
 		storage = storage->next;
@@ -84,7 +81,8 @@ int			get_vars(t_list **files, t_list *storage, char *needle)
 	return (0);
 }
 
-static int	fill_list(t_list **files, DIR *dir, char *needle, t_list *files_list)
+static int	fill_list(t_list **files, DIR *dir,
+char *needle, t_list *files_list)
 {
 	size_t			len;
 	t_list			*link;
@@ -95,8 +93,9 @@ static int	fill_list(t_list **files, DIR *dir, char *needle, t_list *files_list)
 	{
 		if (ft_strncmp(entry->d_name, needle, len) == 0)
 		{
-			if (is_dup(files_list, entry->d_name) || ((ft_strcmp(entry->d_name, ".") == 0 ||
-			ft_strcmp(entry->d_name, "..") == 0) && ft_strcmp(needle, ".") != 0))
+			if (is_dup(files_list, entry->d_name) ||
+		((ft_strcmp(entry->d_name, ".") == 0 ||
+		ft_strcmp(entry->d_name, "..") == 0) && ft_strcmp(needle, ".") != 0))
 				continue ;
 			if ((link =
 				ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1)) == NULL)
@@ -110,22 +109,24 @@ static int	fill_list(t_list **files, DIR *dir, char *needle, t_list *files_list)
 	return (0);
 }
 
-t_list		*get_files(char *path, char *needle,
-	int flags, t_list *internal_storage, t_list *files_list)
+t_list		*get_files(t_gf_data gf_data,
+int flags, t_list *internal_storage, t_list *files_list)
 {
 	DIR		*dir;
 	t_list	*files;
 
 	files = NULL;
-	if (flags & CHK_BUILTINS && get_builtins(&files, needle, files_list) == 1)
+	if (flags & CHK_BUILTINS && get_builtins(&files, gf_data.needle,
+files_list) == 1)
 		return (NULL);
-	if (flags & CHK_VARS && get_vars(&files, internal_storage, needle) == 1)
+	if (flags & CHK_VARS && get_vars(&files, internal_storage,
+gf_data.needle) == 1)
 		return (NULL);
-	if (path == NULL)
+	if (gf_data.path == NULL)
 		return (files);
-	if ((dir = opendir(path)) == NULL)
+	if ((dir = opendir(gf_data.path)) == NULL)
 		return (NULL);
-	if (fill_list(&files, dir, needle, files_list) == 1)
+	if (fill_list(&files, dir, gf_data.needle, files_list) == 1)
 		return (NULL);
 	closedir(dir);
 	return (files);

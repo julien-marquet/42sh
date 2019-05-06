@@ -41,6 +41,12 @@ static void	print_export(t_list *internal_storage, int fd)
 	}
 }
 
+static int	b_free_exit(char *str, int ret)
+{
+	free(str);
+	return (ret);
+}
+
 static int	handle_export(t_sh_state *sh_state, const char **av,
 int i, t_builtin_context *context)
 {
@@ -51,7 +57,8 @@ int i, t_builtin_context *context)
 	while (av[i] != NULL)
 	{
 		if ((value = ft_strchr(av[i], '=')) == NULL)
-			update_exported_flag(sh_state->internal_storage, &(sh_state->hash_table), av[i], 1);
+			update_exported_flag(sh_state->internal_storage,
+&(sh_state->hash_table), av[i], 1);
 		else
 		{
 			value++;
@@ -59,16 +66,10 @@ int i, t_builtin_context *context)
 		ft_strlen(av[i]) - ft_strlen(value) - 1)) == NULL)
 				return (1);
 			if ((res = add_entry_storage(sh_state, name, value, 1)) == -1)
-			{
-				free(name);
-				return (1);
-			}
+				return (b_free_exit(name, 1));
 			else if (res == 1)
-			{
 				print_error(context->origin,
-		"Variable name must only contains alphanumerical characters or \'_\'",
-		2);
-			}
+"Variable name must only contains alphanumerical characters or \'_\'", 2);
 			free(name);
 		}
 		i++;
@@ -76,7 +77,13 @@ int i, t_builtin_context *context)
 	return (0);
 }
 
-int		builtin_export(t_sh_state *sh_state, int ac, const char **av,
+static void	error(char *origin, int *res)
+{
+	print_error(origin, "usage: export [-p] [name[=value] ... ]", 3);
+	*res = 1;
+}
+
+int			builtin_export(t_sh_state *sh_state, int ac, const char **av,
 t_builtin_context *context)
 {
 	int		i;
@@ -92,11 +99,7 @@ t_builtin_context *context)
 		if ((i = handle_builtin_options(av, "p", &opts, context)) == -1)
 			res = 1;
 		else if (i == 0)
-		{
-			print_error(context->origin,
-		"usage: export [-p] [name[=value] ... ]", 2);
-			res = 1;
-		}
+			error(context->origin, &res);
 		else
 		{
 			if (opts != NULL && ft_strchr(opts, 'p') != NULL)

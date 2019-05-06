@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   builtin_cd.h                                     .::    .:/ .      .::   */
+/*   utils3.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/23 20:25:04 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/24 03:07:06 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/05 17:38:24 by jmarquet     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/05 17:39:01 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_CD_H
-# define BUILTIN_CD_H
+#include "editing/input/completion/completion.h"
 
-# include "common.h"
-# include "storage/storage.h"
-# include "builtins/builtins_utils.h"
+void			swap_words(char **pointer, char **current_word, char **word)
+{
+	if (**pointer == '\0')
+	{
+		ft_strdel(current_word);
+		*current_word = *word;
+	}
+	else
+		ft_strdel(word);
+}
 
-int		builtin_cd(t_sh_state *sh_state, int ac,
-		const char **av, t_builtin_context *context);
-
-#endif
+int				completion_exit(char **str, int ret)
+{
+	ft_strdel(str);
+	return (ret);
+}

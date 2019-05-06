@@ -14,7 +14,8 @@
 #include "builtins/builtins_storage/builtin_set.h"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
-int		builtin_set(t_sh_state *sh_state, int ac, const char **av, t_builtin_context *context)
+int		builtin_set(t_sh_state *sh_state, int ac,
+const char **av, t_builtin_context *context)
 {
 	print_storage_content(sh_state->internal_storage, 1);
 	return (0);

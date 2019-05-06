@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   sh_state.h                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/28 23:05:43 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 21:21:04 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:41:21 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,5 @@
 
 t_sh_state	*init_sh_state(void);
 void		free_sh_state(t_sh_state **state);
-t_sh_state	*duplicate_sh_state(t_sh_state *sh_state);
 
 #endif

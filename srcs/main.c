@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/24 18:24:42 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 18:13:03 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 04:19:23 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,7 +50,7 @@ int		main(int ac, char **av, char **env)
 
 	sh_state->shell_pid = getpgid(0);
 	sh_state->input_data = input_data;
-	jobs_set_sh_state(sh_state);
+	jobs_super_get(sh_state);
 	while (sh_state->exit_sig == 0)
 	{
 		if (handle_input(sh_state, input_data, NULL) == 1)

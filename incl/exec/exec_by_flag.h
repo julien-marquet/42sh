@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/16 02:56:33 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/02 17:36:49 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:56:23 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,7 @@
 # include "exec/exec_dispatcher.h"
 # include "exec/exec_cmd_checkers.h"
 # include "jobs/jobs.h"
+# include "exec/exec_null.h"
 
 int		exec_end_flag(t_sh_state *sh_state, t_cmd **cmd,
 		t_context *context);
@@ -26,6 +27,5 @@ int		exec_pipe_flag(t_sh_state *sh_state, t_cmd **cmd,
 		t_context *context);
 int		exec_conditioned_flag(t_sh_state *sh_state, t_cmd **cmd,
 		t_context *context);
-int		move_to_next_valid_condition(const char *condition, t_cmd **cmd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   handlers.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/23 19:52:30 by legrivel     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/23 19:52:31 by legrivel    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 17:39:43 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,20 +24,18 @@ t_sh_state *sh_state, char *word)
 	{
 		if (is_stopping(*pointer) && *(pointer - 1) != '\\')
 		{
-			if (*pointer == ' ')
-			{
-				while (pointer != input->active_buf->buf)
-				{
-					if (*pointer != ' ' && is_stopping(*pointer) && *(pointer - 1) != '\\')
-						return (complete_bin(word, sh_state, input));
-					else if (*pointer != ' ')
-						break ;
-					pointer -= 1;
-				}
-				return (complete_arg(input, word, sh_state));
-			}
-			else
+			if (*pointer != ' ')
 				return (complete_bin(word, sh_state, input));
+			while (pointer != input->active_buf->buf)
+			{
+				if (*pointer != ' ' && is_stopping(*pointer) &&
+			*(pointer - 1) != '\\')
+					return (complete_bin(word, sh_state, input));
+				else if (*pointer != ' ')
+					break ;
+				pointer -= 1;
+			}
+			return (complete_arg(input, word, sh_state));
 		}
 		pointer -= 1;
 	}
@@ -103,27 +101,22 @@ char			*handle_expand(char *word, t_sh_state *sh_state)
 	char	*pointer;
 	char	*current_word;
 
-	if (*word == '\0')
+	if (word && *word == '\0')
 	{
 		free(word);
 		return (ft_strdup(""));
 	}
 	last = word[ft_strlen(word) - 1];
 	if ((ft_strncmp(word, "${", 2) == 0 || last == '$') &&
-		(current_word = ft_strdup(word)) == NULL)
+(current_word = ft_strdup(word)) == NULL)
 		return (NULL);
-	else if (ft_strncmp(word, "${", 2) != 0 && last != '$' && (current_word = get_expand_str(word, sh_state)) == NULL)
+	else if (ft_strncmp(word, "${", 2) != 0 && last != '$' &&
+(current_word = get_expand_str(word, sh_state)) == NULL)
 		return (NULL);
 	pointer = current_word;
 	while (*pointer == ' ')
 		pointer += 1;
-	if (*pointer == '\0')
-	{
-		free(current_word);
-		current_word = word;
-	}
-	else
-		free(word);
+	swap_words(&pointer, &current_word, &word);
 	return (handle_quotes(current_word));
 }
 

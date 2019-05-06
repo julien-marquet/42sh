@@ -21,4 +21,7 @@
 void	flush_exited();
 void	flush_all_jobs();
 
+int		has_to_be_flushed(t_proc *last_proc, t_proc *last_proc_all,
+t_proc_grp *proc_grp);
+
 #endif

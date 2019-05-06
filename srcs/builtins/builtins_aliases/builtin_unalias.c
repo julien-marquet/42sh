@@ -32,6 +32,18 @@ t_builtin_context *context, int i)
 	return (res);
 }
 
+static int	error(t_builtin_context *context, char *msg)
+{
+	print_error(context->origin, msg, 2);
+	return (1);
+}
+
+static int	s_free_exit(char *opts, int ret)
+{
+	ft_strdel(&opts);
+	return (ret);
+}
+
 int			builtin_unalias(t_sh_state *sh_state, int ac, const char **av,
 t_builtin_context *context)
 {
@@ -40,32 +52,21 @@ t_builtin_context *context)
 
 	add_origin(&context->origin, "unalias");
 	if (ac <= 1)
-	{
-		print_error(context->origin, "usage: unalias [-a] name [name ...]",
-	2);
-		return (1);
-	}
+		return (error(context, "usage: unalias [-a] name [name ...]"));
 	else
 	{
 		if ((i = handle_builtin_options(av, "a", &opts, context)) == -1)
 			return (1);
 		else if (i == 0)
-		{
-			print_error(context->origin, "usage: unalias [-a] name [name ...]",
-		2);
-		ft_strdel(&opts);
-			return (1);
-		}
+			return (s_free_exit(opts,
+			error(context, "usage: unalias [-a] name [name ...]")));
 		else if (opts != NULL && ft_strchr(opts, 'a') != NULL)
 		{
 			remove_all_aliases(&sh_state->aliases);
-			ft_strdel(&opts);
-			return (0);
+			return (s_free_exit(opts, 0));
 		}
 		else
-		{
-			ft_strdel(&opts);
-			return (handle_remove(&sh_state->aliases, av, context, i));
-		}
+			return (s_free_exit(opts,
+			handle_remove(&sh_state->aliases, av, context, i)));
 	}
 }

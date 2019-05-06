@@ -47,7 +47,8 @@ char		*create_path(const char *path, const char *bin)
 	return (tmp_path);
 }
 
-char		*add_path(char *path, t_list **table, const char *bin, size_t inc_hits)
+char		*add_path(char *path, t_list **table,
+const char *bin, size_t inc_hits)
 {
 	t_list			*tmp;
 	t_hash_table	content;

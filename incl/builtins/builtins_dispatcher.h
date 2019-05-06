@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/05 19:00:22 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 10:01:17 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 13:56:47 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,7 @@
 # include "builtins/builtins_jobs/builtins_jobs.h"
 # include "builtins/builtin_hash/builtin_hash.h"
 # include "builtins/builtin_test/builtin_test.h"
-# include "builtins/builtin_cd.h"
+# include "builtins/builtin_cd/builtin_cd.h"
 # include "builtins/builtin_type.h"
 # include "builtins/builtin_true.h"
 # include "builtins/builtin_false.h"

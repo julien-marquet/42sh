@@ -6,16 +6,16 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/04 18:07:32 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/30 15:33:19 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/05 19:14:58 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "editing/input/input_validator.h"
 
-static void	search_for_quote(size_t i, int *opened, int *quote_type, t_dyn_buf *dyn_buf)
+static void	search_for_quote(size_t i, int *opened,
+int *quote_type, t_dyn_buf *dyn_buf)
 {
-
 	if (dyn_buf->buf[i] == '\'' &&
 ((*quote_type == QUOTE_SIMPLE && *opened == 1) ||
 ((*quote_type == QUOTE_SIMPLE || *quote_type == QUOTE_NONE) &&
@@ -38,7 +38,7 @@ static void	search_for_quote(size_t i, int *opened, int *quote_type, t_dyn_buf *
 	}
 }
 
-int		here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
+int			here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
 {
 	size_t	len;
 
@@ -51,7 +51,7 @@ int		here_doc_is_closed(t_dyn_buf *dyn_buf, char *here_doc)
 	return (0);
 }
 
-static int		quotes_are_closed(t_dyn_buf *dyn_buf)
+static int	quotes_are_closed(t_dyn_buf *dyn_buf)
 {
 	int		opened;
 	size_t	i;
@@ -68,7 +68,7 @@ static int		quotes_are_closed(t_dyn_buf *dyn_buf)
 	return (opened == 0);
 }
 
-static int		operator_is_lonely(t_dyn_buf *dyn_buf)
+static int	operator_is_lonely(t_dyn_buf *dyn_buf)
 {
 	int		i;
 
@@ -87,7 +87,7 @@ ft_strncmp(&(dyn_buf->buf[i - 2]), "${", 2) == 0)
 	return (0);
 }
 
-int		output_is_ready(t_dyn_buf *dyn_buf, int valid_here_doc)
+int			output_is_ready(t_dyn_buf *dyn_buf, int valid_here_doc)
 {
 	if (valid_here_doc == 0)
 		return (0);
