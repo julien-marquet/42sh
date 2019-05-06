@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/26 20:22:19 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:34:03 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 02:27:37 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -96,7 +96,7 @@ t_builtin_context *context)
 			j = 1;
 			while (av[i][j])
 			{
-				if (ft_strchr("lnr", av[i][j]))
+				if (ft_strchr("lnr-", av[i][j]))
 					add_valid(fc_infos, av[i][j++]);
 				else
 					return (0);
