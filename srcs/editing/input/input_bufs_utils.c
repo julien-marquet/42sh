@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/29 00:52:24 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 16:45:42 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 21:18:19 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,12 +30,6 @@ PROMPT_MULTI : PROMPT_SIMPLE);
 	return (0);
 }
 
-void		remove_escaped(t_dyn_buf *dyn_buf)
-{
-	dyn_buf->buf[dyn_buf->len - 2] = '\0';
-	dyn_buf->len -= 2;
-}
-
 static int	handle_here_doc_merge(t_input_data *input_data,
 char *here_doc, int *valid_here_doc)
 {
@@ -57,6 +51,18 @@ char *here_doc, int *valid_here_doc)
 	return (res);
 }
 
+void		remove_end_slash(t_dyn_buf *dyn_buf)
+{
+	if (dyn_buf->len > 0 && is_escaped(dyn_buf->buf, dyn_buf->len - 1))
+	{
+		if (is_quoted(dyn_buf->buf, dyn_buf->len - 1) != 1)
+		{
+			dyn_buf->buf[dyn_buf->len - 2] = '\0';
+			dyn_buf->len -= 2;
+		}
+	}
+}
+
 int			merge_bufs(t_sh_state *sh_state, t_input_data *input_data,
 t_list *hist_copy, char *here_doc)
 {
@@ -75,10 +81,7 @@ t_list *hist_copy, char *here_doc)
 	}
 	if (output_is_ready(input_data->active_buf, valid_here_doc) == false)
 	{
-		if (input_data->active_buf->len > 0 &&
-	is_escaped(input_data->active_buf->buf,
-	input_data->active_buf->len - 1))
-			remove_escaped(input_data->active_buf);
+		remove_end_slash(input_data->active_buf);
 		ft_swap((void **)(&(input_data->active_buf)),
 	(void **)(&(input_data->stored_buf)));
 		if (history_navigate(input_data, hist_copy, HIST_RESET) == -1)
