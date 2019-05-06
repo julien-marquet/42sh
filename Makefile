@@ -65,7 +65,7 @@ CFILES += $(addprefix jobs/jobs_procs/, jobs_procs_getters.c jobs_procs_setters.
 CFILES += $(addprefix jobs/jobs_proc_grps/, jobs_proc_grps_getters.c jobs_proc_grps_getters2.c jobs_proc_grps_getters3.c jobs_proc_grps_setters.c)
 CFILES += $(addprefix exec/, exec.c exec_null.c exec_utils.c exec_binary.c exec_dispatcher.c exec_by_flag.c exec_cmd_checkers.c exec_cmd_checkers2.c)
 CFILES += $(addprefix hash/, hash_table.c hash_utils.c)
-CFILES += $(addprefix pipe_redir/, redirs.c pipes.c)
+CFILES += $(addprefix pipe_redir/, redirs.c redirs2.c redirs3.c redirs4.c pipes.c)
 
 SRCS = $(addprefix $(PATH)$(SRC_DIR)/, $(CFILES))
 OBJ = $(addprefix $(PATH)$(OBJ_DIR)/, $(CFILES:.c=.o))
