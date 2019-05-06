@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/06 04:27:28 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/06 06:13:43 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -49,7 +49,7 @@ CFILES += $(addprefix data/, input_data.c)
 CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_utils_arr.c)
 CFILES += $(addprefix data/dyn_buf/, dyn_buf_manipulations.c dyn_buf_setters.c)
 CFILES += $(addprefix data/win_data/, win_data_getters.c win_data_manipulations.c)
-CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c storage_tmp.c)
+CFILES += $(addprefix storage/, storage_special_params.c storage_getters.c storage_manipulations.c storage_env.c storage_utils.c storage_tmp.c storage_print.c)
 CFILES += $(addprefix builtins/, builtin_true.c builtin_false.c builtin_type.c builtins_utils.c builtins_utils2.c builtin_exit.c builtins_dispatcher.c builtins_execution.c)
 CFILES += $(addprefix builtins/builtins_storage/, builtin_export.c builtin_unset.c builtin_unsetenv.c builtin_set.c builtin_env.c builtin_envutils.c builtin_setenv.c)
 CFILES += $(addprefix builtins/builtin_hash/, builtin_hash.c utils.c)
@@ -83,7 +83,7 @@ TMPFILES += $(addprefix data/, input_data.h)
 TMPFILES += $(addprefix data/data_utils/, data_utils.h data_utils_lst.h data_utils_str.h data_utils_arr.h)
 TMPFILES += $(addprefix data/dyn_buf/, dyn_buf.h dyn_buf_manipulations.h dyn_buf_setters.h)
 TMPFILES += $(addprefix data/win_data/, win_data.h win_data_defines.h win_data_getters.h win_data_manipulations.h)
-TMPFILES += $(addprefix storage/, storage_special_params.h storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h storage_tmp.h)
+TMPFILES += $(addprefix storage/, storage_special_params.h storage.h storage_getters.h storage_env.h storage_utils.h storage_manipulations.h storage_tmp.h storage_print.h)
 TMPFILES += $(addprefix builtins/, builtin_true.h builtin_false.h builtin_fc.h builtin_type.h builtins_utils.h builtin_exit.h builtins_dispatcher.h builtins_execution.h builtins_defines.h builtins.h)
 TMPFILES += $(addprefix builtins/builtins_storage/, builtin_export.h builtin_unset.h builtin_unsetenv.h builtin_set.h builtin_env.h builtin_setenv.h builtins_storage.h)
 TMPFILES += $(addprefix builtins/builtin_test/, builtin_test.h)
