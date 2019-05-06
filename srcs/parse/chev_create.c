@@ -27,7 +27,15 @@ static void		parse_chevpush(t_file **file, t_file *new)
 	}
 }
 
-int			parse_chevcreate(char *file, t_cmd *cmd, int *type,
+static int		parse_exit(char *file, t_file *new, int *type, int ret)
+{
+	ft_strdel(&file);
+	free(new);
+	free(type);
+	return (ret);
+}
+
+int				parse_chevcreate(char *file, t_cmd *cmd, int *type,
 void *sh_info[2])
 {
 	t_file	*new;
@@ -40,12 +48,7 @@ void *sh_info[2])
 		if (handle_input(sh_info[0], ((t_input_data*)sh_info[1]), file))
 			exit_sh(sh_info[0], sh_info[1]);
 		if (((t_input_data*)sh_info[1])->sig_call == 1)
-		{
-			ft_strdel(&file);
-			free(new);
-			free(type);
-			return (1);
-		}
+			return (parse_exit(file, new, type, 1));
 		if (!(new->here = get_expand_str(
 			((t_input_data*)sh_info[1])->active_buf->buf, sh_info[0])))
 			new->here = ft_strdup("");

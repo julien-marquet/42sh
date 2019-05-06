@@ -13,7 +13,17 @@
 
 #include "parse/parse.h"
 
-char	*strndup_qr(char *str, size_t len)
+static void	check_escaped(int state, char *str, int i)
+{
+	if (state == QUOTE_DOUBLE && str[i + 1] &&
+	(str[i + 1] == '$' || str[i + 1] == '`' ||
+	str[i + 1] == '\"' || str[i + 1] == '\\'))
+		ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
+	else if (state == QUOTE_NONE)
+		ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
+}
+
+char		*strndup_qr(char *str, size_t len)
 {
 	int		i;
 	int		state;
@@ -24,14 +34,7 @@ char	*strndup_qr(char *str, size_t len)
 	while (str[i])
 	{
 		if (str[i] == '\\')
-		{
-			if (state == QUOTE_DOUBLE && str[i + 1] &&
-		(str[i + 1] == '$' || str[i + 1] == '`' ||
-		str[i + 1] == '\"' || str[i + 1] == '\\'))
-				ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
-			else if (state == QUOTE_NONE)
-				ft_memcpy(str + i, str + i + 1, ft_strlen(str + i + 1) + 1);
-		}
+			check_escaped(state, str, i);
 		else if (str[i] == '\"' && state != QUOTE_SIMPLE)
 		{
 			state = state == QUOTE_NONE ? QUOTE_DOUBLE : QUOTE_NONE;
@@ -49,7 +52,7 @@ char	*strndup_qr(char *str, size_t len)
 	return (str);
 }
 
-char	*strinsert(char *dst, char *new, size_t i, size_t end)
+char		*strinsert(char *dst, char *new, size_t i, size_t end)
 {
 	char	*out;
 	size_t	len;
@@ -69,7 +72,7 @@ char	*strinsert(char *dst, char *new, size_t i, size_t end)
 **	ft_strchr with backslash escape
 */
 
-char	*stresc(const char *find, char *str, int i)
+char		*stresc(const char *find, char *str, int i)
 {
 	char	*out;
 	int		k;
@@ -88,7 +91,7 @@ char	*stresc(const char *find, char *str, int i)
 	return (out);
 }
 
-int		is_quoted(char *str, int i)
+int			is_quoted(char *str, int i)
 {
 	int	j;
 	int	q;

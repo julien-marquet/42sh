@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   localvar.h                                       .::    .:/ .      .::   */
+/*   free2.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
+/*   By: legrivel <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/09 20:51:02 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/09 21:02:14 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/06 04:24:02 by legrivel     #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/06 04:24:03 by legrivel    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef LOCALVAR_H
-# define LOCALVAR_H
+#include "parse/parse.h"
 
-# include "parse/parse.h"
-# include "storage/storage_manipulations.h"
+void		free_arg(char **arg)
+{
+	int i;
 
-int		is_var(char *str);
-int		is_tmp(char *str);
-int		parse_localvar(t_cmd *cmd, t_sh_state *sh_state);
-
-#endif
+	i = 0;
+	if (arg == NULL)
+		return ;
+	while (arg[i])
+	{
+		ft_strdel(&arg[i]);
+		i++;
+	}
+	free(arg);
+}

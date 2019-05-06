@@ -89,7 +89,7 @@ static int	expand_tilde(t_cmd *cmd, t_sh_state *sh_state, size_t i, size_t end)
 	return (0);
 }
 
-int		parse_tilde(t_cmd *cmd, t_sh_state *sh_state)
+int			parse_tilde(t_cmd *cmd, t_sh_state *sh_state)
 {
 	size_t	i;
 	size_t	end;

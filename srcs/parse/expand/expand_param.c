@@ -99,7 +99,8 @@ int				parse_param(t_cmd *cmd, t_sh_state *sh_state)
 	{
 		while (cmd->str[i] && is_quoted(cmd->str, i) == 1)
 			i++;
-		if (cmd->str[i] && stresc("$", cmd->str, i) && (ft_isalpha(cmd->str[i + 1]) ||
+		if (cmd->str[i] && stresc("$", cmd->str, i) &&
+			(ft_isalpha(cmd->str[i + 1]) ||
 		ft_strchr("?$-!0{", cmd->str[i + 1])))
 		{
 			cmd->str[i] = ' ';

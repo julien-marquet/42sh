@@ -13,67 +13,6 @@
 
 #include "parse/localvar.h"
 
-static void	forward(char *str, size_t *i)
-{
-	if (str[*i] == '"' && stresc(str, str, *i) != NULL)
-	{
-		*i += 1;
-		while (str[*i] != '"')
-			*i += 1;
-	}
-	if (str[*i] == '\'' && stresc(str, str, *i) != NULL)
-	{
-		*i += 1;
-		while (str[*i] != '\'')
-			*i += 1;
-	}
-}
-
-static int	is_var(char *str)
-{
-	char	**arr;
-
-	if ((arr = ft_strsplit(str, '=')) == NULL)
-		return (-1);
-	if (*arr == NULL || *(arr + 1) == NULL)
-	{
-		ft_freetab(&arr);
-		return (0);
-	}
-	if (ft_strchr(*arr, '"') == NULL && ft_strchr(*arr, '\'') == NULL)
-	{
-		ft_freetab(&arr);
-		return (1);
-	}
-	ft_freetab(&arr);
-	return (0);
-}
-
-static int	is_tmp(char *str)
-{
-	size_t	i;
-	int		ret;
-	size_t	is_tmp;
-
-	i = 0;
-	is_tmp = 0;
-	while (str[i])
-	{
-		forward(str, &i);
-		if (is_stopping(str[i]) && str[i] != ' ' &&
-	(i == 0 || (i > 0 && stresc(str, str, i) != NULL)))
-			return (is_tmp);
-		if (str[i] != ' ' && str[i] != '\n')
-		{
-			if ((ret = is_var(&(str[i]))) == -1)
-				return (-1);
-			return (!ret);
-		}
-		i += 1;
-	}
-	return (is_tmp);
-}
-
 static void	add_tmp_entry(t_cmd *cmd, char *name, char *value)
 {
 	t_list				*node;
@@ -81,29 +20,31 @@ static void	add_tmp_entry(t_cmd *cmd, char *name, char *value)
 
 	if (is_valid_var_name(name) == 0)
 		return ;
-	if (fill_entry(&entry, name, value, ft_strlen(name) + ft_strlen(value) + 1) == 1)
+	if (fill_entry(&entry, name, value,
+		ft_strlen(name) + ft_strlen(value) + 1) == 1)
 		return ;
 	if ((node = ft_lstnew(&entry, sizeof(t_internal_storage))) == NULL)
 		return ;
 	ft_lstprepend(&(cmd->env), node);
 }
 
-static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state, t_cmd *cmd)
+static int	store_localvar(char *str, int params[2],
+t_sh_state *sh_state, t_cmd *cmd)
 {
 	char *name;
 	char *value;
 
-	if (!(name = ft_strndup(str, i++)))
+	if (!(name = ft_strndup(str, params[0]++)))
 		return (-1);
-	if (!(value = strndup_qr(str + i, len - i)))
+	if (!(value = strndup_qr(str + params[0], params[1] - params[0])))
 	{
 		ft_strdel(&name);
 		return (-1);
 	}
-	ft_memset(str, ' ', len);
+	ft_memset(str, ' ', params[1]);
 	if (name != NULL && value != NULL)
 	{
-		if (is_tmp(str + len))
+		if (is_tmp(str + params[1]))
 			add_tmp_entry(cmd, name, value);
 		else
 			add_entry_storage(sh_state, name, value, 2);
@@ -113,9 +54,11 @@ static int	store_localvar(char *str, int i, int len, t_sh_state *sh_state, t_cmd
 	return (1);
 }
 
-static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
+static int	handle_localvar(t_cmd *cmd, char *str,
+int len, t_sh_state *sh_state)
 {
 	int i;
+	int	params[2];
 
 	i = 0;
 	while ((ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=') && i < len)
@@ -124,7 +67,9 @@ static int	handle_localvar(t_cmd *cmd, char *str, int len, t_sh_state *sh_state)
 		{
 			cmd->env = NULL;
 			cmd->assign = 1;
-			if (store_localvar(str, i, len, sh_state, cmd) == 1)
+			params[0] = i;
+			params[1] = len;
+			if (store_localvar(str, params, sh_state, cmd) == 1)
 				return (1);
 			return (-1);
 		}

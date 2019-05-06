@@ -81,7 +81,7 @@ void *sh_info[2])
 	return (i);
 }
 
-int			parse_chev(t_cmd *cmd, t_sh_state *sh_state,
+int				parse_chev(t_cmd *cmd, t_sh_state *sh_state,
 t_input_data *input_data)
 {
 	void	*sh_info[2];
