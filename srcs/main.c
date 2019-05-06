@@ -26,19 +26,8 @@
 #include "aliases/aliases.h"
 #include "exec/exec.h"
 
-int		main(int ac, char **av, char **env)
+static void	catch_signals(void)
 {
-	t_sh_state		*sh_state;
-	t_input_data	*input_data;
-
-	ac = av[0][0];
-	if ((sh_state = init_sh()) == NULL)
-		return (1);
-	if ((input_data = init_input_data()) == NULL)
-		return (1);
-	if ((sh_state->internal_storage = init_env((const char **)env)) == NULL)
-		return (1);
-
 	signal(SIGWINCH, handle_sigwinch);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -47,9 +36,30 @@ int		main(int ac, char **av, char **env)
 	signal(SIGTTIN, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
 	signal(SIGCHLD, handle_sigchld);
+}
 
-	sh_state->shell_pid = getpgid(0);
-	sh_state->input_data = input_data;
+static int	init(t_sh_state **sh_state, t_input_data **input_data, char **env)
+{
+	if ((*sh_state = init_sh()) == NULL)
+		return (1);
+	if ((*input_data = init_input_data()) == NULL)
+		return (1);
+	if (((*sh_state)->internal_storage = init_env((const char **)env)) == NULL)
+		return (1);
+	(*sh_state)->shell_pid = getpgid(0);
+	(*sh_state)->input_data = *input_data;
+	return (0);
+}
+
+int			main(int ac, char **av, char **env)
+{
+	t_sh_state		*sh_state;
+	t_input_data	*input_data;
+
+	ac = av[0][0];
+	if (init(&sh_state, &input_data, env) == 1)
+		return (1);
+	catch_signals();
 	jobs_super_get(sh_state);
 	while (sh_state->exit_sig == 0)
 	{
