@@ -18,15 +18,15 @@
 # include "storage/storage.h"
 # include "jobs/jobs.h"
 
-void		env_error(char *origin, int *res);
-char		*create_job_name_from_arr(const char **av);
-t_proc_grp	*register_special_job(int pid, const char **av);
-char		*find_utility(t_sh_state *sh_state, const char **av,
+void			env_error(char *origin, int *res);
+char			*create_job_name_from_arr(const char **av);
+t_proc_grp		*register_special_job(int pid, const char **av);
+char			*find_utility(t_sh_state *sh_state, const char **av,
 t_builtin_context *context);
-int			count_pairs(const char **av, int *start, char *origin);
+int				count_pairs(const char **av, int *start, char *origin);
 int				builtin_env(t_sh_state *sh_state, int ac, const char **av,
 		t_builtin_context *context);
-int			send_special_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp);
+int				send_special_to_fg(t_sh_state *sh_state, t_proc_grp *proc_grp);
 
 typedef struct	s_special_exec_context
 {

@@ -36,7 +36,7 @@ int					parse_check(char *str);
 
 t_arg				*parse_split_create(char *str, int len);
 int					parse_split_count(t_arg *split);
-char			    *create_job_name(t_cmd *acmd);
+char				*create_job_name(t_cmd *acmd);
 
 /*
 ** PARSE

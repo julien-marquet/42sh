@@ -19,7 +19,9 @@
 # include "editing/history/history.h"
 # include "error_handler.h"
 
-# define FC_USAGE "usage: fc [-e ename] [-nlr] [first] [last] or fc -s [pat=rep] [cmd]"
+# define FC_USAGE1 "usage: fc [-e ename] [-nlr] [first] "
+# define FC_USAGE2 "[last] or fc -s [pat=rep] [cmd]"
+# define FC_USAGE FC_USAGE1 FC_USAGE2
 # define EDITOR "ed"
 # define HIST_PERM CHEV_PERM
 
@@ -44,14 +46,10 @@ size_t			fc_hist_to_num(t_list *find, t_list *hist);
 size_t			fc_hist_to_num_rev(t_list *find, t_list *hist);
 size_t			fc_get_hist_num(t_sh_state *sh_state, const char *str);
 size_t			get_hist_len(t_list *hist);
-void    		add_valid(t_fc_infos *fc_infos, char new);
+void			add_valid(t_fc_infos *fc_infos, char new);
 int				fc_options(const char **av, t_fc_infos *fc_infos,
 				t_builtin_context *context);
 int				fc_exit(t_fc_infos *fc_infos, int ret);
-
-/*
-**
-*/
 
 int				fc_exec(t_sh_state *sh_state, t_fc_infos *fc_infos);
 int				fc_replace_exec(t_sh_state *sh_state, t_fc_infos *fc_infos);
