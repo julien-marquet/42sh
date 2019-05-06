@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/05 15:13:35 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 15:23:15 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:12:05 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -89,7 +89,7 @@ int start)
 	char	**paths;
 	char	*curpath;
 
-	if ((cdpath = ft_strdup(get_env_value(sh_state->internal_storage,
+	if ((cdpath = ft_strdup(get_stored(sh_state->internal_storage,
 "CDPATH"))) == NULL)
 		return (NULL);
 	paths = ft_strsplit((const char *)cdpath, ':');
