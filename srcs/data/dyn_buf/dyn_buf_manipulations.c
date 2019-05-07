@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/01/30 04:57:06 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 17:20:56 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/07 23:08:00 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,7 +34,7 @@ int			insert_dyn_buf(char *str, t_dyn_buf *dyn_buf, size_t index)
 	size_t	new_size;
 
 	len = ft_strlen(str);
-	if (len + dyn_buf->len + 1 >= dyn_buf->size)
+	if (len + index + dyn_buf->len + 1 >= dyn_buf->size)
 	{
 		new_size = (len + dyn_buf->len + 1) * 2;
 		dyn_buf->buf = ft_realloc(dyn_buf->buf,
