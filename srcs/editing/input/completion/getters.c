@@ -50,6 +50,8 @@ char			*dup_path(t_input_data *input,
 		(ft_strrchr(input->active_buf->buf, '/') ==
 		input->active_buf->buf && old2 == 0))
 		tmp = ft_strdup("/");
+	else if (ft_strcmp(pointer, "./") == 0)
+		tmp = ft_strdup("./");
 	else
 		tmp = ft_strdup(*pointer == '/' ? pointer : pointer + 1);
 	input->active_buf->buf[input->rel_cur_pos] = old;
