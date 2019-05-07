@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/05 15:13:35 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/06 23:41:59 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/06 23:56:55 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -82,22 +82,10 @@ int start)
 	return (NULL);
 }
 
-char		*retrieve_cdpath(t_sh_state *sh_state, const char **av,
-int start)
+char		*norm1(char *cdpath, char **paths, const char **av, int start)
 {
-	char	*cdpath;
-	char	**paths;
 	char	*curpath;
 
-	if ((cdpath = ft_strdup(get_var(sh_state->internal_storage,
-"CDPATH"))) == NULL)
-		return (NULL);
-	paths = ft_strsplit((const char *)cdpath, ':');
-	if (paths == NULL)
-	{
-		ft_strdel(&cdpath);
-		return (NULL);
-	}
 	if ((curpath = loop_over_cdpath(cdpath, paths, av, start)) == NULL)
 	{
 		free_arr(paths);
@@ -114,4 +102,22 @@ int start)
 		free_arr(paths);
 	ft_strdel(&cdpath);
 	return (curpath);
+}
+
+char		*retrieve_cdpath(t_sh_state *sh_state, const char **av,
+int start)
+{
+	char	*cdpath;
+	char	**paths;
+
+	if ((cdpath = ft_strdup(get_var(sh_state->internal_storage,
+"CDPATH"))) == NULL)
+		return (NULL);
+	paths = ft_strsplit((const char *)cdpath, ':');
+	if (paths == NULL)
+	{
+		ft_strdel(&cdpath);
+		return (NULL);
+	}
+	return (norm1(cdpath, paths, av, start));
 }
