@@ -6,7 +6,7 @@
 /*   By: jmarquet <jmarquet@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/05 18:15:16 by jmarquet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/05 18:58:48 by jmarquet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/07 23:05:02 by jmarquet    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,6 +57,8 @@ static int		input_cut(t_input_data *input_data)
 		input_data->clipboard = ft_strndup(
 	&(input_data->active_buf->buf[start]),
 	ft_abs(input_data->active_buf->sel_len));
+		if (input_data->active_buf->sel_len > 0)
+			input_data->rel_cur_pos = start;
 		del_n_at_dyn_buf(input_data->active_buf, start,
 	ft_abs(input_data->active_buf->sel_len));
 		if (print_anew(input_data->start_pos, input_data->active_buf,
