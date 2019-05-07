@@ -46,7 +46,12 @@ char			*dup_path(t_input_data *input,
 {
 	char	*tmp;
 
-	if (*(pointer + 1) == '\0' ||
+	if ((ft_strrchr(pointer, '/') == ft_strchr(pointer, '/') &&
+		ft_strncmp(pointer, "./", 2) == 0) || ft_strcmp(".", pointer) == 0)
+		tmp = ft_strdup("./");
+	else if (ft_strncmp(pointer, "./", 2) == 0)
+		tmp = ft_strdup(pointer);
+	else if (*(pointer + 1) == '\0' ||
 		(ft_strrchr(input->active_buf->buf, '/') ==
 		input->active_buf->buf && old2 == 0))
 		tmp = ft_strdup("/");
@@ -84,8 +89,8 @@ size_t get_all, t_sh_state *state)
 		{
 			if (!get_all)
 			{
-				old2 = *pointer;
-				*pointer = '\0';
+				old2 = *(pointer + 1);
+				*(pointer + 1) = '\0';
 			}
 		}
 		pointer -= 1;

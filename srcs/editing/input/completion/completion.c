@@ -95,7 +95,7 @@ int			complete_arg(t_input_data *input, char *word, t_sh_state *state)
 	CHK_NONE, state->internal_storage, NULL), input, "", state));
 	else if (word[len - 1] == '/')
 	{
-		if ((tmp = get_path(input, 0, state)) == NULL)
+		if ((tmp = get_path(input, 1, state)) == NULL)
 			return (1);
 		if (find_in_dir(get_files(build_gf(tmp, ""),
 	CHK_NONE, state->internal_storage, NULL), input, "", state) == 1)
