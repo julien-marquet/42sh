@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   parse_alias.h                                    .::    .:/ .      .::   */
+/*   utils.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/04/10 15:05:12 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/07 23:05:35 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Created: 2019/05/07 22:55:15 by mmoya        #+#   ##    ##    #+#       */
+/*   Updated: 2019/05/07 23:36:03 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef PARSE_ALIAS_H
-# define PARSE_ALIAS_H
+#include "parse/parse_alias.h"
 
-# include "parse/parse.h"
-# include "aliases/aliases.h"
+int			alias_endspace(char *str)
+{
+	size_t	i;
 
-int		skiplst_check(char *tmp, t_list *skip);
-t_list	*skiplst_handle(char *tmp, t_list **skip);
-t_list	*skiplst_last(t_list *skip);
-int		alias_endspace(char *str);
-
-#endif
+	i = 0;
+	if (str == NULL || str[0] == 0)
+		return (1);
+	while (str[i] && str[i + 1])
+		i++;
+	if (str[i] == ' ')
+		return (1);
+	return (0);
+}

@@ -6,7 +6,7 @@
 #    By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/07 17:49:46 by jmarquet     #+#   ##    ##    #+#        #
-#    Updated: 2019/05/06 06:35:13 by mmoya       ###    #+. /#+    ###.fr      #
+#    Updated: 2019/05/07 23:05:52 by mmoya       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -43,7 +43,7 @@ CFILES += $(addprefix editing/history/, history_edition.c history_navigation.c h
 CFILES += $(addprefix editing/input/, input_sig_handlers.c input_pasteboard.c input_eof.c input_search_history.c input_search_mode.c input_searched.c input_active_search.c input_selection.c input_control.c input_action_handlers.c input_bufs_utils.c input_call_history.c input_capabilities_dispatchers.c input_handlers.c input_main_process.c input_utils.c input_validator.c)
 CFILES += $(addprefix editing/input/completion/, utils.c utils2.c utils3.c lst_utils.c completion.c handlers.c treate.c getters.c getters2.c errors.c)
 CFILES += $(addprefix parse/, check.c chev.c chev_create.c free2.c free.c split.c token.c parse.c utils.c localvarutils.c localvar.c utils2.c)
-CFILES += $(addprefix parse/alias/, alias.c skiplst.c)
+CFILES += $(addprefix parse/alias/, alias.c skiplst.c utils.c)
 CFILES += $(addprefix parse/expand/, expand_history.c expand_tilde.c expand_param.c expand_error.c expand.c)
 CFILES += $(addprefix data/, input_data.c)
 CFILES += $(addprefix data/data_utils/, data_utils_lst.c data_utils_str.c data_utils_arr.c)
@@ -109,7 +109,7 @@ LIB = $(addprefix $(PATH_LIBFT), lib$(LIB_NAME).a)
 CC := $(shell whereis gcc)
 AR := $(shell whereis ar)
 RM := $(shell whereis rm)
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 P_FLAGS = -lcurses
 
 export CC

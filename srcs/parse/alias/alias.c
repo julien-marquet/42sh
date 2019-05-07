@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/09 20:03:25 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/19 16:05:58 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/07 23:35:58 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -97,8 +97,9 @@ char			*parse_alias(char *str, t_list *aliases, t_list *skip)
 				return (NULL);
 			i = start + ft_strlen(ret);
 		}
+		if (alias_endspace(ret) == 0)
+			i = alias_getnext(str, i);
 		ft_strdel(&ret);
-		i = alias_getnext(str, i);
 		ft_strdel(&tmp);
 	}
 	return (str);
