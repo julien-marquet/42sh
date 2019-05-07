@@ -6,7 +6,7 @@
 /*   By: mmoya <mmoya@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 18:38:33 by mmoya        #+#   ##    ##    #+#       */
-/*   Updated: 2019/04/28 18:20:15 by mmoya       ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/07 15:29:35 by mmoya       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -101,7 +101,7 @@ int				parse_param(t_cmd *cmd, t_sh_state *sh_state)
 			i++;
 		if (cmd->str[i] && stresc("$", cmd->str, i) &&
 			(ft_isalpha(cmd->str[i + 1]) ||
-		ft_strchr("?$-!0{", cmd->str[i + 1])))
+		ft_strchr("?$-!0_{", cmd->str[i + 1])))
 		{
 			cmd->str[i] = ' ';
 			end = param_len(cmd->str, i + 1, cmd->str[i + 1]);
