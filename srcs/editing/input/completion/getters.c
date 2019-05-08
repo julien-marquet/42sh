@@ -15,6 +15,8 @@
 
 static size_t	should_stop(t_input_data *input, char **pointer, size_t *i)
 {
+	if (*i == 0)
+		return (0);
 	if (is_stopping(**pointer) && *((*pointer) - 1) != '\\')
 	{
 		*i -= 1;
